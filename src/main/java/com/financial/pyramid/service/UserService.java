@@ -12,12 +12,14 @@ import java.util.List;
  */
 public interface UserService {
 
-    public List<User> findByName(String userName);
-
     public void saveUser(User user);
 
     @Secured("ROLE_USER")
     public void deleteUser(Long id);
 
     public User findById(Long id);
+
+    public List<User> findByName(String userName);
+
+    public List<User> findByNamePassword(String name, String password);
 }

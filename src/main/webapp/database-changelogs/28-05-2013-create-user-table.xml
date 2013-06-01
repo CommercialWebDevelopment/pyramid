@@ -3,9 +3,7 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
 
     <preConditions>
         <runningAs username="root"/>
@@ -18,6 +16,22 @@
             </column>
             <column name="name" type="varchar(200)"/>
         </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Danil">
+        <addColumn tableName="user">
+            <column name="password" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <createIndex indexName="user_password"
+                     tableName="user"
+                     tablespace="user_password"
+                     unique="true">
+            <column name="name" type="varchar(200)"/>
+            <column name="password" type="varchar(250)"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

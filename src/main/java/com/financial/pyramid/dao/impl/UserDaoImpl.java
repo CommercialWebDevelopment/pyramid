@@ -5,7 +5,9 @@ import com.financial.pyramid.dao.impl.AbstractDaoImpl;
 import com.financial.pyramid.domain.User;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Danil
@@ -21,5 +23,13 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     @Override
     public List<User> findByName(String name) {
         return findByCriteria(Restrictions.eq("name", name));
+    }
+
+    @Override
+    public List<User> findByNamePassword(String name, String password) {
+        Map map = new HashMap();
+        map.put("name", name);
+        map.put("password", password);
+        return findByCriteria(Restrictions.allEq(map));
     }
 }

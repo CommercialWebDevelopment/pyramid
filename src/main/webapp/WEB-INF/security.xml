@@ -17,18 +17,21 @@
                    auto-config="true"
                    authentication-manager-ref="authenticationManager"
                    access-denied-page="/WEB-INF/pages/access-denied.jsp">
-        <security:intercept-url pattern="/session/**" access="permitAll" />
-        <security:form-login login-page='/session/login'
+        <security:intercept-url pattern="/authentication/**" access="permitAll" />
+        <security:form-login login-page='/authentication/login'
                              default-target-url="/pyramid/index"
-                             authentication-failure-url="/session/failed"/>
-        <security:logout logout-success-url="/session/login"/>
+                             authentication-failure-url="/authentication/failed"/>
+        <security:logout logout-success-url="/authentication/login"/>
         <security:remember-me key="myAppKey" user-service-ref="userDetailsService" use-secure-cookie="true"/>
-        <security:session-management invalid-session-url="/session/login">
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/session/expired"/>
+        <security:session-management invalid-session-url="/authentication/login">
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/authentication/expired"/>
         </security:session-management>
     </security:http>
 
-    <bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+        <constructor-arg name="algorithm" value="md5"/>
+        <constructor-arg name="secret" value="MERCURY"/>
+    </bean>
     <bean id="authenticationManager" class="com.financial.pyramid.service.impl.AuthenticationManagerImpl"/>
     <bean id="userDetailsService" class="com.financial.pyramid.service.impl.UserDetailsManagerImpl"/>
 </beans>

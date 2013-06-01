@@ -1,4 +1,4 @@
-package com.financial.pyramid.service.impl;
+package com.financial.pyramid.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

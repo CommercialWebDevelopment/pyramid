@@ -2,16 +2,14 @@ package com.financial.pyramid.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * User: Danil
  * Date: 28.05.13
  * Time: 21:28
  */
-@Entity
+@MappedSuperclass
 public class AbstractEntity {
 
     @Id

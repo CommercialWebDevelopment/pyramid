@@ -12,7 +12,7 @@
 </head>
 <body>
 <h2>User Registration</h2>
-<form:form method="POST" action="/user/registration" enctype="multipart/form-data" modelAttribute="registration">
+<form:form method="POST" action="/registration" modelAttribute="registration">
     <table>
         <tr>
             <td><form:label path="name">Name</form:label></td>

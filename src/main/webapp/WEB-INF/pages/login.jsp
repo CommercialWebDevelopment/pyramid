@@ -11,7 +11,7 @@
 </head>
 <body>
 <h2>User Authorisation</h2>
-<form:form method="POST" action="/session/authentication" modelAttribute="authentication">
+<form:form method="POST" action="/authentication/check" modelAttribute="authentication">
     <table>
         <tr>
             <td><form:label path="name">Name</form:label></td>

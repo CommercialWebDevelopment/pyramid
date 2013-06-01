@@ -1,7 +1,7 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.User;
-import com.financial.pyramid.web.form.Registration;
+import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,36 +26,6 @@ public class UserController {
     public String getUser(Model model, @PathVariable Long id) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        return "index";
-    }
-
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String saveUser(Model model, @ModelAttribute("registration") final Registration registration) {
-//        StandardPasswordEncoder encoder = new StandardPasswordEncoder(SALT);
-//        String result = encoder.encode(registration.getPassword());
-//        assertTrue(encoder.matches("myPassword", result));
-
-//        User existing = userService.findById(user.getId());
-//        if (existing != null) {
-//            model.addAttribute("status", "exist");
-//            return "index";
-//        }
-//        userService.saveUser(user);
-//        model.addAttribute("created", "success");
-        return "index";
-    }
-
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateUser(Model model, User user) {
-        userService.saveUser(user);
-        model.addAttribute("saved", "success");
-        return "update";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteUser(Model model, @PathVariable Long id) {
-        userService.deleteUser(id);
-        model.addAttribute("deleted", "success");
         return "index";
     }
 }

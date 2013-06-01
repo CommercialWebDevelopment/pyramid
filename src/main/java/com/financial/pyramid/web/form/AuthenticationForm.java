@@ -1,16 +1,14 @@
 package com.financial.pyramid.web.form;
 
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * User: Danil
- * Date: 30.05.13
- * Time: 21:59
+ * Date: 31.05.13
+ * Time: 20:24
  */
-public class Registration {
-
+public class AuthenticationForm {
     @NotEmpty
     @Length(min = 10, max = 20)
     private String name;

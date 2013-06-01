@@ -1,7 +1,7 @@
 package com.financial.pyramid.web;
 
-import com.financial.pyramid.web.form.Authentication;
-import com.financial.pyramid.web.form.Registration;
+import com.financial.pyramid.web.form.AuthenticationForm;
+import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,27 +13,28 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+
 /**
  * User: Danil
- * Date: 30.05.13
- * Time: 21:12
+ * Date: 01.06.13
+ * Time: 20:43
  */
-
 @Controller
-@RequestMapping("/session")
-public class SessionController {
+@RequestMapping("/authentication")
+public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {
-        model.addAttribute("authentication", new Authentication());
+        model.addAttribute("authentication", new AuthenticationForm());
         return "login";
     }
 
-    @RequestMapping(value = "/authentication", method = RequestMethod.POST)
-    public String authentication(ModelMap model, @ModelAttribute("authentication") final Authentication authentication) {
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    public String authentication(ModelMap model, @ModelAttribute("authentication") @Valid final AuthenticationForm authentication) {
         try {
             org.springframework.security.core.Authentication request =
                     new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getPassword());
@@ -41,11 +42,12 @@ public class SessionController {
             SecurityContextHolder.getContext().setAuthentication(result);
         } catch (AuthenticationException e) {
             System.out.println("Authentication failed: " + e.getMessage());
+            model.addAttribute("registration", new RegistrationForm());
+            return "registration";
         }
         System.out.println("Successfully authenticated. Security context contains: " +
                 SecurityContextHolder.getContext().getAuthentication());
-        model.addAttribute("registration", new Registration());
-        return "registration";
+        return "index";
     }
 
     @RequestMapping(value = "/failed", method = RequestMethod.GET)

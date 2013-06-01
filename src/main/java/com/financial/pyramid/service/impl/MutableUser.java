@@ -1,5 +1,6 @@
 package com.financial.pyramid.service.impl;
 
+import com.financial.pyramid.service.MutableUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.UserDetails;

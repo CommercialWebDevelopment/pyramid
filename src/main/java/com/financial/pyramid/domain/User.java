@@ -17,4 +17,23 @@ public class User extends AbstractEntity implements Serializable{
 
     @Column(name = "name", nullable = false, length = 200)
     private String name;
+
+    @Column(name = "password", nullable = false, length = 250)
+    private String password;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
