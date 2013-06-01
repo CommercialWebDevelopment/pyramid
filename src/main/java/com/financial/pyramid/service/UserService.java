@@ -1,6 +1,7 @@
 package com.financial.pyramid.service;
 
 import com.financial.pyramid.domain.User;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface UserService {
 
     public void saveUser(User user);
 
+    @Secured("ROLE_USER")
     public void deleteUser(Long id);
 
     public User findById(Long id);

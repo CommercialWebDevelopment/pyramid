@@ -9,15 +9,15 @@
         <param-value>/WEB-INF/application-context.xml</param-value>
     </context-param>
 
-    <!--<filter>-->
-        <!--<filter-name>springSecurityFilterChain</filter-name>-->
-        <!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
-    <!--</filter>-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
 
-    <!--<filter-mapping>-->
-        <!--<filter-name>springSecurityFilterChain</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -26,12 +26,12 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
-    <!--<listener>-->
-        <!--<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>-->
-    <!--</listener>-->
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
 
     <servlet>
-		<servlet-name>appServlet</servlet-name>
+		<servlet-name>pyramid</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -41,11 +41,11 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name>
+		<servlet-name>pyramid</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>hello.jsp</welcome-file>
-    </welcome-file-list>
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>index.jsp</welcome-file>-->
+    <!--</welcome-file-list>-->
 </web-app>
