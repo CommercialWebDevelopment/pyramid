@@ -1,0 +1,6 @@
+A less error occured trying to build your bundle. You've likely entered an invalid input into the less variable field. Check your syntax and try again!
+
+ thanks!
+
+
+{"type":"Parse","message":"Syntax Error on line 4438","index":114716,"filename":"bootstrap.css","line":4438,"column":0,"extract":["}","<!DOCTYPE html>","<!--"]}

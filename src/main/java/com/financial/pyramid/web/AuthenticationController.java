@@ -35,7 +35,7 @@ public class AuthenticationController {
     public String login(ModelMap model) {
         logger.info("Show login form");
         model.addAttribute("authentication", new AuthenticationForm());
-        return "login";
+        return "index";
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.POST)
