@@ -2,6 +2,8 @@ package com.financial.pyramid.web;
 
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.RegistrationForm;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,11 +26,14 @@ import javax.validation.Valid;
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
+    private final static Logger logger = Logger.getLogger(AuthenticationController.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {
+        logger.info("Show login form");
         model.addAttribute("authentication", new AuthenticationForm());
         return "login";
     }
