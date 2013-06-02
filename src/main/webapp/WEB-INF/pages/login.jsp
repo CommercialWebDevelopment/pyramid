@@ -5,12 +5,19 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title></title>
 </head>
 <body>
-<h2>User Authorisation</h2>
+<span style="float: right">
+    <a href="?lang=en">en</a>
+    |
+    <a href="?lang=ru">ru</a>
+</span>
+
+<h2><spring:message code="label.user_authorisation"/></h2>
 <form:form method="POST" action="/authentication/check" modelAttribute="authentication">
     <table>
         <tr>
