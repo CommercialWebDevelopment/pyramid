@@ -52,7 +52,7 @@
             </div>
                 <div class="row-fluid">
                     <div class="span10">
-                        <div class="tab-content">
+                        <div id="tab-content" class="tab-content">
                             <div class="tab-pane active" id="home">
                                 <%@ include file="tabs/home.jsp" %>
                             </div>
@@ -62,9 +62,7 @@
                             <div class="tab-pane" id="private-office">
                                 <%@ include file="tabs/private-office.jsp" %>
                             </div>
-                            <div class="tab-pane" id="training">
-                                <%@ include file="tabs/training.jsp" %>
-                            </div>
+                            <div class="tab-pane" id="training"></div>
                             <div class="tab-pane" id="about">
                                 <%@ include file="tabs/about.jsp" %>
                             </div>
