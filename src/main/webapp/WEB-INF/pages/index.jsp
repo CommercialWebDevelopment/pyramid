@@ -9,6 +9,7 @@
     <link rel=stylesheet
           href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css"
           type="text/css">
+    <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
     <script type="text/javascript"
@@ -31,7 +32,8 @@
                 </div>
                 <div class="span1">
                     <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
-                        <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="" style="height: 60px"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt=""
+                             style="height: 60px"/>
                     </a>
                 </div>
             </div>
@@ -48,20 +50,24 @@
                     </ul>
                 </div>
             </div>
-                <div class="row-fluid">
-                    <div class="span10">
-                        <div id="tab-content" class="tab-content">
-                            <div class="tab-pane active" id="home"></div>
-                            <div class="tab-pane" id="news"></div>
-                            <div class="tab-pane" id="office"></div>
-                            <div class="tab-pane" id="training"></div>
-                            <div class="tab-pane" id="about"></div>
-                            <div class="tab-pane" id="contacts"></div>
-                        </div>
+            <div class="row-fluid">
+                <div class="span10">
+                    <div id="tab-content" class="tab-content">
+                        <div class="tab-pane active" id="home"></div>
+                        <div class="tab-pane" id="news"></div>
+                        <div class="tab-pane" id="office"></div>
+                        <div class="tab-pane" id="training"></div>
+                        <div class="tab-pane" id="about"></div>
+                        <div class="tab-pane" id="contacts"></div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
+</div>
+<div id="loader" class="loader">
+    <div class="loader-icon"></div>
+    <div class="loader-text"></div>
 </div>
 </body>
 </html>
