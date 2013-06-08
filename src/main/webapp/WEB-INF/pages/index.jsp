@@ -39,36 +39,24 @@
             <div class="row-fluid">
                 <div class="span8 offset2">
                     <ul class="nav nav-pills" id="tabs">
-                        <li class="active">
-                            <a href="#home">Главная</a>
-                        </li>
-                        <li><a href="#private-office">Личный кабинет</a></li>
-                        <li><a href="#news">Новости</a></li>
-                        <li><a href="#training">Обучение</a></li>
-                        <li><a href="#about">О проекте</a></li>
-                        <li><a href="#contacts">Контакты</a></li>
+                        <li class="active"><a href="#home" url="/home/">Главная</a></li>
+                        <li><a href="#office" url="/office/">Личный кабинет</a></li>
+                        <li><a href="#news" url="/news/">Новости</a></li>
+                        <li><a href="#training" url="/training/">Обучение</a></li>
+                        <li><a href="#about" url="/about/">О проекте</a></li>
+                        <li><a href="#contacts" url="/contacts/">Контакты</a></li>
                     </ul>
                 </div>
             </div>
                 <div class="row-fluid">
                     <div class="span10">
                         <div id="tab-content" class="tab-content">
-                            <div class="tab-pane active" id="home">
-                                <%@ include file="tabs/home.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="news">
-                                <%@ include file="tabs/news.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="private-office">
-                                <%@ include file="tabs/private-office.jsp" %>
-                            </div>
+                            <div class="tab-pane active" id="home"></div>
+                            <div class="tab-pane" id="news"></div>
+                            <div class="tab-pane" id="office"></div>
                             <div class="tab-pane" id="training"></div>
-                            <div class="tab-pane" id="about">
-                                <%@ include file="tabs/about.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="contacts">
-                                <%@ include file="tabs/contacts.jsp" %>
-                            </div>
+                            <div class="tab-pane" id="about"></div>
+                            <div class="tab-pane" id="contacts"></div>
                         </div>
                     </div>
                 </div>
