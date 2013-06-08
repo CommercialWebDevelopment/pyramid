@@ -10,9 +10,10 @@ $(document).ready(function() {
         e.preventDefault();
         var tabElement = $(this);
         tabElement.tab('show');
+        var url = tabElement.attr("url");
         var tabContent = content.find(".active");
         jQuery.ajax({
-            url: "/training/",
+            url: url,
             success:function(html){
                 tabContent.html(html);
             },
