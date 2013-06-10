@@ -9,14 +9,24 @@
     <link rel=stylesheet
           href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css"
           type="text/css">
+    <link rel=stylesheet
+          href="${pageContext.request.contextPath}/resources/css/private-office.css"
+          type="text/css">
+    <link rel=stylesheet
+          href="${pageContext.request.contextPath}/resources/javascript/jquery-ui-1.10.3.custom/css/south-street/jquery-ui-1.10.3.custom.min.css"
+          type="text/css">
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/resources/javascript/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/header.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/index.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/resources/javascript/private-office.js"></script>
 
 </head>
 <body>

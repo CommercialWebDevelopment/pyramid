@@ -9,21 +9,19 @@
     <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled"
                                      secured-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
-    <!--<security:http pattern="/css/**" security="none"/>-->
-    <!--<security:http pattern="/login-form.jsp" security="none"/>-->
-
     <security:http use-expressions="true"
                    create-session="ifRequired"
                    auto-config="true"
                    authentication-manager-ref="authenticationManager"
                    access-denied-page="/WEB-INF/pages/access-denied.jsp">
         <security:intercept-url pattern="/authentication/**" access="permitAll" />
+        <security:intercept-url pattern="/home" access="permitAll" />
         <security:form-login login-page='/authentication/login'
                              default-target-url="/pyramid/index"
                              authentication-failure-url="/authentication/failed"/>
         <security:logout logout-success-url="/authentication/login"/>
         <security:remember-me key="myAppKey" user-service-ref="userDetailsService" use-secure-cookie="true"/>
-        <security:session-management invalid-session-url="/authentication/login">
+        <security:session-management invalid-session-url="/home">
             <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/authentication/expired"/>
         </security:session-management>
     </security:http>
