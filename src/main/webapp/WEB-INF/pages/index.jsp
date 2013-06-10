@@ -9,24 +9,15 @@
     <link rel=stylesheet
           href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css"
           type="text/css">
-    <link rel=stylesheet
-          href="${pageContext.request.contextPath}/resources/css/private-office.css"
-          type="text/css">
-    <link rel=stylesheet
-          href="${pageContext.request.contextPath}/resources/javascript/jquery-ui-1.10.3.custom/css/south-street/jquery-ui-1.10.3.custom.min.css"
-          type="text/css">
+    <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/header.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/index.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/private-office.js"></script>
 
 </head>
 <body>
@@ -41,7 +32,8 @@
                 </div>
                 <div class="span1">
                     <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
-                        <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="" style="height: 60px"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt=""
+                             style="height: 60px"/>
                     </a>
                 </div>
             </div>
@@ -49,43 +41,33 @@
             <div class="row-fluid">
                 <div class="span8 offset2">
                     <ul class="nav nav-pills" id="tabs">
-                        <li class="active">
-                            <a href="#home">Главная</a>
-                        </li>
-                        <li><a href="#private-office">Личный кабинет</a></li>
-                        <li><a href="#news">Новости</a></li>
-                        <li><a href="#training">Обучение</a></li>
-                        <li><a href="#about">О проекте</a></li>
-                        <li><a href="#contacts">Контакты</a></li>
+                        <li class="active"><a href="#home" url="/home/">Главная</a></li>
+                        <li><a href="#office" url="/office/">Личный кабинет</a></li>
+                        <li><a href="#news" url="/news/">Новости</a></li>
+                        <li><a href="#training" url="/training/">Обучение</a></li>
+                        <li><a href="#about" url="/about/">О проекте</a></li>
+                        <li><a href="#contacts" url="/contacts/">Контакты</a></li>
                     </ul>
                 </div>
             </div>
-                <div class="row-fluid">
-                    <div class="span10">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="home">
-                                <%@ include file="tabs/home.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="news">
-                                <%@ include file="tabs/news.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="private-office">
-                                <%@ include file="tabs/private-office.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="training">
-                                <%@ include file="tabs/training.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="about">
-                                <%@ include file="tabs/about.jsp" %>
-                            </div>
-                            <div class="tab-pane" id="contacts">
-                                <%@ include file="tabs/contacts.jsp" %>
-                            </div>
-                        </div>
+            <div class="row-fluid">
+                <div class="span10">
+                    <div id="tab-content" class="tab-content">
+                        <div class="tab-pane active" id="home"></div>
+                        <div class="tab-pane" id="news"></div>
+                        <div class="tab-pane" id="office"></div>
+                        <div class="tab-pane" id="training"></div>
+                        <div class="tab-pane" id="about"></div>
+                        <div class="tab-pane" id="contacts"></div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
+</div>
+<div id="loader" class="loader">
+    <div class="loader-icon"></div>
+    <div class="loader-text"></div>
 </div>
 </body>
 </html>

@@ -6,7 +6,7 @@
 var options = {
     animation:"true",
     placement:"left",
-    content:"Инормация..."
+    content:"Информация..."
 };
 
 $(document).ready(function() {
