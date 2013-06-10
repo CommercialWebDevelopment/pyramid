@@ -17,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class TabsController {
 
-    @Autowired
-    private EmailService emailService;
-
     @RequestMapping(value = "home", method = RequestMethod.GET)
     public String home(ModelMap model) {
-        emailService.send();
         model.addAttribute("authentication", new AuthenticationForm());
         return "index";
     }
