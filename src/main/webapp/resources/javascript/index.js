@@ -5,32 +5,22 @@
  */
 
 $(document).ready(function() {
-    var content = $("#tab-content");
-    var selectedTab = null;
+    var tabs = $('#tabs');
     var loader = $("#loader");
-    $("#tabs").find("a").click(function (e) {
-        e.preventDefault();
+    tabs.find('a').on('shown', function (e) {
         loader.show();
-        var tabElement = $(this);
-        tabElement.tab('show');
-        var tabContent = content.find(".active");
-        if (tabContent.attr("id") == selectedTab){
-            return;
-        } else {
-            tabContent.html("");
-        }
-        selectedTab = tabContent.attr("id");
-        var url = tabElement.attr("url");
+        var url = $(e.target).attr("url");
         jQuery.ajax({
             url: url,
             success:function(html){
-                tabContent.html(html);
+                $("#tab-content").html(html);
                 loader.hide();
             },
             error:function(html){
-                tabContent.html(html);
+                $("#tab-content").html("");
                 loader.hide();
             }
         });
     });
+    tabs.find('a:first').tab('show');
 });
