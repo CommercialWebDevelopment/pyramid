@@ -19,11 +19,6 @@
 
 <div class="row-fluid">
     <div class="span10">
-
-    </div>
-</div>
-<div class="row-fluid">
-    <div class="span10">
         <pre>В данном разделе представлено обучающее видео для ознакомления с принципами работы проекта.</pre>
     </div>
 </div>
@@ -54,6 +49,7 @@
                     </p>
                 </div>
             </li>
+            <%}}%>
         </ul>
     </div>
 </div>
