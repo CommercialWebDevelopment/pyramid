@@ -30,13 +30,11 @@
     </div>
 </div>
 <br>
-
 <div class="row-fluid">
     <div class="span10">
         <ul class="thumbnails">
             <% List<Video> videos = (List<Video>) request.getAttribute("videos");
                 if (videos != null) {
-                    int i = 1;
                     for (Video video : videos) {
             %>
             <li class="span4">
