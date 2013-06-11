@@ -47,6 +47,11 @@ public abstract class AbstractDaoImpl <E, I extends Serializable> implements Abs
     public List<E> findByCriteria(Criterion criterion) {
         Criteria criteria = getCurrentSession().createCriteria(entityClass);
         criteria.add(criterion);
-        return (List<E>)criteria.list();
+        return (List<E>) criteria.list();
+    }
+
+    public List<E> findAll() {
+        Criteria criteria = getCurrentSession().createCriteria(entityClass);
+        return (List<E>) criteria.list();
     }
 }

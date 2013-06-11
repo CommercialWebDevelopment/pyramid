@@ -8,19 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class VideoDaoImpl implements VideoDao {
+public class VideoDaoImpl extends AbstractDaoImpl<Video, Long> implements VideoDao {
 
-    @Autowired
-    private org.hibernate.SessionFactory sessionFactory;
-
-    //TODO Move sessionFactory to AbstractDao
-    public Session getCurrentSession() {
-        return sessionFactory.getCurrentSession();
+    protected VideoDaoImpl() {
+        super(Video.class);
     }
 
     @Override
     public List<Video> findAll() {
-        Criteria criteria = getCurrentSession().createCriteria(Video.class);
-        return (List<Video>) criteria.list();
+        return super.findAll();
     }
 }

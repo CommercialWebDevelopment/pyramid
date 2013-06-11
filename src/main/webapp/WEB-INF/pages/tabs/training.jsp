@@ -19,16 +19,9 @@
 
 <div class="row-fluid">
     <div class="span10">
-        <% List<Video > videos = (List<Video>) request.getAttribute("videos");
-            if (videos != null) {
-                for (Video video : videos){
-                    %><div><%=video.getName()%></div><%
-                }
-            }
-        %>
+
     </div>
 </div>
-
 <div class="row-fluid">
     <div class="span10">
         <pre>В данном разделе представлено обучающее видео для ознакомления с принципами работы проекта.</pre>
@@ -37,45 +30,28 @@
 <div class="row-fluid">
     <div class="span10">
         <iframe id="player" type="text/html" width="640" height="390"
-                src="http://www.youtube.com/embed/79uY4KixmYo?enablejsapi=1&origin=http://example.com"
+                src="http://www.youtube.com/embed/79uY4KixmYo?enablejsapi=1&origin=%>"
                 frameborder="0"></iframe>
     </div>
 </div>
 <br>
+
 <div class="row-fluid">
     <div class="span10">
         <ul class="thumbnails">
+        <% List<Video> videos = (List<Video>) request.getAttribute("videos");
+            if (videos != null) {
+                int i = 1;
+                for (Video video : videos) {
+        %>
             <li class="span4">
                 <div class="thumbnail">
                     <a href="#" class="thumbnail">
-                        <img src="http://img.youtube.com/vi/79uY4KixmYo/0.jpg" alt="" width="300" height="200">
+                        <img src="http://img.youtube.com/vi/<%=video.getExternalId()%>/0.jpg" alt="" width="300" height="200">
                     </a>
-
-                    <h3>Thumbnail label</h3>
-
-                    <p>Thumbnail caption...</p>
-                </div>
-            </li>
-            <li class="span4">
-                <div class="thumbnail">
-                    <a href="#" class="thumbnail">
-                        <img src="http://img.youtube.com/vi/79uY4KixmYo/0.jpg" alt="" width="300" height="200">
-                    </a>
-
-                    <h3>Thumbnail label</h3>
-
-                    <p>Thumbnail caption...</p>
-                </div>
-            </li>
-            <li class="span4">
-                <div class="thumbnail">
-                    <a href="#" class="thumbnail">
-                        <img src="http://img.youtube.com/vi/79uY4KixmYo/0.jpg" alt="" width="300" height="200">
-                    </a>
-
-                    <h3>Thumbnail label</h3>
-
-                    <p>Thumbnail caption...</p>
+                    <h3><%=video.getName()%></h3>
+                    <p><%=video.getDescription().length() > 100 ? video.getDescription().substring(0, 100) + "..." : video.getDescription()%>
+                    </p>
                 </div>
             </li>
         </ul>
