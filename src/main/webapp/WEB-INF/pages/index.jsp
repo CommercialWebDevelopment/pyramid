@@ -10,6 +10,7 @@
           href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css"
           type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
+    <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/private-office.css" type="text/css">
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
     <script type="text/javascript"
@@ -41,25 +42,18 @@
             <div class="row-fluid">
                 <div class="span8 offset2">
                     <ul class="nav nav-pills" id="tabs">
-                        <li class="active"><a href="#home" url="/home/">Главная</a></li>
-                        <li><a href="#office" url="/office/">Личный кабинет</a></li>
-                        <li><a href="#news" url="/news/">Новости</a></li>
-                        <li><a href="#training" url="/training/">Обучение</a></li>
-                        <li><a href="#about" url="/about/">О проекте</a></li>
-                        <li><a href="#contacts" url="/contacts/">Контакты</a></li>
+                        <li><a href="#" url="/pyramid/home" data-toggle="pill">Главная</a></li>
+                        <li><a href="#" url="/pyramid/office" data-toggle="pill">Личный кабинет</a></li>
+                        <li><a href="#" url="/pyramid/news" data-toggle="pill">Новости</a></li>
+                        <li><a href="#" url="/pyramid/training" data-toggle="pill">Обучение</a></li>
+                        <li><a href="#" url="/pyramid/about" data-toggle="pill">О проекте</a></li>
+                        <li><a href="#" url="/pyramid/contacts" data-toggle="pill">Контакты</a></li>
                     </ul>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span10">
-                    <div id="tab-content" class="tab-content">
-                        <div class="tab-pane active" id="home"></div>
-                        <div class="tab-pane" id="news"></div>
-                        <div class="tab-pane" id="office"></div>
-                        <div class="tab-pane" id="training"></div>
-                        <div class="tab-pane" id="about"></div>
-                        <div class="tab-pane" id="contacts"></div>
-                    </div>
+                    <div id="tab-content" class="tab-content"></div>
                 </div>
             </div>
         </div>

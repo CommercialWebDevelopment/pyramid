@@ -1,0 +1,8 @@
+.asterisk_red {
+    color: red;
+}
+
+.required_label {
+    float: left;
+    margin: 0 5px;
+}
