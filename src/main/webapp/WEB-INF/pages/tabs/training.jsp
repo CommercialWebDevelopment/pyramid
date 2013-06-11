@@ -22,10 +22,15 @@
         <pre>В данном разделе представлено обучающее видео для ознакомления с принципами работы проекта.</pre>
     </div>
 </div>
+<%
+    List<Video> videos = (List<Video>) request.getAttribute("videos");
+    if (videos == null || videos.size() == 0){
+        %><%@include file="../missing-data.jsp" %><% } else {
+%>
 <div class="row-fluid">
     <div class="span10">
         <iframe id="player" type="text/html" width="640" height="390"
-                src="http://www.youtube.com/embed/79uY4KixmYo?enablejsapi=1&origin=%>"
+                src="http://www.youtube.com/embed/<%=videos.get(0).getExternalId()%>?enablejsapi=1&origin=%>"
                 frameborder="0"></iframe>
     </div>
 </div>
@@ -33,9 +38,8 @@
 <div class="row-fluid">
     <div class="span10">
         <ul class="thumbnails">
-            <% List<Video> videos = (List<Video>) request.getAttribute("videos");
-                if (videos != null) {
-                    for (Video video : videos) {
+            <%
+                for (Video video : videos) {
             %>
             <li class="span4">
                 <div class="thumbnail">
@@ -47,9 +51,9 @@
                     </p>
                 </div>
             </li>
-            <%}}%>
+            <%}%>
         </ul>
     </div>
-</div>
+</div><%}%>
 </body>
 </html>
