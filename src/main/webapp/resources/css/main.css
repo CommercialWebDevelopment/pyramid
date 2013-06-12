@@ -1,0 +1,20 @@
+.contact {
+    height: 16px;
+    width: 16px;
+    float: left;
+    margin-left: 2px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+.contact.vk {
+    background: url('../images/vk.png') no-repeat;
+}
+.contact.fb {
+    background: url('../images/facebook.png') no-repeat;
+}
+.contact.tw {
+    background: url('../images/twitter.png') no-repeat;
+}
+.contact.yt {
+    background: url('../images/youtube.png') no-repeat;
+}

@@ -11,6 +11,7 @@
           type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/private-office.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
     <script type="text/javascript"
@@ -56,6 +57,17 @@
                     <div id="tab-content" class="tab-content"></div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="footer" class="row-fluid" style="height: 20px">
+        <div class="span11">
+            &copy 2013
+        </div>
+        <div class="span1">
+            <div class="contact vk" onclick="window.location.href='http://vk.com'"></div>
+            <div class="contact fb" onclick="window.location.href='http://facebook.com'"></div>
+            <div class="contact tw" onclick="window.location.href='http://twitter'"></div>
+            <div class="contact yt" onclick="window.location.href='http://youtube.com'"></div>
         </div>
     </div>
 </div>
