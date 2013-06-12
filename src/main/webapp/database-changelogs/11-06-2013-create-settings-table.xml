@@ -19,13 +19,4 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="Dmitry">
-    <sql>
-        INSERT INTO settings (keyString, valueString) VALUES ('youTubeVideoPlayer', 'http://www.youtube.com/embed/{0}?enablejsapi=1&origin={1}');
-        INSERT INTO settings (keyString, valueString) VALUES ('youTubeThumbnails', 'http://img.youtube.com/vi/{0}/0.jpg');
-        INSERT INTO settings (keyString, valueString) VALUES ('youTubeVideoWidth', 640);
-        INSERT INTO settings (keyString, valueString) VALUES ('youTubeVideoHeight', 390);
-    </sql>
-    </changeSet>
-
 </databaseChangeLog>
