@@ -32,7 +32,7 @@
 %>
 <div class="row-fluid">
     <div class="span10">
-        <iframe id="player" type="text/html" width="640" height="390"
+        <iframe id="player" type="text/html" width="748" height="455"
                 src="http://www.youtube.com/embed/<%=videos.get(0).getExternalId()%>?enablejsapi=1&origin="
                 frameborder="0"></iframe>
     </div>
