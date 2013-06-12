@@ -3,4 +3,4 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 
-<div>Contacts</div>
+<h1>Контакты</h1>

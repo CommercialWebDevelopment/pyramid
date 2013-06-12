@@ -3,8 +3,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 
-<div class="row-fluid">
-    <div class="span10">
-        <div>News</div>
-    </div>
-</div>
+<h1>Новости</h1>
+<%@include file="../missing-data.jsp" %>

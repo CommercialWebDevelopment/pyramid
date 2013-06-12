@@ -34,8 +34,8 @@
                 </div>
                 <div class="span1">
                     <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
-                        <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt=""
-                             style="height: 60px"/>
+                        <img src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
+                             style="height: 48px" />
                     </a>
                 </div>
             </div>
