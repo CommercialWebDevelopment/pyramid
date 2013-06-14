@@ -1,27 +1,26 @@
 package com.financial.pyramid.web.form;
 
-
-import com.financial.pyramid.service.validate.Validate;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
  * User: Danil
  * Date: 30.05.13
  * Time: 21:59
  */
-public class RegistrationForm implements Validate {
+public class RegistrationForm {
 
-    @NotEmpty
-    @Length(min = 10, max = 20)
     private String name;
-    @NotEmpty
-    @Length(min = 10, max = 20)
+    private String surname;
+    private String patronymic;
+    private String dateOfBirth;
+    private String email;
+    private String phoneNumber;
     private String password;
+    private String passwordForConfirm;
+    private String passportSerial;
+    private String passportNumber;
+    private String passportDate;
+    private String passportIssuedBy;
+    private String registeredAddress;
+    private String residenceAddress;
 
     public String getName() {
         return name;
@@ -39,8 +38,99 @@ public class RegistrationForm implements Validate {
         this.password = password;
     }
 
-    @Override
-    public boolean validate() {
-        return true;
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPasswordForConfirm() {
+        return passwordForConfirm;
+    }
+
+    public void setPasswordForConfirm(String passwordForConfirm) {
+        this.passwordForConfirm = passwordForConfirm;
+    }
+
+    public String getPassportSerial() {
+        return passportSerial;
+    }
+
+    public void setPassportSerial(String passportSerial) {
+        this.passportSerial = passportSerial;
+    }
+
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
+    }
+
+    public String getPassportDate() {
+        return passportDate;
+    }
+
+    public void setPassportDate(String passportDate) {
+        this.passportDate = passportDate;
+    }
+
+    public String getPassportIssuedBy() {
+        return passportIssuedBy;
+    }
+
+    public void setPassportIssuedBy(String passportIssuedBy) {
+        this.passportIssuedBy = passportIssuedBy;
+    }
+
+    public String getRegisteredAddress() {
+        return registeredAddress;
+    }
+
+    public void setRegisteredAddress(String registeredAddress) {
+        this.registeredAddress = registeredAddress;
+    }
+
+    public String getResidenceAddress() {
+        return residenceAddress;
+    }
+
+    public void setResidenceAddress(String residenceAddress) {
+        this.residenceAddress = residenceAddress;
     }
 }

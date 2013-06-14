@@ -24,13 +24,9 @@ public class TabsController {
     @Autowired
     private com.financial.pyramid.service.VideoService videoService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model) {
-        return "index";
-    }
-
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(ModelMap model) {
+        model.addAttribute("page-name", "home");
         return "/tabs/home";
     }
 
@@ -42,22 +38,26 @@ public class TabsController {
 
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public String news(ModelMap model) {
+        model.addAttribute("page-name", "news");
         return "/tabs/news";
     }
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model) {
         model.addAttribute("authentication", new AuthenticationForm());
+        model.addAttribute("page-name", "office");
         return "/tabs/office";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String about(ModelMap model) {
+        model.addAttribute("page-name", "about");
         return "/tabs/about";
     }
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
+        model.addAttribute("page-name", "contacts");
         return "/tabs/contacts";
     }
 }

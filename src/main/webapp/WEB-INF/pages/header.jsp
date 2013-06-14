@@ -39,41 +39,19 @@
                     </a>
                 </div>
             </div>
-            <%--Tabs--%>
-            <div class="row-fluid">
-                <div class="span8 offset2">
-                    <ul class="nav nav-pills" id="tabs">
-                        <li><a href="#" url="/pyramid/home" data-toggle="pill">Главная</a></li>
-                        <li><a href="#" url="/pyramid/office" data-toggle="pill">Личный кабинет</a></li>
-                        <li><a href="#" url="/pyramid/news" data-toggle="pill">Новости</a></li>
-                        <li><a href="#" url="/pyramid/training" data-toggle="pill">Обучение</a></li>
-                        <li><a href="#" url="/pyramid/about" data-toggle="pill">О проекте</a></li>
-                        <li><a href="#" url="/pyramid/contacts" data-toggle="pill">Контакты</a></li>
-                    </ul>
+                <%--Tabs--%>
+                <div class="row-fluid">
+                    <div class="span8 offset2">
+                        <ul class="nav nav-pills" id="tabs">
+                            <li class= <%= request.getAttribute("page-name").equals("home") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/home">Главная</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("office") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/office">Личный кабинет</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("news") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/news">Новости</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("training") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/training">Обучение</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("about") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/about">О проекте</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("contacts") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/contacts">Контакты</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="row-fluid">
-                <div class="span10">
-                    <div id="tab-content" class="tab-content"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="footer" class="row-fluid" style="height: 20px">
-        <div class="span11">
-            &copy 2013
-        </div>
-        <div class="span1">
-            <div class="contact vk" onclick="window.location.href='http://vk.com'"></div>
-            <div class="contact fb" onclick="window.location.href='http://facebook.com'"></div>
-            <div class="contact tw" onclick="window.location.href='http://twitter'"></div>
-            <div class="contact yt" onclick="window.location.href='http://youtube.com'"></div>
-        </div>
-    </div>
-</div>
-<div id="loader" class="loader">
-    <div class="loader-icon"></div>
-    <div class="loader-text"></div>
-</div>
-</body>
-</html>
+                <div class="row-fluid">
+                    <div class="span10">
+                        <div id="tab-content" class="tab-content">

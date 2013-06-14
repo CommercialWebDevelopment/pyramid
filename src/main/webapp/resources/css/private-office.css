@@ -3,6 +3,18 @@
 }
 
 .required_label {
-    float: left;
     margin: 0 5px;
+}
+
+.form-field {
+    height: 25px !important;
+}
+
+#email {
+    height: 25px;
+    width: 179px;
+}
+
+.control-group {
+    margin-bottom: 0;
 }
