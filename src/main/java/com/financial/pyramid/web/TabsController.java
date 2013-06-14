@@ -31,9 +31,11 @@ public class TabsController {
     }
 
     @RequestMapping(value = "/training", method = RequestMethod.GET)
-    public ModelAndView training(ModelMap model) {
+    public String training(ModelMap model) {
         List<Video> videos = videoService.find();
-        return new ModelAndView("/tabs/training", "videos", videos);
+        model.addAttribute("videos", videos);
+        model.addAttribute("page-name", "training");
+        return "/tabs/training";
     }
 
     @RequestMapping(value = "/news", method = RequestMethod.GET)
