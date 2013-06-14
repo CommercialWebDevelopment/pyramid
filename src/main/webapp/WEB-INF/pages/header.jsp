@@ -17,9 +17,7 @@
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/header.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/index.js"></script>
+            src="${pageContext.request.contextPath}/resources/javascript/main.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/private-office.js"></script>
 </head>
 <body>

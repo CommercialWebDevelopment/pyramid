@@ -1,8 +1,9 @@
 /**
  * User: Danil
- * Date: 02.06.13
- * Time: 21:48
+ * Date: 03.06.13
+ * Time: 20:04
  */
+
 var options = {
     animation:"true",
     placement:"left",
@@ -12,5 +13,3 @@ var options = {
 $(document).ready(function() {
     $('#user-details').popover(options);
 });
-
-
