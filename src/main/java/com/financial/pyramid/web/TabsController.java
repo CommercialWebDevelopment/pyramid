@@ -34,7 +34,13 @@ public class TabsController {
         model.addAttribute("page-name", "home");
         return "/tabs/home";
     }
-    
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String admin(ModelMap model) {
+        model.addAttribute("page-name", "admin");
+        return "/tabs/admin";
+    }
+
     @RequestMapping(value = "/training", method = RequestMethod.GET)
     public String training(ModelMap model) {
         List<Video> videos = videoService.find();
