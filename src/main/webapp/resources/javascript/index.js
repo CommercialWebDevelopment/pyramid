@@ -4,6 +4,7 @@
  * Time: 20:04
  */
 
+/*
 $(document).ready(function() {
     var tabs = $('#tabs');
     var loader = $("#loader");
@@ -12,11 +13,11 @@ $(document).ready(function() {
         var url = $(e.target).attr("url");
         jQuery.ajax({
             url: url,
-            success: function (html) {
+            success:function(html){
                 $("#tab-content").html(html);
                 loader.hide();
             },
-            error: function (html) {
+            error:function(html){
                 $("#tab-content").html("");
                 loader.hide();
             }
@@ -24,3 +25,4 @@ $(document).ready(function() {
     });
     tabs.find('a:first').tab('show');
 });
+*/

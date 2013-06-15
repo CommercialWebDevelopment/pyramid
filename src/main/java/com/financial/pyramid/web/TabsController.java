@@ -1,6 +1,7 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Video;
+import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.AuthenticationForm;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -28,45 +28,45 @@ public class TabsController {
     @Autowired
     private SettingsService settingsService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap model) {
-        return "index";
-    }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(ModelMap model) {
+        model.addAttribute("page-name", "home");
         return "/tabs/home";
     }
-
+    
     @RequestMapping(value = "/training", method = RequestMethod.GET)
-    public ModelAndView training(ModelMap model) {
+    public String training(ModelMap model) {
         List<Video> videos = videoService.find();
-        ModelAndView modelAndView = new ModelAndView();
         String defaultVideo = settingsService.getProperty("youTubeVideoUrl", videos.get(0).getExternalId());
-        modelAndView.addObject("defaultVideo", defaultVideo);
-        modelAndView.addObject("videos", videos);
-        modelAndView.setViewName("/tabs/training");
-        return modelAndView;
+        model.addAttribute("defaultVideo", defaultVideo);
+        model.addAttribute("videos", videos);
+        model.addAttribute("page-name", "training");
+        return "/tabs/training";
     }
 
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public String news(ModelMap model) {
+        model.addAttribute("page-name", "news");
         return "/tabs/news";
     }
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model) {
         model.addAttribute("authentication", new AuthenticationForm());
+        model.addAttribute("page-name", "office");
         return "/tabs/office";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String about(ModelMap model) {
+        model.addAttribute("page-name", "about");
         return "/tabs/about";
     }
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
+        model.addAttribute("page-name", "contacts");
         return "/tabs/contacts";
     }
 }

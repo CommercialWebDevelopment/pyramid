@@ -1,20 +1,15 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.financial.pyramid.domain.Video" %>
 <%@ page import="java.util.List" %>
-<%--
-  User: Danil
-  Date: 03.06.13
-  Time: 20:17
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page session="false" %>
-<html>
-<head>
-    <title></title>
-    <script src="${pageContext.request.contextPath}/resources/javascript/training.js"/>
-</head>
-<body>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<%@ include file="/WEB-INF/pages/header.jsp" %>
+
+<script type="text/javascript">
+    <%@ include file="/resources/javascript/training.js" %>
+</script>
 
 <h1><spring:message code="label.study"/></h1>
 
@@ -37,6 +32,7 @@
     </div>
 </div>
 <br>
+
 <div class="row-fluid">
     <div class="span10">
         <ul class="thumbnails">
@@ -70,5 +66,4 @@
     </div>
 </div>
 <%}%>
-</body>
-</html>
+<%@ include file="/WEB-INF/pages/footer.jsp" %>

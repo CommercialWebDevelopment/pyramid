@@ -3,4 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 
-<div>Home</div>
+<%@ include file="/WEB-INF/pages/header.jsp" %>
+
+<h3>Home</h3>
+
+<%@ include file="/WEB-INF/pages/footer.jsp" %>
