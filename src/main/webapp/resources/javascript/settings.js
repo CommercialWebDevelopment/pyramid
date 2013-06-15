@@ -5,13 +5,20 @@ $.settings = {
         if (this.data && this.data[key]) {
             var setting = this.data[key];
             if (setting) {
-                result = setting.format(params).toString();
+                result = this.format(setting, params).toString();
             }
         }
         return result;
     },
     setProperty: function (key, value) {
         this.data[key] = value;
+    },
+    format: function (string, args) {
+        var s = string;
+        for (var i = 0; i < args.length; i++) {
+            s = s.replace("{" + i + "}", args[i]);
+        }
+        return s;
     }
 };
 jQuery.ajax({
@@ -25,10 +32,3 @@ jQuery.ajax({
     error: function (response) {
     }
 });
-String.prototype.format = function (args) {
-    var s = this;
-    for (var i = 0; i < args.length; i++) {
-        s = s.replace("{" + i + "}", args[i]);
-    }
-    return s;
-};

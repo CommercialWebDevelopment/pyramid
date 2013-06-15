@@ -5,7 +5,7 @@
 </div>
 <div id="footer" class="row-fluid" style="height: 20px">
     <div class="span11">
-        &copy 2013
+        &copy <script>var date = new Date().getFullYear(); document.write(date.toString())</script>
     </div>
     <div class="span1">
         <div class="contact vk" onclick="window.location.href='http://vk.com'"></div>
