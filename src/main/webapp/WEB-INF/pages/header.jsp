@@ -20,6 +20,7 @@
             src="${pageContext.request.contextPath}/resources/javascript/main.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/private-office.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/settings.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/alerts.js"></script>
 </head>
 <body>
 <div class="row-fluid" style="height: 20px"></div>

@@ -5,7 +5,9 @@
 </div>
 <div id="footer" class="row-fluid" style="height: 20px">
     <div class="span11">
-        &copy <script>var date = new Date().getFullYear(); document.write(date.toString())</script>
+        &copy
+        <script>var date = new Date().getFullYear();
+        document.write(date.toString())</script>
     </div>
     <div class="span1">
         <div class="contact vk" onclick="window.location.href='http://vk.com'"></div>
@@ -19,5 +21,6 @@
     <div class="loader-icon"></div>
     <div class="loader-text"></div>
 </div>
+<%@include file="alerts.jsp" %>
 </body>
 </html>
