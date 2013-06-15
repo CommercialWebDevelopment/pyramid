@@ -12,11 +12,11 @@ $(document).ready(function() {
         var url = $(e.target).attr("url");
         jQuery.ajax({
             url: url,
-            success:function(html){
+            success: function (html) {
                 $("#tab-content").html(html);
                 loader.hide();
             },
-            error:function(html){
+            error: function (html) {
                 $("#tab-content").html("");
                 loader.hide();
             }

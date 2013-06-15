@@ -20,6 +20,7 @@
             src="${pageContext.request.contextPath}/resources/javascript/header.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/index.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/settings.js"></script>
 
 </head>
 <body>
@@ -35,7 +36,7 @@
                 <div class="span1">
                     <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
                         <img src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
-                             style="height: 48px" />
+                             style="height: 48px"/>
                     </a>
                 </div>
             </div>

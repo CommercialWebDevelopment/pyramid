@@ -1,7 +1,8 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Video;
-import com.financial.pyramid.service.EmailService;
+import com.financial.pyramid.service.SettingsService;
+import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,10 @@ import java.util.List;
 public class TabsController {
 
     @Autowired
-    private com.financial.pyramid.service.VideoService videoService;
+    private VideoService videoService;
+
+    @Autowired
+    private SettingsService settingsService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap model) {
@@ -37,7 +41,12 @@ public class TabsController {
     @RequestMapping(value = "/training", method = RequestMethod.GET)
     public ModelAndView training(ModelMap model) {
         List<Video> videos = videoService.find();
-        return new ModelAndView("/tabs/training", "videos", videos);
+        ModelAndView modelAndView = new ModelAndView();
+        String defaultVideo = settingsService.getProperty("youTubeVideoUrl", videos.get(0).getExternalId());
+        modelAndView.addObject("defaultVideo", defaultVideo);
+        modelAndView.addObject("videos", videos);
+        modelAndView.setViewName("/tabs/training");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/news", method = RequestMethod.GET)

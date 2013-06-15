@@ -14,6 +14,8 @@ public class Video extends AbstractEntity {
     public String description;
     @Column(name = "externalId", nullable = false, length = 200)
     public String externalId;
+    @Column(name = "thumbnailUrl", nullable = true, length = 250)
+    public String thumbnailUrl;
 
     public String getName() {
         return name;
@@ -37,5 +39,13 @@ public class Video extends AbstractEntity {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 }
