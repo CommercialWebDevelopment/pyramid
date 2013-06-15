@@ -1,3 +1,4 @@
+<%--
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -28,7 +29,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span10 offset2">
-            <%--Header--%>
+            &lt;%&ndash;Header&ndash;%&gt;
             <div class="row-fluid">
                 <div class="span9">
                     Название
@@ -40,7 +41,7 @@
                     </a>
                 </div>
             </div>
-            <%--Tabs--%>
+            &lt;%&ndash;Tabs&ndash;%&gt;
             <div class="row-fluid">
                 <div class="span8 offset2">
                     <ul class="nav nav-pills" id="tabs">
@@ -77,4 +78,4 @@
     <div class="loader-text"></div>
 </div>
 </body>
-</html>
+</html>--%>
