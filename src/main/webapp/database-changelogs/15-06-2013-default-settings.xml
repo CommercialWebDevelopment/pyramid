@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <preConditions>
+        <runningAs username="root"/>
+    </preConditions>
+
+    <changeSet id="1" author="Dmitry">
+        <sql>
+            <![CDATA[INSERT INTO `settings` (`id`, `keyString`, `valueString`) VALUES (1, 'youTubeVideoUrl',
+            "http://www.youtube.com/embed/{0}?enablejsapi=1&origin={1}");]]>
+        </sql>
+        <sql>
+            INSERT INTO `settings` (`id`, `keyString`, `valueString`) VALUES (2, 'youTubeVideoThumbnailsUrl',
+            'http://img.youtube.com/vi/{0}/0.jpg');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
