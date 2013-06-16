@@ -4,6 +4,7 @@ import com.financial.pyramid.dao.AbstractDao;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -50,8 +51,16 @@ public abstract class AbstractDaoImpl <E, I extends Serializable> implements Abs
         return (List<E>) criteria.list();
     }
 
+    @Override
     public List<E> findAll() {
         Criteria criteria = getCurrentSession().createCriteria(entityClass);
         return (List<E>) criteria.list();
+    }
+
+    @Override
+    public Long getCount(Criterion criterion) {
+        Criteria criteria = getCurrentSession().createCriteria(entityClass);
+        criteria.add(criterion);
+        return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
     }
 }

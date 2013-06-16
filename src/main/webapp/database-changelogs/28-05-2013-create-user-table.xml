@@ -34,4 +34,91 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="3" author="Danil">
+        <addColumn tableName="user">
+            <column name="surname" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="patronymic" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="date_of_birth" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="email" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="phone_number" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="passport_serial" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="passport_number" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="passport_date" type="DATE">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="passport_issued_by" type="varchar(250)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="registered_address" type="varchar(250)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="residence_address" type="varchar(250)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="Danil">
+        <addColumn tableName="user">
+            <column name="global_id" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="created" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="confirmed" type="BIT" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="user">
+            <column name="login" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <createIndex indexName="user_login"
+                     tableName="user"
+                     tablespace="user_login"
+                     unique="true">
+            <column name="login" type="varchar(250)"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>

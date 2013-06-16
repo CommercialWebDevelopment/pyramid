@@ -1,5 +1,7 @@
 package com.financial.pyramid.service;
 
+import com.financial.pyramid.domain.User;
+
 /**
  * User: Danil
  * Date: 06.06.13
@@ -7,5 +9,5 @@ package com.financial.pyramid.service;
  */
 public interface EmailService {
 
-    public void send();
+    public boolean sendToUser(User user);
 }

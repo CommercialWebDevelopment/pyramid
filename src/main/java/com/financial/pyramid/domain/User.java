@@ -1,9 +1,13 @@
 package com.financial.pyramid.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * User: Danil
@@ -13,13 +17,43 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
-public class User extends AbstractEntity implements Serializable{
+public class User extends AbstractEntity implements Serializable {
 
     @Column(name = "name", nullable = false, length = 200)
     private String name;
 
+    @Column(name = "login", nullable = false, length = 250)
+    private String login;
+
     @Column(name = "password", nullable = false, length = 250)
     private String password;
+
+    @Column(name = "surname", nullable = false, length = 200)
+    private String surname;
+
+    @Column(name = "patronymic", nullable = false, length = 200)
+    private String patronymic;
+
+    @Column(name = "date_of_birth", nullable = false)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateOfBirth;
+
+    @Column(name = "email", nullable = false, length = 200)
+    private String email;
+
+    @Column(name = "phone_number", nullable = false, length = 50)
+    private String phoneNumber;
+
+    private Passport passport;
+
+    @Column(name = "global_id", updatable = false)
+    private String globalId;
+
+    @Column(name = "created", updatable = false)
+    private Date created = new Date();
+
+    @Column(name = "confirmed", nullable = false)
+    private Boolean confirmed;
 
     public String getName() {
         return name;
@@ -35,5 +69,81 @@ public class User extends AbstractEntity implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Passport getPassport() {
+        return passport;
+    }
+
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
+    public String getGlobalId() {
+        return globalId;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
+
+    public void setGlobalId(String globalId) {
+        this.globalId = globalId;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
     }
 }

@@ -4,13 +4,19 @@ import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
+import com.financial.pyramid.service.data.Role;
 import com.financial.pyramid.web.form.AuthenticationForm;
+import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -58,9 +64,12 @@ public class TabsController {
     }
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
-    public String office(ModelMap model) {
-        model.addAttribute("authentication", new AuthenticationForm());
+    public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         model.addAttribute("page-name", "office");
+        if(!request.isUserInRole(Role.USER.name())) {
+            model.addAttribute("authentication", new AuthenticationForm());
+            return "/tabs/login";
+        }
         return "/tabs/office";
     }
 
@@ -74,5 +83,12 @@ public class TabsController {
     public String contacts(ModelMap model) {
         model.addAttribute("page-name", "contacts");
         return "/tabs/contacts";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String registration(ModelMap model, HttpSession session, HttpServletRequest request) {
+        model.addAttribute("page-name", "office");
+        model.addAttribute("registration", new RegistrationForm());
+        return "/tabs/registration-form";
     }
 }

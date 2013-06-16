@@ -4,6 +4,7 @@
  * Time: 22:05
  */
 var Registration = {
+    timeOutId: null,
 
     validate: function () {
         var fieldsWithError = $("#registration-form").find(".control-group.error");
@@ -47,6 +48,29 @@ var Registration = {
         !regex.test(value) && value.length >= 6 ? this.setValidField(element) : this.setInvalidField(element);
     },
 
+    validateLoginField: function (element, value) {
+        clearTimeout(this.timeOutId);
+        var regex = /^[a-zA-Z1-9_]+$/;
+        if (!regex.test(value) || value.length < 6) {
+            this.setInvalidField(element);
+            return;
+        }
+        var scope = this;
+        this.timeOutId = setTimeout(function(){
+            $.ajax({
+                type: "GET",
+                url: "/user/checkLogin/" + value,
+                dataType: "text",
+                success: function (response, status, xhr) {
+                    response == "false" ? scope.setValidField(element) : scope.setInvalidField(element);
+                },
+                error: function (xhr, status, error) {
+                    scope.setInvalidField(element);
+                }
+            });
+        }, 1000);
+    },
+
     validateSecondPasswordField: function (element, value) {
         var regex = /\W/;
         !regex.test(value) && value.length >= 6 && $("#password").val() == value ? this.setValidField(element) : this.setInvalidField(element);
@@ -66,8 +90,8 @@ var Registration = {
         if (dtArray == null)
             return false;
 
-        var dtMonth = dtArray[1];
-        var dtDay = dtArray[3];
+        var dtDay = dtArray[1];
+        var dtMonth = dtArray[3];
         var dtYear = dtArray[5];
 
         if (dtMonth < 1 || dtMonth > 12)

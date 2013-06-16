@@ -13,6 +13,12 @@ public interface UserDao extends AbstractDao<User, Long> {
 
     public List<User> findByName(String name);
 
+    public List<User> findByLogin(String login);
+
     public List<User> findByNamePassword(String name, String password);
+
+    public User findByGlobalId(String globalId);
+
+    public boolean isLogin(String login);
 
 }

@@ -18,4 +18,8 @@ public interface AbstractDao<E, I> {
     public void delete(E e);
 
     public List<E> findByCriteria(Criterion criterion);
+
+    public List<E> findAll();
+
+    public Long getCount(Criterion criterion);
 }

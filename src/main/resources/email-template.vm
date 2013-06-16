@@ -3,7 +3,7 @@
 <h3>Дорогой ${userName}, спасибо за регистрацию!</h3>
 
 <div>
-    Что бы продолжить регистрацию, нажмите далее <a href='http://localhost:8080/authentication/login'>Далее</a>.
+    Что бы продолжить регистрацию, нажмите далее <a href="http://localhost:8080/user/confirm?ui=${uuid}">Далее</a>.
 </div>
 </body>
 
