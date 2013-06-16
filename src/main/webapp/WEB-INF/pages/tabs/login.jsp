@@ -7,7 +7,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <form:form method="POST" action="/authentication/check" modelAttribute="authentication">
+        <form:form method="POST" action="/user/authentication" modelAttribute="authentication">
             <div class="row-fluid">
                 <div class="span1">
                     <label for="name" class="required_label form-field">Логин</label>
@@ -21,7 +21,7 @@
                     <label for="password" class="required_label form-field">Пароль</label>
                 </div>
                 <div class="span7">
-                    <input id="password" name="password" type="text" class="form-field">
+                    <input id="password" name="password" type="password" class="form-field">
                 </div>
             </div>
             <div class="row-fluid">

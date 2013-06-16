@@ -40,6 +40,12 @@ public abstract class AbstractDaoImpl <E, I extends Serializable> implements Abs
     }
 
     @Override
+    public E merge(E e) {
+        return (E) getCurrentSession().merge(e);
+    }
+
+
+    @Override
     public void delete(E e) {
         getCurrentSession().delete(e);
     }

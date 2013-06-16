@@ -46,11 +46,10 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         List<User> users = userService.findByLogin(authentication.getName());
         assert users.size() > 1;
-        if (users.size() == 1 &&
+        if (users.size() == 1 && users.get(0).getConfirmed() &&
                 passwordEncoder.matches(authentication.getCredentials().toString(), users.get(0).getPassword())) {
-            Authentication a = new UsernamePasswordAuthenticationToken(authentication.getName(),
+            return new UsernamePasswordAuthenticationToken(authentication.getName(),
                     authentication.getCredentials(), USER_ROLES);
-            return a;
         }
         throw new BadCredentialsException("Bad Credentials");
     }

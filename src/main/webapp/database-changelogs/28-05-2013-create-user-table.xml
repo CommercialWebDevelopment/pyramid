@@ -121,4 +121,9 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="5" author="Danil">
+        <dropIndex indexName="user_password"
+                   tableName="user"/>
+    </changeSet>
+
 </databaseChangeLog>
