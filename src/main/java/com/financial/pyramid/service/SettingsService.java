@@ -12,5 +12,7 @@ public interface SettingsService {
 
     public List<Setting> getProperties();
 
+    public void saveProperties(List<Setting> settings);
+
     public void setProperty(String key, String value);
 }

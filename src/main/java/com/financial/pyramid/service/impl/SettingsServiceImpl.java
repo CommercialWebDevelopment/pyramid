@@ -1,5 +1,6 @@
 package com.financial.pyramid.service.impl;
 
+import com.financial.pyramid.dao.SettingsDao;
 import com.financial.pyramid.domain.Setting;
 import com.financial.pyramid.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service("settingsService")
-@Transactional(readOnly = true)
+@Transactional
 public class SettingsServiceImpl implements SettingsService {
 
     @Autowired
-    private com.financial.pyramid.dao.SettingsDao settingsDao;
+    private SettingsDao settingsDao;
 
     protected LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
 
@@ -43,6 +44,13 @@ public class SettingsServiceImpl implements SettingsService {
 
     public void setProperty(String key, String value) {
         this.properties.put(key, value);
+    }
+
+    @Override
+    public void saveProperties(List<Setting> settings) {
+        for(Setting setting : settings){
+            settingsDao.saveOrUpdate(setting);
+        }
     }
 
     private void initSettings() {

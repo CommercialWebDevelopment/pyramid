@@ -5,6 +5,6 @@
 
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
 <div class="row-fluid">
-   test
+   users
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
