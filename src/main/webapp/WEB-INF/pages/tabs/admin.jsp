@@ -9,16 +9,11 @@
 
 <div class="tabbable">
     <ul class="nav nav-tabs">
-        <li><a href="#tab1" data-toggle="tab">Section 1</a></li>
-        <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
+        <li class= <%= request.getAttribute("page-name").equals("users_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/user_settings" data-toogle="tab">Пользователи</a></li>
+        <li class= <%= request.getAttribute("page-name").equals("content_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/content_settings" data-toogle="tab">Тексты</a></li>
+        <li class= <%= request.getAttribute("page-name").equals("video_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/video_settings" data-toogle="tab">Видео</a></li>
+        <li class= <%= request.getAttribute("page-name").equals("contact_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/contact_settings" data-toogle="tab">Контакты</a></li>
+        <li class= <%= request.getAttribute("page-name").equals("application_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/application_settings" data-toogle="tab">Параметры</a></li>
     </ul>
-    <div class="tab-content">
-        <div class="tab-pane" id="tab1">
-            <p>I'm in Section 1.</p>
-        </div>
-        <div class="tab-pane" id="tab2">
-            <p>Howdy, I'm in Section 2.</p>
-        </div>
-    </div>
+    <div id="admin-tab-content" class="tab-content"></div>
 </div>
-<%@ include file="/WEB-INF/pages/footer.jsp" %>
