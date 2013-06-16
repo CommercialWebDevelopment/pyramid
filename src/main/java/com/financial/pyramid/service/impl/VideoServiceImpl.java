@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service("videoService")
-@Transactional(readOnly = true)
+@Transactional
 public class VideoServiceImpl implements VideoService {
 
     @Autowired
@@ -18,5 +18,16 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public List<Video> find() {
        return videoDao.findAll();
+    }
+
+    @Override
+    public void remove(Long id) {
+        Video video = videoDao.findById(id);
+        videoDao.delete(video);
+    }
+
+    @Override
+    public void save(Video video) {
+        videoDao.saveOrUpdate(video);
     }
 }

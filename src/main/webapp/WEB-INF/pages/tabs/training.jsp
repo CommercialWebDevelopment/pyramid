@@ -53,7 +53,7 @@
             </li>
             <% } else {
                 if (i == 3) {
-            %><h2><spring:message code="label.study.otherVideo"></spring:message>:</h2><%
+            %></ul><div class="row-fluid"><h2><spring:message code="label.study.otherVideo"></spring:message>:</h2><%
             }
         %>
             <div><a href='Javascript:load("<%=video.getExternalId()%>")'><%=video.getName()%>
@@ -62,7 +62,7 @@
                     }
                     i++;
                 }%>
-        </ul>
+        </div>
     </div>
 </div>
 <%}%>

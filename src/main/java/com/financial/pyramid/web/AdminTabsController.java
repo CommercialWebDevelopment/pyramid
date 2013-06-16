@@ -1,9 +1,11 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Setting;
+import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.SettingsForm;
+import com.financial.pyramid.web.form.VideosForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -50,6 +52,10 @@ public class AdminTabsController {
     public String videos(ModelMap model){
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "video_settings");
+        List<Video> videos = videoService.find();
+        VideosForm videosForm = new VideosForm();
+        videosForm.setVideos(videos);
+        model.addAttribute("videosForm", videosForm);
         return "/tabs/admin/videos";
     }
 
