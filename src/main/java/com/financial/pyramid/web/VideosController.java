@@ -25,8 +25,8 @@ public class VideosController {
     @Autowired
     VideoService videoService;
 
-    @RequestMapping(value = "/save/{id}", method = RequestMethod.POST)
-    public String save(ModelMap model, @PathVariable Long id, @ModelAttribute("video") Video video) {
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String save(ModelMap model, @ModelAttribute("video") Video video) {
         videoService.save(video);
         List<Video> videoList = videoService.find();
         VideosForm videosForm = new VideosForm();
