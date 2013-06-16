@@ -30,31 +30,36 @@ public class AdminTabsController {
 
     @RequestMapping(value = "/user_settings", method = RequestMethod.GET)
     public String users(ModelMap model){
-        model.addAttribute("page-name", "user_settings");
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "user_settings");
         return "/tabs/admin/users";
     }
 
     @RequestMapping(value = "/content_settings", method = RequestMethod.GET)
     public String content(ModelMap model){
-        model.addAttribute("page-name", "content_settings");
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "content_settings");
         return "/tabs/admin/content";
     }
 
     @RequestMapping(value = "/video_settings", method = RequestMethod.GET)
     public String videos(ModelMap model){
-        model.addAttribute("page-name", "video_settings");
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "video_settings");
         return "/tabs/admin/videos";
     }
 
     @RequestMapping(value = "/contact_settings", method = RequestMethod.GET)
     public String contacts(ModelMap model){
-        model.addAttribute("page-name", "contact_settings");
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "contact_settings");
         return "/tabs/admin/contacts";
     }
 
     @RequestMapping(value = "/application_settings", method = RequestMethod.GET)
     public String settings(ModelMap model){
-        model.addAttribute("page-name", "application_settings");
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "application_settings");
         return "/tabs/admin/settings";
     }
 }
