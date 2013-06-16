@@ -7,9 +7,9 @@
 
 <div class="row-fluid">
     <div class="span12">
-        <div class="span6 offset4">
-            <h4>Ваш офис</h4>
-            <a href="<c:url value="/j_spring_security_logout" />" class="btn btn-primary" type="button">Logout</a>
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Ошибка!</strong> Данные устарели
         </div>
     </div>
 </div>

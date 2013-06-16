@@ -1,6 +1,8 @@
 package com.financial.pyramid.service;
 
 import com.financial.pyramid.domain.User;
+import com.financial.pyramid.service.exception.UserConfirmOverdueException;
+import com.financial.pyramid.service.exception.UserNotFoundException;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
@@ -19,7 +21,15 @@ public interface UserService {
 
     public User findById(Long id);
 
+    public boolean checkLogin(String login);
+
     public List<User> findByName(String userName);
 
+    public List<User> findByLogin(String login);
+
     public List<User> findByNamePassword(String name, String password);
+
+    public User findByGlobalId(String globalId);
+
+    public User confirm(String globalId) throws UserNotFoundException, UserConfirmOverdueException;
 }

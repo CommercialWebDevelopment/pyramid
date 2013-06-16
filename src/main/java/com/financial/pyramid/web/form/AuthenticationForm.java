@@ -9,11 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Time: 20:24
  */
 public class AuthenticationForm {
-    @NotEmpty
-    @Length(min = 10, max = 20)
     private String name;
-    @NotEmpty
-    @Length(min = 10, max = 20)
     private String password;
 
     public String getName() {

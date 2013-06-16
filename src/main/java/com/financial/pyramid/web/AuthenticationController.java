@@ -33,13 +33,13 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(ModelMap model) {
-        logger.info("Show login form");
         model.addAttribute("authentication", new AuthenticationForm());
-        return "index";
+        return "/tabs/home";
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.POST)
-    public String authentication(ModelMap model, @ModelAttribute("authentication") @Valid final AuthenticationForm authentication) {
+    public String authentication(ModelMap model, @ModelAttribute("authentication") final AuthenticationForm authentication) {
+        model.addAttribute("page-name", "office");
         try {
             org.springframework.security.core.Authentication request =
                     new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getPassword());
@@ -48,11 +48,11 @@ public class AuthenticationController {
         } catch (AuthenticationException e) {
             System.out.println("Authentication failed: " + e.getMessage());
             model.addAttribute("registration", new RegistrationForm());
-            return "registration";
+            return "/tabs/login";
         }
         System.out.println("Successfully authenticated. Security context contains: " +
                 SecurityContextHolder.getContext().getAuthentication());
-        return "index";
+        return "/tabs/office";
     }
 
     @RequestMapping(value = "/failed", method = RequestMethod.GET)

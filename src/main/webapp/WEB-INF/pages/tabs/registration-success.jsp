@@ -5,13 +5,8 @@
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
 
-<div class="row-fluid">
-    <div class="span12">
-        <div class="span6 offset4">
-            <h4>Ваш офис</h4>
-            <a href="<c:url value="/j_spring_security_logout" />" class="btn btn-primary" type="button">Logout</a>
-        </div>
-    </div>
-</div>
+<h3>Вы успешно зарегестрированны</h3>
+<div>На ваш электронный адрес было отправленно письмо,
+    пожалуйста следуйте инструкциям в письме для продолжения регистрации</div>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

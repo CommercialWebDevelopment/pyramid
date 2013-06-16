@@ -1,6 +1,8 @@
 package com.financial.pyramid.service.impl;
 
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
+import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -27,6 +29,8 @@ import java.util.Map;
 @Service("emailService")
 public class EmailServiceImpl implements EmailService {
 
+    private final static Logger logger = Logger.getLogger(EmailServiceImpl.class);
+
     @Autowired
     private JavaMailSender mailSender;
 
@@ -34,24 +38,28 @@ public class EmailServiceImpl implements EmailService {
     private VelocityEngine velocityEngine;
 
     @Override
-    public void send() {
+    public boolean sendToUser(User user) {
 
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setTo("Danilpostoffice@yandex.ru");
+            helper.setTo(user.getEmail());
 
             Map model = new HashMap();
-            model.put("userName", "Имя пользователя");
+            model.put("userName", user.getName());
+            model.put("uuid", user.getGlobalId());
             String text = VelocityEngineUtils.mergeTemplateIntoString(
                     velocityEngine, "email-template.vm", "UTF-8", model);
             helper.setText(text, true);
             this.mailSender.send(message);
         }
         catch (MailException ex) {
-            System.err.println(ex.getMessage());
+            logger.error(ex.getMessage());
+            return false;
         } catch (MessagingException ex) {
-            System.err.println(ex.getMessage());
+            logger.error(ex.getMessage());
+            return false;
         }
+        return true;
     }
 }

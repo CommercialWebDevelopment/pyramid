@@ -13,6 +13,7 @@ public class RegistrationForm {
     private String dateOfBirth;
     private String email;
     private String phoneNumber;
+    private String login;
     private String password;
     private String passwordForConfirm;
     private String passportSerial;
@@ -28,6 +29,14 @@ public class RegistrationForm {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {

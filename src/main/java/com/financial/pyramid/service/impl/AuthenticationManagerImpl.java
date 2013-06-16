@@ -2,6 +2,7 @@ package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.service.data.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,13 +38,13 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
     static final List<GrantedAuthority> ADMIN_ROLES = new ArrayList<GrantedAuthority>();
     static final List<GrantedAuthority> USER_ROLES = new ArrayList<GrantedAuthority>();
     static {
-        ADMIN_ROLES.add(new SimpleGrantedAuthority("ADMIN"));
-        USER_ROLES.add(new SimpleGrantedAuthority("USER"));
+        ADMIN_ROLES.add(new SimpleGrantedAuthority(Role.ADMIN.name()));
+        USER_ROLES.add(new SimpleGrantedAuthority(Role.USER.name()));
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        List<User> users = userService.findByName(authentication.getName());
+        List<User> users = userService.findByLogin(authentication.getName());
         assert users.size() > 1;
         if (users.size() == 1 &&
                 passwordEncoder.matches(authentication.getCredentials().toString(), users.get(0).getPassword())) {

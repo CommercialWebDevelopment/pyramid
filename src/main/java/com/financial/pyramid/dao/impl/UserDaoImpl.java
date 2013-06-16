@@ -26,10 +26,27 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     }
 
     @Override
+    public List<User> findByLogin(String login) {
+        return findByCriteria(Restrictions.eq("login", login));
+    }
+
+    @Override
     public List<User> findByNamePassword(String name, String password) {
         Map map = new HashMap();
         map.put("name", name);
         map.put("password", password);
         return findByCriteria(Restrictions.allEq(map));
+    }
+
+    @Override
+    public User findByGlobalId(String globalId) {
+        List<User> users = findByCriteria(Restrictions.eq("globalId", globalId));
+        assert users.size() > 1;
+        return users.size() > 0 ? users.get(0) : null;
+    }
+
+    @Override
+    public boolean isLogin(String login) {
+        return getCount(Restrictions.eq("login", login)) > 0;
     }
 }
