@@ -39,9 +39,11 @@
                 </div>
                 <div style="text-align: center"><br>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
-                    &nbsp;<a href="/video/remove/${video.id}">
-                        <button class="btn">Удалить</button>
-                    </a></div>
+                    &nbsp;
+                    <button type="button" class="btn"
+                            onclick="Javascript:window.location.href = '/video/remove/${video.id}'">Удалить
+                    </button>
+                </div>
             </div>
         </form:form>
     </div>
@@ -59,11 +61,11 @@
     <div class="row-fluid" id="addVideoForm">
         <div class="span8">
             <input type="hidden" id="thumbnailUrl" name="thumbnailUrl">
-            <label>Название:</label>
+            <label>Название:<span class="asterisk_red">*</span></label>
             <input type="text" name="name" class="form-field" style="width: 100%">
             <label>Описание:</label>
             <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="description"></textarea>
-            <label>Идентификатор YouTube:</label>
+            <label>Идентификатор YouTube:<span class="asterisk_red">*</span></label>
             <input type="text" name="externalId" class="form-field" style="width: 100%"/>
         </div>
     </div>
