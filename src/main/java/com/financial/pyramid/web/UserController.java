@@ -8,6 +8,10 @@ import com.financial.pyramid.service.validators.RegistrationFormValidator;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,6 +35,9 @@ public class UserController {
 
     @Autowired
     private RegistrationService registrationService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
@@ -56,6 +63,24 @@ public class UserController {
         boolean tr = registrationService.registration(registration);
         if(!tr) return "/tabs/registration-fail";
         return "/tabs/registration-success";
+    }
+
+    @RequestMapping(value = "/authentication", method = RequestMethod.POST)
+    public String authentication(ModelMap model, @ModelAttribute("authentication") final AuthenticationForm authentication) {
+        model.addAttribute("page-name", "office");
+        try {
+            org.springframework.security.core.Authentication request =
+                    new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getPassword());
+            org.springframework.security.core.Authentication result = authenticationManager.authenticate(request);
+            SecurityContextHolder.getContext().setAuthentication(result);
+        } catch (AuthenticationException e) {
+            System.out.println("Authentication failed: " + e.getMessage());
+            model.addAttribute("registration", new RegistrationForm());
+            return "/tabs/login";
+        }
+        System.out.println("Successfully authenticated. Security context contains: " +
+                SecurityContextHolder.getContext().getAuthentication());
+        return "/tabs/office";
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET, params = {"ui"})

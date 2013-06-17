@@ -15,6 +15,8 @@ public interface AbstractDao<E, I> {
 
     public void saveOrUpdate(E e);
 
+    public E merge(E e);
+
     public void delete(E e);
 
     public List<E> findByCriteria(Criterion criterion);

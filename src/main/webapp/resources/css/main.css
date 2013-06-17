@@ -18,3 +18,12 @@
 .contact.yt {
     background: url('../images/youtube.png') no-repeat;
 }
+
+#admin-menu {
+    /*border-right: 1px solid #0088cc;*/
+    padding: 5px 5px;
+}
+
+.user-grid-column {
+    border-left: 1px solid #0088cc;
+}

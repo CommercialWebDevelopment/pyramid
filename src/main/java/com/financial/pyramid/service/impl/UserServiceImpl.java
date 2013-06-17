@@ -70,12 +70,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public User confirm(String globalId) throws UserNotFoundException, UserConfirmOverdueException {
         User user = findByGlobalId(globalId);
         if(user == null) throw new UserNotFoundException();
+        if(user.getConfirmed()) return user;
         if((System.currentTimeMillis() - user.getCreated().getTime()) > CONFIRM_PERIOD) throw new UserConfirmOverdueException();
         user.setConfirmed(true);
-        userDao.saveOrUpdate(user);
-        return user;
+        return userDao.merge(user);
     }
 }
