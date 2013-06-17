@@ -23,11 +23,6 @@
                 <li class= <%= request.getAttribute("admin-page-name").equals("application_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/application_settings" data-toogle="tab">Параметры</a></li>
             </ul>
         </div>
-        <div class="span10">
-            <h4>данные</h4>
-        </div>
-    </div>
-</div>
 
 
 
