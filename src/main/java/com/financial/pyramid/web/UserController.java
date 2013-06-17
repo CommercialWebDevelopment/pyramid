@@ -6,6 +6,7 @@ import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
 import com.financial.pyramid.web.form.AuthenticationForm;
+import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -95,5 +96,11 @@ public class UserController {
         }
         model.addAttribute("authentication", new AuthenticationForm());
         return "/tabs/login";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
+    public @ResponseBody
+    PageForm checkLogin(ModelMap model) {
+        return new PageForm<User>(userService.list());
     }
 }

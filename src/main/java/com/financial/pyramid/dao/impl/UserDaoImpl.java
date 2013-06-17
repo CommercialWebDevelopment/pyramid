@@ -4,6 +4,7 @@ import com.financial.pyramid.dao.UserDao;
 import com.financial.pyramid.dao.impl.AbstractDaoImpl;
 import com.financial.pyramid.domain.User;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
  * Date: 29.05.13
  * Time: 22:12
  */
+@Repository(value = "userDao")
 public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao {
 
     protected UserDaoImpl() {

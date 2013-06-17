@@ -32,4 +32,6 @@ public interface UserService {
     public User findByGlobalId(String globalId);
 
     public User confirm(String globalId) throws UserNotFoundException, UserConfirmOverdueException;
+
+    public List<User> list();
 }

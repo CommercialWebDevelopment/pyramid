@@ -12,15 +12,15 @@
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/private-office.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript"
-            src="${pageContext.request.contextPath}/resources/javascript/main.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/javascript/flexigrid/css/flexigrid.css" type="text/css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/main.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/office.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/settings.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/alerts.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flexigrid/js/flexigrid.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin.js"></script>
 </head>
 <body>
 <div class="row-fluid" style="height: 20px"></div>

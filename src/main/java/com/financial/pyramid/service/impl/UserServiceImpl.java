@@ -79,4 +79,9 @@ public class UserServiceImpl implements UserService {
         user.setConfirmed(true);
         return userDao.merge(user);
     }
+
+    @Override
+    public List<User> list() {
+        return userDao.findAll();
+    }
 }
