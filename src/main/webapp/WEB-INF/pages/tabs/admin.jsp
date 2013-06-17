@@ -5,15 +5,39 @@
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
 
-<h3>Администрирование</h3>
-
-<div class="tabbable">
-    <ul class="nav nav-tabs">
-        <li class= <%= request.getAttribute("admin-page-name").equals("user_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/user_settings" data-toogle="tab">Пользователи</a></li>
-        <li class= <%= request.getAttribute("admin-page-name").equals("content_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/content_settings" data-toogle="tab">Тексты</a></li>
-        <li class= <%= request.getAttribute("admin-page-name").equals("video_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/video_settings" data-toogle="tab">Видео</a></li>
-        <li class= <%= request.getAttribute("admin-page-name").equals("contact_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/contact_settings" data-toogle="tab">Контакты</a></li>
-        <li class= <%= request.getAttribute("admin-page-name").equals("application_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/application_settings" data-toogle="tab">Параметры</a></li>
-    </ul>
-    <div id="admin-tab-content" class="tab-content"></div>
+<div class="row-fluid">
+    <div class="span3 offset4">
+        <h3>Администрирование</h3>
+    </div>
 </div>
+
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="span2" id="admin-menu">
+            <ul class="nav nav-pills nav-stacked">
+                <li class= <%= request.getAttribute("admin-page-name").equals("user_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/user_settings" data-toogle="tab">Пользователи</a></li>
+                <li class= <%= request.getAttribute("admin-page-name").equals("content_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/content_settings" data-toogle="tab">Тексты</a></li>
+                <li class= <%= request.getAttribute("admin-page-name").equals("video_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/video_settings" data-toogle="tab">Видео</a></li>
+                <li class= <%= request.getAttribute("admin-page-name").equals("contact_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/contact_settings" data-toogle="tab">Контакты</a></li>
+                <li class= <%= request.getAttribute("admin-page-name").equals("application_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/application_settings" data-toogle="tab">Параметры</a></li>
+            </ul>
+        </div>
+        <div class="span10">
+            <h4>данные</h4>
+        </div>
+    </div>
+</div>
+
+
+
+<%--<div class="tabbable">--%>
+    <%--<ul class="nav nav-tabs">--%>
+        <%--<li class= <%= request.getAttribute("admin-page-name").equals("user_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/user_settings" data-toogle="tab">Пользователи</a></li>--%>
+        <%--<li class= <%= request.getAttribute("admin-page-name").equals("content_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/content_settings" data-toogle="tab">Тексты</a></li>--%>
+        <%--<li class= <%= request.getAttribute("admin-page-name").equals("video_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/video_settings" data-toogle="tab">Видео</a></li>--%>
+        <%--<li class= <%= request.getAttribute("admin-page-name").equals("contact_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/contact_settings" data-toogle="tab">Контакты</a></li>--%>
+        <%--<li class= <%= request.getAttribute("admin-page-name").equals("application_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/application_settings" data-toogle="tab">Параметры</a></li>--%>
+    <%--</ul>--%>
+    <%--<div id="admin-tab-content" class="tab-content"></div>--%>
+<%--</div>--%>
