@@ -4,6 +4,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
+<div class="row-fluid" style="text-align: right">
+    <a href="#uploadVideoForm"><button class="btn">Загрузить</button></a>
+    <a href="#addVideoForm"><button class="btn">Добавить</button></a>
+</div>
 <h1>
     <small>Загруженные видео:</small>
 </h1>
@@ -19,7 +23,7 @@
                 <input type="hidden" name="externalId" value="${video.externalId}">
                 <input type="hidden" name="thumbnailUrl" value="${video.thumbnailUrl}">
                 <label>Название:</label>
-                <input type="text" name="name" value="${video.name}" style="width: 100%">
+                <input type="text" name="name" value="${video.name}" style="width: 100%" class="form-field">
                 <label>Описание:</label>
                 <textarea style="width:100%; height: 130px; resize:none" maxlength="500"
                           name="description">${video.description}</textarea>
@@ -39,35 +43,24 @@
     </div>
 </c:forEach>
 <h1>
-    <small>Загрузить новое видео:</small>
+    <small>Загрузить новое видео на YouTube:</small>
 </h1>
-<script language="javascript">
-    function openUploadVideoForm() {
-        document.getElementById('uploadVideoForm').style.display = 'block';
-        document.getElementById('addVideoForm').style.display = 'none';
-    }
-    function openAddVideoForm() {
-        document.getElementById('uploadVideoForm').style.display = 'none';
-        document.getElementById('addVideoForm').style.display = 'block';
-    }
-</script>
-<div class="row-fluid">
-    <button class="btn" onclick="Javascript:openUploadVideoForm()">Загрузить видео на YouTube</button>
-    <button class="btn" onclick="Javascript:openAddVideoForm()">Добавить видео с YouTube</button>
-</div>
-<div class="row-fluid" id="uploadVideoForm" style="display: none">
+<div class="row-fluid" id="uploadVideoForm">
     загрузить
 </div>
-<div class="row-fluid" id="addVideoForm" style="display: none"><br>
+<h1>
+    <small>Добавить новое видео с YouTube:</small>
+</h1>
+<div class="row-fluid" id="addVideoForm"><br>
     <form:form action="/video/save" method="POST" id="addVideo">
         <div class="span8">
             <input type="hidden" id="thumbnailUrl" name="thumbnailUrl">
             <label>Название:</label>
-            <input type="text" name="name" style="width: 100%">
+            <input type="text" name="name" class="form-field" style="width: 100%">
             <label>Описание:</label>
             <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="description"></textarea>
             <label>Идентификатор YouTube:</label>
-            <input type="text" name="externalId" style="width: 100%"/>
+            <input type="text" name="externalId" class="form-field" style="width: 100%"/>
         </div>
         <div class="span8"><button type="submit" class="btn btn-primary">Добавить</button></div>
     </form:form>
