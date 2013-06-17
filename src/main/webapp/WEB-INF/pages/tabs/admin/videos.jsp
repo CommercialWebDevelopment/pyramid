@@ -5,8 +5,12 @@
 
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
 <div class="row-fluid" style="text-align: right">
-    <a href="#uploadVideoForm"><button class="btn">Загрузить</button></a>
-    <a href="#addVideoForm"><button class="btn">Добавить</button></a>
+    <a href="#uploadVideoForm">
+        <button class="btn">Загрузить</button>
+    </a>
+    <a href="#addVideoForm">
+        <button class="btn">Добавить</button>
+    </a>
 </div>
 <h1>
     <small>Загруженные видео:</small>
@@ -51,8 +55,8 @@
 <h1>
     <small>Добавить новое видео с YouTube:</small>
 </h1>
-<div class="row-fluid" id="addVideoForm"><br>
-    <form:form action="/video/save" method="POST" id="addVideo">
+<form:form action="/video/save" method="POST" id="addVideo">
+    <div class="row-fluid" id="addVideoForm">
         <div class="span8">
             <input type="hidden" id="thumbnailUrl" name="thumbnailUrl">
             <label>Название:</label>
@@ -62,7 +66,9 @@
             <label>Идентификатор YouTube:</label>
             <input type="text" name="externalId" class="form-field" style="width: 100%"/>
         </div>
-        <div class="span8"><button type="submit" class="btn btn-primary">Добавить</button></div>
-    </form:form>
-</div>
+    </div>
+    <div class="row-fluid">
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </div>
+</form:form>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

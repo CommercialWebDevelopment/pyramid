@@ -38,7 +38,7 @@ public class VideosController {
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
-    public String save(ModelMap model, @PathVariable Long id) {
+    public String remove(ModelMap model, @PathVariable Long id) {
         videoService.remove(id);
         List<Video> videoList = videoService.find();
         VideosForm videosForm = new VideosForm();
