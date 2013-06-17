@@ -55,7 +55,7 @@
 <h1>
     <small>Добавить новое видео с YouTube:</small>
 </h1>
-<form:form action="/video/save" method="POST" id="addVideo">
+<form:form action="/video/save" method="POST" id="addVideo" modelAttribute="video">
     <div class="row-fluid" id="addVideoForm">
         <div class="span8">
             <input type="hidden" id="thumbnailUrl" name="thumbnailUrl">

@@ -1,6 +1,7 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Video;
+import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.VideosForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,13 @@ public class VideosController {
     @Autowired
     VideoService videoService;
 
+    @Autowired
+    SettingsService settingsService;
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("video") Video video) {
+        String thumbnailUrl = settingsService.getProperty("youTubeVideoThumbnailsUrl", video.externalId);
+        video.setThumbnailUrl(thumbnailUrl);
         videoService.save(video);
         List<Video> videoList = videoService.find();
         VideosForm videosForm = new VideosForm();
