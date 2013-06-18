@@ -1,20 +1,20 @@
-<div class="alert alert-warning" style="display: none; position: absolute">
+<div id="alert-warning" class="alert alert-warning" style="display: none; position: absolute">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <span class="text"></span>
 </div>
-<div class="alert alert-error" style="display: none; position: absolute">
+<div id="alert-error" class="alert alert-error" style="display: none; position: absolute">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <span class="text"></span>
 </div>
-<div class="alert alert-success" style="display: none; position: absolute">
+<div id="alert-success" class="alert alert-success" style="display: none; position: absolute">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <span class="text"></span>
 </div>
-<div class="alert alert-info" style="display: none; position: absolute">
+<div id="alert-info" class="alert alert-info" style="display: none; position: absolute">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <span class="text"></span>
 </div>
-<div id="confirmation" class="alert alert-info" style="display: none; top:50%; position: absolute">
+<div id="confirmation" class="alert alert-info" style="display: none; position: absolute">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4><spring:message code="label.confirmation"/></h4>
     <span class="text"></span>

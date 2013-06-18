@@ -38,10 +38,13 @@
                          title="${video.externalId}"/>
                 </div>
                 <div style="text-align: center"><br>
+                    <spring:message code="label.removeVideo" var="removeVideo"/>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     &nbsp;
                     <button type="button" class="btn"
-                            onclick="Javascript:window.location.href = '/video/remove/${video.id}'">Удалить
+                            onclick="Alert.confirm('${removeVideo}', function(){
+                                    window.location.href = '/video/remove/${video.id}';
+                            })">Удалить
                     </button>
                 </div>
             </div>
