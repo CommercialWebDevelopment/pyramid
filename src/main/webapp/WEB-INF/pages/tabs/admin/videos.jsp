@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
+
 <div class="row-fluid" style="text-align: right">
     <a href="#uploadVideoForm">
         <button class="btn">Загрузить</button>
@@ -15,7 +16,6 @@
 <h1>
     <small>Загруженные видео:</small>
 </h1>
-
 <c:forEach items="${videosForm.videos}" var="video" varStatus="status">
     <div class="row-fluid" id="#${video.id}">
         <form:form method="POST" action="/video/save">
@@ -44,7 +44,7 @@
                     <button type="button" class="btn"
                             onclick="Alert.confirm('${removeVideo}', function(){
                                     window.location.href = '/video/remove/${video.id}';
-                            })">Удалить
+                                    })">Удалить
                     </button>
                 </div>
             </div>
@@ -55,11 +55,23 @@
     <small>Загрузить новое видео на YouTube:</small>
 </h1>
 <div class="row-fluid" id="uploadVideoForm">
-    загрузить
+    <div class="span8">
+        <form:form action="/video/upload" method="post" enctype="multipart/form-data">
+            <label>Название:<span class="asterisk_red">*</span></label>
+            <input type="text" name="name" class="form-field" style="width: 100%">
+            <label>Описание:</label>
+            <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="description"></textarea>
+            <label>Выберите файл:</label>
+            <input id="file" type="file" name="file" class="form-field"/>
+            <input type="hidden" name="token" value="AIzaSyBojpjjFk_DkmlhyE4kKfIdzjFCxdhswAc"/>
+            <button class="btn btn-primary" type="submit">Загрузить</button>
+        </form:form>
+    </div>
 </div>
 <h1>
     <small>Добавить новое видео с YouTube:</small>
 </h1>
+
 <form:form action="/video/save" method="POST" id="addVideo" modelAttribute="video">
     <div class="row-fluid" id="addVideoForm">
         <div class="span8">

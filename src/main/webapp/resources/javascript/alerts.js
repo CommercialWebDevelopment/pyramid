@@ -36,6 +36,9 @@ var Alert = {
             dialog.hide();
         });
         this.position(dialog);
+        $(window).on("scroll", function(){
+            dialog.hide();
+        });
     },
     getDialog: function (type) {
         var dialog;
@@ -55,7 +58,7 @@ var Alert = {
     },
     position:function(dialog){
         dialog.css("left", ($(document).innerWidth() - dialog.width()) / 2);
-        dialog.css("top", $(document).scrollTop() + $('body')[0].clientHeight/2);
+        dialog.css("top", $(document).scrollTop() + $('body')[0].clientHeight/2-dialog.height());
         dialog.css("margin-top", "-50px");
         dialog.css("margin-left", "-50px");
     }
