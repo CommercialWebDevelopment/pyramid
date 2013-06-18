@@ -3,6 +3,7 @@ package com.financial.pyramid.service;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
+import com.financial.pyramid.web.form.QueryForm;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface UserService {
     public User confirm(String globalId) throws UserNotFoundException, UserConfirmOverdueException;
 
     public List<User> list();
+
+    public List<User> findByQuery(QueryForm form);
 }

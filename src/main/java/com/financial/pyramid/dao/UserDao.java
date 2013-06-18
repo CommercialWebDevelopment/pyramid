@@ -1,6 +1,7 @@
 package com.financial.pyramid.dao;
 
 import com.financial.pyramid.domain.User;
+import com.financial.pyramid.web.form.QueryForm;
 
 import java.util.List;
 
@@ -20,5 +21,7 @@ public interface UserDao extends AbstractDao<User, Long> {
     public User findByGlobalId(String globalId);
 
     public boolean isLogin(String login);
+
+    public List<User> findByQuery(QueryForm form);
 
 }

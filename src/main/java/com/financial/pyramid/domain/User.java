@@ -1,11 +1,10 @@
 package com.financial.pyramid.domain;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,6 +16,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "user")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractEntity implements Serializable {
 
     @Column(name = "name", nullable = false, length = 200)

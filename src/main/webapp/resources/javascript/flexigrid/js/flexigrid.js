@@ -132,7 +132,10 @@
             },
             datacol: {}, //datacol middleware object 'colkey': function(colval) {}
             colResize: true, //from: http://stackoverflow.com/a/10615589
-            colMove: true
+            colMove: true,
+            singleSelect: true,
+            rowClick: function(i, data){
+            }
 		}, p);
 		$(t).show() //show if hidden
 			.attr({
@@ -438,6 +441,9 @@
 				if (p.dataType == 'json') {
 					$.each(data.rows, function (i, row) {
 						var tr = document.createElement('tr');
+                        $(tr).click(function () {
+                            p.rowClick(i, row);
+                        });
 						if (row.name) tr.name = row.name;
 						if (row.color) {
 							$(tr).css('background',row.color);
@@ -491,50 +497,6 @@
 						}
 						$(tbody).append(tr);
 						tr = null;
-					});
-				} else if (p.dataType == 'xml') {
-					var i = 1;
-					$("rows row", data).each(function () {
-						i++;
-						var tr = document.createElement('tr');
-						if ($(this).attr('name')) tr.name = $(this).attr('name');
-						if ($(this).attr('color')) {
-							$(tr).css('background',$(this).attr('id'));
-						} else {
-							if (i % 2 && p.striped) tr.className = 'erow';
-						}
-						var nid = $(this).attr('id');
-						if (nid) {
-							tr.id = 'row' + nid;
-						}
-						nid = null;
-						var robj = this;
-						$('thead tr:first th', g.hDiv).each(function () {
-							var td = document.createElement('td');
-							var idx = $(this).attr('axis').substr(3);
-							td.align = this.align;
-
-							var text = $("cell:eq(" + idx + ")", robj).text();
-							var offs = text.indexOf( '<BGCOLOR=' );
-							if( offs >0 ) {
-								$(td).css('background',	 text.substr(offs+7,7) );
-							}
-                            td.innerHTML = p.__mw.datacol(p, $(this).attr('abbr'), text); //use middleware datacol to format cols
-							$(td).attr('abbr', $(this).attr('abbr'));
-							$(tr).append(td);
-							td = null;
-						});
-						if ($('thead', this.gDiv).length < 1) {//handle if grid has no headers
-							$('cell', this).each(function () {
-								var td = document.createElement('td');
-								td.innerHTML = $(this).text();
-								$(tr).append(td);
-								td = null;
-							});
-						}
-						$(tbody).append(tr);
-						tr = null;
-						robj = null;
 					});
 				}
 				$('tr', t).unbind();
@@ -630,19 +592,19 @@
 					name: 'page',
 					value: p.newp
 				}, {
-					name: 'rp',
+					name: 'count',
 					value: p.rp
 				}, {
-					name: 'sortname',
+					name: 'sort',
 					value: p.sortname
 				}, {
-					name: 'sortorder',
+					name: 'order',
 					value: p.sortorder
 				}, {
 					name: 'query',
 					value: p.query
 				}, {
-					name: 'qtype',
+					name: 'field',
 					value: p.qtype
 				}];
 				if (p.params.length) {
@@ -775,36 +737,39 @@
 				$('tbody tr', g.bDiv).on('click', function (e) {
 					var obj = (e.target || e.srcElement);
 					if (obj.href || obj.type) return true;
-					if (e.ctrlKey || e.metaKey) {
-						// mousedown already took care of this case
-						return;
-					}
+//					if (e.ctrlKey || e.metaKey) {
+//						// mousedown already took care of this case
+//						return;
+//					}
 					$(this).toggleClass('trSelected');
 					if (p.singleSelect && ! g.multisel) {
 						$(this).siblings().removeClass('trSelected');
 					}
-				}).on('mousedown', function (e) {
-					if (e.shiftKey) {
-						$(this).toggleClass('trSelected');
-						g.multisel = true;
-						this.focus();
-						$(g.gDiv).noSelect();
-					}
-					if (e.ctrlKey || e.metaKey) {
-						$(this).toggleClass('trSelected');
-						g.multisel = true;
-						this.focus();
-					}
-				}).on('mouseup', function (e) {
-					if (g.multisel && ! (e.ctrlKey || e.metaKey)) {
-						g.multisel = false;
-						$(g.gDiv).noSelect(false);
-					}
-				}).on('dblclick', function () {
-					if (p.onDoubleClick) {
-						p.onDoubleClick(this, g, p);
-					}
-				}).hover(function (e) {
+				})
+//                    .on('mousedown', function (e) {
+//					if (e.shiftKey) {
+//						$(this).toggleClass('trSelected');
+//						g.multisel = true;
+//						this.focus();
+//						$(g.gDiv).noSelect();
+//					}
+//					if (e.ctrlKey || e.metaKey) {
+//						$(this).toggleClass('trSelected');
+//						g.multisel = true;
+//						this.focus();
+//					}
+//				})
+//                    .on('mouseup', function (e) {
+//					if (g.multisel && ! (e.ctrlKey || e.metaKey)) {
+//						g.multisel = false;
+//						$(g.gDiv).noSelect(false);
+//					}
+//				}).on('dblclick', function () {
+//					if (p.onDoubleClick) {
+//						p.onDoubleClick(this, g, p);
+//					}
+//				})
+        .hover(function (e) {
 					if (g.multisel && e.shiftKey) {
 						$(this).toggleClass('trSelected');
 					}

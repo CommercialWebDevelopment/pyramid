@@ -7,6 +7,7 @@ import com.financial.pyramid.service.exception.UserNotFoundException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
+import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,7 +101,7 @@ public class UserController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    PageForm checkLogin(ModelMap model) {
-        return new PageForm<User>(userService.list());
+    PageForm list(ModelMap mode, @ModelAttribute("queryForm") final QueryForm queryForm) {
+        return new PageForm<User>(userService.findByQuery(queryForm));
     }
 }

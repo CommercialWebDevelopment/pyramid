@@ -4,6 +4,7 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
+import com.financial.pyramid.web.form.QueryForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,5 +84,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> list() {
         return userDao.findAll();
+    }
+
+    @Override
+    public List<User> findByQuery(QueryForm form) {
+        return userDao.findByQuery(form);
     }
 }

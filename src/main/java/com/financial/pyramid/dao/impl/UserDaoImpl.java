@@ -1,8 +1,10 @@
 package com.financial.pyramid.dao.impl;
 
 import com.financial.pyramid.dao.UserDao;
-import com.financial.pyramid.dao.impl.AbstractDaoImpl;
 import com.financial.pyramid.domain.User;
+import com.financial.pyramid.web.form.QueryForm;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -50,5 +52,15 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     @Override
     public boolean isLogin(String login) {
         return getCount(Restrictions.eq("login", login)) > 0;
+    }
+
+    @Override
+    public List<User> findByQuery(QueryForm form) {
+        Criteria criteria = getCurrentSession().createCriteria(User.class);
+        criteria.setCacheable(true)
+                .addOrder(form.order.equals("asc") ? Order.asc(form.sort) : Order.desc(form.sort))
+                .setFirstResult((form.page - 1) * form.count + 1)
+                .setMaxResults(form.count);
+        return (List<User>) criteria.list();
     }
 }
