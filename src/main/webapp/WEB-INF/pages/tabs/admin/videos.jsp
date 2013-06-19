@@ -56,7 +56,7 @@
 </h1>
 <div class="row-fluid" id="uploadVideoForm">
     <div class="span8">
-        <form:form action="/video/upload" method="post" enctype="multipart/form-data">
+        <form:form action="/video/upload" method="post" enctype="multipart/form-data" modelAttribute="video">
             <label>Название:<span class="asterisk_red">*</span></label>
             <input type="text" name="name" class="form-field" style="width: 100%">
             <label>Описание:</label>

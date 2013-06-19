@@ -1,19 +1,16 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Video;
-import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.service.data.Role;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -50,7 +47,8 @@ public class TabsController {
     @RequestMapping(value = "/training", method = RequestMethod.GET)
     public String training(ModelMap model) {
         List<Video> videos = videoService.find();
-        String defaultVideo = settingsService.getProperty("youTubeVideoUrl", videos.get(0).getExternalId());
+        Video video = videos != null && videos.size() > 0 ? videos.get(0) : null;
+        String defaultVideo = settingsService.getProperty("youTubeVideoUrl", video != null ? video.getExternalId() : null);
         model.addAttribute("defaultVideo", defaultVideo);
         model.addAttribute("videos", videos);
         model.addAttribute("page-name", "training");
@@ -66,7 +64,7 @@ public class TabsController {
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         model.addAttribute("page-name", "office");
-        if(!request.isUserInRole(Role.USER.name())) {
+        if (!request.isUserInRole(Role.USER.name())) {
             model.addAttribute("authentication", new AuthenticationForm());
             return "/tabs/login";
         }
