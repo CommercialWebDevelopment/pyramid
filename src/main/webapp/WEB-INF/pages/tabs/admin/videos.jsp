@@ -56,14 +56,13 @@
 </h1>
 <div class="row-fluid" id="uploadVideoForm">
     <div class="span8">
-        <form:form action="/video/upload" method="post" enctype="multipart/form-data" modelAttribute="video">
+        <form:form action="/video/upload" enctype="multipart/form-data" method="POST" modelAttribute="videoUploadForm">
             <label>Название:<span class="asterisk_red">*</span></label>
-            <input type="text" name="name" class="form-field" style="width: 100%">
+            <input type="text" name="video.name" class="form-field" style="width: 100%">
             <label>Описание:</label>
-            <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="description"></textarea>
-            <label>Выберите файл:</label>
+            <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="video.description"></textarea>
+            <label>Выберите файл:<span class="asterisk_red">*</span></label>
             <input id="file" type="file" name="file" class="form-field"/>
-            <input type="hidden" name="token" value="AIzaSyBojpjjFk_DkmlhyE4kKfIdzjFCxdhswAc"/>
             <button class="btn btn-primary" type="submit">Загрузить</button>
         </form:form>
     </div>
