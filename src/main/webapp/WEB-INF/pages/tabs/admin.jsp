@@ -10,6 +10,7 @@
             <ul class="nav nav-tabs">
                 <li class= <%= request.getAttribute("admin-page-name").equals("user_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/user_settings" data-toogle="tab">Пользователи</a></li>
                 <li class= <%= request.getAttribute("admin-page-name").equals("content_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/content_settings" data-toogle="tab">Тексты</a></li>
+                <li class= <%= request.getAttribute("admin-page-name").equals("news_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/news_settings" data-toogle="tab">Новости</a></li>
                 <li class= <%= request.getAttribute("admin-page-name").equals("video_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/video_settings" data-toogle="tab">Видео</a></li>
                 <li class= <%= request.getAttribute("admin-page-name").equals("contact_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/contact_settings" data-toogle="tab">Контакты</a></li>
                 <li class= <%= request.getAttribute("admin-page-name").equals("application_settings") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin/application_settings" data-toogle="tab">Параметры</a></li>

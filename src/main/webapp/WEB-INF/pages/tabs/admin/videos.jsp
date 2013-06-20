@@ -51,9 +51,9 @@
         </form:form>
     </div>
 </c:forEach>
-<h1>
+<h2>
     <small>Загрузить новое видео на YouTube:</small>
-</h1>
+</h2>
 <div class="row-fluid" id="uploadVideoForm">
     <div class="span8">
         <form:form action="/video/upload" enctype="multipart/form-data" method="POST" modelAttribute="videoUploadForm">
@@ -67,9 +67,9 @@
         </form:form>
     </div>
 </div>
-<h1>
+<h2>
     <small>Добавить новое видео с YouTube:</small>
-</h1>
+</h2>
 
 <form:form action="/video/save" method="POST" id="addVideo" modelAttribute="video">
     <div class="row-fluid" id="addVideoForm">

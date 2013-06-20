@@ -34,6 +34,13 @@ public class AdminTabsController {
         return this.users(model);
     }
 
+    @RequestMapping(value = "/news_settings", method = RequestMethod.GET)
+    public String news(ModelMap model){
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "news_settings");
+        return "/tabs/admin/news";
+    }
+
     @RequestMapping(value = "/user_settings", method = RequestMethod.GET)
     public String users(ModelMap model){
         model.addAttribute("page-name", "admin");
