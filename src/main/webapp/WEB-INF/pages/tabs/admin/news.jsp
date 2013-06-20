@@ -11,11 +11,16 @@
     <%@ include file="/resources/javascript/news.js" %>
 </script>
 <div class="row-fluid" style="height: 500px; overflow: hidden">
-    <h2><small>Добавить новость</small></h2>
-    <label>Название</label>
-    <input type="text" name="name" class="form-field" style="width: 100%">
-    <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
-    <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
-    <br><button class="btn btn-primary" type="submit">Сохранить</button>
+    <form:form action="/news/save" enctype="multipart/form-data" method="POST" modelAttribute="news">
+        <h2>
+            <small>Добавить новость</small>
+        </h2>
+        <label>Название</label>
+        <input type="text" name="name" class="form-field" style="width: 100%">
+        <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
+        <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
+        <br>
+        <button class="btn btn-primary" type="submit">Добавить</button>
+    </form:form>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
