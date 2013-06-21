@@ -5,6 +5,7 @@ import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.VideoUploadForm;
 import com.financial.pyramid.web.form.VideosForm;
+import com.google.gdata.client.http.AuthSubUtil;
 import com.google.gdata.client.youtube.YouTubeService;
 import com.google.gdata.data.geo.impl.GeoRssWhere;
 import com.google.gdata.data.media.MediaFileSource;
@@ -22,9 +23,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 /**
@@ -94,15 +99,35 @@ public class VideosController {
     }
 
     private VideoEntry uploadVideo(File file, Video video) {
-        YouTubeService service = new YouTubeService("953904755977", "d30mtcoHSY1eo9UpPAMP4g_O");
+        YouTubeService service = new YouTubeService("953904755977-i6o899p9n7qt1hs21kia78a1d4tav3lt.apps.googleusercontent.com", "AI39si5hZhL10G6z178tUL-JthEkEL_TA1hEa-up-a0ueQOy_v9cvcnDhGoHCIxfiC2uSRnVKT8MjYcbvKMQz8LoLCdVCn7dkQ");
+        String requestUrl = AuthSubUtil.getRequestUrl("http://localhost/RetrieveToken", "http://gdata.youtube.com", false, true);
+        StringBuffer response = new StringBuffer();
         try {
-            service.setUserCredentials("commercial.web.development@gmail.com", "support247");
-        } catch (AuthenticationException e) {
+            URL url = new URL(requestUrl);
+            URLConnection urlConnection = null;
+            urlConnection = url.openConnection();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null)
+            {
+                response.append(line.trim());
+            }
+            bufferedReader.close();
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        String onetimeUseToken = AuthSubUtil.getTokenFromReply(response.toString());
+        String sessionToken = null;
+        try {
+            sessionToken = AuthSubUtil.exchangeForSessionToken(onetimeUseToken, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        service.setAuthSubToken(sessionToken, null);
+
         VideoEntry newEntry = new VideoEntry();
         String videoName = video.getName().isEmpty() ? file.getName() : video.getName();
+
         YouTubeMediaGroup mediaGroup = newEntry.getOrCreateMediaGroup();
         mediaGroup.setTitle(new MediaTitle());
         mediaGroup.getTitle().setPlainTextContent(videoName);
@@ -111,9 +136,6 @@ public class VideosController {
         mediaGroup.setDescription(new MediaDescription());
         mediaGroup.getDescription().setPlainTextContent(video.getDescription());
         mediaGroup.setPrivate(false);
-
-//        newEntry.setGeoCoordinates(new GeoRssWhere(37.0, -122.0));
-//        newEntry.setLocation("Mountain View, CA");
 
         MediaFileSource mediaFileSource = new MediaFileSource(file, "video/quicktime");
         newEntry.setMediaSource(mediaFileSource);
