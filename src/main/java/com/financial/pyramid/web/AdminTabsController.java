@@ -45,10 +45,12 @@ public class AdminTabsController {
     @RequestMapping(value = "/news_settings", method = RequestMethod.GET)
     public String newsDefault(ModelMap model) {
         QueryForm form = new QueryForm();
+        form.setSort("date");
+        form.setOrder("desc");
         PageForm<News> newsForm = new PageForm<News>();
         List<News> list = newsService.find();
         List<News> newsList = newsService.findByQuery(form);
-        newsForm.setRows(newsList);
+        newsForm.setRows(list);
         newsForm.setTotal(list.size());
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");

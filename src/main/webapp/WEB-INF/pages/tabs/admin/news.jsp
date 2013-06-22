@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
 <script type="text/javascript">
@@ -11,7 +12,14 @@
     <%@ include file="/resources/javascript/news.js" %>
 </script>
 <div class="row-fluid" style="height: 500px; overflow: hidden">
-    <c:set var="page" value="${newsForm.page}"/>
+<c:forEach items="${newsForm.rows}" var="news" varStatus="status">
+    <div class="page-header">
+        <h3><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/>
+            <small>${news.name}</small></h3>
+    </div>
+    <div class="row-fluid">${news.content}</div>
+</c:forEach>
+<c:set var="page" value="${newsForm.page}"/>
     <c:choose>
         <c:when test="${page > 0}">
             <div class="pagination">
