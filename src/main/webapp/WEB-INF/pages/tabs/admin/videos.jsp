@@ -5,6 +5,7 @@
 
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
 
+<%--
 <div class="row-fluid" style="text-align: right">
     <a href="#uploadVideoForm">
         <button class="btn">Загрузить</button>
@@ -13,6 +14,7 @@
         <button class="btn">Добавить</button>
     </a>
 </div>
+--%>
 <h1>
     <small>Загруженные видео:</small>
 </h1>
@@ -51,6 +53,7 @@
         </form:form>
     </div>
 </c:forEach>
+<%--
 <h2>
     <small>Загрузить новое видео на YouTube:</small>
 </h2>
@@ -67,6 +70,7 @@
         </form:form>
     </div>
 </div>
+--%>
 <h2>
     <small>Добавить новое видео с YouTube:</small>
 </h2>
