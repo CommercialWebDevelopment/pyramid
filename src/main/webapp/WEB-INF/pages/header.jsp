@@ -7,9 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=stylesheet
-          href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css"
-          type="text/css">
+    <link rel=stylesheet href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css" type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/private-office.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
