@@ -56,6 +56,10 @@ public class User extends AbstractEntity implements Serializable {
     @Column(name = "confirmed", nullable = false)
     private Boolean confirmed;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+
     public String getName() {
         return name;
     }
@@ -146,5 +150,13 @@ public class User extends AbstractEntity implements Serializable {
 
     public void setConfirmed(Boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

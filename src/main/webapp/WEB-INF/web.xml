@@ -6,7 +6,12 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/application-context.xml</param-value>
+        <param-value>
+            /WEB-INF/application-context.xml
+            /WEB-INF/security.xml
+            /WEB-INF/data.xml
+            /WEB-INF/email-config.xml
+        </param-value>
     </context-param>
 
     <filter>
@@ -28,6 +33,10 @@
     <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 
     <servlet>
 		<servlet-name>pyramid</servlet-name>

@@ -6,13 +6,162 @@
 <%@ include file="/WEB-INF/pages/tabs/admin.jsp" %>
 
 <div class="span10">
+    <%--grid--%>
     <div id="user-grid" class="span12"></div>
-    <%--<div class="span2 user-grid-column-header text-center">Фамилия</div>--%>
-    <%--<div class="span2 user-grid-column-header text-center">Имя</div>--%>
-    <%--<div class="span2 user-grid-column-header text-center">Отчество</div>--%>
-    <%--<div class="span2 user-grid-column-header text-center">Зарегестрирован</div>--%>
-    <%--<div class="span2 user-grid-column-header text-center">Подтвержден</div>--%>
-    <%--<div class="span2 user-grid-column-header text-center">EMail</div>--%>
+
+    <div id="add-user-form" style="width: 800px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="add-user-form-abel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h5 id="add-user-form-abel">Добавить пользователя</h5>
+        </div>
+        <div class="modal-body">
+            <form:form method="POST" id="register_user" action="/user/add" modelAttribute="registration">
+                <div id="registration-form" class="container-fluid">
+                    <input id="id" name="id" type="text" style="display: none">
+                    <div class="row-fluid">
+                        <div class="span8">
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="surname" class="required_label form-field">Фамилия<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="surname" name="surname" type="text" class="form-field">
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="name" class="required_label form-field">Имя<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="name" name="name" type="text" class=" form-field">
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="patronymic" class="required_label form-field">Отчество<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="patronymic" name="patronymic" type="text" class=" form-field">
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="date_of_birth" class="required_label form-field">Дата рождения<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="date_of_birth" name="dateOfBirth" type="text" class="form-field" placeholder="дд-мм-гггг">
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="email" class="required_label form-field">Почта<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <div class="input-prepend form-field">
+                                        <span class="add-on" style="height: 15px"><i class="icon-envelope"></i></span>
+                                        <input id="email" name="email" type="text" class="form-field">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="phone-number" class="required_label form-field">Контактный телефон<span
+                                            class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="phone-number" name="phoneNumber" type="text" class="form-field">
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="login" class="required_label form-field">Логин<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="login" name="login" type="text" class=" form-field">
+                                </div>
+                            </div>
+                            <div class="row-fluid control-group success">
+                                <div class="span5">
+                                    <label for="password" class="required_label form-field">Пароль<span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span7 controls">
+                                    <input id="password" name="password" type="text" class=" form-field">
+                                </div>
+                            </div>
+                        </div>
+                            <%--Photo--%>
+                        <div class="span4">
+                            <div class="span6 offset3">
+                                <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
+                                    <img src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
+                                         style="height: 120px"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                        <%--Паспорт--%>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <fieldset>
+                                <legend>Паспортные данные</legend>
+                                <div class="row-fluid">
+                                    <div class="span2">
+                                        <label for="serial" class="required_label form-field">Серия</label>
+                                    </div>
+                                    <div class="span4">
+                                        <input id="serial" name="passportSerial" type="text" class="form-field">
+                                    </div>
+                                    <div class="span2">
+                                        <label for="number" class="required_label form-field">Номер</label>
+                                    </div>
+                                    <div class="span4">
+                                        <input id="number" name="passportNumber" type="text" class="form-field">
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span2">
+                                        <label for="date_of_issue" class="required_label form-field">Когда выдан</label>
+                                    </div>
+                                    <div class="span4">
+                                        <input id="date_of_issue" name="passportDate" type="text" class="form-field" placeholder="дд-мм-гггг">
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span2">
+                                        <label for="issued_by" class="required_label form-field">Кем выдан</label>
+                                    </div>
+                                    <div class="span10">
+                                        <input id="issued_by" name="passportIssuedBy" type="text" class=" form-field" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span3">
+                                        <label for="registered_address" class="required_label form-field">Адрес регистрации</label>
+                                    </div>
+                                    <div class="span9">
+                                        <input id="registered_address" name="registeredAddress" type="text" class=" form-field" style="width: 100%;">
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span4">
+                                        <label for="residence_address" class="required_label form-field">Адрес фактического проживания</label>
+                                    </div>
+                                    <div class="span8">
+                                        <input id="residence_address" name="residenceAddress" type="text" class=" form-field" style="width: 100%;">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </form:form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Отмена</button>
+            <button class="btn btn-primary" type="submit" form="register_user">Сохранить</button>
+        </div>
+    </div>
 </div>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

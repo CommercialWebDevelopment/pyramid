@@ -126,4 +126,12 @@
                    tableName="user"/>
     </changeSet>
 
+    <changeSet id="6" author="Danil">
+        <addColumn tableName="user">
+            <column name="role" type="varchar(10)" defaultValue="USER">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

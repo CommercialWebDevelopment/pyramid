@@ -1,6 +1,7 @@
 package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.domain.Passport;
+import com.financial.pyramid.domain.Role;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.RegistrationService;
@@ -36,23 +37,23 @@ public class RegistrationServiceImpl implements RegistrationService {
     private EmailService emailService;
 
     @Override
-    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException {
+    public boolean registration(RegistrationForm form, boolean confirm) throws UserAlreadyExistsException {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-
-        User newUser = new User();
-        newUser.setName(form.getName());
-        newUser.setPassword(passwordEncoder.encode(form.getPassword()));
-        newUser.setSurname(form.getSurname());
-        newUser.setPatronymic(form.getPatronymic());
-        newUser.setPhoneNumber(form.getPhoneNumber());
-        newUser.setConfirmed(false);
-        newUser.setGlobalId(passwordEncoder.encode(form.getLogin()));
-        newUser.setLogin(form.getLogin());
-        newUser.setEmail(form.getEmail());
+        User user = new User();
+        user.setName(form.getName());
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
+        user.setSurname(form.getSurname());
+        user.setPatronymic(form.getPatronymic());
+        user.setPhoneNumber(form.getPhoneNumber());
+        user.setConfirmed(!confirm);
+        user.setGlobalId(passwordEncoder.encode(form.getLogin()));
+        user.setLogin(form.getLogin());
+        user.setEmail(form.getEmail());
+        user.setRole(Role.USER);
 
         try {
             Date date = format.parse(form.getDateOfBirth());
-            newUser.setDateOfBirth(date);
+            user.setDateOfBirth(date);
         } catch (ParseException e) {
             logger.error("User date of birth is not set");
         }
@@ -70,10 +71,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         } catch (ParseException e) {
             logger.error("User passport date is not set");
         }
-        newUser.setPassport(passport);
-        boolean sent = emailService.sendToUser(newUser);
-        if(!sent) return false;
-        userService.saveUser(newUser);
+        user.setPassport(passport);
+        if(confirm) {
+            boolean sent = emailService.sendToUser(user);
+            if(!sent) return false;
+        }
+        userService.saveUser(user);
         return true;
     }
 }

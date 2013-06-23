@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    var selectedRow = null;
     $("#user-grid").flexigrid({
         url: '/user/list',
         dataType: 'json',
@@ -46,21 +46,43 @@ $(document).ready(function () {
             {
                 name: 'Добавить',
                 bclass: 'add',
-                onpress: Example4,
+                onpress: function(com, grid) {
+                    $("#add-user-form").modal("show");
+                },
                 bimage:'/resources/javascript/flexigrid/css/images/add.png'
             }
             ,
             {
                 name: 'Редактировать',
                 bclass: 'edit',
-                onpress: Example4,
+                onpress: function(com, grid) {
+                    if(!selectedRow) return;
+                    var form = $("#add-user-form");
+                    form.modal("show");
+                    $.each(selectedRow, function(key, value){
+                        $('[name='+key+']', form).val(value);
+                    });
+                    var passport = selectedRow.passport;
+                    $('[name=passportDate]', form).val(passport.date);
+                    $('[name=passportIssuedBy]', form).val(passport.issuedBy);
+                    $('[name=passportNumber]', form).val(passport.number);
+                    $('[name=registeredAddress]', form).val(passport.registeredAddress);
+                    $('[name=residenceAddress]', form).val(passport.residenceAddress);
+                    $('[name=passportSerial]', form).val(passport.serial);
+                },
                 bimage:'/resources/javascript/flexigrid/css/images/edit.png'
             }
             ,
             {
                 name: 'Удалить',
                 bclass: 'delete',
-                onpress: Example4,
+                onpress: function(com, grid) {
+                    if(!selectedRow) return;
+                    $.get('/user/delete/'+selectedRow.id, {}
+                        , function () {
+                            $("#user-grid").flexReload();
+                        });
+                },
                 bimage:'/resources/javascript/flexigrid/css/images/close.png'
             }
             ,
@@ -86,10 +108,9 @@ $(document).ready(function () {
         useRp: true,
         rp: 15,
         showTableToggleBtn: true,
-        width : 720,
         height: 200,
-
         rowClick: function (row, data) {
+            selectedRow = data;
         }
     });
 

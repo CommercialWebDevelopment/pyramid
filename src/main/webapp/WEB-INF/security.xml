@@ -10,19 +10,25 @@
                                      secured-annotations="enabled" authentication-manager-ref="authenticationManager"/>
 
     <security:http use-expressions="true"
-                   create-session="ifRequired"
                    auto-config="true"
                    authentication-manager-ref="authenticationManager"
                    access-denied-page="/WEB-INF/pages/access-denied.jsp">
-        <!--<security:intercept-url pattern="/user/**" access="permitAll" />-->
+
+        <security:intercept-url pattern="/user/add" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
+        <security:intercept-url pattern="/user/delete/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/pyramid/**" access="permitAll" />
-        <!--<security:form-login login-page='/authentication/login'-->
-                             <!--default-target-url="/pyramid/"-->
-                             <!--authentication-failure-url="/authentication/failed"/>-->
-        <!--<security:logout logout-success-url="/authentication/login"/>-->
-        <security:remember-me key="myAppKey" user-service-ref="userDetailsService" use-secure-cookie="true"/>
-        <security:session-management invalid-session-url="/pyramid/home">
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/pyramid/home"/>
+        <security:form-login login-page="/pyramid/office"
+                             username-parameter="name"
+                             password-parameter="password"
+                             login-processing-url="/user/authentication"
+                             authentication-failure-url="/pyramid/office"/>
+        <security:logout logout-success-url="/"/>
+        <security:remember-me key="secretKey" user-service-ref="userService" use-secure-cookie="true"/>
+        <security:session-management
+                invalid-session-url="/"
+                session-authentication-error-url="/"
+                session-fixation-protection="migrateSession">
+            <security:concurrency-control max-sessions="1" expired-url="/"/>
         </security:session-management>
     </security:http>
 
@@ -30,6 +36,19 @@
         <constructor-arg name="algorithm" value="md5"/>
         <constructor-arg name="secret" value="MERCURY"/>
     </bean>
-    <bean id="authenticationManager" class="com.financial.pyramid.service.impl.AuthenticationManagerImpl"/>
-    <bean id="userDetailsService" class="com.financial.pyramid.service.impl.UserDetailsManagerImpl"/>
+
+    <bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+        <constructor-arg ref="roleHierarchy" />
+        <property name="rolePrefix" value=""/>
+    </bean>
+
+    <bean id="roleHierarchy"
+          class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+        <property name="hierarchy">
+            <value>
+                SUPER_ADMIN > ADMIN
+                USER > UNVERIFIED_USER
+            </value>
+        </property>
+    </bean>
 </beans>

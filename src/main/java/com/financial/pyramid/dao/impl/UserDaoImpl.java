@@ -59,8 +59,11 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
         Criteria criteria = getCurrentSession().createCriteria(User.class);
         criteria.setCacheable(true)
                 .addOrder(form.order.equals("asc") ? Order.asc(form.sort) : Order.desc(form.sort))
-                .setFirstResult((form.page - 1) * form.count + 1)
+                .setFirstResult((form.page - 1) * form.count)
                 .setMaxResults(form.count);
+        if(!form.query.isEmpty()){
+            criteria.add(Restrictions.like(form.field, form.query));
+        }
         return (List<User>) criteria.list();
     }
 }

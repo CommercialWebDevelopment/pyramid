@@ -1,10 +1,13 @@
 package com.financial.pyramid.service;
 
+import com.financial.pyramid.domain.Role;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
 import com.financial.pyramid.web.form.QueryForm;
+import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
@@ -13,11 +16,10 @@ import java.util.List;
  * Date: 29.05.13
  * Time: 22:15
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     public void saveUser(User user);
 
-    @Secured("ROLE_USER")
     public void deleteUser(Long id);
 
     public User findById(Long id);
@@ -37,4 +39,6 @@ public interface UserService {
     public List<User> list();
 
     public List<User> findByQuery(QueryForm form);
+
+    public void updateUser(RegistrationForm form);
 }

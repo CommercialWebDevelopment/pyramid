@@ -6,7 +6,7 @@ package com.financial.pyramid.web.form;
  * Time: 21:59
  */
 public class RegistrationForm {
-
+    private String id;
     private String name;
     private String surname;
     private String patronymic;
@@ -22,6 +22,14 @@ public class RegistrationForm {
     private String passportIssuedBy;
     private String registeredAddress;
     private String residenceAddress;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

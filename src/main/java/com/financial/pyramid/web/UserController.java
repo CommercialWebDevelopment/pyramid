@@ -9,9 +9,12 @@ import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    private final static Logger logger = Logger.getLogger(UserController.class);
+
     @Autowired
     private com.financial.pyramid.service.UserService userService;
 
@@ -44,7 +49,8 @@ public class UserController {
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
     @RequestMapping(value = "/checkLogin/{login}", method = RequestMethod.GET)
-    public @ResponseBody
+    public
+    @ResponseBody
     String checkLogin(Model model, @PathVariable String login) {
         return String.valueOf(userService.checkLogin(login));
     }
@@ -55,33 +61,33 @@ public class UserController {
         model.addAttribute("registration", registration);
         BeanPropertyBindingResult result = new BeanPropertyBindingResult(registration, "registration");
         registrationFormValidator.validate(registration, result);
-        if(result.getErrorCount() > 0) {
+        if (result.getErrorCount() > 0) {
             return "/tabs/office";
         }
         List<User> users = userService.findByLogin(registration.getLogin());
-        if(users.size() > 0) {
+        if (users.size() > 0) {
             return "/tabs/office";
         }
-        boolean tr = registrationService.registration(registration);
-        if(!tr) return "/tabs/registration-fail";
-        return "/tabs/registration-success";
+        boolean tr = registrationService.registration(registration, true);
+        if (!tr) return "tabs/user/registration-fail";
+        return "tabs/user/registration-success";
     }
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)
     public String authentication(ModelMap model, @ModelAttribute("authentication") final AuthenticationForm authentication) {
         model.addAttribute("page-name", "office");
         try {
-            org.springframework.security.core.Authentication request =
-                    new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getPassword());
-            org.springframework.security.core.Authentication result = authenticationManager.authenticate(request);
-            SecurityContextHolder.getContext().setAuthentication(result);
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authentication.getName(),
+                    authentication.getPassword())
+            );
+            SecurityContextHolder.getContext().setAuthentication(authenticate);
         } catch (AuthenticationException e) {
-            System.out.println("Authentication failed: " + e.getMessage());
+            logger.warn("Authentication failed: " + e.getMessage());
             model.addAttribute("registration", new RegistrationForm());
             return "/tabs/login";
         }
-        System.out.println("Successfully authenticated. Security context contains: " +
-                SecurityContextHolder.getContext().getAuthentication());
+        logger.info("Successfully authenticated. Security context contains: " + SecurityContextHolder.getContext().getAuthentication());
         return "/tabs/office";
     }
 
@@ -91,17 +97,36 @@ public class UserController {
         try {
             userService.confirm(uuid);
         } catch (UserNotFoundException e) {
-            return "/tabs/user-not-found";
+            return "tabs/user/user-not-found";
         } catch (UserConfirmOverdueException e) {
-            return "/tabs/confirm-overdue";
+            return "tabs/user/confirm-overdue";
         }
         model.addAttribute("authentication", new AuthenticationForm());
         return "/tabs/login";
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody
+    public
+    @ResponseBody
     PageForm list(ModelMap mode, @ModelAttribute("queryForm") final QueryForm queryForm) {
         return new PageForm<User>(userService.findByQuery(queryForm));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(@ModelAttribute("registration") final RegistrationForm registration) {
+        if (registration.getId() == null || registration.getId().isEmpty()) {
+            registrationService.registration(registration, false);
+        } else {
+            userService.updateUser(registration);
+        }
+        return "redirect:/pyramid/admin/user_settings";
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable("id") final Long id) {
+        userService.deleteUser(id);
+        return "redirect:/pyramid/admin/user_settings";
     }
 }
