@@ -1,14 +1,18 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.domain.News;
 import com.financial.pyramid.domain.Setting;
 import com.financial.pyramid.domain.Video;
+import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
-import com.financial.pyramid.web.form.SettingsForm;
-import com.financial.pyramid.web.form.VideosForm;
+import com.financial.pyramid.web.form.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,18 +25,13 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/pyramid/admin")
-@Secured({"ADMIN", "SUPER_ADMIN"})
+@PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
 public class AdminTabsController extends TabsController {
 
-    @Autowired
-    private NewsService newsService;
-
-    @Autowired
-    private VideoService videoService;
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
 
     @Autowired
-    private SettingsService settingsService;
+    private NewsService newsService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultRequest(ModelMap model) {

@@ -8,6 +8,7 @@ import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,10 @@ import java.util.List;
 public class TabsController {
 
     @Autowired
-    private VideoService videoService;
+    protected VideoService videoService;
 
     @Autowired
-    private SettingsService settingsService;
+    protected SettingsService settingsService;
 
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -39,6 +40,7 @@ public class TabsController {
         return "/tabs/home";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(ModelMap model) {
         return "redirect:/pyramid/admin/user_settings";
