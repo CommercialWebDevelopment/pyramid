@@ -31,7 +31,7 @@
             %>
             <div class="pagination pagination-centered">
             <ul>
-            <li><a href="/admin/news_settings/<%=pageForm.getPage()-1%>">«</a></li>
+            <li><a href="/admin/news_settings/<%=(pageForm.getPage()-1 > 0 ? pageForm.getPage()-1 : 1)%>">«</a></li>
                 <%
                     for (int i=1;i<=pageForm.getTotal()/10;i++){
                         String active = "";
