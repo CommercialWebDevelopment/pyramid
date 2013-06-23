@@ -4,8 +4,6 @@ import com.financial.pyramid.domain.News;
 import com.financial.pyramid.domain.Setting;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.NewsService;
-import com.financial.pyramid.service.SettingsService;
-import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,30 +38,20 @@ public class AdminTabsController extends TabsController {
 
     @RequestMapping(value = "/news_settings", method = RequestMethod.GET)
     public String newsDefault(ModelMap model) {
-        QueryForm form = new QueryForm();
-        form.setSort("date");
-        form.setOrder("desc");
-        PageForm<News> newsForm = new PageForm<News>();
-        List<News> list = newsService.find();
-        List<News> newsList = newsService.findByQuery(form);
-        newsForm.setRows(list);
-        newsForm.setTotal(list.size());
-        model.addAttribute("newsForm", newsForm);
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "news_settings");
-        return "/tabs/admin/news";
+        return news(model, 1);
     }
 
     @RequestMapping(value = "/news_settings/{page}", method = RequestMethod.GET)
     public String news(ModelMap model, @PathVariable int page) {
-        QueryForm form = new QueryForm();
         PageForm<News> newsForm = new PageForm<News>();
-        List<News> list = newsService.find();
-        List<News> newsList = newsService.findByQuery(form);
+        QueryForm form = new QueryForm();
+        form.setSort("date");
+        form.setOrder("desc");
         form.setPage(page);
-        newsForm.setPage(page);
-        newsForm.setRows(newsList);
-        newsForm.setTotal(list.size());
+        int total = newsService.find().size();
+        List<News> list = newsService.findByQuery(form);
+        newsForm.setRows(list);
+        newsForm.setTotal(total);
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
