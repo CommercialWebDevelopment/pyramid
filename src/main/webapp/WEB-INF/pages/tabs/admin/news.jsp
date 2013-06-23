@@ -20,7 +20,9 @@
     <div>${news.description}...<br><a href="/news/get/${news.id}">Читать далее >></a></div>
     <div class="text-right">
         <button class="btn btn-primary">Редактировать</button>
-        <button class="btn">Удалить</button>
+        <button class="btn" onclick="Alert.confirm('Вы уверены, что хотите удалить выбранную новость?', function(){
+        window.location.href = '/news/remove/${news.id}'
+        })">Удалить</button>
     </div>
 </c:forEach>
     <%
