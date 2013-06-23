@@ -13,11 +13,15 @@
 <script type="text/javascript">
     <%@ include file="/resources/javascript/news.js" %>
 </script>
-<div class="row-fluid">
+<div class="row-fluid" style="word-wrap: normal">
 <c:forEach items="${newsForm.rows}" var="news" varStatus="status">
      <h1><small>${news.name}</small></h1>
      <h5><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/></h5>
-    <div>${news.content}</div>
+    <div>${news.description}...<br><a href="/news/get/${news.id}">Читать далее >></a></div>
+    <div class="text-right">
+        <button class="btn btn-primary">Редактировать</button>
+        <button class="btn">Удалить</button>
+    </div>
 </c:forEach>
     <%
         PageForm<News> pageForm = (PageForm<News>) request.getAttribute("newsForm");
@@ -29,6 +33,7 @@
                 <%
                     for (int i=1;i<=pageForm.getTotal()/10;i++){
                         String active = "";
+                        pageForm.page = pageForm.page == 0 ? 1 : pageForm.page;
                         if (pageForm.page == i){
                             active = "active";
                         }
@@ -41,20 +46,22 @@
         }
     %>
     </div>
-    <div class="row-fluid" style="height: 500px; overflow: hidden">
+    <div class="row-fluid" style="height: 550px; overflow: hidden">
     <form:form action="/news/save" method="POST" modelAttribute="news" id="newsForm">
         <h2>
             <small>Добавить новость</small>
         </h2>
-        <label>Название</label>
+        <label>Название:</label>
         <input type="text" name="name" class="form-field" style="width: 100%">
+        <label>Краткое описание:</label>
+        <textarea style="width: 100%; resize: none" maxlength="500" name="description"></textarea>
         <input type="hidden" name="content" id="content"/>
         <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
         <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
         <br>
         <button class="btn btn-primary" type="button" onclick="onSubmit()">Сохранить</button>
     </form:form>
-</div>
+    </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
 <script>
     function onSubmit() {

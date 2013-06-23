@@ -12,4 +12,5 @@
     <include file="/database-changelogs/15-06-2013-add-video-thumbnails-url.xml"/>
     <include file="/database-changelogs/15-06-2013-default-settings.xml"/>
     <include file="/database-changelogs/21-06-2013-add-news-table.xml"/>
+    <include file="/database-changelogs/23-06-2013-add-description-column.xml"/>
 </databaseChangeLog>

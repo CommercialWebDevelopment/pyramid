@@ -23,6 +23,9 @@ public class News extends AbstractEntity {
     @Column(name = "date", nullable = false)
     public Date date = new Date();
 
+    @Column(name = "description", nullable = false)
+    public String description;
+
     @Column(name = "content", nullable = false)
     public String content;
 
@@ -48,5 +51,13 @@ public class News extends AbstractEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

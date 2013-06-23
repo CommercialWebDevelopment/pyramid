@@ -27,6 +27,15 @@ public class NewsController {
     @Autowired
     NewsService newsService;
 
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public String get(ModelMap model, @PathVariable Long id){
+        News news = newsService.findById(id);
+        model.addAttribute("news", news);
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "news_settings");
+        return "/news";
+    }
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("news") News news) {
         newsService.save(news);
