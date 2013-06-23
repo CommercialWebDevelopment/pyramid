@@ -31,15 +31,17 @@
         <div class="span10 offset2">
             <%--Header--%>
             <div class="row-fluid">
-                <div class="span9">
+                <div class="span8">
                     Название
                 </div>
-                <div class="span1">
+                <div class="span1" style="text-align: center">
                     <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
                         <img src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
                              style="height: 48px" />
                     </a>
+                    <small style="font-size: x-small">Иванов Иван</small>
                 </div>
+                <div class="span1"><a href="#">Выход</a></div>
             </div>
                 <%--Tabs--%>
                 <div class="row-fluid">

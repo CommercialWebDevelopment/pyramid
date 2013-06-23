@@ -27,10 +27,10 @@ import java.util.List;
 public class TabsController {
 
     @Autowired
-    protected VideoService videoService;
+    private VideoService videoService;
 
     @Autowired
-    protected SettingsService settingsService;
+    private SettingsService settingsService;
 
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -40,7 +40,6 @@ public class TabsController {
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    @Secured({"ADMIN", "SUPER_ADMIN"})
     public String admin(ModelMap model) {
         return "redirect:/pyramid/admin/user_settings";
     }
@@ -48,7 +47,8 @@ public class TabsController {
     @RequestMapping(value = "/training", method = RequestMethod.GET)
     public String training(ModelMap model) {
         List<Video> videos = videoService.find();
-        String defaultVideo = settingsService.getProperty("youTubeVideoUrl", videos.get(0).getExternalId());
+        Video video = videos != null && videos.size() > 0 ? videos.get(0) : null;
+        String defaultVideo = settingsService.getProperty("youTubeVideoUrl", video != null ? video.getExternalId() : null);
         model.addAttribute("defaultVideo", defaultVideo);
         model.addAttribute("videos", videos);
         model.addAttribute("page-name", "training");
