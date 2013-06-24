@@ -60,7 +60,7 @@
     %>
 </div>
 <div id="add-news-form" style="width: 830px; display: none" class="modal hide fade" tabindex="-1" role="dialog"
-     aria-labelledby="add-news-form-abel" aria-hidden="true">
+     aria-labelledby="add-news-form-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h5 id="add-news-form-label">Добавить новость</h5>

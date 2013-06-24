@@ -48,7 +48,7 @@ public class NewsController {
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
-        return "/tabs/admin/news";
+        return "redirect:/pyramid/admin/news_settings";
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
@@ -63,7 +63,7 @@ public class NewsController {
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
-        return "/tabs/admin/news";
+        return "redirect:/pyramid/admin/news_settings";
     }
 
 }
