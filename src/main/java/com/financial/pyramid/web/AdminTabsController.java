@@ -7,12 +7,11 @@ import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.web.form.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/pyramid/admin")
-@PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
+//@PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
 public class AdminTabsController extends TabsController {
 
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
@@ -37,12 +36,7 @@ public class AdminTabsController extends TabsController {
     }
 
     @RequestMapping(value = "/news_settings", method = RequestMethod.GET)
-    public String newsDefault(ModelMap model) {
-        return news(model, 1);
-    }
-
-    @RequestMapping(value = "/news_settings/{page}", method = RequestMethod.GET)
-    public String news(ModelMap model, @PathVariable int page) {
+    public String news(ModelMap model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
         PageForm<News> newsForm = new PageForm<News>();
         QueryForm form = new QueryForm();
         form.setSort("date");
@@ -50,6 +44,7 @@ public class AdminTabsController extends TabsController {
         form.setPage(page);
         int total = newsService.find().size();
         List<News> list = newsService.findByQuery(form);
+        newsForm.setPage(page);
         newsForm.setRows(list);
         newsForm.setTotal(total);
         model.addAttribute("newsForm", newsForm);
