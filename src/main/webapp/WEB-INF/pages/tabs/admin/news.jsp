@@ -59,27 +59,36 @@
         }
     %>
 </div>
-<div class="row-fluid" style="height: 550px; overflow: hidden">
-    <form:form action="/news/save" method="POST" modelAttribute="news" id="newsForm">
-        <h2>
-            <small>Добавить новость</small>
-        </h2>
-        <label>Название:</label>
-        <input type="text" name="name" class="form-field" style="width: 100%">
-        <label>Краткое описание:</label>
-        <textarea style="width: 100%; resize: none" maxlength="500" name="description"></textarea>
-        <input type="hidden" name="content" id="content"/>
-        <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
-        <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
-        <br>
+<div id="add-news-form" style="width: 830px; display: none" class="modal hide fade" tabindex="-1" role="dialog"
+     aria-labelledby="add-news-form-abel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h5 id="add-news-form-label">Добавить новость</h5>
+    </div>
+    <div class="modal-body">
+        <form:form action="/news/save" method="POST" modelAttribute="news" id="addForm">
+            <label>Название:</label>
+            <input type="text" name="name" class="form-field" style="width: 100%">
+            <label>Краткое описание:</label>
+            <textarea style="width: 100%; resize: none" maxlength="500" name="description"></textarea>
+            <input type="hidden" name="content" id="content"/>
+            <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
+            <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
+        </form:form>
+    </div>
+    <div class="modal-footer">
         <button class="btn btn-primary" type="button" onclick="onSubmit()">Сохранить</button>
-    </form:form>
+    </div>
 </div>
+<div class="text-center"><button class="btn btn-primary" onclick="addForm()">Добавить новость</button></div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
 <script>
     function onSubmit() {
         var content = $("#editor").html();
         $("#content").val(content);
-        $("#newsForm").submit();
+        $("#addForm").submit();
+    }
+    function addForm(){
+        $("#add-news-form").modal("show");
     }
 </script>
