@@ -22,7 +22,7 @@
 
         <div>${news.description}...<br><a href="/news/get/${news.id}">Читать далее >></a></div>
         <div class="text-right">
-            <button class="btn btn-primary">Редактировать</button>
+            <button class="btn btn-primary" onclick="window.location.href = '/news/edit/${news.id}'">Редактировать</button>
             <button class="btn" onclick="Alert.confirm('Вы уверены, что хотите удалить выбранную новость?', function(){
                     window.location.href = '/news/remove/${news.id}'
                     })">Удалить
@@ -59,7 +59,7 @@
         }
     %>
 </div>
-<div id="add-news-form" style="width: 830px; display: none" class="modal hide fade" tabindex="-1" role="dialog"
+<div id="add-news-form" style="width: 825px; display: none" class="modal hide fade" tabindex="-1" role="dialog"
      aria-labelledby="add-news-form-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -80,7 +80,9 @@
         <button class="btn btn-primary" type="button" onclick="onSubmit()">Сохранить</button>
     </div>
 </div>
-<div class="text-center"><button class="btn btn-primary" onclick="addForm()">Добавить новость</button></div>
+<div class="text-center">
+    <button class="btn btn-primary" onclick="addForm()">Добавить новость</button>
+</div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
 <script>
     function onSubmit() {
@@ -88,7 +90,7 @@
         $("#content").val(content);
         $("#addForm").submit();
     }
-    function addForm(){
+    function addForm() {
         $("#add-news-form").modal("show");
     }
 </script>
