@@ -9,7 +9,7 @@
     <div class="span12">
         <div class="span6 offset4">
             <h4>Ваш офис</h4>
-            <a href="<c:url value="/j_spring_security_logout" />" class="btn btn-primary" type="button">Logout</a>
+            <a href="<c:url value="/user/logout" />" class="btn btn-primary" type="button">Logout</a>
         </div>
     </div>
 </div>

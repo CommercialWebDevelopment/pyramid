@@ -129,4 +129,9 @@ public class UserController {
         userService.deleteUser(id);
         return "redirect:/pyramid/admin/user_settings";
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public void logout() {
+        SecurityContextHolder.clearContext();
+    }
 }

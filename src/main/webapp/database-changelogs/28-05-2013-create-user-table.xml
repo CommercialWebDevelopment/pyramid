@@ -134,4 +134,25 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="7" author="Danil">
+        <modifyDataType columnName="role"
+                        newDataType="varchar(100)"
+                        tableName="user"/>
+
+        <insert tableName="user">
+            <column name="name" value="Admin"/>
+            <column name="surname" value="Admin"/>
+            <column name="patronymic" value="Admin"/>
+            <column name="date_of_birth" value="2000-12-12"/>
+            <column name="email" value="email"/>
+            <column name="phone_number" value="(8482)000000"/>
+            <column name="password" value="2373dacb9e30cdab2983e35f27f8098fdbbd9e1e9034cb68"/>
+            <column name="global_id" value="f5895a52a83171ed64501b995ff7e823edcbd5676991e75f"/>
+            <column name="confirmed" value="1"/>
+            <column name="login" value="admin"/>
+            <column name="role" value="SUPER_ADMIN"/>
+            <column name="created" value="now()"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

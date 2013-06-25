@@ -25,37 +25,42 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin.js"></script>
 </head>
 <body>
+
+<%@ include file="/WEB-INF/pages/i18n.jsp" %>
+
 <div class="row-fluid" style="height: 20px"></div>
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span10 offset2">
             <%--Header--%>
-            <div class="row-fluid">
+            <div class="row-fluid" style="height: 80px;">
                 <div class="span8">
                     Название
                 </div>
-                <div class="span1" style="text-align: center">
-                    <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
-                        <img src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
-                             style="height: 48px" />
-                    </a>
-                    <small style="font-size: x-small">Иванов Иван</small>
+                <div class="span4">
+                    <div class="span2">
+                        <img src="<c:url value="/resources/images/flag-en.png"/>">
+                        <a href="?lang=en">en</a>
+                    </div>
+                    <div class="span2">
+                        <img src="<c:url value="/resources/images/flag-ru.png"/>">
+                        <a href="?lang=ru">ru</a>
+                    </div>
                 </div>
-                <div class="span1"><a href="#">Выход</a></div>
             </div>
                 <%--Tabs--%>
                 <div class="row-fluid">
-                    <div class="span8 offset2">
+                    <div class="span8 offset1">
                         <ul class="nav nav-pills" id="tabs">
-                            <li class= <%= request.getAttribute("page-name").equals("home") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/home">Главная</a></li>
-                            <security:authorize access="hasRole('ADMIN')">
-                                <li class= <%= request.getAttribute("page-name").equals("admin") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin">Настройки</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("home") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/home"><spring:message code="home"/></a></li>
+                            <security:authorize access="hasAnyRole('ADMIN','SUPER_ADMIN')">
+                                <li class= <%= request.getAttribute("page-name").equals("admin") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin"><spring:message code="settings"/></a></li>
                             </security:authorize>
-                            <li class= <%= request.getAttribute("page-name").equals("office") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/office">Личный кабинет</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("news") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/news">Новости</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("training") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/training">Обучение</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("about") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/about">О проекте</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("contacts") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/contacts">Контакты</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("office") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/office"><spring:message code="privateOffice"/></a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("news") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/news"><spring:message code="news"/></a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("training") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/training"><spring:message code="training"/></a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("about") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/about"><spring:message code="aboutProject"/></a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("contacts") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/contacts"><spring:message code="contacts"/></a></li>
                         </ul>
                     </div>
                 </div>

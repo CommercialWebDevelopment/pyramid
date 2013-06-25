@@ -1,6 +1,7 @@
 package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.service.beans.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,9 +30,10 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails userDetails = userService.loadUserByUsername(authentication.getName());
         if (passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
+            Credentials credentials = new Credentials(userDetails.getUsername(), userDetails.getPassword());
             return new UsernamePasswordAuthenticationToken(
-                    userDetails.getUsername(),
-                    userDetails.getPassword(),
+                    userDetails,
+                    credentials,
                     userDetails.getAuthorities());
         }
         throw new BadCredentialsException("Bad Credentials");

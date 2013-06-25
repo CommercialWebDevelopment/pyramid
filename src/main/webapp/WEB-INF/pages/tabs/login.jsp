@@ -10,7 +10,7 @@
         <form:form method="POST" action="/user/authentication" modelAttribute="authentication">
             <div class="row-fluid">
                 <div class="span1">
-                    <label for="name" class="required_label form-field">Логин</label>
+                    <label for="name" class="required_label form-field"><spring:message code="login"/></label>
                 </div>
                 <div class="span7">
                     <input id="name" name="name" type="text" class="form-field">
@@ -18,7 +18,7 @@
             </div>
             <div class="row-fluid">
                 <div class="span1">
-                    <label for="password" class="required_label form-field">Пароль</label>
+                    <label for="password" class="required_label form-field"><spring:message code="password"/></label>
                 </div>
                 <div class="span7">
                     <input id="password" name="password" type="password" class="form-field">
@@ -27,10 +27,10 @@
             <div class="row-fluid">
                 <div class="span12">
                     <div class="span1 offset1">
-                        <button id="registration-button" class="btn btn-primary" type="submit">Авторизация</button>
+                        <button id="registration-button" class="btn btn-primary" type="submit"><spring:message code="authorization"/></button>
                     </div>
                     <div class="span1 offset1">
-                        <a href="${pageContext.request.contextPath}/pyramid/registration" class="btn btn-primary" type="button">Регистрация</a>
+                        <a href="${pageContext.request.contextPath}/pyramid/registration" class="btn btn-primary" type="button"><spring:message code="registration"/></a>
                     </div>
                 </div>
             </div>

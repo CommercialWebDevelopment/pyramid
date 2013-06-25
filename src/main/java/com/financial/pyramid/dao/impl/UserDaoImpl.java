@@ -1,6 +1,7 @@
 package com.financial.pyramid.dao.impl;
 
 import com.financial.pyramid.dao.UserDao;
+import com.financial.pyramid.domain.Role;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.web.form.QueryForm;
 import org.hibernate.Criteria;
@@ -58,6 +59,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     public List<User> findByQuery(QueryForm form) {
         Criteria criteria = getCurrentSession().createCriteria(User.class);
         criteria.setCacheable(true)
+                .add(Restrictions.not(Restrictions.eq("role", Role.SUPER_ADMIN)))
                 .addOrder(form.order.equals("asc") ? Order.asc(form.sort) : Order.desc(form.sort))
                 .setFirstResult((form.page - 1) * form.count)
                 .setMaxResults(form.count);

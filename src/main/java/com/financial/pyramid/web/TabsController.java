@@ -3,12 +3,12 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
-import com.financial.pyramid.domain.Role;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,7 +66,8 @@ public class TabsController {
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         model.addAttribute("page-name", "office");
-        if (request.isUserInRole(Role.USER.name()) || request.isUserInRole(Role.ADMIN.name())) {
+        Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails){
             return "/tabs/office";
         }
         model.addAttribute("authentication", new AuthenticationForm());
