@@ -20,25 +20,22 @@ var Alert = {
     },
     confirm: function (message, callback) {
         var dialog = $("#confirmation");
-        dialog.find(".text").html(message);
+        dialog.find(".modal-body").html(message);
         dialog.css("display", "block");
         dialog.find("#yesButton").on("click", function (e) {
             if (callback) {
                 callback();
-                dialog.hide();
+                dialog.modal("hide");
             }
         });
         dialog.find("#noButton").on("click", function (e) {
-            dialog.hide();
+            dialog.modal("hide");
         });
         dialog.find(".close").on("click", function (e) {
             e.stopPropagation();
-            dialog.hide();
+            dialog.modal("hide");
         });
-        this.position(dialog);
-        $(window).on("scroll", function(){
-            dialog.hide();
-        });
+        dialog.modal("show");
     },
     getDialog: function (type) {
         var dialog;

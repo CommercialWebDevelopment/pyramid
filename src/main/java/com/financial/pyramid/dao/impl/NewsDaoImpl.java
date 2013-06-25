@@ -24,7 +24,7 @@ public class NewsDaoImpl extends AbstractDaoImpl<News, Long> implements NewsDao 
         Criteria criteria = getCurrentSession().createCriteria(News.class);
         criteria.setCacheable(true)
                 .addOrder(form.order.equals("asc") ? Order.asc(form.sort) : Order.desc(form.sort))
-                .setFirstResult((form.page - 1) * form.count + 1)
+                .setFirstResult((form.page - 1) * form.count)
                 .setMaxResults(form.count);
         return (List<News>) criteria.list();
     }

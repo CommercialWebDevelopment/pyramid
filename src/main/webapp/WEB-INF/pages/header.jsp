@@ -7,9 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=stylesheet
-          href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css"
-          type="text/css">
+    <link rel=stylesheet href="${pageContext.request.contextPath}/resources/javascript/bootstrap/css/bootstrap.css" type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/loader.css" type="text/css">
     <link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/private-office.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
@@ -52,15 +50,15 @@
                 <div class="row-fluid">
                     <div class="span8 offset1">
                         <ul class="nav nav-pills" id="tabs">
-                            <li class= <%= request.getAttribute("page-name").equals("home") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/home"><spring:message code="home"/></a></li>
-                            <security:authorize access="hasAnyRole('ADMIN','SUPER_ADMIN')">
-                                <li class= <%= request.getAttribute("page-name").equals("admin") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin"><spring:message code="settings"/></a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("home") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/home">Главная</a></li>
+                            <security:authorize access="hasRole('ADMIN')">
+                                <li class= <%= request.getAttribute("page-name").equals("admin") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin">Настройки</a></li>
                             </security:authorize>
-                            <li class= <%= request.getAttribute("page-name").equals("office") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/office"><spring:message code="privateOffice"/></a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("news") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/news"><spring:message code="news"/></a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("training") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/training"><spring:message code="training"/></a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("about") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/about"><spring:message code="aboutProject"/></a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("contacts") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/contacts"><spring:message code="contacts"/></a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("office") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/office">Личный кабинет</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("news") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/news">Новости</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("training") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/training">Обучение</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("about") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/about">О проекте</a></li>
+                            <li class= <%= request.getAttribute("page-name").equals("contacts") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/contacts">Контакты</a></li>
                         </ul>
                     </div>
                 </div>

@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface NewsService {
     public List<News> findByQuery(QueryForm form);
+    public News findById(Long id);
     public List<News> find();
     public void save(News news);
     public void remove(Long id);

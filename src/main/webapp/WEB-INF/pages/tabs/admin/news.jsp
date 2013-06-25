@@ -1,3 +1,5 @@
+<%@ page import="com.financial.pyramid.domain.News" %>
+<%@ page import="com.financial.pyramid.web.form.PageForm" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -11,46 +13,84 @@
 <script type="text/javascript">
     <%@ include file="/resources/javascript/news.js" %>
 </script>
-<div class="row-fluid" style="height: 500px; overflow: hidden">
-<c:forEach items="${newsForm.rows}" var="news" varStatus="status">
-    <div class="page-header">
-        <h3><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/>
-            <small>${news.name}</small></h3>
+<div class="row-fluid" style="word-wrap: normal">
+    <c:forEach items="${newsForm.rows}" var="news" varStatus="status">
+        <h1>
+            <small>${news.name}</small>
+        </h1>
+        <h5><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/></h5>
+
+        <div>${news.description}...<br><a href="/news/get/${news.id}">Читать далее >></a></div>
+        <div class="text-right">
+            <button class="btn btn-primary" onclick="window.location.href = '/news/edit/${news.id}'">Редактировать</button>
+            <button class="btn" onclick="Alert.confirm('Вы уверены, что хотите удалить выбранную новость?', function(){
+                    window.location.href = '/news/remove/${news.id}'
+                    })">Удалить
+            </button>
+        </div>
+    </c:forEach>
+    <%
+        PageForm<News> pageForm = (PageForm<News>) request.getAttribute("newsForm");
+        Integer pages = (int) Math.ceil(Double.valueOf(pageForm.getTotal() / 10.0));
+        if (pages > 1) {
+    %>
+    <div class="pagination pagination-centered">
+        <ul>
+            <li>
+                <a href="/pyramid/admin/news_settings?page=<%=(pageForm.getPage()-1 > 0 ? pageForm.getPage()-1 : 1)%>">«</a>
+            </li>
+            <%
+                for (int i = 1; i <= pages; i++) {
+                    String active = "";
+                    pageForm.page = pageForm.page == 0 ? 1 : pageForm.page;
+                    if (pageForm.page == i) {
+                        active = "active";
+                    }
+            %>
+            <li class="<%=active%>"><a href="/pyramid/admin/news_settings?page=<%=i%>"><%=i%>
+            </a></li>
+            <%
+                }
+            %>
+            <li><a href="/pyramid/admin/news_settings?page=<%=pageForm.getPage()+1%>">»</a></li>
+        </ul>
     </div>
-    <div class="row-fluid">${news.content}</div>
-</c:forEach>
-<c:set var="page" value="${newsForm.page}"/>
-    <c:choose>
-        <c:when test="${page > 0}">
-            <div class="pagination">
-                <ul>
-                    <li><a href="${page-1}">Prev</a></li>
-                    <c:forEach var="i" begin="1" end="${newsForm.total}}">
-                        <li><a href="/admin/news_settings/${i}">${i}</a></li>
-                    </c:forEach>
-                    <li><a href="/admin/news_settings/${page+1}">Next</a></li>
-                </ul>
-            </div>
-        </c:when>
-    </c:choose>
-    <form:form action="/news/save" method="POST" modelAttribute="news" id="newsForm">
-        <h2>
-            <small>Добавить новость</small>
-        </h2>
-        <label>Название</label>
-        <input type="text" name="name" class="form-field" style="width: 100%">
-        <input type="hidden" name="content" id="content"/>
-        <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
-        <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
-        <br>
+    <%
+        }
+    %>
+</div>
+<div id="add-news-form" style="width: 825px; display: none" class="modal hide fade" tabindex="-1" role="dialog"
+     aria-labelledby="add-news-form-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h5 id="add-news-form-label">Добавить новость</h5>
+    </div>
+    <div class="modal-body">
+        <form:form action="/news/save" method="POST" modelAttribute="news" id="addForm">
+            <label>Название:</label>
+            <input type="text" name="name" class="form-field" style="width: 100%">
+            <label>Краткое описание:</label>
+            <textarea style="width: 100%; resize: none" maxlength="500" name="description"></textarea>
+            <input type="hidden" name="content" id="content"/>
+            <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
+            <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
+        </form:form>
+    </div>
+    <div class="modal-footer">
         <button class="btn btn-primary" type="button" onclick="onSubmit()">Сохранить</button>
-    </form:form>
+    </div>
+</div>
+<div class="text-center">
+    <button class="btn btn-primary" onclick="addForm()">Добавить новость</button>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
 <script>
     function onSubmit() {
         var content = $("#editor").html();
         $("#content").val(content);
-        $("#newsForm").submit();
+        $("#addForm").submit();
+    }
+    function addForm() {
+        $("#add-news-form").modal("show");
     }
 </script>

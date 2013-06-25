@@ -27,6 +27,24 @@ public class NewsController {
     @Autowired
     NewsService newsService;
 
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    public String get(ModelMap model, @PathVariable Long id){
+        News news = newsService.findById(id);
+        model.addAttribute("news", news);
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "news_settings");
+        return "/news";
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String edit(ModelMap model, @PathVariable Long id){
+        News news = newsService.findById(id);
+        model.addAttribute("news", news);
+        model.addAttribute("page-name", "admin");
+        model.addAttribute("admin-page-name", "news_settings");
+        return "/news-edit";
+    }
+
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("news") News news) {
         newsService.save(news);
@@ -39,7 +57,7 @@ public class NewsController {
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
-        return "/tabs/admin/news";
+        return "redirect:/pyramid/admin/news_settings";
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
@@ -54,7 +72,7 @@ public class NewsController {
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
-        return "/tabs/admin/news";
+        return "redirect:/pyramid/admin/news_settings";
     }
 
 }

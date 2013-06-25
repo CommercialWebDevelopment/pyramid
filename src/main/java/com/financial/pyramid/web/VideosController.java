@@ -58,7 +58,7 @@ public class VideosController {
         model.addAttribute("videosForm", videosForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "video_settings");
-        return "/tabs/admin/videos";
+        return "redirect:/pyramid/admin/video_settings";
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
@@ -70,7 +70,7 @@ public class VideosController {
         model.addAttribute("videosForm", videosForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "video_settings");
-        return "/tabs/admin/videos";
+        return "redirect:/pyramid/admin/video_settings";
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
