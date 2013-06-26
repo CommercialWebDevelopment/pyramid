@@ -14,6 +14,14 @@ var I18N = {
     patronymic:'<spring:message code="patronymic" javaScriptEscape="true"/>',
     email:'<spring:message code="email" javaScriptEscape="true"/>',
     confirmed:'<spring:message code="confirmed" javaScriptEscape="true"/>',
-    userConfirmDelete:'<spring:message code="user.confirmDelete" javaScriptEscape="true"/>'
+    userConfirmDelete:'<spring:message code="user.confirmDelete" javaScriptEscape="true"/>',
+    role:'<spring:message code="user.role" javaScriptEscape="true"/>',
+    page:'<spring:message code="page" javaScriptEscape="true"/>',
+    find:'<spring:message code="find" javaScriptEscape="true"/>',
+    pageStat:'<spring:message code="pageStat" javaScriptEscape="true"/>',
+    connectionError:'<spring:message code="connectionError" javaScriptEscape="true"/>',
+    pleaseWait:'<spring:message code="pleaseWait" javaScriptEscape="true"/>',
+    noItems:'<spring:message code="noItems" javaScriptEscape="true"/>',
+    of:'<spring:message code="of" javaScriptEscape="true"/>'
 };
 

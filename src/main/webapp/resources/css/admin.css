@@ -33,3 +33,15 @@
 #add-user-form .modal-body {
     max-height:none;
 }
+
+.flexigrid {
+    line-height: normal;
+}
+
+.flexigrid .edit {
+    opacity: 0.3;
+}
+
+.flexigrid .delete {
+    opacity: 0.3;
+}

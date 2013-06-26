@@ -1,10 +1,18 @@
 $(document).ready(function () {
     var selectedRow = null;
-    $("#user-grid").flexigrid({
+    var ugrid = $("#user-grid");
+    ugrid.flexigrid({
         url: '/user/list',
         dataType: 'json',
         method: 'GET',
         resizable: false,
+        pagetext:I18N.page,
+        outof: I18N.of,
+        findtext: I18N.find,
+        pagestat: I18N.pageStat,
+        errormsg: I18N.connectionError,
+        procmsg: I18N.pleaseWait,
+        nomsg: I18N.noItems,
         colModel: [
             {
                 display: I18N.secondName,
@@ -37,6 +45,13 @@ $(document).ready(function () {
             {
                 display: I18N.confirmed,
                 name: 'confirmed',
+                width: 130,
+                sortable: true,
+                align: 'center'
+            },
+            {
+                display: I18N.role,
+                name: 'role',
                 width: 130,
                 sortable: true,
                 align: 'center'
@@ -81,7 +96,7 @@ $(document).ready(function () {
                     Alert.confirm(I18N.userConfirmDelete, function () {
                         $.get('/user/delete/' + selectedRow.id, {}
                             , function () {
-                                $("#user-grid").flexReload();
+                                ugrid.flexReload();
                             });
                     });
                 },
@@ -94,7 +109,7 @@ $(document).ready(function () {
         ],
         searchitems: [
             {
-                display: I18N.second_name,
+                display: I18N.secondName,
                 name: 'name',
                 isdefault: true
             }
@@ -108,7 +123,16 @@ $(document).ready(function () {
         showTableToggleBtn: true,
         height: 200,
         rowClick: function (row, data) {
-            selectedRow = data;
+            var fxgrid = $(".flexigrid");
+            if(selectedRow && selectedRow.id == data.id) {
+                selectedRow = null;
+                fxgrid.find(".edit").css("opacity", 0.3);
+                fxgrid.find(".delete").css("opacity", 0.3);
+            } else {
+                selectedRow = data;
+                fxgrid.find(".edit").css("opacity", 1);
+                fxgrid.find(".delete").css("opacity", 1);
+            }
         }
     });
 
