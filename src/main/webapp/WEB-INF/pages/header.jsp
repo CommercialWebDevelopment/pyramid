@@ -23,8 +23,9 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin.js"></script>
 </head>
 <body>
-
-<%@ include file="/WEB-INF/pages/i18n.jsp" %>
+<script type="text/javascript">
+    <%@ include file="/resources/javascript/i18n.js" %>
+</script>
 
 <div class="row-fluid" style="height: 20px"></div>
 <div class="container-fluid">

@@ -4,7 +4,7 @@ $(document).ready(function () {
         url: '/user/list',
         dataType: 'json',
         method: 'GET',
-        resizable:false,
+        resizable: false,
         colModel: [
             {
                 display: I18N.secondName,
@@ -46,21 +46,21 @@ $(document).ready(function () {
             {
                 name: I18N.add,
                 bclass: 'add',
-                onpress: function(com, grid) {
+                onpress: function (com, grid) {
                     $("#add-user-form").modal("show");
                 },
-                bimage:'/resources/javascript/flexigrid/css/images/add.png'
+                bimage: '/resources/javascript/flexigrid/css/images/add.png'
             }
             ,
             {
                 name: I18N.edit,
                 bclass: 'edit',
-                onpress: function(com, grid) {
-                    if(!selectedRow) return;
+                onpress: function (com, grid) {
+                    if (!selectedRow) return;
                     var form = $("#add-user-form");
                     form.modal("show");
-                    $.each(selectedRow, function(key, value){
-                        $('[name='+key+']', form).val(value);
+                    $.each(selectedRow, function (key, value) {
+                        $('[name=' + key + ']', form).val(value);
                     });
                     var passport = selectedRow.passport;
                     $('[name=passportDate]', form).val(passport.date);
@@ -70,20 +70,22 @@ $(document).ready(function () {
                     $('[name=residenceAddress]', form).val(passport.residenceAddress);
                     $('[name=passportSerial]', form).val(passport.serial);
                 },
-                bimage:'/resources/javascript/flexigrid/css/images/edit.png'
+                bimage: '/resources/javascript/flexigrid/css/images/edit.png'
             }
             ,
             {
                 name: I18N.delete,
                 bclass: 'delete',
-                onpress: function(com, grid) {
-                    if(!selectedRow) return;
-                    $.get('/user/delete/'+selectedRow.id, {}
-                        , function () {
-                            $("#user-grid").flexReload();
-                        });
+                onpress: function (com, grid) {
+                    if (!selectedRow) return;
+                    Alert.confirm(I18N.userConfirmDelete, function () {
+                        $.get('/user/delete/' + selectedRow.id, {}
+                            , function () {
+                                $("#user-grid").flexReload();
+                            });
+                    });
                 },
-                bimage:'/resources/javascript/flexigrid/css/images/close.png'
+                bimage: '/resources/javascript/flexigrid/css/images/close.png'
             }
             ,
             {
