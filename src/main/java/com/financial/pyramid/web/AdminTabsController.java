@@ -48,30 +48,22 @@ public class AdminTabsController extends TabsController {
         newsForm.setRows(list);
         newsForm.setTotal(total);
         model.addAttribute("newsForm", newsForm);
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "news_settings");
         return "/tabs/admin/news";
     }
 
     @RequestMapping(value = "/user_settings", method = RequestMethod.GET)
     public String users(ModelMap model) {
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "user_settings");
         model.addAttribute("registration", new RegistrationForm());
         return "/tabs/admin/users";
     }
 
     @RequestMapping(value = "/content_settings", method = RequestMethod.GET)
     public String content(ModelMap model) {
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "content_settings");
         return "/tabs/admin/content";
     }
 
     @RequestMapping(value = "/video_settings", method = RequestMethod.GET)
     public String videos(ModelMap model) {
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "video_settings");
         List<Video> videos = videoService.find();
         VideosForm videosForm = new VideosForm();
         videosForm.setVideos(videos);
@@ -81,15 +73,11 @@ public class AdminTabsController extends TabsController {
 
     @RequestMapping(value = "/contact_settings", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "contact_settings");
         return "/tabs/admin/contacts";
     }
 
     @RequestMapping(value = "/application_settings", method = RequestMethod.GET)
     public String settings(ModelMap model) {
-        model.addAttribute("page-name", "admin");
-        model.addAttribute("admin-page-name", "application_settings");
         List<Setting> settings = settingsService.getProperties();
         SettingsForm settingsForm = new SettingsForm();
         settingsForm.setSettings(settings);

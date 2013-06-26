@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
@@ -46,22 +46,3 @@
                     </div>
                 </div>
             </div>
-                <%--Tabs--%>
-                <div class="row-fluid">
-                    <div class="span8 offset1">
-                        <ul class="nav nav-pills" id="tabs">
-                            <li class= <%= request.getAttribute("page-name").equals("home") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/home">Главная</a></li>
-                            <security:authorize access="hasRole('ADMIN')">
-                                <li class= <%= request.getAttribute("page-name").equals("admin") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/admin">Настройки</a></li>
-                            </security:authorize>
-                            <li class= <%= request.getAttribute("page-name").equals("office") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/office">Личный кабинет</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("news") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/news">Новости</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("training") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/training">Обучение</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("about") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/about">О проекте</a></li>
-                            <li class= <%= request.getAttribute("page-name").equals("contacts") ? "active" : "" %>><a href="${pageContext.request.contextPath}/pyramid/contacts">Контакты</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class="span10">
-                        <div id="tab-content" class="tab-content">

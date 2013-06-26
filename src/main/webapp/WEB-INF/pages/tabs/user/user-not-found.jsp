@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ include file="/WEB-INF/pages/header.jsp" %>
+<%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 
 <% if (request.getAttribute("error") != null && request.getAttribute("error").equals("email_confirm_out_of_date")) {%>
 <div class="alert alert-error">

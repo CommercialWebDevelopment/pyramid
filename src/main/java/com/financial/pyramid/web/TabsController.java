@@ -45,7 +45,6 @@ public class TabsController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(ModelMap model) {
-        model.addAttribute("page-name", "home");
         return "/tabs/home";
     }
 
@@ -62,7 +61,6 @@ public class TabsController {
         String defaultVideo = settingsService.getProperty("youTubeVideoUrl", video != null ? video.getExternalId() : null);
         model.addAttribute("defaultVideo", defaultVideo);
         model.addAttribute("videos", videos);
-        model.addAttribute("page-name", "training");
         return "/tabs/training";
     }
 
@@ -79,16 +77,14 @@ public class TabsController {
         newsForm.setRows(list);
         newsForm.setTotal(total);
         model.addAttribute("newsForm", newsForm);
-        model.addAttribute("page-name", "news");
         return "/tabs/news";
     }
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
-        model.addAttribute("page-name", "office");
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof UserDetails){
-            return "/tabs/office";
+            return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());
         return "/tabs/login";
@@ -96,19 +92,16 @@ public class TabsController {
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)
     public String about(ModelMap model) {
-        model.addAttribute("page-name", "about");
         return "/tabs/about";
     }
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
-        model.addAttribute("page-name", "contacts");
         return "/tabs/contacts";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(ModelMap model, HttpSession session, HttpServletRequest request) {
-        model.addAttribute("page-name", "office");
         model.addAttribute("registration", new RegistrationForm());
         return "tabs/user/registration-form";
     }

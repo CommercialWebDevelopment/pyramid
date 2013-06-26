@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@ include file="/WEB-INF/pages/header.jsp" %>
+<%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 
 <h3>Вы успешно зарегестрированны</h3>
 <div>На ваш электронный адрес было отправленно письмо,
