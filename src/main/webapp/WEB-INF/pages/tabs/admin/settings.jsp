@@ -21,8 +21,8 @@
     <form:form method="POST" action="/settings/save" modelAttribute="settingsForm">
         <table class="table table-bordered">
             <tr>
-                <th>Название параметра</th>
-                <th>Значение параметра</th>
+                <th><spring:message code="settingName"/></th>
+                <th><spring:message code="settingValue"/></th>
             </tr>
             <c:forEach items="${settingsForm.settings}" var="setting" varStatus="status">
                 <tr>
@@ -36,7 +36,7 @@
                 </tr>
             </c:forEach>
         </table>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="submit" class="btn btn-primary"><spring:message code="save"/></button>
     </form:form>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

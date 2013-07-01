@@ -30,21 +30,21 @@
 </div>
 --%>
 <h1>
-    <small>Загруженные видео:</small>
+    <small><spring:message code="uploadedVideos"/>:</small>
 </h1>
 <c:forEach items="${videosForm.videos}" var="video" varStatus="status">
     <div class="row-fluid" id="#${video.id}">
         <form:form method="POST" action="/video/save">
             <div class="span12">
-                <legend>Видео №${status.count}</legend>
+                <legend><spring:message code="videoNumber"/> #${status.count}</legend>
             </div>
             <div class="span8">
                 <input type="hidden" name="id" value="${video.id}">
                 <input type="hidden" name="externalId" value="${video.externalId}">
                 <input type="hidden" name="thumbnailUrl" value="${video.thumbnailUrl}">
-                <label>Название:</label>
+                <label><spring:message code="videoName"/>:</label>
                 <input type="text" name="name" value="${video.name}" style="width: 100%" class="form-field">
-                <label>Описание:</label>
+                <label><spring:message code="videoDescription"/>:</label>
                 <textarea style="width:100%; height: 130px; resize:none" maxlength="500"
                           name="description">${video.description}</textarea>
             </div>
@@ -55,12 +55,12 @@
                 </div>
                 <div style="text-align: center"><br>
                     <spring:message code="label.removeVideo" var="removeVideo"/>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary"><spring:message code="save"/></button>
                     &nbsp;
                     <button type="button" class="btn"
                             onclick="Alert.confirm('${removeVideo}', function(){
                                     window.location.href = '/video/remove/${video.id}';
-                                    })">Удалить
+                                    })"><spring:message code="remove"/>
                     </button>
                 </div>
             </div>
@@ -86,23 +86,23 @@
 </div>
 --%>
 <h2>
-    <small>Добавить новое видео с YouTube:</small>
+    <small><spring:message code="videoUploadFromYouTube"/>:</small>
 </h2>
 
 <form:form action="/video/save" method="POST" id="addVideo" modelAttribute="video">
     <div class="row-fluid" id="addVideoForm">
         <div class="span8">
             <input type="hidden" id="thumbnailUrl" name="thumbnailUrl">
-            <label>Название:<span class="asterisk_red">*</span></label>
+            <label><spring:message code="videoName"/>:<span class="asterisk_red">*</span></label>
             <input type="text" name="name" class="form-field" style="width: 100%">
-            <label>Описание:</label>
+            <label><spring:message code="videoDescription"/>:</label>
             <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="description"></textarea>
-            <label>Идентификатор YouTube:<span class="asterisk_red">*</span></label>
+            <label><spring:message code="videoExternalID"/>:<span class="asterisk_red">*</span></label>
             <input type="text" name="externalId" class="form-field" style="width: 100%"/>
         </div>
     </div>
     <div class="row-fluid">
-        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-primary"><spring:message code="save"/></button>
     </div>
 </form:form>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

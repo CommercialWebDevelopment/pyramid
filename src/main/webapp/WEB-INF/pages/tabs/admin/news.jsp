@@ -27,18 +27,19 @@
     <%@ include file="/resources/javascript/news.js" %>
 </script>
 <div class="row-fluid" style="word-wrap: normal">
+    <spring:message var="removeNewsConfirm" code="removeNews"/>
     <c:forEach items="${newsForm.rows}" var="news" varStatus="status">
         <h1>
             <small>${news.name}</small>
         </h1>
         <h5><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/></h5>
 
-        <div>${news.description}...<br><a href="/news/get/${news.id}">Читать далее >></a></div>
+        <div>${news.description}...<br><a href="/news/get/${news.id}"><spring:message code="readNews"/> >></a></div>
         <div class="text-right">
-            <button class="btn btn-primary" onclick="window.location.href = '/news/edit/${news.id}'">Редактировать</button>
-            <button class="btn" onclick="Alert.confirm('Вы уверены, что хотите удалить выбранную новость?', function(){
+            <button class="btn btn-primary" onclick="window.location.href = '/news/edit/${news.id}'"><spring:message code="edit"/></button>
+            <button class="btn" onclick="Alert.confirm('${removeNewsConfirm}', function(){
                     window.location.href = '/news/remove/${news.id}'
-                    })">Удалить
+                    })"><spring:message code="remove" />
             </button>
         </div>
     </c:forEach>
@@ -76,13 +77,13 @@
      aria-labelledby="add-news-form-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h5 id="add-news-form-label">Добавить новость</h5>
+        <h5 id="add-news-form-label"><spring:message code="addNewsTitle"/></h5>
     </div>
     <div class="modal-body">
         <form:form action="/news/save" method="POST" modelAttribute="news" id="addForm">
-            <label>Название:</label>
+            <label><spring:message code="newsName"/>:</label>
             <input type="text" name="name" class="form-field" style="width: 100%">
-            <label>Краткое описание:</label>
+            <label><spring:message code="newsDescription"/>:</label>
             <textarea style="width: 100%; resize: none" maxlength="500" name="description"></textarea>
             <input type="hidden" name="content" id="content"/>
             <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
@@ -90,11 +91,11 @@
         </form:form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" onclick="onSubmit()">Сохранить</button>
+        <button class="btn btn-primary" type="button" onclick="onSubmit()"><spring:message code="save"/></button>
     </div>
 </div>
 <div class="text-center">
-    <button class="btn btn-primary" onclick="addForm()">Добавить новость</button>
+    <button class="btn btn-primary" onclick="addForm()"><spring:message code="addNewsTitle"/></button>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
 <script>

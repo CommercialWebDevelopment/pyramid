@@ -7,6 +7,7 @@ import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.web.form.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/pyramid/admin")
-//@PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
 public class AdminTabsController extends TabsController {
 
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
