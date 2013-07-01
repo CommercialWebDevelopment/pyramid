@@ -28,7 +28,7 @@ var Registration = {
     },
 
     validateTextField: function (element, value) {
-        $.trim(value).length >= 3 && this.isLatinText($.trim(value)) ? this.setValidField(element) : this.setInvalidField(element);
+        $.trim(value).length >= 3 && this.isText($.trim(value)) ? this.setValidField(element) : this.setInvalidField(element);
     },
 
     validateDateField: function (element, value) {
@@ -76,8 +76,8 @@ var Registration = {
         !regex.test(value) && value.length >= 6 && $("#password").val() == value ? this.setValidField(element) : this.setInvalidField(element);
     },
 
-    isLatinText: function (text) {
-        var regex = /^[a-zA-Z]+$/;
+    isText: function (text) {
+        var regex = /^[а-яА-яa-zA-Z]+$/;
         return regex.test(text);
     },
 
