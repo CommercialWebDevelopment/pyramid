@@ -84,7 +84,7 @@ var Registration = {
     isDate: function (txtDate) {
         if (txtDate == '') return false;
 
-        var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
+        var rxDatePattern = /^(\d{1,2})(\/|.)(\d{1,2})(\/|.)(\d{4})$/;
         var dtArray = txtDate.match(rxDatePattern);
 
         if (dtArray == null)

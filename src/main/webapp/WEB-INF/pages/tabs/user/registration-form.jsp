@@ -46,7 +46,7 @@
                         <label for="date_of_birth" class="required_label form-field"><spring:message code="dateOfBirth"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="date_of_birth" name="dateOfBirth" type="text" class="form-field" placeholder="дд-мм-гггг" onkeyup="Registration.validateDateField(this, value)">
+                        <input id="date_of_birth" name="dateOfBirth" type="text" class="form-field" placeholder="дд.мм.гггг" onkeyup="Registration.validateDateField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -129,7 +129,7 @@
                             <label for="date_of_issue" class="required_label form-field"><spring:message code="dateOfIssue"/></label>
                         </div>
                         <div class="span4">
-                            <input id="date_of_issue" name="passportDate" type="text" class="form-field" placeholder="дд-мм-гггг">
+                            <input id="date_of_issue" name="passportDate" type="text" class="form-field" placeholder="дд.мм.гггг">
                         </div>
                     </div>
                     <div class="row-fluid">
