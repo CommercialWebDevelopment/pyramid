@@ -38,7 +38,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public boolean registration(RegistrationForm form, boolean confirm) throws UserAlreadyExistsException {
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         User user = new User();
         user.setName(form.getName());
         user.setPassword(passwordEncoder.encode(form.getPassword()));

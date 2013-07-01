@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="span7 controls">
                                         <input id="date_of_birth" name="dateOfBirth" type="text" class="form-field"
-                                               placeholder="дд-мм-гггг">
+                                               placeholder="дд.мм.гггг">
                                     </div>
                                 </div>
                                 <div class="row-fluid control-group success">
@@ -159,7 +159,7 @@
                                         </div>
                                         <div class="span4">
                                             <input id="date_of_issue" name="passportDate" type="text" class="form-field"
-                                                   placeholder="дд-мм-гггг">
+                                                   placeholder="дд.мм.гггг">
                                         </div>
                                     </div>
                                     <div class="row-fluid">
