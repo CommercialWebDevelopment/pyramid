@@ -32,8 +32,7 @@ public class MoneyController {
     public String getBalance(ModelMap model,
                              @ModelAttribute("accountID") String accountId,
                              @ModelAttribute("password") String password) {
-        String result = perfectMoneyService.getAccountBalance(accountId, password);
-        return null;
+        return perfectMoneyService.getAccountBalance(accountId, password);
     }
 
 }

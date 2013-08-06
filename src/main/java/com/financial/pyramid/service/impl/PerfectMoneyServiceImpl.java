@@ -55,7 +55,7 @@ public class PerfectMoneyServiceImpl implements PerfectMoneyService {
 
     @Override
     public String getAccountBalance(String accountId, String password) {
-        String url = BALANCE_URL+"?"+"AccountID={0}&PassPhrase={1}";
+        String url = BALANCE_URL + "?" + "AccountID={0}&PassPhrase={1}";
         List<String> response = HTTPClient.sendRequest(url, accountId, password);
         return processPerfectMoneyResponse(response);
     }
@@ -65,10 +65,14 @@ public class PerfectMoneyServiceImpl implements PerfectMoneyService {
         return null;
     }
 
-    private String processPerfectMoneyResponse(List<String> response){
+    private String processPerfectMoneyResponse(List<String> response) {
         StringBuilder result = new StringBuilder();
-        for (String str : response){
-            result.append(str);
+        for (String str : response) {
+            if (str.contains("Error")) {
+                return str;
+            } else {
+                result.append(str);
+            }
         }
         return result.toString();
     }
