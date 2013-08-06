@@ -18,6 +18,10 @@ import java.util.List;
  */
 public class HTTPClient {
 
+    public static List<String> sendRequest(String url){
+        return processRequest(url);
+    }
+
     public static List<String> sendRequest(String url, Object... params){
         String urlRequest = MessageFormat.format(url, params);
         return processRequest(urlRequest);
