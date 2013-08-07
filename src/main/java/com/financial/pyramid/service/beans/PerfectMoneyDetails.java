@@ -15,6 +15,7 @@ public class PerfectMoneyDetails {
     public String paymentId;
     public String code;
     public String period;
+    public String batch;
 
     public String getAccountId() {
         return accountId;
@@ -86,5 +87,13 @@ public class PerfectMoneyDetails {
 
     public void setPeriod(String period) {
         this.period = period;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
     }
 }
