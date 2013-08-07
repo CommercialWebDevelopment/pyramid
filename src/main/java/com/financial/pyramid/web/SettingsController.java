@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/settings")
-public class SettingsController {
+public class SettingsController extends AbstractController {
 
     @Autowired
     private SettingsService settingsService;

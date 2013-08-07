@@ -39,7 +39,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/video")
-public class VideosController {
+public class VideosController extends AbstractController {
 
     @Autowired
     VideoService videoService;

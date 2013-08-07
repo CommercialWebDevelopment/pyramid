@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends AbstractController{
 
     private final static Logger logger = Logger.getLogger(UserController.class);
 

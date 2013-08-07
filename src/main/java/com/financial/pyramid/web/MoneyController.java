@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/money")
-public class MoneyController {
+public class MoneyController extends AbstractController {
 
     @Autowired
     private PerfectMoneyService perfectMoneyService;

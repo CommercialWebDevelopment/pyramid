@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/news")
-public class NewsController {
+public class NewsController extends AbstractController {
 
     @Autowired
     NewsService newsService;

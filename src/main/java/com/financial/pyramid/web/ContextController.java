@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Time: 3:18
  */
 @Controller
-public class ContextController {
+public class ContextController extends AbstractController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {

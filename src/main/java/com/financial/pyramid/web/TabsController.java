@@ -31,7 +31,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/pyramid")
-public class TabsController {
+public class TabsController extends AbstractController {
 
     @Autowired
     protected VideoService videoService;
