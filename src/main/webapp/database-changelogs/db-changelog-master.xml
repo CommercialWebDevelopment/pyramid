@@ -13,4 +13,5 @@
     <include file="/database-changelogs/15-06-2013-default-settings.xml"/>
     <include file="/database-changelogs/21-06-2013-add-news-table.xml"/>
     <include file="/database-changelogs/23-06-2013-add-description-column.xml"/>
+    <include file="/database-changelogs/07-08-2013-create-application-config-table.xml"/>
 </databaseChangeLog>

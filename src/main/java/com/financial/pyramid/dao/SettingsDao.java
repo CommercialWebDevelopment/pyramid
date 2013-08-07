@@ -4,5 +4,5 @@ import com.financial.pyramid.domain.Setting;
 
 import java.util.List;
 
-public interface SettingsDao  extends AbstractDao<Setting, Long> {
+public interface SettingsDao extends AbstractDao<Setting, Long> {
 }
