@@ -73,7 +73,7 @@
         }
     %>
 </div>
-<div id="add-news-form" style="width: 825px; display: none" class="modal hide fade" tabindex="-1" role="dialog"
+<div id="add-news-form" style="width: 100%; left: 0 !important; margin-left: 0 !important;" class="modal hide fade" tabindex="-1" role="dialog"
      aria-labelledby="add-news-form-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
