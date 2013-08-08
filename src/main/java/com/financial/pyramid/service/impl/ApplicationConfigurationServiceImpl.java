@@ -5,6 +5,8 @@ import com.financial.pyramid.domain.ApplicationConfiguration;
 import com.financial.pyramid.service.ApplicationConfigurationService;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +15,8 @@ import java.util.List;
  * Date: 07.08.13
  * Time: 20:48
  */
+@Service("applicationConfigurationService")
+@Transactional
 public class ApplicationConfigurationServiceImpl implements ApplicationConfigurationService {
 
     @Autowired

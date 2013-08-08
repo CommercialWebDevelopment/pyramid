@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Time: 20:48
  */
 
-@Service("applicationsService")
-@Transactional
 public interface ApplicationConfigurationService {
     public String getParameter(String name);
 }
