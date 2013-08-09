@@ -1,8 +1,13 @@
 package com.financial.pyramid.utils;
 
+import com.google.gdata.util.common.base.Pair;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,23 +23,28 @@ import java.util.List;
  */
 public class HTTPClient {
 
-    public static List<String> sendRequest(String url){
+    public static List<String> sendRequest(String url) {
         return processRequest(url);
     }
 
-    public static List<String> sendRequest(String url, Object... params){
+    public static List<String> sendRequest(String url, Object... params) {
         String urlRequest = MessageFormat.format(url, params);
         return processRequest(urlRequest);
     }
 
-    private static List<String> processRequest(String url) {
+    public static List<String> sendRequest(String url, List<Pair<String, String>> params) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
-
-        HttpGet request = new HttpGet(url);
         HttpResponse response = null;
+        HttpPost postRequest = new HttpPost(url);
+        List<NameValuePair> postParams = new ArrayList<NameValuePair>(params.size());
+        for (Pair param : params) {
+            if (param.getFirst() != null && param.getSecond() != null) {
+                postParams.add(new BasicNameValuePair(param.getFirst().toString(), param.getSecond().toString()));
+            }
+        }
         try {
-            response = httpClient.execute(request);
-
+            postRequest.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+            response = httpClient.execute(postRequest);
             if (response.getStatusLine().getStatusCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + response.getStatusLine().getStatusCode());
@@ -51,8 +61,36 @@ public class HTTPClient {
             return result;
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
         }
-        finally {
+        return null;
+
+    }
+
+    private static List<String> processRequest(String url) {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpResponse response = null;
+        HttpGet request = new HttpGet(url);
+        try {
+            response = httpClient.execute(request);
+            if (response.getStatusLine().getStatusCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + response.getStatusLine().getStatusCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader((response.getEntity().getContent())));
+
+            List<String> result = new ArrayList<String>();
+            String line;
+            while ((line = br.readLine()) != null) {
+                result.add(line);
+            }
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
             httpClient.getConnectionManager().shutdown();
         }
         return null;
