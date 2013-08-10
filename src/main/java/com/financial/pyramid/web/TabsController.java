@@ -1,11 +1,13 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.News;
-import com.financial.pyramid.domain.Role;
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.service.SettingsService;
+import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.VideoService;
+import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
@@ -42,6 +44,8 @@ public class TabsController extends AbstractController {
     @Autowired
     protected SettingsService settingsService;
 
+    @Autowired
+    protected UserService userService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(ModelMap model) {
@@ -84,6 +88,9 @@ public class TabsController extends AbstractController {
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof UserDetails){
+//            User currentUser = userService.findByLogin(((UserDetails) principal).getUsername()).get(0);
+            BinaryTree userBinaryTree = userService.getUserBinaryTree(null);
+            model.addAttribute("userBinaryTree", userBinaryTree);
             return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());

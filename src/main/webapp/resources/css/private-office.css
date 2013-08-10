@@ -18,3 +18,26 @@
 .control-group {
     margin-bottom: 0;
 }
+
+.user-tree .left-tree {
+    float: left;
+}
+
+.user-tree .right-tree {
+    float: left;
+}
+
+.user-tree .user-info {
+    text-align: center;
+    height: 70px;
+    width: auto;
+}
+
+.user-tree .children-container {
+    display: inline-block;
+}
+
+.user-tree .user-pointer {
+    height: 30px;
+    width: 100%;
+}

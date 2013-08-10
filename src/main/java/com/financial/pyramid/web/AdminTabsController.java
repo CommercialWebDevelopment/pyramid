@@ -28,9 +28,6 @@ public class AdminTabsController extends TabsController {
 
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
 
-    @Autowired
-    private NewsService newsService;
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultRequest(ModelMap model) {
         return this.users(model);

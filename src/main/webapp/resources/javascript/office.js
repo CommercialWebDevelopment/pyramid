@@ -113,3 +113,24 @@ var Registration = {
         return regex.test(email);
     }
 };
+
+$(document).ready(function() {
+    var userPointer = $(".user-pointer");
+    for (var i = 0; i < userPointer.length; i++) {
+        var obj = userPointer[i];
+        var $obj = $(obj);
+        var height = $obj.height();
+        var width = $obj.width();
+        $obj.attr("height", height);
+        $obj.attr("width", width);
+
+        var ctx = obj.getContext('2d');
+        ctx.strokeStyle = "black";
+        ctx.beginPath();
+        var startX = width / 4;
+        ctx.lineTo(startX, height);
+        ctx.lineTo(width / 2, 0);
+        ctx.lineTo(startX * 3, height);
+        ctx.stroke();
+    }
+});

@@ -7,11 +7,12 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
+import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
+import com.financial.pyramid.web.form.UserForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Danil
@@ -159,5 +158,30 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UsernameNotFoundException("User with name "+username+" not found");
         }
+    }
+
+    @Override
+    public BinaryTree getUserBinaryTree(User user) {
+        return new BinaryTree<UserForm>(
+                24744353L,
+                new UserForm("Вася", "Васильев", "1112313"),
+                new BinaryTree<UserForm>(
+                        645456L,
+                        new UserForm("Иван", "Иванов", "1234234"),
+                        new BinaryTree<UserForm>(
+                                534534L,
+                                new UserForm("Петор", "Петров", "646465"),
+                                new BinaryTree<UserForm>(
+                                        13242L,
+                                        new UserForm("Евгений", "Евгениев", "13453"),
+                                        null,
+                                        new BinaryTree<UserForm>(982131L, new UserForm("Степан", "Степанов", "14456"))
+                                ),
+                                new BinaryTree<UserForm>(3424254L, new UserForm("Дмитрий", "Дмитриев", "123423"))
+                        ),
+                        new BinaryTree<UserForm>(978132L, new UserForm("Алексадр", "Александров", "2342342"))
+                ),
+                new BinaryTree<UserForm>(856645L, new UserForm("Максим", "Максимов", "1"))
+        );
     }
 }
