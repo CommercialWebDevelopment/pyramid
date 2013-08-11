@@ -18,8 +18,7 @@ public class BinaryTreeWidget {
     }
 
     private double calculateTotalWidth(BinaryTree tree) {
-        double nodeWidth = 100;
-        return Math.pow(2, tree.getDepth()) * nodeWidth;
+        return Math.pow(2, tree.getDepth()) * 50;
     }
 
     private double calculateNodeWidth(BinaryTree tree) {
@@ -35,7 +34,7 @@ public class BinaryTreeWidget {
         return "<div class='"+clazz+"' style='width:"+ calculateNodeWidth(tree) +"px'>" +
                 "<div class='user-info''>" +
                     "<img src='/resources/images/vcard.png' alt='User Info'><br>" +
-                user.getSurname() + " " +
+                user.getSurname() + " <br>" +
                 user.getName() +
                 "</div>" +
                 "<canvas class='user-pointer'></canvas>" +
@@ -45,7 +44,7 @@ public class BinaryTreeWidget {
 
     public String getStubNode(BinaryTree user, String clazz) {
         return "<div class='"+clazz+" user-info' style='width:"+ calculateNodeWidth(user) / 2+"px'>" +
-                "<a href='#'>"+ stubText +"</a>"+
+                "<a href='#'><img src='/resources/images/add-user.jpg' alt='Add user'><br></a>"+
                 "</div>";
     }
 
