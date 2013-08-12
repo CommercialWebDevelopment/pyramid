@@ -1,4 +1,4 @@
-$.settings = {
+var Settings = {
     data: {},
     getProperty: function (key, params) {
         var result = null;
@@ -26,7 +26,7 @@ jQuery.ajax({
     success: function (response) {
         var settings = jQuery.parseJSON(response);
         for (var i = 0; i < settings.length; i++) {
-            $.settings.setProperty(settings[i].keyString, settings[i].valueString);
+            Settings.setProperty(settings[i].keyString, settings[i].valueString);
         }
     },
     error: function (response) {

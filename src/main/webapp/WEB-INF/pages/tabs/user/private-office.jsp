@@ -37,10 +37,15 @@
             %>
             <%=widget.getRootElement()%>
         </div>
-        <div class="span3" style="border: 1px solid #808080">
-        </div>
+        <div class="span3" style="border: 1px solid #808080"></div>
     </div>
     <%--<a href="<c:url value="/user/logout" />" class="btn btn-primary" type="button">Logout</a>--%>
+</div>
+<div class="row-fluid">
+    <div class="span12">
+        <!--     Reports and Graphs    -->
+        <%@ include file="earnings-report.jsp" %>
+    </div>
 </div>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

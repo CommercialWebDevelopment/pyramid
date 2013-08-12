@@ -11,5 +11,5 @@ var options = {
 };
 
 $(document).ready(function() {
-    $('#user-details').popover(options);
+    //$('#user-details').popover(options);
 });
