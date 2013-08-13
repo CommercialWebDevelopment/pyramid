@@ -42,7 +42,7 @@
 <div class="row-fluid">
     <div class="span5">
         <pre>Нам важно ваше мнение! Напишите нам:</pre>
-        <textarea style="width:363px; height:280px; resize:none"></textarea>
+        <textarea rows="15" style="width:100%; resize:none"></textarea>
         <button class="btn" type="submit">Отправить</button>
     </div>
     <div class="span5">
