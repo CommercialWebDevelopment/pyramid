@@ -35,7 +35,8 @@
             <%--Header--%>
             <div class="row-fluid" style="height: 80px;">
                 <div class="span8">
-                    Название
+                    <h1>Название | <small>Финансовый проект №1</small>
+                </h1>
                 </div>
                 <div class="span4">
                     <div class="span2">

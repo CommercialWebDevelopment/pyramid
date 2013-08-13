@@ -12,6 +12,6 @@ public interface PayUService {
 
     public String processPayment(PayUDetails details) throws PayUException;
 
-    public String rejectPayment(PayUDetails details) throws PayUException ;
+    public String rejectPayment(PayUDetails details) throws PayUException;
 
 }
