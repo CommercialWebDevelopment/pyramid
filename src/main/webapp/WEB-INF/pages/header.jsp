@@ -29,6 +29,7 @@
 
 <div class="row-fluid" style="height: 20px"></div>
 <div class="container-fluid">
+    <div class="page-scroll">↑</div>
     <div class="row-fluid">
         <div class="span10 offset2">
             <%--Header--%>

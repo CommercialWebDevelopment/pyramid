@@ -27,3 +27,23 @@
 .user-grid-column-header {
     border-left: 1px solid #0088cc;
 }
+
+.page-scroll {
+    font-size: 20px;
+    color: #0088CC;
+    width: 50px;
+    height: 100%;
+    cursor: pointer;
+    padding: 10px;
+    margin-left: -20px;
+    margin-top: -20px;
+    text-align: center;
+    position: fixed;
+    background: #ffffff;
+    display: none;
+}
+
+.page-scroll.over {
+    background: #0088CC;
+    color: #ffffff;
+}
