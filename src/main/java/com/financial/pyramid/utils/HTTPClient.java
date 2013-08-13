@@ -23,14 +23,31 @@ import java.util.List;
  */
 public class HTTPClient {
 
+    /*
+    * Sending GET requests
+    * @url - request url
+    * */
+
     public static List<String> sendRequest(String url) {
         return processRequest(url);
     }
+
+    /*
+    * Sending GET requests with parameters
+    * @url - request url
+    * @params - parameter objects
+    * */
 
     public static List<String> sendRequest(String url, Object... params) {
         String urlRequest = MessageFormat.format(url, params);
         return processRequest(urlRequest);
     }
+
+    /*
+    * Sending POST requests with parameters
+    * @url - request url
+    * @params - parameter objects
+    * */
 
     public static List<String> sendRequest(String url, List<Pair<String, String>> params) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
