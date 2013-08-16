@@ -10,4 +10,8 @@ public class PayPalException extends RuntimeException {
     public PayPalException(Exception e){
         super(e);
     }
+
+    public PayPalException(String message){
+        super(message);
+    }
 }

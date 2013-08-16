@@ -52,7 +52,7 @@ public class HTTPClient {
     * @method - request method GET or POST
     * */
 
-    public static List<String> sendRequest(String url, List<Pair<String, String>> properties, String method) {
+    public static List<String> sendRequestWithHeaders(String url, List<Pair<String, String>> properties, String method) {
         URL requestUrl = null;
         BufferedReader reader = null;
         List<String> response = new ArrayList<String>();

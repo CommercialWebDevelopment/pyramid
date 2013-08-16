@@ -19,7 +19,7 @@
             <column name="payer" type="VARCHAR(250)"/>
             <column name="payee" type="VARCHAR(250)"/>
             <column name="memo" type="VARCHAR(500)"/>
-            <column name="amount" type="DOUBLE(2,2)"/>
+            <column name="amount" type="DOUBLE(10,2)"/>
             <column name="error" type="VARCHAR(500)"/>
             <column name="result" type="VARCHAR(500)"/>
             <column name="success" type="INT"/>

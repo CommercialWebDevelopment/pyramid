@@ -7,6 +7,8 @@ import com.financial.pyramid.service.OperationsLoggingService;
 import com.financial.pyramid.service.PayPalService;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.service.beans.PayPalResponse;
+import com.financial.pyramid.service.beans.Receiver;
+import com.financial.pyramid.service.beans.RequestEnvelope;
 import com.financial.pyramid.service.exception.PayPalException;
 import com.financial.pyramid.utils.HTTPClient;
 import com.google.gdata.util.common.base.Pair;
@@ -36,7 +38,15 @@ public class PayPalServiceImpl implements PayPalService {
     @Override
     public String processPayment(PayPalDetails payPalDetails) throws PayPalException {
         updatePayPalDetails(payPalDetails);
-        List<String> response = HTTPClient.sendRequest(getPaymentUrl(payPalDetails), getHeaders("JSON"), RequestMethod.GET);
+
+        List<Receiver> receivers = new ArrayList<Receiver>();
+        Receiver receiver = new Receiver();
+        receiver.amount = payPalDetails.amount;
+        receiver.email = payPalDetails.email;
+        receivers.add(receiver);
+        payPalDetails.receiverList = receivers;
+
+        List<String> response = HTTPClient.sendRequestWithHeaders(getPaymentUrl(payPalDetails), getHeaders("JSON"), RequestMethod.GET.name());
         String result = isSuccessfulPayment(response) ? "Success" : "Failed";
 
         Operation operation = new Operation();
@@ -46,8 +56,13 @@ public class PayPalServiceImpl implements PayPalService {
         operation.setDate(new Date(System.currentTimeMillis()));
         operation.setPayee(payPalDetails.receiverList.get(0).email);
         operation.setAmount(Double.valueOf(payPalDetails.receiverList.get(0).amount));
+        operation.setSuccess(isSuccessfulPayment(response));
         operation.setResult(result);
         loggingService.save(operation);
+
+        if (response.size() == 0){
+            throw new PayPalException("Response from PayPal is empty!");
+        }
 
         PayPalResponse payPalResponse = new Gson().fromJson(response.toString(), PayPalResponse.class);
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;
@@ -56,7 +71,15 @@ public class PayPalServiceImpl implements PayPalService {
     @Override
     public String processTransfer(PayPalDetails details) throws PayPalException {
         updatePayPalDetails(details);
-        List<String> response = HTTPClient.sendRequest(getTransferUrl(details), getHeaders("NV"), RequestMethod.GET);
+
+        List<Receiver> receivers = new ArrayList<Receiver>();
+        Receiver receiver = new Receiver();
+        receiver.amount = details.amount;
+        receiver.email = details.email;
+        receivers.add(receiver);
+        details.receiverList = receivers;
+
+        List<String> response = HTTPClient.sendRequestWithHeaders(getTransferUrl(details), getHeaders("NV"), RequestMethod.GET.name());
         String result = isSuccessfulPayment(response) ? "Success" : "Failed";
         Operation operation = new Operation();
         operation.setMemo(details.memo);
@@ -65,6 +88,7 @@ public class PayPalServiceImpl implements PayPalService {
         operation.setDate(new Date(System.currentTimeMillis()));
         operation.setPayee(details.receiverList.get(0).email);
         operation.setAmount(Double.valueOf(details.receiverList.get(0).amount));
+        operation.setSuccess(isSuccessfulPayment(response));
         operation.setResult(result);
         loggingService.save(operation);
         return result;
@@ -87,7 +111,7 @@ public class PayPalServiceImpl implements PayPalService {
 
     private String getTransferUrl(PayPalDetails details) {
         String errorLanguage = PayPalPropeties.PAY_PAL_DEFAULT_ERROR_LANGUAGE;
-        if (details.requestEnvelope.errorLanguage != null) {
+        if (details.requestEnvelope != null && details.requestEnvelope.errorLanguage != null) {
             errorLanguage = details.requestEnvelope.errorLanguage;
         }
 
@@ -109,7 +133,7 @@ public class PayPalServiceImpl implements PayPalService {
 
     private String getPaymentUrl(PayPalDetails details) {
         String errorLanguage = PayPalPropeties.PAY_PAL_DEFAULT_ERROR_LANGUAGE;
-        if (details.requestEnvelope.errorLanguage != null) {
+        if (details.requestEnvelope != null && details.requestEnvelope.errorLanguage != null) {
             errorLanguage = details.requestEnvelope.errorLanguage;
         }
 
