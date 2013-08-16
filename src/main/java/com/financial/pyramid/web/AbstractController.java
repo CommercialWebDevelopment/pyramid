@@ -15,7 +15,7 @@ public class AbstractController {
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Throwable t) {
         ModelAndView model = new ModelAndView("error");
-        model.addObject("message", t.getMessage());
+        model.addObject("message", t.getMessage() != null ? t.getMessage() : "[500] Internal server error");
         return model;
     }
 }

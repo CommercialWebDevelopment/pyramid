@@ -24,7 +24,7 @@ public class ApplicationConfigurationServiceImpl implements ApplicationConfigura
 
     @Override
     public String getParameter(String name) {
-        List<ApplicationConfiguration> result = applicationConfigurationDao.findByCriteria(Restrictions.eq("name", name));
+        List<ApplicationConfiguration> result = applicationConfigurationDao.findByCriteria(Restrictions.eq("keyString", name));
         if (result.size() > 0){
             ApplicationConfiguration parameter = result.get(0);
             return parameter.getValueString();

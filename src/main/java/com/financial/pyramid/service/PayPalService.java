@@ -10,4 +10,6 @@ import com.financial.pyramid.service.exception.PayPalException;
  */
 public interface PayPalService {
     public String processPayment(PayPalDetails details) throws PayPalException;
+    public String processTransfer(PayPalDetails details) throws PayPalException;
+    public void updatePayPalDetails(PayPalDetails details);
 }

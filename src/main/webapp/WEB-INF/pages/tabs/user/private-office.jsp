@@ -7,6 +7,15 @@
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 
+<script language="javascript">
+    function processPayment(){
+        window.location.href = "/paypal/payment";
+    }
+</script>
+
+<div class="row-fluid">
+    <button class="btn btn-primary" onclick="processPayment()"><spring:message code="buyPrivateOffice"/></button>
+</div>
 <div class="row-fluid">
     <div class="span12">
         <div class="span9" style="border: 1px solid blue; overflow: auto">

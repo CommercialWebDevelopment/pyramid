@@ -12,6 +12,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,42 @@ public class HTTPClient {
     public static List<String> sendRequest(String url, Object... params) {
         String urlRequest = MessageFormat.format(url, params);
         return processRequest(urlRequest);
+    }
+
+    /*
+    * Sending GET or POST requests with header parameters
+    * @url - request url
+    * @properties -list of header properties
+    * @method - request method GET or POST
+    * */
+
+    public static List<String> sendRequest(String url, List<Pair<String, String>> properties, String method) {
+        URL requestUrl = null;
+        BufferedReader reader = null;
+        List<String> response = new ArrayList<String>();
+        try {
+            requestUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
+            connection.setRequestMethod(method);
+            connection.setDoOutput(true);
+
+            for (Pair property : properties) {
+                connection.addRequestProperty(property.getFirst().toString(), property.getSecond().toString());
+            }
+
+            connection.setReadTimeout(15000);
+            connection.connect();
+
+            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                response.add(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     /*
