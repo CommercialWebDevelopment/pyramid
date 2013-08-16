@@ -49,6 +49,10 @@ public class PayPalServiceImpl implements PayPalService {
         List<String> response = HTTPClient.sendRequestWithHeaders(getPaymentUrl(payPalDetails), getHeaders("JSON"), RequestMethod.GET.name());
         String result = isSuccessfulPayment(response) ? "Success" : "Failed";
 
+        if (response.size() == 0){
+            throw new PayPalException("Response from PayPal is empty!");
+        }
+
         Operation operation = new Operation();
         operation.setMemo(payPalDetails.memo);
         operation.setType(payPalDetails.actionType);
@@ -59,10 +63,6 @@ public class PayPalServiceImpl implements PayPalService {
         operation.setSuccess(isSuccessfulPayment(response));
         operation.setResult(result);
         loggingService.save(operation);
-
-        if (response.size() == 0){
-            throw new PayPalException("Response from PayPal is empty!");
-        }
 
         PayPalResponse payPalResponse = new Gson().fromJson(response.toString(), PayPalResponse.class);
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;

@@ -42,7 +42,10 @@
     </c:forEach>
     <%
         PageForm<News> pageForm = (PageForm<News>) request.getAttribute("newsForm");
-        Integer pages = (int) Math.ceil(Double.valueOf(pageForm.getTotal() / 10.0));
+        Integer pages = 0;
+        if (pageForm != null){
+            pages = (int) Math.ceil(Double.valueOf(pageForm.getTotal() / 10.0));
+        }
         if (pages > 1) {
     %>
     <div class="pagination pagination-centered">
