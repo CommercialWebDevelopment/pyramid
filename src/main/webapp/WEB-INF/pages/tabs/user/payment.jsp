@@ -25,7 +25,7 @@
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
         <input type="hidden" name="receiverEmail" value="${payPalDetails.receiverEmail}"/>
-        <input type="hidden" name="memo" value="Payment for private office"/>
+        <input type="hidden" name="memo" value=""/>
 
         <div class="span11 text-center">
             <spring:message code="privateOfficePrice"/><b> $${payPalDetails.amount}</b>
