@@ -11,11 +11,16 @@
     function processPayment(){
         window.location.href = "/paypal/payment";
     }
+    function takeMoney(){
+        window.location.href = "/paypal/take";
+    }
 </script>
 
 <div class="row-fluid">
     <button class="btn btn-primary" onclick="processPayment()"><spring:message code="buyPrivateOffice"/></button>
+    <button class="btn btn-primary" onclick="takeMoney()"><spring:message code="takeMoney"/></button>
 </div>
+<br>
 <div class="row-fluid">
     <div class="span12">
         <div class="span9" style="border: 1px solid blue; overflow: auto">

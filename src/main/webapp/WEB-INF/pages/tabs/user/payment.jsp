@@ -11,7 +11,7 @@
         <legend><spring:message code="privateOfficeBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
-        <input type="hidden" name="senderEmail" value="${payPalDetails.senderEmail}"/>
+        <input type="hidden" name="receiverEmail" value="${payPalDetails.receiverEmail}"/>
         <input type="hidden" name="memo" value="Payment for private office"/>
 
         <div class="span6"><spring:message code="privateOfficePrice"/><b> $${payPalDetails.amount}</b></div>
@@ -22,7 +22,7 @@
             <div class="controls">
                 <div class="input-prepend">
                     <span class="add-on"><i class="icon-envelope"></i></span>
-                    <input class="span12" id="inputIcon" type="text" name="email">
+                    <input class="span12" id="inputIcon" type="text" name="senderEmail">
                     <img alt="" border="0" src="https://www.sandbox.paypal.com/en_GB/i/scr/pixel.gif" width="5"
                          height="1">
                     <input type="image" src="https://www.sandbox.paypal.com/en_GB/i/btn/btn_paynow_LG.gif" border="0"

@@ -20,7 +20,7 @@ public class PayPalDetails {
     public RequestEnvelope requestEnvelope;
     public boolean reverseAllParallelPaymentsOnError = true;
     public String amount;
-    public String email;
+    public String receiverEmail;
 
     public String getActionType() {
         return actionType;
@@ -118,11 +118,11 @@ public class PayPalDetails {
         this.amount = amount;
     }
 
-    public String getEmail() {
-        return email;
+    public String getReceiverEmail() {
+        return receiverEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
     }
 }

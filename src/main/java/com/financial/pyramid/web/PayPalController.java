@@ -39,7 +39,7 @@ public class PayPalController extends AbstractController {
         payPalService.updatePayPalDetails(details);
         String applicationURL = settingsService.getProperty("applicationURL");
         String officePrice = settingsService.getProperty("officePrice");
-        details.senderEmail = configurationService.getParameter("PAY_PAL_LOGIN");
+        details.receiverEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.cancelUrl = applicationURL + "/paypal/payment";
         details.returnUrl = applicationURL + "/tabs/user/private-office";
         details.amount = officePrice;
@@ -49,7 +49,27 @@ public class PayPalController extends AbstractController {
 
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public String pay(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+        String officePrice = settingsService.getProperty("officePrice");
+        if (!officePrice.equals(details.amount)){
+            details.amount = officePrice;
+        }
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
+    }
+
+    @RequestMapping(value = "/take", method = RequestMethod.GET)
+    public String take(ModelMap model){
+        PayPalDetails details = new PayPalDetails();
+        payPalService.updatePayPalDetails(details);
+        String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
+        String applicationURL = settingsService.getProperty("applicationURL");
+        details.senderEmail = configurationService.getParameter("PAY_PAL_LOGIN");
+        details.amount = maxAllowedAmount;
+        details.cancelUrl = applicationURL + "/paypal/take_money";
+        details.returnUrl = applicationURL + "/tabs/user/private-office";
+        model.addAttribute("payPalDetails", details);
+        model.addAttribute("maxAllowedAmount", maxAllowedAmount);
+        return "tabs/user/take_money";
+
     }
 }

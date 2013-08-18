@@ -42,7 +42,7 @@ public class PayPalServiceImpl implements PayPalService {
         List<Receiver> receivers = new ArrayList<Receiver>();
         Receiver receiver = new Receiver();
         receiver.amount = payPalDetails.amount;
-        receiver.email = payPalDetails.email;
+        receiver.email = payPalDetails.receiverEmail;
         receivers.add(receiver);
         payPalDetails.receiverList = receivers;
 
@@ -75,7 +75,7 @@ public class PayPalServiceImpl implements PayPalService {
         List<Receiver> receivers = new ArrayList<Receiver>();
         Receiver receiver = new Receiver();
         receiver.amount = details.amount;
-        receiver.email = details.email;
+        receiver.email = details.receiverEmail;
         receivers.add(receiver);
         details.receiverList = receivers;
 
