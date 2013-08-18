@@ -15,6 +15,10 @@ var Alert = {
         dialog.css("top", "5px");
         dialog.css("zIndex", "1000");
         this.position(dialog);
+        dialog.find(".close").on("click", function (e) {
+            e.stopPropagation();
+            dialog.hide();
+        });
         setTimeout(function () {
             dialog.hide();
         }, this.displayTime);
