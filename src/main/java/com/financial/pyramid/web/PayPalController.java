@@ -4,16 +4,12 @@ import com.financial.pyramid.service.ApplicationConfigurationService;
 import com.financial.pyramid.service.PayPalService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.beans.PayPalDetails;
-import org.hibernate.context.spi.CurrentSessionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: dbudunov
@@ -65,11 +61,21 @@ public class PayPalController extends AbstractController {
         String applicationURL = settingsService.getProperty("applicationURL");
         details.senderEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.amount = maxAllowedAmount;
-        details.cancelUrl = applicationURL + "/paypal/take_money";
+        details.cancelUrl = applicationURL + "/paypal/take-money";
         details.returnUrl = applicationURL + "/tabs/user/private-office";
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
-        return "tabs/user/take_money";
-
+        return "tabs/user/take-money";
     }
+
+    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    public String transfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+        String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
+        if (!maxAllowedAmount.equals(details.amount)){
+            details.amount = maxAllowedAmount;
+        }
+        payPalService.processTransfer(details);
+        return "redirect:" + details.returnUrl;
+    }
+
 }
