@@ -68,7 +68,7 @@ public class PayPalController extends AbstractController {
         return "tabs/user/take-money";
     }
 
-    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public String transfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
         if (!maxAllowedAmount.equals(details.amount)){
