@@ -61,9 +61,12 @@
             </div>
             <button class="btn btn-primary">Перевести</button>
         </div>
-        <div class="text-warning">
-            <spring:message code="payPalDisclaimer"/>
-        </div>
-    </form:form>
+       </form:form>
+</div>
+<br>
+<div class="row-fluid">
+    <div class="text-warning">
+        <spring:message code="payPalDisclaimer"/>
+    </div>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
