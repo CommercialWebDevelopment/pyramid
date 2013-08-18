@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<form:form method="POST" action="/user/registration" modelAttribute="registration" onsubmit="return Registration.validate()">
+<form:form method="POST" action="/user/registration" modelAttribute="registration" onsubmit="return Form.validate()">
     <div id="registration-form" class="container-fluid">
         <div class="row-fluid">
             <div class="span6">
@@ -22,7 +22,7 @@
                         <label for="surname" class="required_label form-field"><spring:message code="firstName"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="surname" name="surname" type="text" class="form-field" onkeyup="Registration.validateTextField(this, value)">
+                        <input id="surname" name="surname" type="text" class="form-field" onkeyup="Form.validateTextField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -30,7 +30,7 @@
                         <label for="name" class="required_label form-field"><spring:message code="secondName"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="name" name="name" type="text" class=" form-field" onkeyup="Registration.validateTextField(this, value)">
+                        <input id="name" name="name" type="text" class=" form-field" onkeyup="Form.validateTextField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -38,7 +38,7 @@
                         <label for="patronymic" class="required_label form-field"><spring:message code="patronymic"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="patronymic" name="patronymic" type="text" class=" form-field" onkeyup="Registration.validateTextField(this, value)">
+                        <input id="patronymic" name="patronymic" type="text" class=" form-field" onkeyup="Form.validateTextField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -46,7 +46,7 @@
                         <label for="date_of_birth" class="required_label form-field"><spring:message code="dateOfBirth"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="date_of_birth" name="dateOfBirth" type="text" class="form-field" placeholder="дд.мм.гггг" onkeyup="Registration.validateDateField(this, value)">
+                        <input id="date_of_birth" name="dateOfBirth" type="text" class="form-field" placeholder="дд.мм.гггг" onkeyup="Form.validateDateField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -56,7 +56,7 @@
                     <div class="span7 controls">
                         <div class="input-prepend form-field">
                             <span class="add-on" style="height: 15px"><i class="icon-envelope"></i></span>
-                            <input id="email" name="email" type="text" class="form-field" onkeyup="Registration.validateEMailField(this, value)">
+                            <input id="email" name="email" type="text" class="form-field" onkeyup="Form.validateEMailField(this, value)">
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                 class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="phone-number" name="phoneNumber" type="text" class="form-field" onkeyup="Registration.validatePhoneNumberField(this, value)">
+                        <input id="phone-number" name="phoneNumber" type="text" class="form-field" onkeyup="Form.validatePhoneNumberField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -74,7 +74,7 @@
                         <label for="login" class="required_label form-field"><spring:message code="login"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="login" name="login" type="text" class=" form-field" onkeyup="Registration.validateLoginField(this, value)">
+                        <input id="login" name="login" type="text" class=" form-field" onkeyup="Form.validateLoginField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -82,7 +82,7 @@
                         <label for="password" class="required_label form-field"><spring:message code="password"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="password" name="password" type="password" class=" form-field" onkeyup="Registration.validatePasswordField(this, value)">
+                        <input id="password" name="password" type="password" class=" form-field" onkeyup="Form.validatePasswordField(this, value)">
                     </div>
                 </div>
                 <div class="row-fluid control-group error">
@@ -90,7 +90,7 @@
                         <label for="confirm_password" class="required_label form-field"><spring:message code="confirmPassword"/><span class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
-                        <input id="confirm_password" name="passwordForConfirm" type="password" class=" form-field" onkeyup="Registration.validateSecondPasswordField(this, value)">
+                        <input id="confirm_password" name="passwordForConfirm" type="password" class=" form-field" onkeyup="Form.validateSecondPasswordField(this, value)">
                     </div>
                 </div>
             </div>

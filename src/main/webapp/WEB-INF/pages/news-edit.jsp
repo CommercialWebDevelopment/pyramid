@@ -12,7 +12,7 @@
     <%@ include file="/resources/javascript/news.js" %>
 </script>
 <h5>Редактирование новости</h5>
-<div class="text-right"><a href="Javascript:history.back()">Назад</a></div>
+<div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
 <form:form action="/news/save" method="POST" modelAttribute="news" id="editForm">
     <label>Название:</label>
     <input type="text" name="name" class="form-field" style="width: 100%" value="${news.name}">

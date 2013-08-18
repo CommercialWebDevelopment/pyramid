@@ -22,6 +22,7 @@ var I18N = {
     connectionError:'<spring:message code="connectionError" javaScriptEscape="true"/>',
     pleaseWait:'<spring:message code="pleaseWait" javaScriptEscape="true"/>',
     noItems:'<spring:message code="noItems" javaScriptEscape="true"/>',
-    of:'<spring:message code="of" javaScriptEscape="true"/>'
+    of:'<spring:message code="of" javaScriptEscape="true"/>',
+    incorrectFields:'<spring:message code="incorrectFields" javaScriptEscape="true"/>'
 };
 

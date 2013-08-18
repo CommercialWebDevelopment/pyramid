@@ -3,7 +3,7 @@
  * Date: 04.06.13
  * Time: 22:05
  */
-var Registration = {
+var Form = {
     timeOutId: null,
 
     validate: function () {
@@ -14,6 +14,16 @@ var Registration = {
         }
         return valid;
     },
+
+    validateForm: function (form) {
+        var fieldsWithError = form.find(".control-group.error");
+        var valid = fieldsWithError.length == 0;
+        if (!valid) {
+            $(fieldsWithError[0]).find("input").focus();
+        }
+        return valid;
+    },
+
 
     setValidField: function (field) {
         var parent = $(field).parents(".control-group");
@@ -29,6 +39,14 @@ var Registration = {
 
     validateTextField: function (element, value) {
         $.trim(value).length >= 3 && this.isText($.trim(value)) ? this.setValidField(element) : this.setInvalidField(element);
+    },
+
+    validateNumberField: function (element, value) {
+        this.isNumber($.trim(value)) ? this.setValidField(element) : this.setInvalidField(element);
+    },
+
+    validateFloatField: function (element, value) {
+        this.isFloat(value) ? this.setValidField(element) : this.setInvalidField(element);
     },
 
     validateDateField: function (element, value) {
@@ -56,7 +74,7 @@ var Registration = {
             return;
         }
         var scope = this;
-        this.timeOutId = setTimeout(function(){
+        this.timeOutId = setTimeout(function () {
             $.ajax({
                 type: "GET",
                 url: "/user/checkLogin/" + value,
@@ -74,6 +92,16 @@ var Registration = {
     validateSecondPasswordField: function (element, value) {
         var regex = /\W/;
         !regex.test(value) && value.length >= 6 && $("#password").val() == value ? this.setValidField(element) : this.setInvalidField(element);
+    },
+
+    isNumber: function (number) {
+        var regex = /^[0-9]+$/;
+        return regex.test(number);
+    },
+
+    isFloat: function (float) {
+        var regexp = /^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/;
+        return regexp.test(float);
     },
 
     isText: function (text) {
@@ -114,7 +142,7 @@ var Registration = {
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     var userPointer = $(".user-pointer");
     for (var i = 0; i < userPointer.length; i++) {
         var obj = userPointer[i];

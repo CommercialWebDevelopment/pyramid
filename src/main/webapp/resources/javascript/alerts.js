@@ -13,6 +13,7 @@ var Alert = {
         dialog.find(".text").html(message);
         dialog.css("display", "block");
         dialog.css("top", "5px");
+        dialog.css("zIndex", "1000");
         this.position(dialog);
         setTimeout(function () {
             dialog.hide();
@@ -22,6 +23,8 @@ var Alert = {
         var dialog = $("#confirmation");
         dialog.find(".modal-body").html(message);
         dialog.css("display", "block");
+        dialog.css("margin-top", "-50px");
+        dialog.css("margin-left", "-50px");
         dialog.find("#yesButton").on("click", function (e) {
             if (callback) {
                 callback();
@@ -56,7 +59,5 @@ var Alert = {
     position:function(dialog){
         dialog.css("left", ($(document).innerWidth() - dialog.width()) / 2);
         dialog.css("top", $(document).scrollTop() + $('body')[0].clientHeight/2-dialog.height());
-        dialog.css("margin-top", "-50px");
-        dialog.css("margin-left", "-50px");
     }
 };

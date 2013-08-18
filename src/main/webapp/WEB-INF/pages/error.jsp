@@ -25,7 +25,7 @@
 <div class="row-fluid">
     <div class="span10">
         <div id="tab-content" class="tab-content">
-        <div class="text-right"><a href="Javascript:history.back()">Назад</a></div><br>
+        <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div><br>
         <div class="alert alert-warning alert-block">
             <h4><spring:message code="serverError"/></h4>
             <span class="text">${message}</span>

@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 
 <div class="row-fluid">
-    <div class="text-right"><a href="Javascript:history.back()">Назад</a></div>
+    <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
     <form:form action="/paypal/pay" modelAttribute="payPalDetails">
         <legend><spring:message code="privateOfficeBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
