@@ -37,7 +37,7 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty("officePrice");
         details.receiverEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.cancelUrl = applicationURL + "/paypal/payment";
-        details.returnUrl = applicationURL + "/tabs/user/private-office";
+        details.returnUrl = applicationURL + "/pyramid/office";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
         return "tabs/user/payment";
@@ -62,7 +62,7 @@ public class PayPalController extends AbstractController {
         details.senderEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.amount = maxAllowedAmount;
         details.cancelUrl = applicationURL + "/paypal/take-money";
-        details.returnUrl = applicationURL + "/tabs/user/private-office";
+        details.returnUrl = applicationURL + "/pyramid/office";
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
         return "tabs/user/take-money";
