@@ -10,7 +10,7 @@
         <ul class="nav nav-pills" id="tabs">
             <li><a href="<c:url value="/pyramid/home"/>"><spring:message code="home"/></a></li>
             <security:authorize access="hasAnyRole('SUPER_ADMIN,ADMIN')">
-                <li class="active"><a href="<c:url value="/pyramid/admin"/>"><spring:message code="settings"/></a></li>
+                <li class="active"><a href="<c:url value="/pyramid/admin/"/>"><spring:message code="settings"/></a></li>
             </security:authorize>
             <li><a href="<c:url value="/pyramid/office"/>"><spring:message code="privateOffice"/></a></li>
             <li><a href="<c:url value="/pyramid/news"/>"><spring:message code="news"/></a></li>
