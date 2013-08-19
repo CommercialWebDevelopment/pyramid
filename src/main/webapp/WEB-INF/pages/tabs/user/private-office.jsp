@@ -12,7 +12,7 @@
         window.location.href = "/paypal/payment";
     }
     function takeMoney(){
-        window.location.href = "/paypal/take";
+        window.location.href = "/paypal/withdraw";
     }
 </script>
 
