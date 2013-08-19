@@ -21,7 +21,7 @@ public class SettingsServiceImpl implements SettingsService {
     protected LinkedHashMap<String, String> properties = new LinkedHashMap<String, String>();
 
     public String getProperty(String key, Object ... params) {
-        if (this.properties.size() == 0) {
+        if (this.properties.isEmpty()) {
             initSettings();
         }
         String property = this.properties.get(key);
@@ -29,14 +29,14 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     public String getProperty(String key) {
-        if (this.properties.size() == 0) {
+        if (this.properties.isEmpty()) {
             initSettings();
         }
         return this.properties.get(key);
     }
 
     public List<Setting> getProperties() {
-        if (this.properties.size() == 0) {
+        if (this.properties.isEmpty()) {
             initSettings();
         }
         return settingsDao.findAll();
@@ -51,6 +51,13 @@ public class SettingsServiceImpl implements SettingsService {
         for(Setting setting : settings){
             settingsDao.saveOrUpdate(setting);
         }
+        refresh();
+    }
+
+    @Override
+    public void refresh() {
+        this.properties.clear();
+        initSettings();
     }
 
     private void initSettings() {

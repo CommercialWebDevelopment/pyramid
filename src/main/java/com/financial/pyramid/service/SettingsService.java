@@ -15,4 +15,6 @@ public interface SettingsService {
     public void saveProperties(List<Setting> settings);
 
     public void setProperty(String key, String value);
+
+    public void refresh();
 }
