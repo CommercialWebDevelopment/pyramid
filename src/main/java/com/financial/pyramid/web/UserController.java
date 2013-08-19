@@ -105,6 +105,7 @@ public class UserController extends AbstractController{
         return "/tabs/login";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody

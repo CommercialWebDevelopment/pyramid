@@ -5,6 +5,7 @@ import com.financial.pyramid.service.PayPalService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,7 @@ public class PayPalController extends AbstractController {
     @Autowired
     ApplicationConfigurationService configurationService;
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN','USER')")
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
     public String payment(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
@@ -43,6 +45,7 @@ public class PayPalController extends AbstractController {
         return "tabs/user/payment";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN','USER')")
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public String pay(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty("officePrice");
@@ -54,6 +57,7 @@ public class PayPalController extends AbstractController {
         return "redirect:" + redirectURL;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN','USER')")
     @RequestMapping(value = "/transferMoney", method = RequestMethod.GET)
     public String transferMoney(ModelMap model){
         PayPalDetails details = new PayPalDetails();
@@ -69,6 +73,7 @@ public class PayPalController extends AbstractController {
         return "tabs/user/take-money";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN','USER')")
     @RequestMapping(value = "/processTransfer", method = RequestMethod.POST)
     public String processTransfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
