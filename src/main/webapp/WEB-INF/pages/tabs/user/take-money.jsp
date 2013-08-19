@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary">Перевести</button>
+            <button class="btn btn-primary"><spring:message code="sendMoney"/></button>
         </div>
        </form:form>
 </div>
