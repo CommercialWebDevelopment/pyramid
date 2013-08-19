@@ -37,7 +37,7 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty("officePrice");
         details.receiverEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.cancelUrl = applicationURL + "/paypal/payment";
-        details.returnUrl = applicationURL + "/pyramid/office";
+        details.returnUrl = applicationURL + "/paypal/result";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
         return "tabs/user/payment";
@@ -54,7 +54,7 @@ public class PayPalController extends AbstractController {
         return "redirect:" + redirectURL;
     }
 
-    @RequestMapping(value = "/take", method = RequestMethod.GET)
+    @RequestMapping(value = "/withdraw", method = RequestMethod.GET)
     public String take(ModelMap model){
         PayPalDetails details = new PayPalDetails();
         payPalService.updatePayPalDetails(details);
@@ -63,21 +63,26 @@ public class PayPalController extends AbstractController {
         details.senderEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.amount = maxAllowedAmount;
         details.cancelUrl = applicationURL + "/paypal/take-money";
-        details.returnUrl = applicationURL + "/pyramid/office";
+        details.returnUrl = applicationURL + "/paypal/result";
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
         return "tabs/user/take-money";
     }
 
-    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
+    @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
     public String transfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
         if (!maxAllowedAmount.equals(details.amount)){
             details.amount = maxAllowedAmount;
         }
-        details.memo = "Transfer money transaction";
+        details.memo = "Withdrawal of funds transaction";
         payPalService.processTransfer(details);
         return "redirect:" + details.returnUrl;
+    }
+
+    @RequestMapping(value="/result", method=RequestMethod.GET)
+    public String result(ModelMap model){
+        return "redirect: /tabs/user/office";
     }
 
 }

@@ -21,7 +21,7 @@
 </script>
 <div class="row-fluid">
     <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
-    <form:form action="/paypal/transfer" modelAttribute="payPalDetails" id="takeMoneyForm" onsubmit="return beforeSubmit()">
+    <form:form action="/paypal/withdrawal" modelAttribute="payPalDetails" id="takeMoneyForm" onsubmit="return beforeSubmit()">
         <legend><spring:message code="privateOfficeTakeMoneyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>

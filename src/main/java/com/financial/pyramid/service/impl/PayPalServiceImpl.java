@@ -8,7 +8,6 @@ import com.financial.pyramid.service.PayPalService;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.service.beans.PayPalResponse;
 import com.financial.pyramid.service.beans.Receiver;
-import com.financial.pyramid.service.beans.RequestEnvelope;
 import com.financial.pyramid.service.exception.PayPalException;
 import com.financial.pyramid.utils.HTTPClient;
 import com.google.gdata.util.common.base.Pair;
@@ -35,66 +34,59 @@ public class PayPalServiceImpl implements PayPalService {
     @Autowired
     OperationsLoggingService loggingService;
 
+    private static String PAY_PAL_EMPTY_RESPONSE = "Response from PayPal is empty!";
+
     @Override
     public String processPayment(PayPalDetails payPalDetails) throws PayPalException {
-        updatePayPalDetails(payPalDetails);
-
-        List<Receiver> receivers = new ArrayList<Receiver>();
-        Receiver receiver = new Receiver();
-        receiver.amount = payPalDetails.amount;
-        receiver.email = payPalDetails.receiverEmail;
-        receivers.add(receiver);
-        payPalDetails.receiverList = receivers;
-
-        List<String> response = HTTPClient.sendRequestWithHeaders(getPaymentUrl(payPalDetails), getHeaders("JSON"), RequestMethod.GET.name());
-        String result = isSuccessfulPayment(response) ? "Success" : "Failed";
-
-        if (response.size() == 0){
-            throw new PayPalException("Response from PayPal is empty!");
-        }
-
-        Operation operation = new Operation();
-        operation.setMemo(payPalDetails.memo);
-        operation.setType(payPalDetails.actionType);
-        operation.setPayer(payPalDetails.senderEmail);
-        operation.setDate(new Date(System.currentTimeMillis()));
-        operation.setPayee(payPalDetails.receiverList.get(0).email);
-        operation.setAmount(Double.valueOf(payPalDetails.receiverList.get(0).amount));
-        operation.setSuccess(isSuccessfulPayment(response));
-        operation.setResult(result);
-        loggingService.save(operation);
-
-        PayPalResponse payPalResponse = new Gson().fromJson(response.toString(), PayPalResponse.class);
+        PayPalResponse payPalResponse = processPayPalRequest(payPalDetails);
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;
     }
 
     @Override
     public String processTransfer(PayPalDetails details) throws PayPalException {
-        updatePayPalDetails(details);
-
-        List<Receiver> receivers = new ArrayList<Receiver>();
-        Receiver receiver = new Receiver();
-        receiver.amount = details.amount;
-        receiver.email = details.receiverEmail;
-        receivers.add(receiver);
-        details.receiverList = receivers;
-
-        List<String> response = HTTPClient.sendRequestWithHeaders(getTransferUrl(details), getHeaders("NV"), RequestMethod.GET.name());
-        String result = isSuccessfulPayment(response) ? "Success" : "Failed";
-        Operation operation = new Operation();
-        operation.setMemo(details.memo);
-        operation.setType(details.actionType);
-        operation.setPayer(details.senderEmail);
-        operation.setDate(new Date(System.currentTimeMillis()));
-        operation.setPayee(details.receiverList.get(0).email);
-        operation.setAmount(Double.valueOf(details.receiverList.get(0).amount));
-        operation.setSuccess(isSuccessfulPayment(response));
-        operation.setResult(result);
-        loggingService.save(operation);
-        return result;
+        PayPalResponse payPalResponse = processPayPalRequest(details);
+        return payPalResponse.responseEnvelope.ack;
     }
 
-    private List<Pair<String, String>> getHeaders(String dataFormat) {
+    private PayPalResponse processPayPalRequest(PayPalDetails payPalDetails) {
+        PayPalResponse payPalResponse;
+        try {
+            updatePayPalDetails(payPalDetails);
+            List<String> response = HTTPClient.sendRequestWithHeaders(getPaymentUrl(payPalDetails), getHeaders(), RequestMethod.GET.name());
+
+            String result = isSuccessfulPayment(response) ? "Success" : "Failed";
+
+            Operation operation = new Operation();
+            operation.setMemo(payPalDetails.memo);
+            operation.setType(payPalDetails.actionType);
+            operation.setPayer(payPalDetails.senderEmail);
+            operation.setDate(new Date(System.currentTimeMillis()));
+            operation.setPayee(payPalDetails.receiverList.get(0).email);
+            operation.setAmount(Double.valueOf(payPalDetails.receiverList.get(0).amount));
+            operation.setSuccess(isSuccessfulPayment(response));
+            operation.setResult(result);
+
+            payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
+            String errorString = "";
+            if (response.isEmpty()) {
+                errorString = PAY_PAL_EMPTY_RESPONSE;
+            }
+            if (payPalResponse.error.size() > 0) {
+                for (int i = 0; i < payPalResponse.error.size(); i++) {
+                    errorString += payPalResponse.error.get(i).message;
+                }
+            }
+            if (!errorString.isEmpty()) {
+                operation.setError(errorString);
+            }
+            loggingService.save(operation);
+        } catch (Exception e) {
+            throw new PayPalException(e);
+        }
+        return payPalResponse;
+    }
+
+    private List<Pair<String, String>> getHeaders() {
         List<Pair<String, String>> headers = new ArrayList<Pair<String, String>>();
         String securityUserId = configurationService.getParameter("pay_pal_api_username");
         String securityPassword = configurationService.getParameter("pay_pal_api_password");
@@ -103,8 +95,8 @@ public class PayPalServiceImpl implements PayPalService {
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-USERID", securityUserId));
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-PASSWORD", securityPassword));
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-SIGNATURE", securitySignature));
-        headers.add(new Pair<String, String>("X-PAYPAL-REQUEST-DATA-FORMAT", dataFormat));
-        headers.add(new Pair<String, String>("X-PAYPAL-RESPONSE-DATA-FORMAT", dataFormat));
+        headers.add(new Pair<String, String>("X-PAYPAL-REQUEST-DATA-FORMAT", "JSON"));
+        headers.add(new Pair<String, String>("X-PAYPAL-RESPONSE-DATA-FORMAT", "JSON"));
         headers.add(new Pair<String, String>("X-PAYPAL-APPLICATION-ID", applicationId));
         return headers;
     }
@@ -154,27 +146,16 @@ public class PayPalServiceImpl implements PayPalService {
         details.cancelUrl = details.cancelUrl == null ? PayPalPropeties.PAY_PAL_CANCEL_URL : details.cancelUrl;
         details.currencyCode = details.currencyCode == null ? PayPalPropeties.PAY_PAL_CURRENCY : details.currencyCode;
         details.feesPayer = details.feesPayer == null ? PayPalPropeties.PAY_PAL_FEES_PAYER : details.feesPayer;
+
+        List<Receiver> receivers = new ArrayList<Receiver>();
+        Receiver receiver = new Receiver();
+        receiver.amount = details.amount;
+        receiver.email = details.receiverEmail;
+        receivers.add(receiver);
+        details.receiverList = receivers;
     }
 
     private boolean isSuccessfulPayment(List<String> response) {
         return response.toString().contains("SUCCESS");
     }
-
-    /*
-    private boolean isSuccessfulPayment(String paymentTransactionID) {
-        List<String> response = HTTPClient.sendRequest(getPDTUrl("url", "token", paymentTransactionID));
-        String responseText = response.toString();
-        return responseText.contains("SUCCESS");
-    }
-
-    private String getPDTUrl(String payPalUrl, String token, String transactionID) {
-        return new StringBuilder()
-                .append(payPalUrl)
-                .append("?cmd=_notify-synch&tx=")
-                .append(transactionID)
-                .append("&at=")
-                .append(token)
-                .toString();
-    }
-    */
 }
