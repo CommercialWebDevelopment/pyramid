@@ -49,7 +49,7 @@ public class PayPalController extends AbstractController {
         if (!officePrice.equals(details.amount)){
             details.amount = officePrice;
         }
-        details.memo = "Payment for private office transaction";
+        details.memo = "Private office fee";
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
     }
@@ -75,7 +75,7 @@ public class PayPalController extends AbstractController {
         if (!maxAllowedAmount.equals(details.amount)){
             details.amount = maxAllowedAmount;
         }
-        details.memo = "Withdrawal of funds transaction";
+        details.memo = "Money transfer";
         payPalService.processTransfer(details);
         return "redirect:" + details.returnUrl;
     }
