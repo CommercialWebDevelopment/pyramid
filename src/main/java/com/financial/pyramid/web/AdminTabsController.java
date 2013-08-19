@@ -1,9 +1,11 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.News;
+import com.financial.pyramid.domain.Operation;
 import com.financial.pyramid.domain.Setting;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.NewsService;
+import com.financial.pyramid.service.OperationsLoggingService;
 import com.financial.pyramid.web.form.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ import java.util.List;
 public class AdminTabsController extends TabsController {
 
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
+
+    @Autowired
+    OperationsLoggingService operationsLoggingService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultRequest(ModelMap model) {
@@ -81,5 +86,21 @@ public class AdminTabsController extends TabsController {
         settingsForm.setSettings(settings);
         model.addAttribute("settingsForm", settingsForm);
         return "/tabs/admin/settings";
+    }
+
+    @RequestMapping(value = "/payments", method = RequestMethod.GET)
+    public String payments(ModelMap model,@RequestParam(value = "page", defaultValue = "1") Integer page) {
+        PageForm<Operation> paymentsForm = new PageForm<Operation>();
+        QueryForm form = new QueryForm();
+        form.setSort("date");
+        form.setOrder("desc");
+        form.setPage(page);
+        int total = operationsLoggingService.find().size();
+        List<Operation> list = operationsLoggingService.get(form);
+        paymentsForm.setPage(page);
+        paymentsForm.setRows(list);
+        paymentsForm.setTotal(total);
+        model.addAttribute("paymentsForm", paymentsForm);
+        return "/tabs/admin/payments";
     }
 }

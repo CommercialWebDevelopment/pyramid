@@ -16,6 +16,7 @@
             <li><a href="<c:url value="/pyramid/admin/video_settings"/>" data-toogle="tab"><spring:message code="tabs.video"/></a></li>
             <li><a href="<c:url value="/pyramid/admin/contact_settings"/>" data-toogle="tab"><spring:message code="contacts"/></a></li>
             <li><a href="<c:url value="/pyramid/admin/application_settings"/>" data-toogle="tab"><spring:message code="tabs.parameters"/></a></li>
+            <li><a href="<c:url value="/pyramid/admin/payments"/>" data-toogle="tab"><spring:message code="tabs.payments"/></a></li>
         </ul>
     </div>
 </div>
