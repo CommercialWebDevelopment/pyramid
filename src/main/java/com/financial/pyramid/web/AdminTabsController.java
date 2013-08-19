@@ -25,7 +25,6 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/pyramid/admin")
-@PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
 public class AdminTabsController extends TabsController {
 
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
@@ -33,11 +32,13 @@ public class AdminTabsController extends TabsController {
     @Autowired
     OperationsLoggingService operationsLoggingService;
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultRequest(ModelMap model) {
         return this.users(model);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/news_settings", method = RequestMethod.GET)
     public String news(ModelMap model, @RequestParam(value = "page", defaultValue = "1") Integer page) {
         PageForm<News> newsForm = new PageForm<News>();
@@ -54,17 +55,20 @@ public class AdminTabsController extends TabsController {
         return "/tabs/admin/news";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/user_settings", method = RequestMethod.GET)
     public String users(ModelMap model) {
         model.addAttribute("registration", new RegistrationForm());
         return "/tabs/admin/users";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/content_settings", method = RequestMethod.GET)
     public String content(ModelMap model) {
         return "/tabs/admin/content";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/video_settings", method = RequestMethod.GET)
     public String videos(ModelMap model) {
         List<Video> videos = videoService.find();
@@ -74,11 +78,13 @@ public class AdminTabsController extends TabsController {
         return "/tabs/admin/videos";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/contact_settings", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
         return "/tabs/admin/contacts";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/application_settings", method = RequestMethod.GET)
     public String settings(ModelMap model) {
         List<Setting> settings = settingsService.getProperties();
@@ -88,6 +94,7 @@ public class AdminTabsController extends TabsController {
         return "/tabs/admin/settings";
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/payments", method = RequestMethod.GET)
     public String payments(ModelMap model,@RequestParam(value = "page", defaultValue = "1") Integer page) {
         PageForm<Operation> paymentsForm = new PageForm<Operation>();

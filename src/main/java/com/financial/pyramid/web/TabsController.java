@@ -52,12 +52,6 @@ public class TabsController extends AbstractController {
         return "/tabs/home";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String admin(ModelMap model) {
-        return "redirect:/pyramid/admin/user_settings";
-    }
-
     @RequestMapping(value = "/training", method = RequestMethod.GET)
     public String training(ModelMap model) {
         List<Video> videos = videoService.find();
