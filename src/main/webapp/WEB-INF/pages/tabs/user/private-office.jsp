@@ -11,14 +11,14 @@
     function processPayment(){
         window.location.href = "/paypal/payment";
     }
-    function takeMoney(){
-        window.location.href = "/paypal/withdraw";
+    function transferMoney(){
+        window.location.href = "/paypal/transferMoney";
     }
 </script>
 
 <div class="row-fluid">
     <button class="btn btn-primary" onclick="processPayment()"><spring:message code="buyPrivateOffice"/></button>
-    <button class="btn btn-primary" onclick="takeMoney()"><spring:message code="takeMoney"/></button>
+    <button class="btn btn-primary" onclick="transferMoney()"><spring:message code="takeMoney"/></button>
 </div>
 <br>
 <div class="row-fluid">

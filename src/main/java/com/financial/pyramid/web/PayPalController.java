@@ -37,7 +37,7 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty("officePrice");
         details.receiverEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.cancelUrl = applicationURL + "/paypal/payment";
-        details.returnUrl = applicationURL + "/paypal/result";
+        details.returnUrl = applicationURL + "/pyramid/office";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
         return "tabs/user/payment";
@@ -54,23 +54,23 @@ public class PayPalController extends AbstractController {
         return "redirect:" + redirectURL;
     }
 
-    @RequestMapping(value = "/withdraw", method = RequestMethod.GET)
-    public String take(ModelMap model){
+    @RequestMapping(value = "/transferMoney", method = RequestMethod.GET)
+    public String transferMoney(ModelMap model){
         PayPalDetails details = new PayPalDetails();
         payPalService.updatePayPalDetails(details);
         String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
         String applicationURL = settingsService.getProperty("applicationURL");
         details.senderEmail = configurationService.getParameter("PAY_PAL_LOGIN");
         details.amount = maxAllowedAmount;
-        details.cancelUrl = applicationURL + "/paypal/take-money";
-        details.returnUrl = applicationURL + "/paypal/result";
+        details.cancelUrl = applicationURL + "/paypal/transferMoney";
+        details.returnUrl = applicationURL + "/pyramid/office";
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
         return "tabs/user/take-money";
     }
 
-    @RequestMapping(value = "/withdrawal", method = RequestMethod.POST)
-    public String transfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+    @RequestMapping(value = "/processTransfer", method = RequestMethod.POST)
+    public String processTransfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String maxAllowedAmount = settingsService.getProperty("maxAllowedAmount");
         if (!maxAllowedAmount.equals(details.amount)){
             details.amount = maxAllowedAmount;
@@ -79,10 +79,4 @@ public class PayPalController extends AbstractController {
         payPalService.processTransfer(details);
         return "redirect:" + details.returnUrl;
     }
-
-    @RequestMapping(value="/result", method=RequestMethod.GET)
-    public String result(ModelMap model){
-        return "redirect: /tabs/user/office";
-    }
-
 }
