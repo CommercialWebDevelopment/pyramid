@@ -25,6 +25,7 @@
 <div class="row-fluid">
     <div class="span10">
         <div id="tab-content" class="tab-content">
+            <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div><br>
             <div class="alert alert-error alert-block">
                 <h4>404</h4>
                 <span class="text">The requested resource is not available</span>
