@@ -21,11 +21,17 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/alerts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flexigrid/js/flexigrid.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/loader.js"></script>
 </head>
 <body>
 <script type="text/javascript">
     <%@ include file="/resources/javascript/i18n.js" %>
 </script>
+
+<div id="loader" class="loader">
+    <div class="loader-icon"></div>
+    <div class="loader-text"></div>
+</div>
 
 <div class="row-fluid" style="height: 20px"></div>
 <div class="container-fluid">

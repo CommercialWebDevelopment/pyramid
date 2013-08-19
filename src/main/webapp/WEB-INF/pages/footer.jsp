@@ -19,10 +19,6 @@
     </div>
 </div>
 </div>
-<div id="loader" class="loader">
-    <div class="loader-icon"></div>
-    <div class="loader-text"></div>
-</div>
 <%@include file="alerts.jsp" %>
 </body>
 </html>
