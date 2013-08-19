@@ -20,7 +20,7 @@
 
 <div class="row-fluid">
     <form:form method="POST" action="/settings/save" modelAttribute="settingsForm">
-        <table class="table table-bordered">
+        <table class="table table-striped">
             <tr>
                 <th><spring:message code="settingName"/></th>
                 <th><spring:message code="settingValue"/></th>
