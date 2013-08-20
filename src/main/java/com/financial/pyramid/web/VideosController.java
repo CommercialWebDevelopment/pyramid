@@ -48,7 +48,6 @@ public class VideosController extends AbstractController {
     @Autowired
     SettingsService settingsService;
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("video") Video video) {
         String thumbnailUrl = settingsService.getProperty("youTubeVideoThumbnailsUrl", video.externalId);
@@ -63,7 +62,6 @@ public class VideosController extends AbstractController {
         return "redirect:/pyramid/admin/video_settings";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
     public String remove(ModelMap model, @PathVariable Long id) {
         videoService.remove(id);
@@ -76,7 +74,6 @@ public class VideosController extends AbstractController {
         return "redirect:/pyramid/admin/video_settings";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String upload(ModelMap model, @ModelAttribute("videoUploadForm") VideoUploadForm form) {
         File file = new File(form.getFile().getOriginalFilename());

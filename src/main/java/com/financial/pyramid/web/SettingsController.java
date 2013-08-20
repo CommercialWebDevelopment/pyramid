@@ -30,7 +30,6 @@ public class SettingsController extends AbstractController {
         return gson.toJson(settingList);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("settingsForm") SettingsForm settings) {
         settingsService.saveProperties(settings.getSettings());

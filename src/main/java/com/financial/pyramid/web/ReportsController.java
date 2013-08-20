@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ReportsController extends AbstractController {
 
     @ResponseBody
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN','USER')")
     @RequestMapping(value = "/earnings/{period}", method = RequestMethod.GET)
     public String load(ModelMap model, @PathVariable Long period) {
         EarningsReport report = new EarningsReport();

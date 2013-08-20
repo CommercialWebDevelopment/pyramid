@@ -37,7 +37,6 @@ public class NewsController extends AbstractController {
         return "/news";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String edit(ModelMap model, @PathVariable Long id){
         News news = newsService.findById(id);
@@ -47,7 +46,6 @@ public class NewsController extends AbstractController {
         return "/news-edit";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("news") News news) {
         newsService.save(news);
@@ -63,7 +61,6 @@ public class NewsController extends AbstractController {
         return "redirect:/pyramid/admin/news_settings";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
     public String remove(ModelMap model, @PathVariable Long id) {
         newsService.remove(id);

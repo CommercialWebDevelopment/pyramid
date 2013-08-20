@@ -105,7 +105,6 @@ public class UserController extends AbstractController{
         return "/tabs/login";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
@@ -113,7 +112,6 @@ public class UserController extends AbstractController{
         return new PageForm<User>(userService.findByQuery(queryForm));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("registration") final RegistrationForm registration) {
         if (registration.getId() == null || registration.getId().isEmpty()) {
@@ -124,7 +122,6 @@ public class UserController extends AbstractController{
         return "redirect:/pyramid/admin/user_settings";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") final Long id) {
         userService.deleteUser(id);
