@@ -10,12 +10,16 @@ import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * User: Danil
@@ -72,9 +76,13 @@ public class RegistrationServiceImpl implements RegistrationService {
             logger.error("User passport date is not set");
         }
         user.setPassport(passport);
-        if(confirm) {
-            boolean sent = emailService.sendToUser(user);
-            if(!sent) return false;
+        if (confirm) {
+            Map map = new HashMap();
+            map.put("username", user.getName());
+            map.put("uuid", user.getGlobalId());
+            emailService.setTemplate("registration-template");
+            boolean sent = emailService.sendToUser(user, map);
+            if (!sent) return false;
         }
         userService.saveUser(user);
         return true;

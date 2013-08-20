@@ -12,6 +12,7 @@ import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,7 +26,10 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * User: Danil
@@ -149,8 +153,11 @@ public class UserController extends AbstractController {
             String newPassword = userService.createPassword(15);
             user.setPassword(passwordEncoder.encode(newPassword));
             userService.saveUser(user);
-            String text = "Your new password is " + newPassword;
-            result = emailService.sendToUser(email, text);
+            Map map = new HashMap();
+            map.put("username", user.getName());
+            map.put("password", newPassword);
+            emailService.setTemplate("password-restore-template");
+            result = emailService.sendToUser(user, map);
         }
         model.addAttribute("result", result);
         model.addAttribute("email", email);
