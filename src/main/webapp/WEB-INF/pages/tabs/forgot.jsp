@@ -4,6 +4,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
+
+<script language="javascript">
+    function beforeSubmit() {
+        var form = $("#restorePasswordForm");
+        var email = form.find("#email");
+        Form.validateEMailField(email, email.val());
+        if (!Form.validateForm(form)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 <%--Tabs--%>
 <div class="row-fluid">
     <div class="span8 offset1">
@@ -32,26 +45,28 @@
             <c:if test="${param.result != null}">
                 <c:if test="${param.result == true}">
                     <div class="alert alert-success">
-                        Ваш новый пароль отправлен вам на электронную почту
+                        <spring:message code="restoredSuccess" arguments="${param.email}"/>
                     </div>
                 </c:if>
                 <c:if test="${param.result == false}">
                     <div class="alert alert-error">
-                        Пользователь с таким адресом электронной почты не найден
+                        <spring:message code="userNotFound" arguments="${param.email}"/>
                     </div>
                 </c:if>
             </c:if>
             <c:if test="${param.result == null}">
                 <div class="alert alert-info">
-                    Введите адрес электронной почты, чтобы сбросить пароль. Возможно, если, вы не получили письмо,
-                    вам нужно проверить папку нежелательной почты.
+                    <spring:message code="restorePasswordInformation"/>
                 </div>
-                <form:form action="/user/restore" method="post">
+                <form:form action="/user/restore" method="post" onsubmit="return beforeSubmit()"
+                           id="restorePasswordForm">
                     <div class="control-group">
                     <div class="controls">
-                        <input type="text" class="form-field" name="email" placeholder="Адрес электронной почты">
+                        <input type="text" class="form-field span1" id="email" name="email"
+                               placeholder="<spring:message code="emailAddress"/>" style="width: 250px"
+                               onkeyup="Form.validateEMailField(this, value)">
                     </div>
-                    <button class="btn btn-primary">Получить пароль</button>
+                    <button class="btn btn-primary"><spring:message code="getPassword"/></button>
                 </form:form>
                 </div>
             </c:if>

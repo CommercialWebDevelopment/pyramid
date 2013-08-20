@@ -153,6 +153,7 @@ public class UserController extends AbstractController {
             result = emailService.sendToUser(email, text);
         }
         model.addAttribute("result", result);
+        model.addAttribute("email", email);
         return "redirect:/user/forgot";
     }
 
