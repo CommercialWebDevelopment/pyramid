@@ -1,5 +1,7 @@
 package com.financial.pyramid.domain;
 
+import com.financial.pyramid.domain.type.Position;
+import com.financial.pyramid.domain.type.Role;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,10 +25,7 @@ public class User extends AbstractEntity implements Serializable {
     @Column(name = "name", nullable = false, length = 200)
     private String name;
 
-    @Column(name = "login", nullable = false, length = 250)
-    private String login;
-
-    @Column(name = "password", nullable = false, length = 250)
+    @Column(name = "password", nullable = true, length = 250)
     private String password;
 
     @Column(name = "surname", nullable = false, length = 200)
@@ -47,18 +46,56 @@ public class User extends AbstractEntity implements Serializable {
 
     private Passport passport;
 
-    @Column(name = "global_id", updatable = false)
-    private String globalId;
-
-    @Column(name = "created", updatable = false)
-    private Date created = new Date();
-
-    @Column(name = "confirmed", nullable = false)
-    private Boolean confirmed;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    @Column(name = "owner_id", nullable = true)
+    private Long ownerId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "position", nullable = true)
+    private Position position;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", nullable = true)
+    private User parent;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "child_id", nullable = true)
+    private User child;
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public User getParent() {
+        return parent;
+    }
+
+    public void setParent(User parent) {
+        this.parent = parent;
+    }
+
+    public User getChild() {
+        return child;
+    }
+
+    public void setChild(User child) {
+        this.child = child;
+    }
 
     public String getName() {
         return name;
@@ -74,14 +111,6 @@ public class User extends AbstractEntity implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getSurname() {
@@ -130,26 +159,6 @@ public class User extends AbstractEntity implements Serializable {
 
     public void setPassport(Passport passport) {
         this.passport = passport;
-    }
-
-    public String getGlobalId() {
-        return globalId;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public Boolean getConfirmed() {
-        return confirmed;
-    }
-
-    public void setGlobalId(String globalId) {
-        this.globalId = globalId;
-    }
-
-    public void setConfirmed(Boolean confirmed) {
-        this.confirmed = confirmed;
     }
 
     public Role getRole() {

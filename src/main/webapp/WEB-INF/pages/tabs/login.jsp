@@ -39,10 +39,10 @@
                        modelAttribute="authentication">
                 <div class="form-horizontal" style="width: 450px">
                     <div class="control-group">
-                        <label class="control-label" for="name"><spring:message code="login"/></label>
+                        <label class="control-label" for="email"><spring:message code="email"/></label>
 
                         <div class="controls">
-                            <input id="name" name="name" type="text" class="form-field span12">
+                            <input id="email" name="email" type="text" class="form-field span12">
                         </div>
                     </div>
                     <div class="control-group">
@@ -61,9 +61,6 @@
                         <div class="controls">
                             <button type="submit" class="btn btn-primary" id="registration-button">
                                 <spring:message code="authorization"/></button>
-                            <a href="${pageContext.request.contextPath}/pyramid/registration"
-                               class="btn" type="button"><spring:message
-                                    code="registration"/></a>
                         </div>
                     </div>
                 </div>

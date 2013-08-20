@@ -33,8 +33,5 @@ public class RegistrationFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "field.required");
-        RegistrationForm form = (RegistrationForm) o;
-        EmailValidator emailValidator = new EmailValidator();
-        if(!emailValidator.validate(form.getEmail())) errors.rejectValue("email", "field.incorrect", context.getMessage("email.invalid", null, locale));
     }
 }

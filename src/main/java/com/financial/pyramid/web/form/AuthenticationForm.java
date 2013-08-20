@@ -9,15 +9,15 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Time: 20:24
  */
 public class AuthenticationForm {
-    private String name;
+    private String email;
     private String password;
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

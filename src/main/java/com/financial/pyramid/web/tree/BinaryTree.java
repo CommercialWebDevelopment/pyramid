@@ -50,12 +50,20 @@ public class BinaryTree<T> {
         return left != null;
     }
 
+    public boolean itIsLeft() {
+        return this.isParent() && this.getParent().getLeft() == this;
+    }
+
     public BinaryTree getLeft() {
         return left;
     }
 
     public boolean isRight() {
         return right != null;
+    }
+
+    public boolean itIsRight() {
+        return this.isParent() && this.getParent().getRight() == this;
     }
 
     public BinaryTree getRight() {

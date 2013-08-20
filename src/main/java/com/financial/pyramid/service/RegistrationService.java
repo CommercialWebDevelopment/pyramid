@@ -1,6 +1,6 @@
 package com.financial.pyramid.service;
 
-import com.financial.pyramid.domain.User;
+import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.web.form.RegistrationForm;
 
@@ -10,6 +10,6 @@ import com.financial.pyramid.web.form.RegistrationForm;
  * Time: 20:52
  */
 public interface RegistrationService {
-    
-    public boolean registration(RegistrationForm form, boolean confirm) throws UserAlreadyExistsException;
+
+    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException;
 }

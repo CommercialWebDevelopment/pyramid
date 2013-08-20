@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <preConditions>
+        <runningAs username="root"/>
+    </preConditions>
+
+    <changeSet id="create-invitation-table" author="Danil">
+        <createTable tableName="invitation">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sender_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="global_id" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="confirmed" type="BIT" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="invitation-table-index-1" author="Danil">
+        <createIndex indexName="user_email_index"
+                     tableName="invitation"
+                     tablespace="user_email"
+                     unique="true">
+            <column name="email" type="varchar(200)"/>
+        </createIndex>
+        <createIndex indexName="user_global_id_index"
+                     tableName="invitation"
+                     tablespace="user_global_id"
+                     unique="true">
+            <column name="global_id" type="varchar(100)"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,4 +1,4 @@
-package com.financial.pyramid.domain;
+package com.financial.pyramid.domain.type;
 
 /**
  * User: Danil

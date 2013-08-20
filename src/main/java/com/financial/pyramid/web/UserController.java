@@ -40,8 +40,6 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController extends AbstractController {
 
-    private final static Logger logger = Logger.getLogger(UserController.class);
-
     @Autowired
     private com.financial.pyramid.service.UserService userService;
 
@@ -59,37 +57,28 @@ public class UserController extends AbstractController {
 
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
-    @RequestMapping(value = "/checkLogin/{login}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    String checkLogin(Model model, @PathVariable String login) {
-        return String.valueOf(userService.checkLogin(login));
-    }
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(ModelMap model, @ModelAttribute("registration") final RegistrationForm registration) {
-        model.addAttribute("page-name", "office");
         model.addAttribute("registration", registration);
         BeanPropertyBindingResult result = new BeanPropertyBindingResult(registration, "registration");
         registrationFormValidator.validate(registration, result);
         if (result.getErrorCount() > 0) {
-            return "/tabs/office";
+            model.put("errors", result.getAllErrors());
+            return "/tabs/user/registration-form";
         }
-        List<User> users = userService.findByLogin(registration.getLogin());
-        if (users.size() > 0) {
-            return "/tabs/office";
+        boolean success = registrationService.registration(registration);
+        if (!success) {
+            model.put("text", getMessage("exception.serviceIsNotAvailable"));
+            return "tabs/user/invalid-page";
         }
-        boolean tr = registrationService.registration(registration, true);
-        if (!tr) return "tabs/user/registration-fail";
-        return "tabs/user/registration-success";
+        return "tabs/user/private-office";
     }
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)
     public String authentication(ModelMap model, @ModelAttribute("authentication") final AuthenticationForm authentication) {
-        model.addAttribute("page-name", "office");
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authentication.getName(),
+                    authentication.getEmail(),
                     authentication.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authenticate);
@@ -102,40 +91,25 @@ public class UserController extends AbstractController {
         return "/tabs/office";
     }
 
-    @RequestMapping(value = "/confirm", method = RequestMethod.GET, params = {"ui"})
-    public String confirmed(ModelMap model, @RequestParam(value = "ui") String uuid) {
-        model.addAttribute("page-name", "office");
-        try {
-            userService.confirm(uuid);
-        } catch (UserNotFoundException e) {
-            return "tabs/user/user-not-found";
-        } catch (UserConfirmOverdueException e) {
-            return "tabs/user/confirm-overdue";
-        }
-        model.addAttribute("authentication", new AuthenticationForm());
-        return "/tabs/login";
-    }
-
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
-    public
     @ResponseBody
-    PageForm list(ModelMap mode, @ModelAttribute("queryForm") final QueryForm queryForm) {
+    public PageForm list(ModelMap model, @ModelAttribute("queryForm") final QueryForm queryForm) {
         return new PageForm<User>(userService.findByQuery(queryForm));
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("registration") final RegistrationForm registration) {
         if (registration.getId() == null || registration.getId().isEmpty()) {
-            registrationService.registration(registration, false);
+            registrationService.registration(registration);
         } else {
-            userService.updateUser(registration);
+            userService.update(registration);
         }
         return "redirect:/pyramid/admin/user_settings";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") final Long id) {
-        userService.deleteUser(id);
+        userService.delete(id);
         return "redirect:/pyramid/admin/user_settings";
     }
 
@@ -146,21 +120,21 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/restore", method = RequestMethod.POST)
     public String restore(ModelMap model, @RequestParam(value = "email") String email) {
-        List<User> users = userService.findByEmail(email.trim());
-        boolean result = false;
-        if (!users.isEmpty()) {
-            User user = users.get(0);
-            String newPassword = userService.createPassword(15);
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userService.saveUser(user);
-            Map map = new HashMap();
-            map.put("username", user.getName());
-            map.put("password", newPassword);
-            emailService.setTemplate("password-restore-template");
-            result = emailService.sendToUser(user, map);
-        }
-        model.addAttribute("result", result);
-        model.addAttribute("email", email);
+//        List<User> users = userService.findByEmail(email.trim());
+//        boolean result = false;
+//        if (!users.isEmpty()) {
+//            User user = users.get(0);
+//            String newPassword = userService.createPassword(15);
+//            user.setPassword(passwordEncoder.encode(newPassword));
+//            userService.saveUser(user);
+//            Map map = new HashMap();
+//            map.put("username", user.getName());
+//            map.put("password", newPassword);
+//            emailService.setTemplate("password-restore-template");
+//            result = emailService.sendToUser(user, map);
+//        }
+//        model.addAttribute("result", result);
+//        model.addAttribute("email", email);
         return "redirect:/user/forgot";
     }
 

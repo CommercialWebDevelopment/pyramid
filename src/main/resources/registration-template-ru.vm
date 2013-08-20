@@ -1,8 +1,0 @@
-<html>
-<body>
-<h3>Дорогой ${username}, спасибо за регистрацию!</h3>
-<div>
-    Чтобы продолжить регистрацию, перейдите по <a href="http://localhost:8080/user/confirm?ui=${uuid}">этой</a> ссылке.
-</div>
-</body>
-</html>

@@ -15,4 +15,5 @@
     <include file="/database-changelogs/23-06-2013-add-description-column.xml"/>
     <include file="/database-changelogs/07-08-2013-create-application-config-table.xml"/>
     <include file="/database-changelogs/07-08-2013-create-operations-table.xml"/>
+    <include file="/database-changelogs/12-08-2013-create-invitation-table.xml"/>
 </databaseChangeLog>

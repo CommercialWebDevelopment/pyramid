@@ -10,9 +10,10 @@ import java.util.Map;
  * Time: 20:37
  */
 public interface EmailService {
-    public boolean sendToUser(User user, Map model);
 
-    public void setTemplate(String template);
+    public boolean sendInvitation(String uuid, String name, String email);
 
-    public String getTemplate();
+    public boolean sendPassword(String name, String password, String email);
+
+    public boolean checkEmail(String email);
 }

@@ -24,7 +24,6 @@ var Form = {
         return valid;
     },
 
-
     setValidField: function (field) {
         var parent = $(field).parents(".control-group");
         parent.removeClass("error");
@@ -59,39 +58,6 @@ var Form = {
 
     validatePhoneNumberField: function (element, value) {
         $.isNumeric(value) && value.length >= 6 ? this.setValidField(element) : this.setInvalidField(element);
-    },
-
-    validatePasswordField: function (element, value) {
-        var regex = /\W/;
-        !regex.test(value) && value.length >= 6 ? this.setValidField(element) : this.setInvalidField(element);
-    },
-
-    validateLoginField: function (element, value) {
-        clearTimeout(this.timeOutId);
-        var regex = /^[a-zA-Z1-9_]+$/;
-        if (!regex.test(value) || value.length < 6) {
-            this.setInvalidField(element);
-            return;
-        }
-        var scope = this;
-        this.timeOutId = setTimeout(function () {
-            $.ajax({
-                type: "GET",
-                url: "/user/checkLogin/" + value,
-                dataType: "text",
-                success: function (response, status, xhr) {
-                    response == "false" ? scope.setValidField(element) : scope.setInvalidField(element);
-                },
-                error: function (xhr, status, error) {
-                    scope.setInvalidField(element);
-                }
-            });
-        }, 1000);
-    },
-
-    validateSecondPasswordField: function (element, value) {
-        var regex = /\W/;
-        !regex.test(value) && value.length >= 6 && $("#password").val() == value ? this.setValidField(element) : this.setInvalidField(element);
     },
 
     isNumber: function (number) {
@@ -161,4 +127,8 @@ $(document).ready(function () {
         ctx.lineTo(startX * 3, height);
         ctx.stroke();
     }
+
+    $(".stub-node").click(function() {
+        $("#user-email-form").modal("show");
+    })
 });

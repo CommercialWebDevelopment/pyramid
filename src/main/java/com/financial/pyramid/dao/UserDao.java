@@ -12,18 +12,10 @@ import java.util.List;
  */
 public interface UserDao extends AbstractDao<User, Long> {
 
-    public List<User> findByName(String name);
-
-    public List<User> findByLogin(String login);
-
-    public List<User> findByEmail(String email);
-
-    public List<User> findByNamePassword(String name, String password);
-
-    public User findByGlobalId(String globalId);
-
-    public boolean isLogin(String login);
+    public boolean isEmail(String email);
 
     public List<User> findByQuery(QueryForm form);
+
+    public List<User> findByEmail(String email);
 
 }

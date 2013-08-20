@@ -83,7 +83,7 @@ public class TabsController extends AbstractController {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof UserDetails){
 //            User currentUser = userService.findByLogin(((UserDetails) principal).getUsername()).get(0);
-            BinaryTree userBinaryTree = userService.getUserBinaryTree(null);
+            BinaryTree userBinaryTree = userService.getBinaryTree(null);
             model.addAttribute("userBinaryTree", userBinaryTree);
             return "/tabs/user/private-office";
         }

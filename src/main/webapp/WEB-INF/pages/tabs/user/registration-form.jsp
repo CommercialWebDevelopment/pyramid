@@ -51,46 +51,11 @@
                 </div>
                 <div class="row-fluid control-group error">
                     <div class="span5">
-                        <label for="email" class="required_label form-field"><spring:message code="email"/><span class="asterisk_red">*</span></label>
-                    </div>
-                    <div class="span7 controls">
-                        <div class="input-prepend form-field">
-                            <span class="add-on" style="height: 15px"><i class="icon-envelope"></i></span>
-                            <input id="email" name="email" type="text" class="form-field" onkeyup="Form.validateEMailField(this, value)">
-                        </div>
-                    </div>
-                </div>
-                <div class="row-fluid control-group error">
-                    <div class="span5">
                         <label for="phone-number" class="required_label form-field"><spring:message code="phoneNumber"/><span
                                 class="asterisk_red">*</span></label>
                     </div>
                     <div class="span7 controls">
                         <input id="phone-number" name="phoneNumber" type="text" class="form-field" onkeyup="Form.validatePhoneNumberField(this, value)">
-                    </div>
-                </div>
-                <div class="row-fluid control-group error">
-                    <div class="span5">
-                        <label for="login" class="required_label form-field"><spring:message code="login"/><span class="asterisk_red">*</span></label>
-                    </div>
-                    <div class="span7 controls">
-                        <input id="login" name="login" type="text" class=" form-field" onkeyup="Form.validateLoginField(this, value)">
-                    </div>
-                </div>
-                <div class="row-fluid control-group error">
-                    <div class="span5">
-                        <label for="password" class="required_label form-field"><spring:message code="password"/><span class="asterisk_red">*</span></label>
-                    </div>
-                    <div class="span7 controls">
-                        <input id="password" name="password" type="password" class=" form-field" onkeyup="Form.validatePasswordField(this, value)">
-                    </div>
-                </div>
-                <div class="row-fluid control-group error">
-                    <div class="span5">
-                        <label for="confirm_password" class="required_label form-field"><spring:message code="confirmPassword"/><span class="asterisk_red">*</span></label>
-                    </div>
-                    <div class="span7 controls">
-                        <input id="confirm_password" name="passwordForConfirm" type="password" class=" form-field" onkeyup="Form.validateSecondPasswordField(this, value)">
                     </div>
                 </div>
             </div>

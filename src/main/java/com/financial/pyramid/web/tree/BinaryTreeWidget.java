@@ -1,5 +1,6 @@
 package com.financial.pyramid.web.tree;
 
+import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.web.form.UserForm;
 
 /**
@@ -33,7 +34,7 @@ public class BinaryTreeWidget {
         UserForm user = (UserForm)tree.getValue();
         return "<div class='"+clazz+"' style='width:"+ calculateNodeWidth(tree) +"px'>" +
                 "<div class='user-info''>" +
-                    "<img src='/resources/images/vcard.png' alt='User Info'><br>" +
+                "<img src='/resources/images/vcard.png' alt='User Info'><br>" +
                 user.getSurname() + " <br>" +
                 user.getName() +
                 "</div>" +
@@ -44,7 +45,10 @@ public class BinaryTreeWidget {
 
     public String getStubNode(BinaryTree user, String clazz) {
         return "<div class='"+clazz+" user-info' style='width:"+ calculateNodeWidth(user) / 2+"px'>" +
-                "<a href='#'><img src='/resources/images/add-user.jpg' alt='Add user'><br></a>"+
+                "<img class='stub-node' " +
+                "parent="+user.getId()+" " +
+                "position="+ (user.itIsRight() ? Position.RIGHT.toString() : Position.LEFT.toString()) +" " +
+                "src='/resources/images/add-user.jpg' alt='Add user'><br>"+
                 "</div>";
     }
 
