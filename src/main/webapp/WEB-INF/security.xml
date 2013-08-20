@@ -32,7 +32,7 @@
                              username-parameter="name"
                              password-parameter="password"
                              login-processing-url="/user/authentication"
-                             authentication-failure-url="/pyramid/office"/>
+                             authentication-failure-url="/pyramid/office?error=true"/>
         <security:logout logout-success-url="/" logout-url="/user/logout" delete-cookies="JSESSIONID" invalidate-session="true"/>
         <security:remember-me key="secretKey" user-service-ref="userService" use-secure-cookie="true"/>
         <security:session-management

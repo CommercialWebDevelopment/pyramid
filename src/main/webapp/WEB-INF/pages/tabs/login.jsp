@@ -24,10 +24,17 @@
 <div class="row-fluid">
     <div class="span10">
         <div class="text-center">
-            <div class="alert alert-info">
-                <spring:message code="enterMessage"/>
-            </div>
-            <br>
+            <c:if test="${param.error != null}">
+                <div class="alert alert-error">
+                    <spring:message code="invalidCredentials"/>
+                </div>
+            </c:if>
+            <c:if test="${param.error == null}">
+                <div class="alert alert-info">
+                    <spring:message code="enterMessage"/>
+                </div>
+            </c:if>
+            <h3 style="text-align: left"><spring:message code="enterPrivateOffice"/></h3>
             <form:form method="POST" action="/user/authentication"
                        modelAttribute="authentication">
                 <div class="form-horizontal" style="width: 450px">
@@ -43,6 +50,11 @@
 
                         <div class="controls">
                             <input id="password" name="password" type="password" class="form-field">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <a href="${pageContext.request.contextPath}/user/forgot"><spring:message code="forgotPassword"/>?</a>
                         </div>
                     </div>
                     <div class="control-group">
