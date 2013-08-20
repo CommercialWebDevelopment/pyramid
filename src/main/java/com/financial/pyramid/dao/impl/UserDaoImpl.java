@@ -36,6 +36,11 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     }
 
     @Override
+    public List<User> findByEmail(String email) {
+        return findByCriteria(Restrictions.eq("email", email));
+    }
+
+    @Override
     public List<User> findByNamePassword(String name, String password) {
         Map map = new HashMap();
         map.put("name", name);

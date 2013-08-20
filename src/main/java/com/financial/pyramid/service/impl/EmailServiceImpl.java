@@ -6,17 +6,12 @@ import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +33,22 @@ public class EmailServiceImpl implements EmailService {
     private VelocityEngine velocityEngine;
 
     @Override
-    public boolean sendToUser(User user) {
+    public boolean sendToUser(String email, String text) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+            helper.setTo(email);
+            helper.setText(text, true);
+            this.mailSender.send(message);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 
+    @Override
+    public boolean sendToUser(User user) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -52,8 +61,7 @@ public class EmailServiceImpl implements EmailService {
                     velocityEngine, "email-template.vm", "UTF-8", model);
             helper.setText(text, true);
             this.mailSender.send(message);
-        }
-        catch (MailException ex) {
+        } catch (MailException ex) {
             logger.error(ex.getMessage());
             return false;
         } catch (MessagingException ex) {

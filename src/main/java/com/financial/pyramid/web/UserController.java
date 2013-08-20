@@ -1,6 +1,7 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.User;
+import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.RegistrationService;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
@@ -11,12 +12,12 @@ import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -33,7 +34,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController extends AbstractController{
+public class UserController extends AbstractController {
 
     private final static Logger logger = Logger.getLogger(UserController.class);
 
@@ -45,6 +46,12 @@ public class UserController extends AbstractController{
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
@@ -126,6 +133,27 @@ public class UserController extends AbstractController{
     public String delete(@PathVariable("id") final Long id) {
         userService.deleteUser(id);
         return "redirect:/pyramid/admin/user_settings";
+    }
+
+    @RequestMapping(value = "/forgot", method = RequestMethod.GET)
+    public String forgot(ModelMap model) {
+        return "/tabs/forgot";
+    }
+
+    @RequestMapping(value = "/restore", method = RequestMethod.POST)
+    public String restore(ModelMap model, @RequestParam(value = "email") String email) {
+        List<User> users = userService.findByEmail(email.trim());
+        boolean result = false;
+        if (!users.isEmpty()) {
+            User user = users.get(0);
+            String newPassword = userService.createPassword(15);
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userService.saveUser(user);
+            String text = "Your new password is " + newPassword;
+            result = emailService.sendToUser(email, text);
+        }
+        model.addAttribute("result", result);
+        return "redirect:/user/forgot";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

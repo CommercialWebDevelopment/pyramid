@@ -8,6 +8,6 @@ import com.financial.pyramid.domain.User;
  * Time: 20:37
  */
 public interface EmailService {
-
     public boolean sendToUser(User user);
+    public boolean sendToUser(String email, String text);
 }

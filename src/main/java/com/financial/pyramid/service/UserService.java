@@ -29,6 +29,8 @@ public interface UserService extends UserDetailsService {
 
     public List<User> findByLogin(String login);
 
+    public List<User> findByEmail(String email);
+
     public List<User> findByNamePassword(String name, String password);
 
     public User findByGlobalId(String globalId);
@@ -42,4 +44,6 @@ public interface UserService extends UserDetailsService {
     public void updateUser(RegistrationForm form);
 
     public BinaryTree getUserBinaryTree(User user);
+
+    public String createPassword(int number);
 }
