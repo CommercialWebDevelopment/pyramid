@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html>
 <head>
@@ -52,6 +53,14 @@
                     <div class="span2">
                         <img src="<c:url value="/resources/images/flag-ru.png"/>">
                         <a href="?lang=ru">ru</a>
+                    </div>
+                    <div class="span2">
+                        <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                            <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message code="signIn"/></a>
+                        </sec:authorize>
+                        <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
+                            <a href="${pageContext.request.contextPath}/user/logout"><spring:message code="logout"/></a>
+                        </sec:authorize>
                     </div>
                 </div>
             </div>

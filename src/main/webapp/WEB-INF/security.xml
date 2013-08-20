@@ -12,7 +12,7 @@
     <security:http use-expressions="true"
                    auto-config="true"
                    authentication-manager-ref="authenticationManager"
-                   access-denied-page="/WEB-INF/pages/access-denied.jsp">
+                   access-denied-page="/WEB-INF/pages/401.jsp">
 
         <security:intercept-url pattern="/user/add" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/user/delete/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
