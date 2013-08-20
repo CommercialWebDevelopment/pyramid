@@ -76,17 +76,6 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)
     public String authentication(ModelMap model, @ModelAttribute("authentication") final AuthenticationForm authentication) {
-        try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authentication.getEmail(),
-                    authentication.getPassword())
-            );
-            SecurityContextHolder.getContext().setAuthentication(authenticate);
-        } catch (AuthenticationException e) {
-            logger.warn("Authentication failed: " + e.getMessage());
-            model.addAttribute("registration", new RegistrationForm());
-            return "/tabs/login";
-        }
         logger.info("Successfully authenticated. Security context contains: " + SecurityContextHolder.getContext().getAuthentication());
         return "/tabs/office";
     }

@@ -79,7 +79,7 @@
             <column name="date_of_birth" value="2000-12-12"/>
             <column name="email" value="email"/>
             <column name="phone_number" value="8482000000"/>
-            <column name="password" value="2373dacb9e30cdab2983e35f27f8098fdbbd9e1e9034cb68"/>
+            <column name="password" value="2394b658be329301269184eef9f5754f2f459c5300cf9695"/>
             <column name="role" value="SUPER_ADMIN"/>
         </insert>
     </changeSet>
