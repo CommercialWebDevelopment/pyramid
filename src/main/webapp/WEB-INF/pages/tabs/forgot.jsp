@@ -62,7 +62,7 @@
                            id="restorePasswordForm">
                     <div class="control-group">
                     <div class="controls">
-                        <input type="text" class="form-field span1" id="email" name="email"
+                        <input type="text" class="form-field span12" id="email" name="email"
                                placeholder="<spring:message code="emailAddress"/>" style="width: 250px"
                                onkeyup="Form.validateEMailField(this, value)">
                     </div>

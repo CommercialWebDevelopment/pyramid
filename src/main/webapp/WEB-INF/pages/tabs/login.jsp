@@ -42,14 +42,14 @@
                         <label class="control-label" for="name"><spring:message code="login"/></label>
 
                         <div class="controls">
-                            <input id="name" name="name" type="text" class="form-field">
+                            <input id="name" name="name" type="text" class="form-field span12">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="password"><spring:message code="password"/></label>
 
                         <div class="controls">
-                            <input id="password" name="password" type="password" class="form-field">
+                            <input id="password" name="password" type="password" class="form-field span12">
                         </div>
                     </div>
                     <div class="control-group">
