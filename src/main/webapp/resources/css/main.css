@@ -1,3 +1,37 @@
+html, body, #page-wrap {
+    height: 100%;
+}
+
+body > #page-wrap {
+    height: auto;
+    min-height: 100%;
+}
+
+#page-wrap {
+    padding-bottom: 75px;
+}
+
+#footer {
+    height: 75px;
+    left: 0;
+    bottom: 0;
+    clear: both;
+    margin-top: -70px;
+    position: relative;
+    z-index: 9999;
+    background: #000000;
+}
+
+#footer-content {
+    margin-top: 15px;
+    color: #ffffff;
+}
+
+#header {
+    height: 80px;
+    position: relative;
+}
+
 .contact {
     height: 16px;
     width: 16px;
@@ -6,15 +40,19 @@
     margin-right: 2px;
     cursor: pointer;
 }
+
 .contact.vk {
     background: url('../images/vk.png') no-repeat;
 }
+
 .contact.fb {
     background: url('../images/facebook.png') no-repeat;
 }
+
 .contact.tw {
     background: url('../images/twitter.png') no-repeat;
 }
+
 .contact.yt {
     background: url('../images/youtube.png') no-repeat;
 }
@@ -46,4 +84,5 @@
 .page-scroll.over {
     background: #0088CC;
     color: #ffffff;
+    z-index: 10000;
 }

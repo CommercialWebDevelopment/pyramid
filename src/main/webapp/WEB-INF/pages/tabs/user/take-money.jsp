@@ -22,7 +22,8 @@
 </script>
 <div class="row-fluid">
     <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
-    <form:form action="/paypal/processTransfer" modelAttribute="payPalDetails" id="takeMoneyForm" onsubmit="return beforeSubmit()">
+    <form:form action="/paypal/processTransfer" modelAttribute="payPalDetails" id="takeMoneyForm"
+               onsubmit="return beforeSubmit()">
         <legend><spring:message code="privateOfficeTakeMoneyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
@@ -60,11 +61,17 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary"><spring:message code="sendMoney"/></button>
+            <br>
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-primary"><spring:message code="sendMoney"/></button>
+                </div>
+            </div>
         </div>
-       </form:form>
+    </form:form>
 </div>
 <br>
+
 <div class="row-fluid">
     <div class="text-warning">
         <spring:message code="payPalDisclaimer"/>

@@ -35,12 +35,12 @@
 </div>
 
 <div class="row-fluid" style="height: 20px"></div>
-<div class="container-fluid">
+<div id="page-wrap" class="container-fluid">
     <div class="page-scroll">↑</div>
     <div class="row-fluid">
         <div class="span10 offset2">
             <%--Header--%>
-            <div class="row-fluid" style="height: 80px;">
+            <div id="header" class="row-fluid">
                 <div class="span8">
                     <h1>Название | <small>Финансовый проект №1</small>
                 </h1>

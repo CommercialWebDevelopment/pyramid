@@ -39,17 +39,19 @@
                     <div class="input-prepend">
                         <span class="add-on"><b>@</b></span>
                         <input class="span12" id="emailField" type="text" name="senderEmail">
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="span11 text-center">
-            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_GB/i/scr/pixel.gif" width="5"
-                 height="1">
-            <input type="image" src="https://www.sandbox.paypal.com/en_GB/i/btn/btn_paynow_LG.gif"
-                   border="0"
-                   name="submit"
-                   alt="PayPal - The safer, easier way to pay online!">
+            <div><img alt="" border="0" src="https://www.sandbox.paypal.com/en_GB/i/scr/pixel.gif" width="3">
+            </div>
+            <div>
+                <input type="image" src="https://www.sandbox.paypal.com/en_GB/i/btn/btn_paynow_LG.gif"
+                       border="0"
+                       name="submit"
+                       alt="PayPal - The safer, easier way to pay online!">
+            </div>
         </div>
     </form:form>
 </div>
