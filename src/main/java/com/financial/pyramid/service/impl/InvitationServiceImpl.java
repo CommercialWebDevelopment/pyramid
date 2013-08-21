@@ -67,6 +67,7 @@ public class InvitationServiceImpl implements InvitationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public boolean sendInvitation(InvitationForm invitationForm) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User sender = userService.findByEmail(((UserDetails) principal).getUsername());

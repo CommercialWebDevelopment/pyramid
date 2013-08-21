@@ -63,7 +63,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setPosition(invitation.getPosition());
         user.setParent(invitation.getParent());
 
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
             Date date = format.parse(form.getDateOfBirth());
             user.setDateOfBirth(date);

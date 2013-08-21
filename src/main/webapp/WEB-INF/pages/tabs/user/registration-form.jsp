@@ -17,6 +17,7 @@
     <div id="registration-form" class="container-fluid">
         <div class="row-fluid">
             <div class="span6">
+                <input id="invitationId" name="invitationId" type="hidden" value="${registration.invitationId}">
                 <div class="row-fluid control-group error">
                     <div class="span5">
                         <label for="surname" class="required_label form-field"><spring:message code="firstName"/><span class="asterisk_red">*</span></label>
