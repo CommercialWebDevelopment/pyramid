@@ -34,33 +34,32 @@
                     <spring:message code="enterMessage"/>
                 </div>
             </c:if>
-            <h3 style="text-align: left"><spring:message code="enterPrivateOffice"/></h3>
             <form:form method="POST" action="/user/authentication"
                        modelAttribute="authentication">
-                <div class="form-horizontal" style="width: 450px">
+                <div style="width: 350px; margin: 0 auto">
                     <div class="control-group">
-                        <label class="control-label" for="email"><spring:message code="email"/></label>
-
                         <div class="controls">
-                            <input id="email" name="email" type="text" class="form-field span12">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="password"><spring:message code="password"/></label>
-
-                        <div class="controls">
-                            <input id="password" name="password" type="password" class="form-field span12">
+                            <input id="email" name="email" type="text" class="form-field span12"
+                                   placeholder="<spring:message code="emailAddress"/>">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <a href="${pageContext.request.contextPath}/user/forgot"><spring:message code="forgotPassword"/>?</a>
+                            <input id="password" name="password" type="password"
+                                   placeholder="<spring:message code="password"/>" class="form-field span12">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <button type="submit" class="btn btn-primary" id="registration-button">
+                            <button type="submit" class="btn btn-primary btn-large" id="registration-button">
                                 <spring:message code="authorization"/></button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="control-group">
+                        <div class="controls">
+                            <a href="${pageContext.request.contextPath}/user/forgot"><spring:message
+                                    code="forgotPassword"/>?</a>
                         </div>
                     </div>
                 </div>
