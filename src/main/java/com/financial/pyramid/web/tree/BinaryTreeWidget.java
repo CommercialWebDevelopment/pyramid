@@ -46,7 +46,7 @@ public class BinaryTreeWidget {
     public String getStubNode(BinaryTree user, String clazz) {
         return "<div class='"+clazz+" user-info' style='width:"+ calculateNodeWidth(user) / 2+"px'>" +
                 "<img class='stub-node' " +
-                "parent="+user.getId()+" " +
+                "parentId="+user.getId()+" " +
                 "position="+ (user.itIsRight() ? Position.RIGHT.toString() : Position.LEFT.toString()) +" " +
                 "src='/resources/images/add-user.jpg' alt='Add user'><br>"+
                 "</div>";

@@ -21,7 +21,6 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/settings.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/alerts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flexigrid/js/flexigrid.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/loader.js"></script>
 </head>
 <body>

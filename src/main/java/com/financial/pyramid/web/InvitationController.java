@@ -35,7 +35,6 @@ public class InvitationController extends AbstractController {
     @Autowired
     private InvitationService invitationService;
 
-    @PreAuthorize("hasAnyRole('USER')")
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public String invitation(ModelMap model, @ModelAttribute("invitation") final InvitationForm invitationForm) {
         if (!emailService.checkEmail(invitationForm.getEmail())) {

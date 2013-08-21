@@ -7,11 +7,8 @@ import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.VideoService;
+import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
-import com.financial.pyramid.web.form.AuthenticationForm;
-import com.financial.pyramid.web.form.PageForm;
-import com.financial.pyramid.web.form.QueryForm;
-import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -85,6 +82,7 @@ public class TabsController extends AbstractController {
 //            User currentUser = userService.findByLogin(((UserDetails) principal).getUsername()).get(0);
             BinaryTree userBinaryTree = userService.getBinaryTree(null);
             model.addAttribute("userBinaryTree", userBinaryTree);
+            model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());

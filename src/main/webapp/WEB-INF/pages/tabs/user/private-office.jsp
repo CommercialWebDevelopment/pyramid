@@ -61,8 +61,12 @@
                             <h5 id="add-user-form-abel"><spring:message code="sendAnInvitation"/></h5>
                         </div>
                         <div class="modal-body">
-                            <form:form method="POST" id="send-email-to-user" action="/user/add"
-                                       modelAttribute="registration">
+                            <form:form method="POST" id="send-email-to-user" action="/invitation/send"
+                                       modelAttribute="invitation">
+
+                                <input id="parentId" name="parentId" type="hidden">
+                                <input id="position" name="position" type="hidden">
+
                                 <div class="row-fluid control-group error">
                                     <div class="span3">
                                         <label for="email" class="required_label form-field"><spring:message
