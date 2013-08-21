@@ -79,9 +79,8 @@ public class TabsController extends AbstractController {
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof UserDetails){
-//            User currentUser = userService.findByLogin(((UserDetails) principal).getUsername()).get(0);
-            BinaryTree userBinaryTree = userService.getBinaryTree(null);
-            model.addAttribute("userBinaryTree", userBinaryTree);
+            User user = userService.findByEmail(((UserDetails) principal).getUsername());
+            model.addAttribute("userBinaryTree", new BinaryTree(user));
             model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";
         }

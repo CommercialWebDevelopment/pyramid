@@ -111,45 +111,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<User> users = findByEmail(username);
-        if (users.size() == 1) {
-            User user = users.get(0);
+        User user = findByEmail(username);
+        if (user != null) {
             return new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
                     user.getPassword(),
-                    Arrays.asList(new SimpleGrantedAuthority(users.get(0).getRole().name())));
+                    Arrays.asList(new SimpleGrantedAuthority(user.getRole().name())));
         } else {
             throw new UsernameNotFoundException("User with name "+username+" not found");
         }
     }
 
     @Override
-    public BinaryTree getBinaryTree(User user) {
-        return new BinaryTree<UserForm>(
-                24744353L,
-                new UserForm("Вася", "Васильев", "1112313"),
-                new BinaryTree<UserForm>(
-                        645456L,
-                        new UserForm("Иван", "Иванов", "1234234"),
-                        new BinaryTree<UserForm>(
-                                534534L,
-                                new UserForm("Петор", "Петров", "646465"),
-                                new BinaryTree<UserForm>(
-                                        13242L,
-                                        new UserForm("Евгений", "Евгениев", "13453"),
-                                        null,
-                                        new BinaryTree<UserForm>(982131L, new UserForm("Степан", "Степанов", "14456"))
-                                ),
-                                new BinaryTree<UserForm>(3424254L, new UserForm("Дмитрий", "Дмитриев", "123423"))
-                        ),
-                        new BinaryTree<UserForm>(978132L, new UserForm("Алексадр", "Александров", "2342342"))
-                ),
-                new BinaryTree<UserForm>(856645L, new UserForm("Максим", "Максимов", "1"))
-        );
-    }
-
-    @Override
-    public List<User> findByEmail(String email) {
+    public User findByEmail(String email) {
         return userDao.findByEmail(email);
     }
 }

@@ -6,6 +6,7 @@ import com.financial.pyramid.service.validators.EmailValidator;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -45,8 +47,9 @@ public class EmailServiceImpl implements EmailService {
             Map<String, Object> model = new HashMap<String, Object>(5);
             model.put("name", name);
             model.put("uuid", uuid);
+            Locale locale = LocaleContextHolder.getLocale();
             String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocityEngine, "invitation-template.vm", "UTF-8", model);
+                    velocityEngine, "invitation-template-"+locale.getLanguage()+".vm", "UTF-8", model);
             helper.setText(text, true);
             this.mailSender.send(message);
         } catch (MailException ex) {
@@ -69,8 +72,9 @@ public class EmailServiceImpl implements EmailService {
             Map<String, Object> model = new HashMap<String, Object>(5);
             model.put("name", name);
             model.put("password", password);
+            Locale locale = LocaleContextHolder.getLocale();
             String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocityEngine, "password-template.vm", "UTF-8", model);
+                    velocityEngine, "password-template-"+locale.getLanguage()+".vm", "UTF-8", model);
             helper.setText(text, true);
             this.mailSender.send(message);
         } catch (MailException ex) {

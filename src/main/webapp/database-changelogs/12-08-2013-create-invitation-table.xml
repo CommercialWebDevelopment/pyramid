@@ -26,7 +26,7 @@
             <column name="parent_id" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="role" type="varchar(100)">
+            <column name="position" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="global_id" type="varchar(100)">

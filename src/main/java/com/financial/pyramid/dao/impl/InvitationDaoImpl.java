@@ -22,8 +22,9 @@ public class InvitationDaoImpl extends AbstractDaoImpl<Invitation, Long> impleme
     }
 
     @Override
-    public List<Invitation> findByEmail(String email) {
-        return findByCriteria(Restrictions.eq("email", email));
+    public Invitation findByEmail(String email) {
+        List<Invitation> invitations = findByCriteria(Restrictions.eq("email", email));
+        return invitations.size() == 0 ? null : invitations.get(0);
     }
 
     @Override

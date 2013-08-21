@@ -45,7 +45,7 @@ public class InvitationServiceImpl implements InvitationService {
     private UserService userService;
 
     @Override
-    public List<Invitation> findByEmail(String email) {
+    public Invitation findByEmail(String email) {
         return invitationDao.findByEmail(email);
     }
 
@@ -69,7 +69,7 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     public boolean sendInvitation(InvitationForm invitationForm) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User sender = userService.findByEmail(((UserDetails) principal).getUsername()).get(0);
+        User sender = userService.findByEmail(((UserDetails) principal).getUsername());
         User parent;
         if (invitationForm.getParentId().equals(sender.getId())) {
             parent = sender;
@@ -85,7 +85,7 @@ public class InvitationServiceImpl implements InvitationService {
         invitation.setPosition(Position.valueOf(invitationForm.getPosition()));
         invitation.setSenderId(sender.getId());
 
-        if(emailService.sendInvitation(invitation.getGlobalId(), sender.getName(), invitation.getEmail())) {
+        if (emailService.sendInvitation(invitation.getGlobalId(), sender.getName(), invitation.getEmail())) {
             invitationDao.saveOrUpdate(invitation);
             logger.info("Invitation created. User: " + invitation.getEmail() + " Sender: " + sender.getId() + " Owner: " + parent.getId());
             return true;
@@ -96,5 +96,10 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     public Invitation findById(Long id) {
         return invitationDao.findById(id);
+    }
+
+    @Override
+    public void delete(Invitation invitation) {
+        invitationDao.delete(invitation);
     }
 }

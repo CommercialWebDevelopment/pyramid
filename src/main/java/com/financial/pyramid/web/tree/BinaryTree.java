@@ -1,29 +1,31 @@
 package com.financial.pyramid.web.tree;
 
+import com.financial.pyramid.domain.User;
+import com.financial.pyramid.web.form.UserForm;
+
 /**
  * User: Danil
  * Date: 07.08.13
  * Time: 20:55
  */
-public class BinaryTree<T> {
+public class BinaryTree {
     private Long id;
-    private T value;
+    private UserForm value;
     private BinaryTree parent;
     private BinaryTree left;
     private BinaryTree right;
 
-    public BinaryTree(Long id, T value) {
-        this.id = id;
-        this.value = value;
-    }
-
-    public BinaryTree(Long id, T value, BinaryTree left, BinaryTree right) {
-        this.id = id;
-        this.value = value;
-        if(left != null) left.setParent(this);
-        if(right != null) right.setParent(this);
-        this.left = left;
-        this.right = right;
+    public BinaryTree(User user) {
+        this.id = user.getId();
+        this.value = new UserForm(user.getName(), user.getSurname(), user.getPhoneNumber());
+        if (user.getLeftChild() != null) {
+            this.left = new BinaryTree(user.getLeftChild());
+            this.left.setParent(this);
+        }
+        if (user.getRightChild() != null) {
+            this.right = new BinaryTree(user.getRightChild());
+            this.right.setParent(this);
+        }
     }
 
     public Long getId() {
@@ -42,7 +44,7 @@ public class BinaryTree<T> {
         this.parent = parent;
     }
 
-    public T getValue() {
+    public UserForm getValue() {
         return value;
     }
 
@@ -82,7 +84,7 @@ public class BinaryTree<T> {
     }
 
     public int getLevel() {
-        if(!this.isParent()) return 0;
+        if (!this.isParent()) return 0;
         return this.getParent().getLevel() + 1;
     }
 }

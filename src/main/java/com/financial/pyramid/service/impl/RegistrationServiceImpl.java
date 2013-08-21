@@ -93,6 +93,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!emailService.sendPassword(user.getName(), password, user.getEmail()))
             throw new SendingMailException();
 
+        invitationService.delete(invitation);
         return true;
     }
 

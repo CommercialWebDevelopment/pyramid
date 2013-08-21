@@ -29,8 +29,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     }
 
     @Override
-    public List<User> findByEmail(String email) {
-        return findByCriteria(Restrictions.eq("email", email));
+    public User findByEmail(String email) {
+        List<User> users = findByCriteria(Restrictions.eq("email", email));
+        return users.size() == 0 ? null : users.get(0);
     }
 
     @Override

@@ -62,8 +62,12 @@ public class User extends AbstractEntity implements Serializable {
     private User parent;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "child_id", nullable = true)
-    private User child;
+    @JoinColumn(name = "left_child_id", nullable = true)
+    private User leftChild;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "right_child_id", nullable = true)
+    private User rightChild;
 
     public Long getOwnerId() {
         return ownerId;
@@ -89,12 +93,20 @@ public class User extends AbstractEntity implements Serializable {
         this.parent = parent;
     }
 
-    public User getChild() {
-        return child;
+    public User getLeftChild() {
+        return leftChild;
     }
 
-    public void setChild(User child) {
-        this.child = child;
+    public void setLeftChild(User leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    public User getRightChild() {
+        return rightChild;
+    }
+
+    public void setRightChild(User rightChild) {
+        this.rightChild = rightChild;
     }
 
     public String getName() {
