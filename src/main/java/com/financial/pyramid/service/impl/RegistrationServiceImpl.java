@@ -92,6 +92,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!emailService.sendPassword(user.getName(), password, user.getEmail()))
             throw new SendingMailException();
 
+        // связь с родителем
         User parent = invitation.getParent();
         if (invitation.getPosition().equals(Position.LEFT)) {
             parent.setLeftChild(user);
