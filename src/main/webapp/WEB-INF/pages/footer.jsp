@@ -19,9 +19,9 @@
                     }
                 </script>
                 </span>
-                <span>
-                    Название
-                </span>
+                <div>
+                    &nbsp;Название
+                </div>
             </div>
             <div class="span9">
                 <div>Разделы:</div>
