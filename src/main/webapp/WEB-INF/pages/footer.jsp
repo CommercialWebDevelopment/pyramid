@@ -36,10 +36,10 @@
                 <span><a href="/pyramid/contacts"><spring:message code="contacts"/></a></span>
             </div>
             <div class="span1">
-                <div class="contact vk" onclick="window.location.href='http://vk.com'"></div>
-                <div class="contact fb" onclick="window.location.href='http://facebook.com'"></div>
-                <div class="contact tw" onclick="window.location.href='http://twitter'"></div>
-                <div class="contact yt" onclick="window.location.href='http://youtube.com'"></div>
+                <div class="contact vk" onclick="window.location.href=Settings.getProperty('vkontakte')"></div>
+                <div class="contact fb" onclick="window.location.href=Settings.getProperty('facebook')"></div>
+                <div class="contact tw" onclick="window.location.href=Settings.getProperty('twitter')"></div>
+                <div class="contact yt" onclick="window.location.href=Settings.getProperty('youtube')"></div>
             </div>
         </div>
     </div>

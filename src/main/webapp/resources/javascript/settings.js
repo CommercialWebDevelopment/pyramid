@@ -4,8 +4,10 @@ var Settings = {
         var result = null;
         if (this.data && this.data[key]) {
             var setting = this.data[key];
-            if (setting) {
+            if (setting && params) {
                 result = this.format(setting, params).toString();
+            } else {
+                result = setting;
             }
         }
         return result;
