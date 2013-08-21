@@ -3,6 +3,7 @@ package com.financial.pyramid.service.impl;
 import com.financial.pyramid.domain.Invitation;
 import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
+import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.InvitationService;
@@ -60,8 +61,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(invitation.getEmail());
         user.setRole(Role.USER);
         user.setOwnerId(invitation.getSenderId());
-        user.setPosition(invitation.getPosition());
-        user.setParent(invitation.getParent());
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
@@ -92,6 +91,13 @@ public class RegistrationServiceImpl implements RegistrationService {
         // отправка пароля после удачной регистрации
         if (!emailService.sendPassword(user.getName(), password, user.getEmail()))
             throw new SendingMailException();
+
+        User parent = invitation.getParent();
+        if (invitation.getPosition().equals(Position.LEFT)) {
+            parent.setLeftChild(user);
+        } else {
+            parent.setRightChild(user);
+        }
 
         invitationService.delete(invitation);
         return true;
