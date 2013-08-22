@@ -53,7 +53,7 @@ public class InvitationController extends AbstractController {
             redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.serviceIsNotAvailable"));
             return "redirect:/pyramid/office";
         }
-        redirectAttributes.addFlashAttribute("alert_success", getMessage("success.invitationWasSent"));
+        redirectAttributes.addFlashAttribute("alert_success", getMessage("alert.invitationWasSent"));
         return "redirect:/pyramid/office";
     }
 
