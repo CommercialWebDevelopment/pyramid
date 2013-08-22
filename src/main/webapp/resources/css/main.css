@@ -18,7 +18,7 @@ body > #page-wrap {
     clear: both;
     margin-top: -70px;
     position: relative;
-    z-index: 9999;
+    z-index: 10001;
     background: #000000;
 }
 
