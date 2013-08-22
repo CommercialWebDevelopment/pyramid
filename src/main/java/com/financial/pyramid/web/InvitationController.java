@@ -38,22 +38,22 @@ public class InvitationController extends AbstractController {
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public String invitation(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("invitation") final InvitationForm invitationForm) {
         if (!emailService.checkEmail(invitationForm.getEmail())) {
-            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.emailIsNotCorrect", invitationForm.getEmail()));
+            redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), getMessage("exception.emailIsNotCorrect", invitationForm.getEmail()));
             return "redirect:/pyramid/office";
         }
         if (userService.findByEmail(invitationForm.getEmail()) != null) {
-            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.userAlreadyExistWithEmail", invitationForm.getEmail()));
+            redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), getMessage("exception.userAlreadyExistWithEmail", invitationForm.getEmail()));
             return "redirect:/pyramid/office";
         }
         if (invitationService.findByEmail(invitationForm.getEmail()) != null) {
-            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.userAlreadyHasInvitation", invitationForm.getEmail()));
+            redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), getMessage("exception.userAlreadyHasInvitation", invitationForm.getEmail()));
             return "redirect:/pyramid/office";
         }
         if (!invitationService.sendInvitation(invitationForm)) {
-            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.serviceIsNotAvailable"));
+            redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), getMessage("exception.serviceIsNotAvailable"));
             return "redirect:/pyramid/office";
         }
-        redirectAttributes.addFlashAttribute("alert_success", getMessage("alert.invitationWasSent"));
+        redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), getMessage("alert.invitationWasSent"));
         return "redirect:/pyramid/office";
     }
 

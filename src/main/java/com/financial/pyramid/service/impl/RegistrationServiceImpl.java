@@ -52,6 +52,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException {
         Invitation invitation = invitationService.findById(form.getInvitationId());
+        if(invitation == null) throw new UserAlreadyExistsException();
 
         User user = new User();
         user.setName(form.getName());
@@ -95,8 +96,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         // связь с родителем
         User parent = invitation.getParent();
         if (invitation.getPosition().equals(Position.LEFT)) {
+            // если место уже занято, ищем первое свободное по левой ноге
+            while (parent.getLeftChild() != null)
+                parent = parent.getLeftChild();
             parent.setLeftChild(user);
         } else {
+            // если место уже занято, ищем первое свободное по правой ноге
+            while (parent.getRightChild() != null)
+                parent = parent.getRightChild();
             parent.setRightChild(user);
         }
 

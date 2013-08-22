@@ -24,16 +24,23 @@
 <div class="row-fluid">
     <div class="span10">
         <div class="text-center">
-            <c:if test="${param.error != null}">
-                <div class="alert alert-error">
-                    <spring:message code="invalidCredentials"/>
-                </div>
-            </c:if>
-            <c:if test="${param.error == null}">
-                <div class="alert alert-info">
-                    <spring:message code="enterMessage"/>
-                </div>
-            </c:if>
+            <c:choose>
+                <c:when test="${param.error != null}">
+                    <div class="alert alert-error">
+                        <spring:message code="invalidCredentials"/>
+                    </div>
+                </c:when>
+                <c:when test="${alert_success != null}">
+                    <div class="alert alert-success">
+                        <c:out value="${alert_success}"/>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="alert alert-info">
+                        <spring:message code="enterMessage"/>
+                    </div>
+                </c:otherwise>
+            </c:choose>
             <form:form method="POST" action="/user/authentication"
                        modelAttribute="authentication">
                 <div style="width: 350px; margin: 0 auto">

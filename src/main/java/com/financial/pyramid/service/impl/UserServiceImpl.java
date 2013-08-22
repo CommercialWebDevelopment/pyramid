@@ -132,4 +132,9 @@ public class UserServiceImpl implements UserService {
         User user = findByEmail(email);
         return new BinaryTree(user);
     }
+
+    @Override
+    public List<User> findUsersByOwner(Long ownerId) {
+        return userDao.findByOwner(ownerId);
+    }
 }

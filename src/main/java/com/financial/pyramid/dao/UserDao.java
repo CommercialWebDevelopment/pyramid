@@ -18,4 +18,6 @@ public interface UserDao extends AbstractDao<User, Long> {
 
     public User findByEmail(String email);
 
+    public List<User> findByOwner(Long ownerId);
+
 }

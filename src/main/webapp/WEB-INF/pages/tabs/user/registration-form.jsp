@@ -12,7 +12,7 @@
         </div>
     </div>
 </div>
-
+<%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
 <form:form method="POST" action="/user/registration" modelAttribute="registration" onsubmit="return Form.validate()">
     <div id="registration-form" class="container-fluid">
         <div class="row-fluid">
