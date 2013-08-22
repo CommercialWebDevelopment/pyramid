@@ -48,7 +48,7 @@
             </td>
             <td style="width: 20px">
                 <button class="btn" onclick="Alert.confirm('${removeContactConfirm}', function(){
-                        window.location.href = '/contacts/remove/${news.id}'
+                        window.location.href = '/contacts/remove/${contact.id}'
                         })"><spring:message code="remove"/>
                 </button>
             </td>
