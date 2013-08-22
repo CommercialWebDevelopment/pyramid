@@ -30,14 +30,14 @@
     <div class="span12">
         <table class="table table-striped">
             <tr>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Payer</th>
-                <th>Receiver</th>
-                <th>Memo</th>
-                <th>Amount</th>
-                <th>Error</th>
-                <th>Result</th>
+                <th><spring:message code="type"/></th>
+                <th><spring:message code="date"/></th>
+                <th><spring:message code="payer"/></th>
+                <th><spring:message code="receiver"/></th>
+                <th><spring:message code="memo"/></th>
+                <th><spring:message code="amount"/></th>
+                <th><spring:message code="error"/></th>
+                <th><spring:message code="result"/></th>
             </tr>
             <c:forEach items="${paymentsForm.rows}" var="payments" varStatus="status">
                 <tr>
