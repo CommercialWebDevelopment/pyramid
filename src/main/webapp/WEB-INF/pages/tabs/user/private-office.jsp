@@ -14,13 +14,10 @@
     function transferMoney(){
         window.location.href = "/paypal/transferMoney";
     }
-    var text = '<c:out value="${alert}"/>';
-    $(document).ready(function () {
-        if(text != '') {
-            Alert.show(Alert.INFO, text);
-        }
-    });
 </script>
+
+<%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
+
 <div class="row-fluid">
     <button class="btn btn-primary" onclick="processPayment()"><spring:message code="buyPrivateOffice"/></button>
     <button class="btn btn-primary" onclick="transferMoney()"><spring:message code="takeMoney"/></button>

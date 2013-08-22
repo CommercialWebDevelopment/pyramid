@@ -1,7 +1,6 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.News;
-import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.service.SettingsService;
@@ -10,7 +9,6 @@ import com.financial.pyramid.service.VideoService;
 import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -77,10 +75,10 @@ public class TabsController extends AbstractController {
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
-        Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof UserDetails){
-            User user = userService.findByEmail(((UserDetails) principal).getUsername());
-            model.addAttribute("userBinaryTree", new BinaryTree(user));
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            BinaryTree binaryTree = userService.getBinaryTree(((UserDetails) principal).getUsername());
+            model.addAttribute("userBinaryTree", binaryTree);
             model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";
         }

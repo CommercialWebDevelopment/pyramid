@@ -32,4 +32,6 @@ public interface UserService extends UserDetailsService {
     public void update(RegistrationForm form);
 
     public User findByEmail(String email);
+
+    public BinaryTree getBinaryTree(String email);
 }

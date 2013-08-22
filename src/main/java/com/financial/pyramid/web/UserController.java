@@ -71,7 +71,7 @@ public class UserController extends AbstractController {
             model.put("text", getMessage("exception.serviceIsNotAvailable"));
             return "tabs/user/invalid-page";
         }
-        return "tabs/user/private-office";
+        return "tabs/login";
     }
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)

@@ -9,13 +9,13 @@ import com.financial.pyramid.service.exception.InvitationOverdueException;
 import com.financial.pyramid.web.form.InvitationForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * User: Danil
@@ -36,24 +36,24 @@ public class InvitationController extends AbstractController {
     private InvitationService invitationService;
 
     @RequestMapping(value = "/send", method = RequestMethod.POST)
-    public String invitation(ModelMap model, @ModelAttribute("invitation") final InvitationForm invitationForm) {
+    public String invitation(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("invitation") final InvitationForm invitationForm) {
         if (!emailService.checkEmail(invitationForm.getEmail())) {
-            model.addAttribute("text", getMessage("exception.emailIsNotCorrect", invitationForm.getEmail()));
-            return "/tabs/user/invalid-page";
+            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.emailIsNotCorrect", invitationForm.getEmail()));
+            return "redirect:/pyramid/office";
         }
         if (userService.findByEmail(invitationForm.getEmail()) != null) {
-            model.addAttribute("text", getMessage("exception.userAlreadyExistWithEmail", invitationForm.getEmail()));
-            return "/tabs/user/invalid-page";
+            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.userAlreadyExistWithEmail", invitationForm.getEmail()));
+            return "redirect:/pyramid/office";
         }
         if (invitationService.findByEmail(invitationForm.getEmail()) != null) {
-            model.addAttribute("text", getMessage("exception.userAlreadyHaveInvitation", invitationForm.getEmail()));
-            return "/tabs/user/invalid-page";
+            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.userAlreadyHasInvitation", invitationForm.getEmail()));
+            return "redirect:/pyramid/office";
         }
         if (!invitationService.sendInvitation(invitationForm)) {
-            model.addAttribute("text", getMessage("exception.serviceIsNotAvailable"));
-            return "/tabs/user/invalid-page";
+            redirectAttributes.addFlashAttribute("alert_error", getMessage("exception.serviceIsNotAvailable"));
+            return "redirect:/pyramid/office";
         }
-        model.addAttribute("alert", getMessage("alert.invitationWasSent"));
+        redirectAttributes.addFlashAttribute("alert_success", getMessage("success.invitationWasSent"));
         return "redirect:/pyramid/office";
     }
 
