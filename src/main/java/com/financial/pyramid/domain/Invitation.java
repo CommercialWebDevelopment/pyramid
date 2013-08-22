@@ -36,7 +36,7 @@ public class Invitation extends AbstractEntity implements Serializable {
     private String globalId;
 
     @Column(name = "confirmed", nullable = false)
-    private Boolean confirmed;
+    private Boolean confirmed = false;
 
     public Boolean getConfirmed() {
         return confirmed;

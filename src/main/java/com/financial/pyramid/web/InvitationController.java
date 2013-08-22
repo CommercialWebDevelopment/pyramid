@@ -35,18 +35,17 @@ public class InvitationController extends AbstractController {
     @Autowired
     private InvitationService invitationService;
 
-    @PreAuthorize("hasAnyRole('USER')")
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public String invitation(ModelMap model, @ModelAttribute("invitation") final InvitationForm invitationForm) {
         if (!emailService.checkEmail(invitationForm.getEmail())) {
             model.addAttribute("text", getMessage("exception.emailIsNotCorrect", invitationForm.getEmail()));
             return "/tabs/user/invalid-page";
         }
-        if (userService.findByEmail(invitationForm.getEmail()).size() > 0) {
+        if (userService.findByEmail(invitationForm.getEmail()) != null) {
             model.addAttribute("text", getMessage("exception.userAlreadyExistWithEmail", invitationForm.getEmail()));
             return "/tabs/user/invalid-page";
         }
-        if (invitationService.findByEmail(invitationForm.getEmail()).size() > 0) {
+        if (invitationService.findByEmail(invitationForm.getEmail()) != null) {
             model.addAttribute("text", getMessage("exception.userAlreadyHaveInvitation", invitationForm.getEmail()));
             return "/tabs/user/invalid-page";
         }
@@ -54,8 +53,8 @@ public class InvitationController extends AbstractController {
             model.addAttribute("text", getMessage("exception.serviceIsNotAvailable"));
             return "/tabs/user/invalid-page";
         }
-
-        return "/tabs/user/private-office";
+        model.addAttribute("alert", getMessage("alert.invitationWasSent"));
+        return "redirect:/pyramid/office";
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET, params = {"ui"})

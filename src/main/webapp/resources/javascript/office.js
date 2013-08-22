@@ -127,8 +127,10 @@ $(document).ready(function () {
         ctx.lineTo(startX * 3, height);
         ctx.stroke();
     }
-
+    var form = $("#user-email-form");
     $(".stub-node").click(function() {
-        $("#user-email-form").modal("show");
+        form.find("#parentId").val($(this).attr("parentId"));
+        form.find("#position").val($(this).attr("position"));
+        form.modal("show");
     })
 });

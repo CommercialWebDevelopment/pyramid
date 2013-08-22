@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface InvitationDao extends AbstractDao<Invitation, Long> {
 
-    public List<Invitation> findByEmail(String email);
+    public Invitation findByEmail(String email);
 
     public Invitation findByGlobalId(String globalId);
 }

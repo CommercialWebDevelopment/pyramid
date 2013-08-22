@@ -7,11 +7,8 @@ import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.VideoService;
+import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
-import com.financial.pyramid.web.form.AuthenticationForm;
-import com.financial.pyramid.web.form.PageForm;
-import com.financial.pyramid.web.form.QueryForm;
-import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -82,9 +79,9 @@ public class TabsController extends AbstractController {
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(principal instanceof UserDetails){
-//            User currentUser = userService.findByLogin(((UserDetails) principal).getUsername()).get(0);
-            BinaryTree userBinaryTree = userService.getBinaryTree(null);
-            model.addAttribute("userBinaryTree", userBinaryTree);
+            User user = userService.findByEmail(((UserDetails) principal).getUsername());
+            model.addAttribute("userBinaryTree", new BinaryTree(user));
+            model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());

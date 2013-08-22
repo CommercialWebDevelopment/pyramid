@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface InvitationService {
 
-    public List<Invitation> findByEmail(String email);
+    public Invitation findByEmail(String email);
 
     public Invitation confirm(String globalId) throws InvitationNotFoundException, InvitationOverdueException;
 
@@ -23,4 +23,6 @@ public interface InvitationService {
     public boolean sendInvitation(InvitationForm invitationForm);
 
     public Invitation findById(Long id);
+
+    public void delete(Invitation invitation);
 }

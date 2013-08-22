@@ -30,8 +30,5 @@ public class RegistrationFormValidator implements Validator {
         Locale locale = LocaleContextHolder.getLocale();
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "field.required");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "field.required");
     }
 }

@@ -14,6 +14,10 @@ public class BinaryTreeWidget {
     private String stubText;
 
     public BinaryTreeWidget(BinaryTree tree) {
+        if(tree == null) {
+            this.rootElement = "";
+            return;
+        }
         this.rootElementWidth = calculateTotalWidth(tree);
         this.rootElement = getUserNode(tree, "user-tree");
     }
@@ -31,7 +35,7 @@ public class BinaryTreeWidget {
     }
 
     public String getUserNode(BinaryTree tree, String clazz) {
-        UserForm user = (UserForm)tree.getValue();
+        UserForm user = tree.getValue();
         return "<div class='"+clazz+"' style='width:"+ calculateNodeWidth(tree) +"px'>" +
                 "<div class='user-info''>" +
                 "<img src='/resources/images/vcard.png' alt='User Info'><br>" +
@@ -46,7 +50,7 @@ public class BinaryTreeWidget {
     public String getStubNode(BinaryTree user, String clazz) {
         return "<div class='"+clazz+" user-info' style='width:"+ calculateNodeWidth(user) / 2+"px'>" +
                 "<img class='stub-node' " +
-                "parent="+user.getId()+" " +
+                "parentId="+user.getId()+" " +
                 "position="+ (user.itIsRight() ? Position.RIGHT.toString() : Position.LEFT.toString()) +" " +
                 "src='/resources/images/add-user.jpg' alt='Add user'><br>"+
                 "</div>";

@@ -14,8 +14,13 @@
     function transferMoney(){
         window.location.href = "/paypal/transferMoney";
     }
+    var text = '<c:out value="${alert}"/>';
+    $(document).ready(function () {
+        if(text != '') {
+            Alert.show(Alert.INFO, text);
+        }
+    });
 </script>
-
 <div class="row-fluid">
     <button class="btn btn-primary" onclick="processPayment()"><spring:message code="buyPrivateOffice"/></button>
     <button class="btn btn-primary" onclick="transferMoney()"><spring:message code="takeMoney"/></button>
@@ -23,7 +28,7 @@
 <br>
 <div class="row-fluid">
     <div class="span12">
-        <div class="span9" style="border: 1px solid blue; overflow: auto">
+        <div class="span9" style="border: 1px solid blue; overflow: auto" align="center">
             <c:set var="addUser">
                 <spring:message code='user.add'/>
             </c:set>
@@ -61,8 +66,12 @@
                             <h5 id="add-user-form-abel"><spring:message code="sendAnInvitation"/></h5>
                         </div>
                         <div class="modal-body">
-                            <form:form method="POST" id="send-email-to-user" action="/user/add"
-                                       modelAttribute="registration">
+                            <form:form method="POST" id="send-email-to-user" action="/invitation/send"
+                                       modelAttribute="invitation">
+
+                                <input id="parentId" name="parentId" type="hidden">
+                                <input id="position" name="position" type="hidden">
+
                                 <div class="row-fluid control-group error">
                                     <div class="span3">
                                         <label for="email" class="required_label form-field"><spring:message
@@ -71,7 +80,7 @@
                                     <div class="span9 controls">
                                         <div class="form-field">
                                             <input id="email" name="email" type="text" class="form-field"
-                                                   onkeyup="Registration.validateEMailField(this, value)">
+                                                   onkeyup="Form.validateEMailField(this, value)">
                                         </div>
                                     </div>
                                 </div>

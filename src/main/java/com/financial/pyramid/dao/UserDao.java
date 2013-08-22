@@ -16,6 +16,6 @@ public interface UserDao extends AbstractDao<User, Long> {
 
     public List<User> findByQuery(QueryForm form);
 
-    public List<User> findByEmail(String email);
+    public User findByEmail(String email);
 
 }

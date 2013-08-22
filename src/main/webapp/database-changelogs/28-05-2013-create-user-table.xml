@@ -58,13 +58,10 @@
             <column name="owner_id" type="int">
                 <constraints nullable="true"/>
             </column>
-            <column name="position" type="varchar(100)">
+            <column name="left_child_id" type="int">
                 <constraints nullable="true"/>
             </column>
-            <column name="parent_id" type="int">
-                <constraints nullable="true"/>
-            </column>
-            <column name="child_id" type="int">
+            <column name="right_child_id" type="int">
                 <constraints nullable="true"/>
             </column>
         </createTable>

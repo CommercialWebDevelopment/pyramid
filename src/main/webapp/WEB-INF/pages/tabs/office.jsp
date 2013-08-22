@@ -6,7 +6,6 @@
 <%@ include file="/WEB-INF/pages/header.jsp" %>
 
 <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/excanvas.min.js"></script><![endif]-->
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/jquery.js"></script>
 <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/jquery.flot.js"></script>
 
 <%--Tabs--%>
