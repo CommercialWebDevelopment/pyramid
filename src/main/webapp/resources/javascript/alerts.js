@@ -27,8 +27,6 @@ var Alert = {
         var dialog = $("#confirmation");
         dialog.find(".modal-body").html(message);
         dialog.css("display", "block");
-        dialog.css("margin-top", "-50px");
-        dialog.css("margin-left", "-50px");
         dialog.find("#yesButton").on("click", function (e) {
             if (callback) {
                 callback();

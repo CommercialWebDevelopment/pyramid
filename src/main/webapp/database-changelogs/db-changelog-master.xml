@@ -16,4 +16,5 @@
     <include file="/database-changelogs/07-08-2013-create-application-config-table.xml"/>
     <include file="/database-changelogs/07-08-2013-create-operations-table.xml"/>
     <include file="/database-changelogs/12-08-2013-create-invitation-table.xml"/>
+    <include file="/database-changelogs/22-08-2013-create-contact-table.xml"/>
 </databaseChangeLog>

@@ -1,9 +1,7 @@
 package com.financial.pyramid.web;
 
-import com.financial.pyramid.domain.News;
-import com.financial.pyramid.domain.Operation;
-import com.financial.pyramid.domain.Setting;
-import com.financial.pyramid.domain.Video;
+import com.financial.pyramid.domain.*;
+import com.financial.pyramid.service.ContactService;
 import com.financial.pyramid.service.NewsService;
 import com.financial.pyramid.service.OperationsLoggingService;
 import com.financial.pyramid.web.form.*;
@@ -31,6 +29,9 @@ public class AdminTabsController extends TabsController {
 
     @Autowired
     OperationsLoggingService operationsLoggingService;
+
+    @Autowired
+    ContactService contactService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String defaultRequest(ModelMap model) {
@@ -75,6 +76,8 @@ public class AdminTabsController extends TabsController {
 
     @RequestMapping(value = "/contact_settings", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
+        List<Contact> contacts = contactService.findAll();
+        model.addAttribute("contacts", contacts);
         return "/tabs/admin/contacts";
     }
 
