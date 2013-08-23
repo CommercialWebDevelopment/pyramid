@@ -17,10 +17,10 @@ public class Setting {
     public static String YOU_TUBE_VIDEO_THUMBNAILS = "youTubeVideoThumbnailsUrl";
     public static String YOU_TUBE_VIDEO_URL = "youTubeVideoUrl";
 
-    public static String CONTACTS_ADDRESS = "contacts.address";
-    public static String CONTACTS_PHONES = "contacts.phones";
-    public static String CONTACTS_MAP_URL = "contacts.map";
-    public static String CONTACTS_MAP_HREF = "contacts.showFullMap";
+    public static String CONTACTS_ADDRESS = "contactsAddress";
+    public static String CONTACTS_PHONES = "contactsPhones";
+    public static String CONTACTS_MAP_URL = "contactsMap";
+    public static String CONTACTS_MAP_HREF = "contactsFullMap";
 
     public static String PAY_PAL_API_USERNAME = "pay_pal_api_username";
     public static String PAY_PAL_API_PASSWORD = "pay_pal_api_password";

@@ -24,6 +24,20 @@ var I18N = {
     noItems:'<spring:message code="noItems" javaScriptEscape="true"/>',
     of:'<spring:message code="of" javaScriptEscape="true"/>',
     incorrectFields:'<spring:message code="incorrectFields" javaScriptEscape="true"/>',
-    feedbackFormError:'<spring:message code="feedbackFormError" javaScriptEscape="true"/>'
+    feedbackFormError:'<spring:message code="feedbackFormError" javaScriptEscape="true"/>',
+    youTubeVideoUrl:'<spring:message code="youTubeVideoUrl" javaScriptEscape="true"/>',
+    youTubeVideoThumbnailsUrl:'<spring:message code="youTubeVideoThumbnailsUrl" javaScriptEscape="true"/>',
+    applicationURL:'<spring:message code="applicationURL" javaScriptEscape="true"/>',
+    officePrice:'<spring:message code="officePrice" javaScriptEscape="true"/>',
+    maxAllowedAmount:'<spring:message code="maxAllowedAmount" javaScriptEscape="true"/>',
+    vkontakte:'<spring:message code="vkontakte" javaScriptEscape="true"/>',
+    facebook:'<spring:message code="facebook" javaScriptEscape="true"/>',
+    twitter:'<spring:message code="twitter" javaScriptEscape="true"/>',
+    youtube:'<spring:message code="youtube" javaScriptEscape="true"/>',
+    contactsAddress:'<spring:message code="contactsAddress" javaScriptEscape="true"/>',
+    contactsPhones:'<spring:message code="contactsPhones" javaScriptEscape="true"/>',
+    contactsMap:'<spring:message code="contactsMap" javaScriptEscape="true"/>',
+    contactsFullMap:'<spring:message code="contactsFullMap" javaScriptEscape="true"/>',
+    feedbackReceiverEmail:'<spring:message code="feedbackReceiver" javaScriptEscape="true"/>'
 };
 

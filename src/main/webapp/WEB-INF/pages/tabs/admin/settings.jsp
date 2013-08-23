@@ -27,7 +27,7 @@
             </tr>
             <c:forEach items="${settingsForm.settings}" var="setting" varStatus="status">
                 <tr>
-                    <td>${setting.keyString}</td>
+                    <td><script language="javascript">document.write(I18N.${setting.keyString})</script></td>
                     <td>
                         <input type="hidden" name="settings[${status.index}].id" value="${setting.id}">
                         <input type="hidden" name="settings[${status.index}].keyString" value="${setting.keyString}">
