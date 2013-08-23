@@ -3,33 +3,23 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.RegistrationService;
-import com.financial.pyramid.service.exception.UserConfirmOverdueException;
-import com.financial.pyramid.service.exception.UserNotFoundException;
+import com.financial.pyramid.service.exception.SendingMailException;
+import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * User: Danil
@@ -58,20 +48,29 @@ public class UserController extends AbstractController {
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(ModelMap model, @ModelAttribute("registration") final RegistrationForm registration) {
-        model.addAttribute("registration", registration);
+    public String registration(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("registration") final RegistrationForm registration) {
         BeanPropertyBindingResult result = new BeanPropertyBindingResult(registration, "registration");
         registrationFormValidator.validate(registration, result);
         if (result.getErrorCount() > 0) {
+            model.addAttribute("registration", registration);
             model.put("errors", result.getAllErrors());
             return "/tabs/user/registration-form";
         }
-        boolean success = registrationService.registration(registration);
-        if (!success) {
-            model.put("text", getMessage("exception.serviceIsNotAvailable"));
-            return "tabs/user/invalid-page";
+        boolean success = false;
+        try {
+            success = registrationService.registration(registration);
+        } catch (UserAlreadyExistsException e) {
+            return "redirect:/pyramid/office";
+        } catch (SendingMailException e) {
+            e.printStackTrace();
         }
-        return "tabs/user/private-office";
+        if (!success) {
+            model.addAttribute("registration", registration);
+            model.put(AlertType.ERROR.getName(), getMessage("exception.serviceIsNotAvailable"));
+            return "tabs/user/registration-form";
+        }
+        redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), getMessage("alert.registrationIsSuccessful"));
+        return "redirect:/pyramid/office";
     }
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)

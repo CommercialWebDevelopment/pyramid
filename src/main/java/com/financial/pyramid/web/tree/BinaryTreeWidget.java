@@ -9,6 +9,8 @@ import com.financial.pyramid.web.form.UserForm;
  * Time: 1:27
  */
 public class BinaryTreeWidget {
+    private static String LEFT_TREE = "left-tree";
+    private static String RIGHT_TREE = "right-tree";
     private String rootElement;
     private double rootElementWidth = 0;
     private String stubText;
@@ -51,7 +53,7 @@ public class BinaryTreeWidget {
         return "<div class='"+clazz+" user-info' style='width:"+ calculateNodeWidth(user) / 2+"px'>" +
                 "<img class='stub-node' " +
                 "parentId="+user.getId()+" " +
-                "position="+ (user.itIsRight() ? Position.RIGHT.toString() : Position.LEFT.toString()) +" " +
+                "position="+ (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString()) +" " +
                 "src='/resources/images/add-user.jpg' alt='Add user'><br>"+
                 "</div>";
     }
@@ -62,8 +64,8 @@ public class BinaryTreeWidget {
     }
 
     public void addUserToWidget(BinaryTree user) {
-        String result = user.isLeft() ? getUserNode(user.getLeft(), "left-tree") : getStubNode(user, "left-tree");
-        result += user.isRight() ? getUserNode(user.getRight(), "right-tree") : getStubNode(user, "right-tree");
+        String result = user.isLeft() ? getUserNode(user.getLeft(), LEFT_TREE) : getStubNode(user, LEFT_TREE);
+        result += user.isRight() ? getUserNode(user.getRight(), RIGHT_TREE) : getStubNode(user, RIGHT_TREE);
         rootElement = rootElement.replaceFirst(getPointForUser(user), result);
     }
 

@@ -53,7 +53,7 @@ public class BinaryTree {
     }
 
     public boolean itIsLeft() {
-        return this.isParent() && this.getParent().getLeft() == this;
+        return this.isParent() && this.getParent().isLeft() && this.getParent().getLeft().getId().equals(this.getId());
     }
 
     public BinaryTree getLeft() {
@@ -65,7 +65,7 @@ public class BinaryTree {
     }
 
     public boolean itIsRight() {
-        return this.isParent() && this.getParent().getRight() == this;
+        return this.isParent() && this.getParent().isRight() && this.getParent().getRight().getId().equals(this.getId());
     }
 
     public BinaryTree getRight() {

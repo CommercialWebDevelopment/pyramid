@@ -47,4 +47,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
         }
         return (List<User>) criteria.list();
     }
+
+    @Override
+    public List<User> findByOwner(Long ownerId) {
+        return findByCriteria(Restrictions.eq("ownerId", ownerId));
+    }
 }

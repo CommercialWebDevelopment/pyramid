@@ -24,6 +24,20 @@ public class AbstractController {
     @Autowired
     private MessageSource messageSource;
 
+    protected static enum  AlertType {
+        ERROR("alert_error"),
+        SUCCESS("alert_success");
+        private String name;
+
+        private AlertType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(Throwable t) {
         ModelAndView model = new ModelAndView("error");
