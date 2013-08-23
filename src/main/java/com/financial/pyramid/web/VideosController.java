@@ -3,6 +3,7 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
+import com.financial.pyramid.settings.SettingProperty;
 import com.financial.pyramid.web.form.VideoUploadForm;
 import com.financial.pyramid.web.form.VideosForm;
 import com.google.gdata.client.http.AuthSubUtil;
@@ -50,7 +51,7 @@ public class VideosController extends AbstractController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("video") Video video) {
-        String thumbnailUrl = settingsService.getProperty("youTubeVideoThumbnailsUrl", video.externalId);
+        String thumbnailUrl = settingsService.getProperty(SettingProperty.YOU_TUBE_VIDEO_THUMBNAILS, video.externalId);
         video.setThumbnailUrl(thumbnailUrl);
         videoService.save(video);
         List<Video> videoList = videoService.find();

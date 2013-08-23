@@ -5,6 +5,7 @@ import com.financial.pyramid.service.ContactService;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.settings.SettingProperty;
 import com.financial.pyramid.web.form.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,7 +55,7 @@ public class ContactsController {
 
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
     public String sendFeedback(ModelMap model, @ModelAttribute("feedbackForm") FeedbackForm feedbackForm) {
-        String adminEmail = settingsService.getProperty("feedbackReceiverEmail");
+        String adminEmail = settingsService.getProperty(SettingProperty.FEEDBACK_RECEIVER_EMAIL);
         com.financial.pyramid.domain.User adminUser = userService.findByEmail(adminEmail);
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String currentUserName = feedbackForm.getName();
