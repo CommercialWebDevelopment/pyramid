@@ -23,6 +23,7 @@ var I18N = {
     pleaseWait:'<spring:message code="pleaseWait" javaScriptEscape="true"/>',
     noItems:'<spring:message code="noItems" javaScriptEscape="true"/>',
     of:'<spring:message code="of" javaScriptEscape="true"/>',
-    incorrectFields:'<spring:message code="incorrectFields" javaScriptEscape="true"/>'
+    incorrectFields:'<spring:message code="incorrectFields" javaScriptEscape="true"/>',
+    feedbackFormError:'<spring:message code="feedbackFormError" javaScriptEscape="true"/>'
 };
 

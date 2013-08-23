@@ -4,6 +4,19 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
+<script language="javascript">
+    function beforeSubmit() {
+        var form = $("#feedbackForm");
+        var emailField = form.find("#emailField");
+        var nameField = form.find("#nameField");
+        if (emailField.val() == "" || nameField.val() == "") {
+            Alert.show(Alert.ERROR, I18N.feedbackFormError);
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 <%--Tabs--%>
 <div class="row-fluid">
     <div class="span8 offset1">
@@ -24,9 +37,7 @@
     <div class="span10">
         <div id="tab-content" class="tab-content">
             <%--Content--%>
-
             <h3><spring:message code="contacts"/></h3>
-
             <c:if test="${param.sent != null}">
             <div class="text-center">
                 <c:if test="${param.sent == true}">
@@ -63,7 +74,14 @@
             <div class="row-fluid">
                 <div class="span5">
                     <pre><spring:message code="feedbackForm"/>:</pre>
-                    <form:form action="/contacts/feedback" method="POST">
+                    <form:form id="feedbackForm" action="/contacts/feedback" method="POST"
+                               modelAttribute="feedbackForm" onsubmit="return beforeSubmit()">
+                        <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                            <input id="nameField" type="text" class="form-field span12" name="name"
+                                   placeholder="<spring:message code="yourName"/>"/>
+                            <input id="emailField" type="text" class="form-field span12" name="email"
+                                   placeholder="<spring:message code="emailAddress"/>"/>
+                        </sec:authorize>
                         <textarea name="feedback" rows="15" style="width:100%; resize:none"></textarea>
                         <button class="btn" type="submit"><spring:message code="send"/></button>
                     </form:form>

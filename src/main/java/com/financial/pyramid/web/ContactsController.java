@@ -5,12 +5,16 @@ import com.financial.pyramid.service.ContactService;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.web.form.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,16 +53,14 @@ public class ContactsController {
     }
 
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
-    public String sendFeedback(ModelMap model, @RequestParam(value = "feedback") String feedback) {
+    public String sendFeedback(ModelMap model, @ModelAttribute("feedbackForm") FeedbackForm feedbackForm) {
         String adminEmail = settingsService.getProperty("feedbackReceiverEmail");
         com.financial.pyramid.domain.User adminUser = userService.findByEmail(adminEmail);
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String currentUserName = "";
-        String currentUserEmail = "";
-        if (user.equals("anonymousUser")) {
-            currentUserName = "anonymous";
-            currentUserEmail = "unknown";
-        } else {
+        String currentUserName = feedbackForm.getName();
+        String currentUserEmail = feedbackForm.getEmail();
+        String feedback = feedbackForm.getFeedback();
+        if (!user.equals("anonymousUser")) {
             User currentUser = (User) user;
             com.financial.pyramid.domain.User systemUser = userService.findByEmail(currentUser.getUsername());
             currentUserName = systemUser.getName();
