@@ -30,10 +30,14 @@
             <c:if test="${param.sent != null}">
             <div class="text-center">
                 <c:if test="${param.sent == true}">
-                    <div class="alert alert-success"><spring:message code="sendFeedbackSuccess"/></div>
+                    <div class="alert alert-success alert-block">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <spring:message code="sendFeedbackSuccess"/></div>
                 </c:if>
                 <c:if test="${param.sent == false}">
-                    <div class="alert alert-error"><spring:message code="sendFeedbackError"/></div>
+                    <div class="alert alert-error alert-block">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <spring:message code="sendFeedbackError"/></div>
                 </c:if>
             </div>
             </c:if>
