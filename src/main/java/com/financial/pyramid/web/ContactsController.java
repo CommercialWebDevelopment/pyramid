@@ -1,13 +1,13 @@
 package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Contact;
-import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.ContactService;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +51,7 @@ public class ContactsController {
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
     public String sendFeedback(ModelMap model, @RequestParam(value = "feedback") String feedback) {
         String adminEmail = settingsService.getProperty("feedbackReceiverEmail");
-        User adminUser = userService.findByEmail(adminEmail);
+        com.financial.pyramid.domain.User adminUser = userService.findByEmail(adminEmail);
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String currentUserName = "";
         String currentUserEmail = "";
@@ -60,8 +60,9 @@ public class ContactsController {
             currentUserEmail = "unknown";
         } else {
             User currentUser = (User) user;
-            currentUserName = currentUser.getName();
-            currentUserEmail = currentUser.getEmail();
+            com.financial.pyramid.domain.User systemUser = userService.findByEmail(currentUser.getUsername());
+            currentUserName = systemUser.getName();
+            currentUserEmail = systemUser.getEmail();
         }
         Map map = new HashMap();
         map.put("name", adminUser.getName());
