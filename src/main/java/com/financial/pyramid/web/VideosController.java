@@ -3,21 +3,18 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.VideoService;
-import com.financial.pyramid.settings.SettingProperty;
+import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.web.form.VideoUploadForm;
 import com.financial.pyramid.web.form.VideosForm;
 import com.google.gdata.client.http.AuthSubUtil;
 import com.google.gdata.client.youtube.YouTubeService;
-import com.google.gdata.data.geo.impl.GeoRssWhere;
 import com.google.gdata.data.media.MediaFileSource;
 import com.google.gdata.data.media.mediarss.MediaDescription;
 import com.google.gdata.data.media.mediarss.MediaKeywords;
 import com.google.gdata.data.media.mediarss.MediaTitle;
 import com.google.gdata.data.youtube.VideoEntry;
 import com.google.gdata.data.youtube.YouTubeMediaGroup;
-import com.google.gdata.util.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.GeneralSecurityException;
 import java.util.List;
 
 /**
@@ -51,7 +47,7 @@ public class VideosController extends AbstractController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("video") Video video) {
-        String thumbnailUrl = settingsService.getProperty(SettingProperty.YOU_TUBE_VIDEO_THUMBNAILS, video.externalId);
+        String thumbnailUrl = settingsService.getProperty(Setting.YOU_TUBE_VIDEO_THUMBNAILS, video.externalId);
         video.setThumbnailUrl(thumbnailUrl);
         videoService.save(video);
         List<Video> videoList = videoService.find();

@@ -5,7 +5,7 @@ package com.financial.pyramid.settings;
  * Date: 23.08.13
  * Time: 14:25
  */
-public class SettingProperty {
+public class Setting {
 
     public static String FEEDBACK_RECEIVER_EMAIL="feedbackReceiverEmail";
     public static String OFFICE_PRICE="officePrice";
@@ -22,4 +22,8 @@ public class SettingProperty {
     public static String CONTACTS_MAP_URL="contacts.map";
     public static String CONTACTS_MAP_HREF="contacts.showFullMap";
 
+    public static String PAY_PAL_API_USERNAME="pay_pal_api_username";
+    public static String PAY_PAL_API_PASSWORD="pay_pal_api_password";
+    public static String PAY_PAL_API_SIGNATURE="pay_pal_api_signature";
+    public static String PAY_PAL_API_APPLICATION_ID="pay_pal_application_id";
 }

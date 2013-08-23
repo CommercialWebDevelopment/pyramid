@@ -4,7 +4,7 @@ import com.financial.pyramid.domain.Contact;
 import com.financial.pyramid.domain.News;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.*;
-import com.financial.pyramid.settings.SettingProperty;
+import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class TabsController extends AbstractController {
     public String training(ModelMap model) {
         List<Video> videos = videoService.find();
         Video video = videos != null && videos.size() > 0 ? videos.get(0) : null;
-        String defaultVideo = settingsService.getProperty(SettingProperty.YOU_TUBE_VIDEO_URL, video != null ? video.getExternalId() : null);
+        String defaultVideo = settingsService.getProperty(Setting.YOU_TUBE_VIDEO_URL, video != null ? video.getExternalId() : null);
         model.addAttribute("defaultVideo", defaultVideo);
         model.addAttribute("videos", videos);
         return "/tabs/training";
@@ -96,10 +96,10 @@ public class TabsController extends AbstractController {
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
         List<Contact> contacts = contactService.findAll();
-        String address = settingsService.getProperty(SettingProperty.CONTACTS_ADDRESS);
-        String phones = settingsService.getProperty(SettingProperty.CONTACTS_PHONES);
-        String mapUrl = settingsService.getProperty(SettingProperty.CONTACTS_MAP_URL);
-        String fullMapUrl = settingsService.getProperty(SettingProperty.CONTACTS_MAP_HREF);
+        String address = settingsService.getProperty(Setting.CONTACTS_ADDRESS);
+        String phones = settingsService.getProperty(Setting.CONTACTS_PHONES);
+        String mapUrl = settingsService.getProperty(Setting.CONTACTS_MAP_URL);
+        String fullMapUrl = settingsService.getProperty(Setting.CONTACTS_MAP_HREF);
         model.addAttribute("address", address);
         model.addAttribute("phones", phones);
         model.addAttribute("mapUrl", mapUrl);

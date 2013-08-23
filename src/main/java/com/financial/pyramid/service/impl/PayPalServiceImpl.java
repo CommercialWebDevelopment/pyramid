@@ -9,6 +9,7 @@ import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.service.beans.PayPalResponse;
 import com.financial.pyramid.service.beans.Receiver;
 import com.financial.pyramid.service.exception.PayPalException;
+import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.utils.HTTPClient;
 import com.google.gdata.util.common.base.Pair;
 import com.google.gson.Gson;
@@ -88,10 +89,10 @@ public class PayPalServiceImpl implements PayPalService {
 
     private List<Pair<String, String>> getHeaders() {
         List<Pair<String, String>> headers = new ArrayList<Pair<String, String>>();
-        String securityUserId = configurationService.getParameter("pay_pal_api_username");
-        String securityPassword = configurationService.getParameter("pay_pal_api_password");
-        String securitySignature = configurationService.getParameter("pay_pal_api_signature");
-        String applicationId = configurationService.getParameter("pay_pal_application_id");
+        String securityUserId = configurationService.getParameter(Setting.PAY_PAL_API_USERNAME);
+        String securityPassword = configurationService.getParameter(Setting.PAY_PAL_API_PASSWORD);
+        String securitySignature = configurationService.getParameter(Setting.PAY_PAL_API_SIGNATURE);
+        String applicationId = configurationService.getParameter(Setting.PAY_PAL_API_APPLICATION_ID);
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-USERID", securityUserId));
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-PASSWORD", securityPassword));
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-SIGNATURE", securitySignature));
