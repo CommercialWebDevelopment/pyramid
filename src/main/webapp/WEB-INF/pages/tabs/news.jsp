@@ -38,7 +38,7 @@
         </h1>
         <h5><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/></h5>
 
-        <div>${news.description}...<br><a href="/news/get/${news.id}">Читать далее >></a></div>
+        <div>${news.description}...<br><a href="/news/get/${news.id}"><spring:message code="readMore"/> >></a></div>
     </c:forEach>
     <%
         PageForm<News> pageForm = (PageForm<News>) request.getAttribute("newsForm");

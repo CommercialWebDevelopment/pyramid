@@ -27,6 +27,8 @@
         <security:intercept-url pattern="/video/remove/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/video/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/video/upload" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
+        <security:intercept-url pattern="/contacts/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
+        <security:intercept-url pattern="/contacts/remove/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/pyramid/**" access="permitAll" />
         <security:intercept-url pattern="/user/authentication" access="permitAll" />
         <security:form-login login-page="/pyramid/office"

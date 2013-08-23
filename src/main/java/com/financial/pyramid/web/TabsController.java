@@ -1,11 +1,9 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.domain.Contact;
 import com.financial.pyramid.domain.News;
 import com.financial.pyramid.domain.Video;
-import com.financial.pyramid.service.NewsService;
-import com.financial.pyramid.service.SettingsService;
-import com.financial.pyramid.service.UserService;
-import com.financial.pyramid.service.VideoService;
+import com.financial.pyramid.service.*;
 import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +39,9 @@ public class TabsController extends AbstractController {
 
     @Autowired
     protected UserService userService;
+
+    @Autowired
+    protected ContactService contactService;
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(ModelMap model) {
@@ -93,6 +94,16 @@ public class TabsController extends AbstractController {
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public String contacts(ModelMap model) {
+        List<Contact> contacts = contactService.findAll();
+        String address = settingsService.getProperty("contacts.address");
+        String phones = settingsService.getProperty("contacts.phones");
+        String mapUrl = settingsService.getProperty("contacts.map");
+        String fullMapUrl = settingsService.getProperty("contacts.showFullMap");
+        model.addAttribute("address", address);
+        model.addAttribute("phones", phones);
+        model.addAttribute("mapUrl", mapUrl);
+        model.addAttribute("showFullMapUrl", fullMapUrl);
+        model.addAttribute("contacts", contacts);
         return "/tabs/contacts";
     }
 
