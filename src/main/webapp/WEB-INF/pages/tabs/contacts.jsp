@@ -59,7 +59,7 @@
             <div class="row-fluid">
                 <div class="span5">
                     <pre><spring:message code="feedbackForm"/>:</pre>
-                    <form:form action="/contacts/sendFeedback" method="POST">
+                    <form:form action="/contacts/feedback" method="POST">
                         <textarea name="feedback" rows="15" style="width:100%; resize:none"></textarea>
                         <button class="btn" type="submit"><spring:message code="send"/></button>
                     </form:form>

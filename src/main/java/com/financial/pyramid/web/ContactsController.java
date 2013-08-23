@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,15 +48,25 @@ public class ContactsController {
         return "redirect:/pyramid/admin/contact_settings";
     }
 
-    @RequestMapping(value = "/sendFeedback", method = RequestMethod.POST)
-    public String sendFeedback(ModelMap model, @PathVariable String feedback) {
+    @RequestMapping(value = "/feedback", method = RequestMethod.POST)
+    public String sendFeedback(ModelMap model, @RequestParam(value = "feedback") String feedback) {
         String adminEmail = settingsService.getProperty("feedbackReceiverEmail");
         User adminUser = userService.findByEmail(adminEmail);
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String currentUserName = "";
+        String currentUserEmail = "";
+        if (user.equals("anonymousUser")) {
+            currentUserName = "anonymous";
+            currentUserEmail = "unknown";
+        } else {
+            User currentUser = (User) user;
+            currentUserName = currentUser.getName();
+            currentUserEmail = currentUser.getEmail();
+        }
         Map map = new HashMap();
         map.put("name", adminUser.getName());
-        map.put("username", currentUser.getName());
-        map.put("usermail", currentUser.getEmail());
+        map.put("username", currentUserName);
+        map.put("usermail", currentUserEmail);
         map.put("feedback", feedback);
         emailService.setTemplate("feedback-template");
         boolean result = emailService.sendEmail(adminUser, map);
