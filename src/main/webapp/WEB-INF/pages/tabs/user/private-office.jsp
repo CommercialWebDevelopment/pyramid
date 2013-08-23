@@ -101,5 +101,7 @@
         <%@ include file="earnings-report.jsp" %>
     </div>
 </div>
-
+</div>
+</div>
+</div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
