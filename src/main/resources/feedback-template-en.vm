@@ -1,0 +1,9 @@
+<html>
+<body>
+<h3>Dear ${name}, </h3>
+<div>
+    You have got feedback from user ${username} (${usermail}). He/she has left the following feedback on our service:
+    "${feedback}"
+</div>
+</body>
+</html>

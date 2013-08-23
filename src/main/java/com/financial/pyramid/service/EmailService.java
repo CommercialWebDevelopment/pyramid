@@ -11,6 +11,12 @@ import java.util.Map;
  */
 public interface EmailService {
 
+    public boolean sendEmail(User user, Map model);
+
+    public void setTemplate(String template);
+
+    public String getTemplate();
+
     public boolean sendInvitation(String uuid, String name, String email);
 
     public boolean sendPassword(String name, String password, String email);

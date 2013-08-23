@@ -21,6 +21,10 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * User: Danil
  * Date: 29.05.13
@@ -108,21 +112,20 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/restore", method = RequestMethod.POST)
     public String restore(ModelMap model, @RequestParam(value = "email") String email) {
-//        List<User> users = userService.findByEmail(email.trim());
-//        boolean result = false;
-//        if (!users.isEmpty()) {
-//            User user = users.get(0);
-//            String newPassword = userService.createPassword(15);
-//            user.setPassword(passwordEncoder.encode(newPassword));
-//            userService.saveUser(user);
-//            Map map = new HashMap();
-//            map.put("username", user.getName());
-//            map.put("password", newPassword);
-//            emailService.setTemplate("password-restore-template");
-//            result = emailService.sendToUser(user, map);
-//        }
-//        model.addAttribute("result", result);
-//        model.addAttribute("email", email);
+        User user = userService.findByEmail(email.trim());
+        boolean result = false;
+        if (user != null) {
+            String newPassword = userService.createPassword(15);
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userService.save(user);
+            Map map = new HashMap();
+            map.put("username", user.getName());
+            map.put("password", newPassword);
+            emailService.setTemplate("password-restore-template");
+            result = emailService.sendEmail(user, map);
+        }
+        model.addAttribute("result", result);
+        model.addAttribute("email", email);
         return "redirect:/user/forgot";
     }
 

@@ -2,23 +2,18 @@ package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.dao.UserDao;
 import com.financial.pyramid.domain.Passport;
-import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.domain.User;
-import com.financial.pyramid.service.EmailService;
+import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.service.UserService;
-import com.financial.pyramid.service.exception.UserConfirmOverdueException;
-import com.financial.pyramid.service.exception.UserNotFoundException;
-import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
-import com.financial.pyramid.web.form.UserForm;
+import com.financial.pyramid.web.tree.BinaryTree;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,7 +113,7 @@ public class UserServiceImpl implements UserService {
                     user.getPassword(),
                     Arrays.asList(new SimpleGrantedAuthority(user.getRole().name())));
         } else {
-            throw new UsernameNotFoundException("User with name "+username+" not found");
+            throw new UsernameNotFoundException("User with name " + username + " not found");
         }
     }
 
@@ -136,5 +131,44 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersByOwner(Long ownerId) {
         return userDao.findByOwner(ownerId);
+    }
+
+    @Override
+    public String createPassword(int n) {
+        Random rd = new Random();
+
+        char lowerChars[] = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        char upperChars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        char numbers[] = "0123456789".toCharArray();
+        char specialChars[] = "~!@#$%^&*()-_=+[{]}|;:<>/?".toCharArray();
+
+        List<Character> pwdLst = new ArrayList<Character>();
+        for (int g = 0; g < 4; g++) {
+            for (int z = 0; z < 1; z++) {
+                if (g == 0) {
+                    pwdLst.add(numbers[rd.nextInt(10)]);
+                } else if (g == 1) {
+                    pwdLst.add(lowerChars[rd.nextInt(26)]);
+                } else if (g == 2) {
+                    pwdLst.add(upperChars[rd.nextInt(26)]);
+                } else if (g == 3) {
+                    pwdLst.add(specialChars[rd.nextInt(26)]);
+                }
+            }
+            if (pwdLst.size() == n) {
+                break;
+            }
+            if (g + 1 == 4) {
+                g = (int) Math.random() * 5;
+
+            }
+        }
+        StringBuilder password = new StringBuilder();
+        Collections.shuffle(pwdLst);
+        for (int c = 0; c < pwdLst.size(); c++) {
+            password.append(pwdLst.get(c));
+        }
+        return password.toString();
+
     }
 }

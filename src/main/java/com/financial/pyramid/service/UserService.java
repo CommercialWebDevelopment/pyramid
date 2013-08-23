@@ -36,4 +36,6 @@ public interface UserService extends UserDetailsService {
     public BinaryTree getBinaryTree(String email);
 
     public List<User> findUsersByOwner(Long ownerId);
+
+    public String createPassword(int n);
 }

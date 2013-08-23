@@ -27,6 +27,17 @@
 
             <h3><spring:message code="contacts"/></h3>
 
+            <c:if test="${param.sent != null}">
+            <div class="text-center">
+                <c:if test="${param.sent == true}">
+                    <div class="alert alert-success"><spring:message code="sendFeedbackSuccess"/></div>
+                </c:if>
+                <c:if test="${param.sent == false}">
+                    <div class="alert alert-error"><spring:message code="sendFeedbackError"/></div>
+                </c:if>
+            </div>
+            </c:if>
+
             <div class="row-fluid">
                 <address>
                     <strong>${address}</strong><br>
@@ -48,8 +59,10 @@
             <div class="row-fluid">
                 <div class="span5">
                     <pre><spring:message code="feedbackForm"/>:</pre>
-                    <textarea rows="15" style="width:100%; resize:none"></textarea>
-                    <button class="btn" type="submit"><spring:message code="send"/></button>
+                    <form:form action="/contacts/sendFeedback" method="POST">
+                        <textarea name="feedback" rows="15" style="width:100%; resize:none"></textarea>
+                        <button class="btn" type="submit"><spring:message code="send"/></button>
+                    </form:form>
                 </div>
                 <div class="span5">
                     <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0"

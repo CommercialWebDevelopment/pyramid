@@ -37,6 +37,39 @@ public class EmailServiceImpl implements EmailService {
 
     private EmailValidator emailValidator = new EmailValidator();
 
+    private String template;
+
+    @Override
+    public boolean sendEmail(User user, Map model) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+            helper.setTo(user.getEmail());
+            if (this.template == null) {
+                throw new RuntimeException("Template is not set");
+            }
+            String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, this.template, "UTF-8", model);
+            helper.setText(text, true);
+            this.mailSender.send(message);
+        } catch (MailException ex) {
+            logger.error(ex.getMessage());
+            return false;
+        } catch (MessagingException ex) {
+            logger.error(ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public void setTemplate(String template) {
+        Locale locale = LocaleContextHolder.getLocale();
+        this.template = template + "-" + locale.toString() + ".vm";
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
     @Override
     public boolean sendInvitation(String uuid, String name, String email) {
         try {
