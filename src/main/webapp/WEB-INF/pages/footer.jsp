@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="span9">
-                <div>Разделы:</div>
+                <div><spring:message code="sections"/>:</div>
                 <span><a href="/pyramid/home"><spring:message code="home"/></a></span> |
                 <security:authorize access="hasAnyRole('SUPER_ADMIN,ADMIN')">
                     <span><a href="/pyramid/admin/"><spring:message code="settings"/></a></span> |
