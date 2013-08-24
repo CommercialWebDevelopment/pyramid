@@ -72,58 +72,47 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendInvitation(String uuid, String name, String email) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setTo(email);
-
-            Map<String, Object> model = new HashMap<String, Object>(5);
-            model.put("name", name);
-            model.put("uuid", uuid);
-            Locale locale = LocaleContextHolder.getLocale();
-            String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocityEngine, "invitation-template-"+locale.getLanguage()+".vm", "UTF-8", model);
-            helper.setText(text, true);
-            this.mailSender.send(message);
-        } catch (MailException ex) {
-            logger.error(ex.getMessage());
-            return false;
-        } catch (MessagingException ex) {
-            logger.error(ex.getMessage());
-            return false;
-        }
-        return true;
+        Map<String, Object> model = new HashMap<String, Object>(5);
+        model.put("name", name);
+        model.put("uuid", uuid);
+        model.put("email", email);
+        setTemplate("invitation-template");
+        return sendEmail(model);
     }
 
     @Override
     public boolean sendPassword(String name, String password, String email) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setTo(email);
-
-            Map<String, Object> model = new HashMap<String, Object>(5);
-            model.put("name", name);
-            model.put("password", password);
-            Locale locale = LocaleContextHolder.getLocale();
-            String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocityEngine, "password-template-"+locale.getLanguage()+".vm", "UTF-8", model);
-            helper.setText(text, true);
-            this.mailSender.send(message);
-        } catch (MailException ex) {
-            logger.error(ex.getMessage());
-            return false;
-        } catch (MessagingException ex) {
-            logger.error(ex.getMessage());
-            return false;
-        }
-        return true;
+        Map<String, Object> model = new HashMap<String, Object>(3);
+        model.put("name", name);
+        model.put("password", password);
+        model.put("email", email);
+        setTemplate("password-template");
+        return sendEmail(model);
     }
 
     @Override
     public boolean checkEmail(String email) {
         if (!emailValidator.validate(email)) {
             logger.warn("Email " + email + " is not valid");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean sendEmail(Map<String, Object> model) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+            helper.setTo((String)model.get("email"));
+            String text = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocityEngine, this.getTemplate(), "UTF-8", model);
+            helper.setText(text, true);
+            this.mailSender.send(message);
+        } catch (MailException ex) {
+            logger.error(ex.getMessage());
+            return false;
+        } catch (MessagingException ex) {
+            logger.error(ex.getMessage());
             return false;
         }
         return true;

@@ -68,9 +68,9 @@ public class InvitationController extends AbstractController {
             model.addAttribute("registration", registrationForm);
             return "/tabs/user/registration-form";
         } catch (InvitationNotFoundException e) {
-            return "/tabs/user/private-office";
+            return "/tabs/login";
         } catch (InvitationOverdueException e) {
-            return "/tabs/user/private-office";
+            return "/tabs/login";
         }
     }
 }
