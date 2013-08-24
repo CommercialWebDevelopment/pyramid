@@ -88,7 +88,7 @@
             <textarea style="width: 100%; resize: none" maxlength="500" name="description"></textarea>
             <input type="hidden" name="content" id="content"/>
             <%@ include file="/WEB-INF/pages/wysiwyg.jsp" %>
-            <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px"></div>
+            <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px; max-height: 300px"></div>
         </form:form>
     </div>
     <div class="modal-footer">
@@ -106,6 +106,6 @@
         $("#addForm").submit();
     }
     function addForm() {
-        $("#add-news-form").modal("show");
+        Modal.show($("#add-news-form"));
     }
 </script>

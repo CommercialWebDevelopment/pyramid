@@ -22,6 +22,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/alerts.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flexigrid/js/flexigrid.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/loader.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/modal.js"></script>
 </head>
 <body>
 <script type="text/javascript">

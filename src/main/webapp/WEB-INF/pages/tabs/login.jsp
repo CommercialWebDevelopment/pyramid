@@ -47,7 +47,7 @@
                     <div class="control-group">
                         <div class="controls">
                             <input id="email" name="email" type="text" class="form-field span12"
-                                   placeholder="<spring:message code="emailAddress"/>">
+                                   placeholder="<spring:message code="emailAddress"/>" autofocus="true">
                         </div>
                     </div>
                     <div class="control-group">
