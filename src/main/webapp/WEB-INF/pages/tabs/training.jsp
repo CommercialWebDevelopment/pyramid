@@ -32,7 +32,7 @@
     <%@ include file="/resources/javascript/training.js" %>
 </script>
 
-<h1><spring:message code="label.study"/></h1>
+<h3><spring:message code="label.study"/></h3>
 
 <div class="row-fluid">
     <div class="span10">

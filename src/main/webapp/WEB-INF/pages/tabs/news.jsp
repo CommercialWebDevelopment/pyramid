@@ -29,7 +29,7 @@
             <%--Content--%>
 
 
-<h3>Новости</h3>
+<h3><spring:message code="news" /></h3>
 
 <div class="row-fluid" style="word-wrap: normal">
     <c:forEach items="${newsForm.rows}" var="news" varStatus="status">

@@ -25,7 +25,7 @@
         <div id="tab-content" class="tab-content">
             <%--Content--%>
 
-            <h3>About</h3>
+            <h3><spring:message code="aboutProject"/></h3>
 <%@include file="../missing-data.jsp" %>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
