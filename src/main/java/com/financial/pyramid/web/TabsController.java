@@ -7,6 +7,7 @@ import com.financial.pyramid.service.*;
 import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
+import com.financial.pyramid.web.tree.BinaryTreeWidget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -79,8 +80,24 @@ public class TabsController extends AbstractController {
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            BinaryTree binaryTree = userService.getBinaryTree(((UserDetails) principal).getUsername());
-            model.addAttribute("userBinaryTree", binaryTree);
+            BinaryTree tree = userService.getBinaryTree(((UserDetails) principal).getUsername());
+            BinaryTreeWidget widget = new BinaryTreeWidget(tree);
+            widget.setStubText(getMessage("user.add"));
+
+            while (tree != null) {
+                widget.addUserToWidget(tree);
+
+                if (tree.isChild()) {
+                    tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
+                } else {
+                    while (tree.itIsRight() || (tree.isParent() && !tree.getParent().isRight())) {
+                        tree = tree.getParent();
+                    }
+                    tree = tree.isParent() ? tree.getParent().getRight() : null;
+                }
+            }
+
+            model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";
         }
