@@ -11,8 +11,12 @@
 <script type="text/javascript">
     <%@ include file="/resources/javascript/news.js" %>
 </script>
-<h5><spring:message code="editNews"/></h5>
-<div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+<div class="row-fluid">
+    <div class="span10">
+        <div class="title"><h3><spring:message code="editNews" /></h3></div>
+        <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+    </div>
+</div>
 <form:form action="/news/save" method="POST" modelAttribute="news" id="editForm">
     <label><spring:message code="newsName"/>:</label>
     <input type="text" name="name" class="form-field" style="width: 100%" value="${news.name}">

@@ -25,12 +25,12 @@
     <div class="span10">
         <div id="tab-content" class="tab-content">
             <%--Content--%>
-
-            <div class="text-right"><a href="Javascript:history.back()">Назад</a></div>
-            <div class="row-fluid" style="word-wrap: normal">
-                <h1>
-                    <small>${news.name}</small>
-                </h1>
+                <div class="row-fluid" style="word-wrap: normal">
+                    <div class="span10 page-title">
+                        <div class="title"><h3>${news.name}</h3></div>
+                        <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+                    </div>
+                </div>
                 <h5><fmt:formatDate value="${news.date}" type="both" timeStyle="short" dateStyle="short"/></h5>
 
                 <div>${news.content}</div>

@@ -86,3 +86,14 @@ body > #page-wrap {
     color: #ffffff;
     z-index: 10000;
 }
+
+.title {
+    float: left;
+}
+.page-title {
+    width: 100% !important;
+}
+.back {
+    float: right;
+    margin-top: 20px;
+}

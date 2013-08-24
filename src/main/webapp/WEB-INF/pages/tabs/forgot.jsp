@@ -36,7 +36,8 @@
 </div>
 <div class="row-fluid">
     <div class="span10">
-        <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+        <div class="title"><h3><spring:message code="restorePassword" /></h3></div>
+        <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
     </div>
 </div>
 <div class="row-fluid">
