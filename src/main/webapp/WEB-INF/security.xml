@@ -35,14 +35,15 @@
                              username-parameter="email"
                              password-parameter="password"
                              login-processing-url="/user/authentication"
-                             authentication-failure-url="/pyramid/office?error=true"/>
-        <security:logout logout-success-url="/" logout-url="/user/logout" delete-cookies="JSESSIONID" invalidate-session="true"/>
+                             authentication-failure-url="/pyramid/office?error=true"
+                             default-target-url="/pyramid/office"/>
+        <security:logout logout-success-url="/pyramid/office" logout-url="/user/logout" delete-cookies="JSESSIONID" invalidate-session="true"/>
         <security:remember-me key="secretKey" user-service-ref="userService" use-secure-cookie="true"/>
         <security:session-management
                 invalid-session-url="/"
                 session-authentication-error-url="/"
                 session-fixation-protection="migrateSession">
-            <security:concurrency-control max-sessions="1" expired-url="/"/>
+            <security:concurrency-control max-sessions="1" expired-url="/pyramid/office"/>
         </security:session-management>
     </security:http>
 
