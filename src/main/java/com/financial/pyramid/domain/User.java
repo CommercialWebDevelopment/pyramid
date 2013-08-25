@@ -1,6 +1,5 @@
 package com.financial.pyramid.domain;
 
-import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.domain.type.Role;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -155,5 +154,13 @@ public class User extends AbstractEntity implements Serializable {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getShortName() {
+        return this.name + " " + this.surname;
+    }
+
+    public String getFullName() {
+        return this.surname + " " + this.name + " " + this.patronymic;
     }
 }

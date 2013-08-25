@@ -1,4 +1,5 @@
-<%@ page import="java.util.Locale" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="com.financial.pyramid.domain.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -38,7 +39,7 @@
     <div class="loader-icon"></div>
     <div class="loader-text"></div>
 </div>
-<c:set var="localeCode" value="${pageContext.response.locale}" />
+<c:set var="localeCode" value="${pageContext.response.locale}"/>
 <div class="row-fluid" style="height: 20px"></div>
 <div id="page-wrap" class="container-fluid">
     <div class="page-scroll">↑</div>
@@ -46,13 +47,13 @@
         <div class="span10 offset2">
             <%--Header--%>
             <div id="header" class="row-fluid">
-                <div class="span8">
+                <div class="span6">
                     <h1>Название |
                         <small>Финансовый проект №1</small>
                     </h1>
                 </div>
-                <div class="span2">
-                    <ul class="nav nav-pills">
+                <div class="span4" style="overflow: visible">
+                    <ul class="nav nav-pills" style="float: right">
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="languageLabel" role="button" data-toggle="dropdown" href="#">
                                 <c:if test="${localeCode == 'ru'}">
@@ -64,18 +65,43 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="languageLabel">
-                                <li><a href="?lang=en" tabindex="-1"><img src="${pageContext.request.contextPath}/resources/images/flag-en.png"/>&nbsp;English</a></li>
-                                <li><a href="?lang=ru" tabindex="-1"><img src="${pageContext.request.contextPath}/resources/images/flag-ru.png"/>&nbsp;Русский</a></li>
+                                <li><a href="?lang=en" tabindex="-1"><img
+                                        src="${pageContext.request.contextPath}/resources/images/flag-en.png"/>&nbsp;English</a>
+                                </li>
+                                <li><a href="?lang=ru" tabindex="-1"><img
+                                        src="${pageContext.request.contextPath}/resources/images/flag-ru.png"/>&nbsp;Русский</a>
+                                </li>
                             </ul>
                         </li>
                         <li role="button">
                             <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
-                                <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message
-                                        code="signIn"/></a>
+                            <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message
+                                    code="signIn"/></a>
                             </sec:authorize>
                             <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-                                <a href="${pageContext.request.contextPath}/user/logout"><spring:message code="logout"/></a>
-                            </sec:authorize>
+                            <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" id="profileLabel" role="button" data-toggle="dropdown" href="#">
+                                    <%=user.getShortName()%>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul id="profileDetails" class="dropdown-menu" role="menu" aria-labelledby="profileLabel">
+                                    <li><span class="profileItem"><%=user.getShortName()%></span></li>
+                                    <li><span class="profileItem"><%=user.getEmail()%></span></li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/user/profile">
+                                            <span class="add-on"><b class="icon-user"></b>
+                                            <spring:message code="userProfile"/>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li><a href="${pageContext.request.contextPath}/user/logout">
+                                        <span class="add-on"><b class="icon-off"></b>
+                                        <spring:message code="logout"/></span></a></li>
+                                </ul>
+                            </li>
+                        </sec:authorize>
                         </li>
                     </ul>
                 </div>

@@ -2,6 +2,7 @@ body {
     height: 100%;
     width: 100%;
 }
+
 .flexigrid table {
     border-collapse: separate;
 }
@@ -35,7 +36,7 @@ body {
 }
 
 #add-user-form .modal-body {
-    max-height:none;
+    max-height: none;
 }
 
 .flexigrid {
@@ -49,6 +50,7 @@ body {
 .flexigrid .delete {
     opacity: 0.3;
 }
+
 .asterisk_red {
     color: red;
 }
@@ -104,9 +106,10 @@ body {
     width: 100%;
 }
 
-#user-email-form, .input-append, .input-prepend{
+#user-email-form, .input-append, .input-prepend {
     margin-bottom: 0;
 }
+
 html, body, #page-wrap {
     height: 100%;
 }
@@ -199,13 +202,16 @@ body > #page-wrap {
 .title {
     float: left;
 }
+
 .page-title {
     width: 100% !important;
 }
+
 .back {
     float: right;
     margin-top: 20px;
 }
+
 .loader {
     display: none;
     position: absolute;
@@ -218,15 +224,29 @@ body > #page-wrap {
     background: #ffffff;
     border: 5px solid #E5E5E5;
 }
+
 .loader-text {
     font-size: 22px;
     color: #000000;
     margin-top: 10px;
     text-wrap: normal;
 }
+
 .loader-icon {
     margin: 0 auto;
     width: 32px;
     height: 32px;
     background: url("../images/loader.gif");
+}
+
+#profileDetails {
+    width: 250px;
+}
+
+#profileLabel {
+    max-width: 228px;
+}
+
+.profileItem {
+    padding: 3px 20px;
 }
