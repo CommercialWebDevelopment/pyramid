@@ -3,6 +3,8 @@ package com.financial.pyramid.domain;
 import com.financial.pyramid.domain.type.Role;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,9 +18,14 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "user")
+@Table(name = "user",
+        uniqueConstraints= {
+                @UniqueConstraint(
+                        name="user_email",
+                        columnNames={"email"} )}
+       )
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class User extends AbstractEntity implements Serializable {
 
     @Column(name = "name", nullable = false, length = 200)
@@ -34,7 +41,7 @@ public class User extends AbstractEntity implements Serializable {
     private String patronymic;
 
     @Column(name = "date_of_birth", nullable = false)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
     @Column(name = "email", nullable = false, length = 200)
@@ -43,6 +50,7 @@ public class User extends AbstractEntity implements Serializable {
     @Column(name = "phone_number", nullable = false, length = 50)
     private String phoneNumber;
 
+    @Basic(fetch = FetchType.LAZY)
     private Passport passport;
 
     @Enumerated(EnumType.STRING)
@@ -59,6 +67,22 @@ public class User extends AbstractEntity implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "right_child_id", nullable = true)
     private User rightChild;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private Account account;
+
+    @Transient
+    public Long getAccountState() {
+      return account.getCount();
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     public Long getOwnerId() {
         return ownerId;

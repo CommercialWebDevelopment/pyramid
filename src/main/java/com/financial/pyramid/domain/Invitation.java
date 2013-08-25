@@ -12,10 +12,19 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name = "invitation")
+@Table(name = "invitation",
+        uniqueConstraints= {
+                @UniqueConstraint(
+                name="user_email_index",
+                columnNames={"email"}),
+                @UniqueConstraint(
+                        name="user_global_id_index",
+                        columnNames={"global_id"})}
+        )
 public class Invitation extends AbstractEntity implements Serializable {
 
     @Column(name = "created", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created = new Date();
 
     @Column(name = "email", nullable = false, length = 200)

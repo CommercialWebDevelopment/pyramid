@@ -1,5 +1,6 @@
 package com.financial.pyramid.service.impl;
 
+import com.financial.pyramid.domain.Account;
 import com.financial.pyramid.domain.Invitation;
 import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
@@ -62,6 +63,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(invitation.getEmail());
         user.setRole(Role.USER);
         user.setOwnerId(invitation.getSenderId());
+        Account account = new Account();
+        account.setUser(user);
+        user.setAccount(account);
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {

@@ -40,9 +40,6 @@ public class UserController extends AbstractController {
     private RegistrationService registrationService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     private EmailService emailService;
 
     @Autowired
