@@ -28,8 +28,8 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "count")
     private Long count = 0L;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", nullable = true)
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="account", cascade = CascadeType.ALL)

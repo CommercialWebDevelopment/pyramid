@@ -21,7 +21,9 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,7 +84,29 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public PageForm list(ModelMap model, @ModelAttribute("queryForm") final QueryForm queryForm) {
-        return new PageForm<User>(userService.findByQuery(queryForm));
+        List<RegistrationForm> result = new ArrayList<RegistrationForm>();
+        List<User> users = userService.findByQuery(queryForm);
+        for (User user : users) {
+            RegistrationForm registrationForm = new RegistrationForm();
+            registrationForm.setId(user.getId().toString());
+            registrationForm.setName(user.getName());
+            registrationForm.setSurname(user.getSurname());
+            registrationForm.setPatronymic(user.getPatronymic());
+            registrationForm.setDateOfBirth(user.getDateOfBirth().toString());
+            registrationForm.setPhoneNumber(user.getPhoneNumber());
+            if (user.getPassport() != null) {
+                registrationForm.setPassportSerial(user.getPassport().getSerial());
+                registrationForm.setPassportNumber(user.getPassport().getNumber());
+                if(user.getPassport().getDate() != null) {
+                    registrationForm.setPassportDate(user.getPassport().getDate().toString());
+                }
+                registrationForm.setPassportIssuedBy(user.getPassport().getIssuedBy());
+                registrationForm.setRegisteredAddress(user.getPassport().getRegisteredAddress());
+                registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
+            }
+            result.add(registrationForm);
+        }
+        return new PageForm<RegistrationForm>(result);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

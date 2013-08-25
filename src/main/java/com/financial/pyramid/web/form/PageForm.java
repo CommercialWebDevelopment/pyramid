@@ -1,5 +1,6 @@
 package com.financial.pyramid.web.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 public class PageForm<T> {
     public int page;
     public int total;
-    public List<T> rows;
+    public List<T> rows = new ArrayList<T>();
 
     public PageForm() {
     }

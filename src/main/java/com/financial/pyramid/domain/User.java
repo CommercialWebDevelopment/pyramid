@@ -1,13 +1,14 @@
 package com.financial.pyramid.domain;
 
 import com.financial.pyramid.domain.type.Role;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -68,7 +69,8 @@ public class User extends AbstractEntity implements Serializable {
     @JoinColumn(name = "right_child_id", nullable = true)
     private User rightChild;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", nullable = true)
     private Account account;
 
     @Transient
