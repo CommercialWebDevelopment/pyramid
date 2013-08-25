@@ -92,9 +92,9 @@
                                     <li><span class="profileItem"><%=user.getEmail()%></span></li>
                                     <li class="divider"></li>
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/user/profile">
-                                            <span class="add-on"><b class="icon-user"></b>
-                                            <spring:message code="userProfile"/>
+                                        <a href="${pageContext.request.contextPath}/user/settings">
+                                            <span class="add-on"><b class="icon-wrench"></b>
+                                            <spring:message code="userSettings"/>
                                             </span>
                                         </a>
                                     </li>

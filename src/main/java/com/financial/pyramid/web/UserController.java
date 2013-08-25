@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -127,6 +126,47 @@ public class UserController extends AbstractController {
         model.addAttribute("result", result);
         model.addAttribute("email", email);
         return "redirect:/user/forgot";
+    }
+
+    @RequestMapping(value = "/settings", method = RequestMethod.GET)
+    public String profile(ModelMap model) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        RegistrationForm registrationForm = new RegistrationForm();
+        registrationForm.setId(user.getId().toString());
+        registrationForm.setName(user.getName());
+        registrationForm.setSurname(user.getSurname());
+        registrationForm.setPatronymic(user.getPatronymic());
+        registrationForm.setDateOfBirth(user.getDateOfBirth().toString());
+        registrationForm.setPhoneNumber(user.getPhoneNumber());
+        if (user.getPassport() != null) {
+            registrationForm.setPassportSerial(user.getPassport().getSerial());
+            registrationForm.setPassportNumber(user.getPassport().getNumber());
+            registrationForm.setPassportDate(user.getPassport().getDate().toString());
+            registrationForm.setPassportIssuedBy(user.getPassport().getIssuedBy());
+            registrationForm.setRegisteredAddress(user.getPassport().getRegisteredAddress());
+            registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
+        }
+        model.addAttribute("registration", registrationForm);
+        return "/tabs/user/user-settings";
+    }
+
+    @RequestMapping(value = "/change_password", method = RequestMethod.POST)
+    public String changePassword(ModelMap model, @RequestParam("password") String password){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        user.setPassword(passwordEncoder.encode(password));
+        userService.save(user);
+        return this.profile(model);
+    }
+
+    @RequestMapping(value = "/change_email", method = RequestMethod.POST)
+    public String changeEmail(ModelMap model,
+                              @RequestParam("new_email") String email,
+                              @RequestParam("new_email_confirm") String emailConfirmed,
+                              @RequestParam("password") String password){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        user.setEmail(email);
+        userService.save(user);
+        return this.profile(model);
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
