@@ -86,6 +86,6 @@
 <br>
 
 <div class="row-fluid">
-    <div class="alert alert-danger alert-block"><spring:message code="payPalDisclaimer"/></div>
+    <div class="alert alert-warning alert-block"><spring:message code="payPalDisclaimer"/></div>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
