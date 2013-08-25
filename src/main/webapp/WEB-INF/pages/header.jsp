@@ -1,5 +1,5 @@
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="com.financial.pyramid.domain.User" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -73,19 +73,21 @@
                                 </li>
                             </ul>
                         </li>
-                        <li role="button">
-                            <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
-                            <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message
-                                    code="signIn"/></a>
-                            </sec:authorize>
-                            <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
+                        <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                            <li role="button">
+                                <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message
+                                        code="signIn"/></a>
+                            </li>
+                        </sec:authorize>
+                        <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
                             <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
                             <li class="dropdown">
-                                <a class="dropdown-toggle" id="profileLabel" role="button" data-toggle="dropdown" href="#">
-                                    <%=user.getShortName()%>
-                                    <b class="caret"></b>
+                                <a class="dropdown-toggle" id="profileLabel" role="button" data-toggle="dropdown"
+                                   href="#">
+                                    <div style="max-width: 228px; text-overflow: ellipsis"><%=user.getShortName()%></div>
                                 </a>
-                                <ul id="profileDetails" class="dropdown-menu" role="menu" aria-labelledby="profileLabel">
+                                <ul id="profileDetails" class="dropdown-menu" role="menu"
+                                    aria-labelledby="profileLabel">
                                     <li><span class="profileItem"><%=user.getShortName()%></span></li>
                                     <li><span class="profileItem"><%=user.getEmail()%></span></li>
                                     <li class="divider"></li>
@@ -102,7 +104,6 @@
                                 </ul>
                             </li>
                         </sec:authorize>
-                        </li>
                     </ul>
                 </div>
             </div>
