@@ -23,14 +23,16 @@ var Settings = {
         return s;
     }
 };
-jQuery.ajax({
-    url: "/settings/",
-    success: function (response) {
-        var settings = jQuery.parseJSON(response);
-        for (var i = 0; i < settings.length; i++) {
-            Settings.setProperty(settings[i].keyString, settings[i].valueString);
+$(document).ready(function () {
+    jQuery.ajax({
+        url: "/settings/",
+        success: function (response) {
+            var settings = jQuery.parseJSON(response);
+            for (var i = 0; i < settings.length; i++) {
+                Settings.setProperty(settings[i].keyString, settings[i].valueString);
+            }
+        },
+        error: function (response) {
         }
-    },
-    error: function (response) {
-    }
+    });
 });

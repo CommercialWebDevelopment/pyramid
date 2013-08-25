@@ -3,9 +3,12 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.service.ApplicationConfigurationService;
 import com.financial.pyramid.service.PayPalService;
 import com.financial.pyramid.service.SettingsService;
+import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +32,9 @@ public class PayPalController extends AbstractController {
 
     @Autowired
     ApplicationConfigurationService configurationService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
     public String payment(ModelMap model) {
@@ -65,6 +71,10 @@ public class PayPalController extends AbstractController {
         details.amount = maxAllowedAmount;
         details.cancelUrl = applicationURL + "/paypal/transferMoney";
         details.returnUrl = applicationURL + "/pyramid/office";
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) user;
+        com.financial.pyramid.domain.User systemUser = userService.findByEmail(currentUser.getUsername());
+        details.receiverEmail = systemUser.getEmail();
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
         return "tabs/user/take-money";

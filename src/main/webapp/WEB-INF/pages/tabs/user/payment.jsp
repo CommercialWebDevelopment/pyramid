@@ -13,13 +13,20 @@
             Alert.show(Alert.ERROR, I18N.incorrectFields);
             return false;
         } else {
-            return true;
+            LoadingBar.show(I18N.sendToPayPal);
+            setTimeout(function () {
+                return true;
+            }, 1000);
         }
     }
 </script>
-
 <div class="row-fluid">
-    <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+    <div class="span10 page-title">
+        <div class="title"><h3><spring:message code="buyPrivateOffice"/></h3></div>
+        <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+    </div>
+</div>
+<div class="row-fluid">
     <form:form action="/paypal/pay" modelAttribute="payPalDetails" id="payForm" onsubmit="return beforeSubmit()">
         <legend><spring:message code="privateOfficeBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
@@ -58,8 +65,8 @@
 <br>
 
 <div class="row-fluid">
-    <div class="text-warning">
-        <spring:message code="payPalDisclaimer"/>
+    <div class="alert alert-info alert-block"><spring:message code="payPalInformation"/></div>
+    <div class="alert alert-danger alert-block"><spring:message code="payPalDisclaimer"/>
     </div>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

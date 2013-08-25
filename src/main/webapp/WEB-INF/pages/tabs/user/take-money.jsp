@@ -11,17 +11,29 @@
         var amountField = form.find("#amountField");
         Form.validateEMailField(emailField, emailField.val());
         Form.validateFloatField(amountField, amountField.val());
-        if (!Form.validateForm(form)) {
+        var invalidSum = amountField.val() > ${maxAllowedAmount};
+        if (invalidSum) {
+            Form.setInvalidField(amountField);
+            Alert.show(Alert.ERROR, I18N.invalidSum);
+            return false;
+        } else if (!Form.validateForm(form)) {
             Alert.show(Alert.ERROR, I18N.incorrectFields);
             return false;
         } else {
-            return true;
-
+            LoadingBar.show(I18N.sendToPayPal);
+            setTimeout(function () {
+                return true;
+            }, 1000);
         }
     }
 </script>
 <div class="row-fluid">
-    <div class="text-right"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+    <div class="span10 page-title">
+        <div class="title"><h3><spring:message code="takeMoney"/></h3></div>
+        <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+    </div>
+</div>
+<div class="row-fluid">
     <form:form action="/paypal/processTransfer" modelAttribute="payPalDetails" id="takeMoneyForm"
                onsubmit="return beforeSubmit()">
         <legend><spring:message code="privateOfficeTakeMoneyFormTitle"/></legend>
@@ -32,7 +44,7 @@
 
         <div class="span11 text-center">
             <spring:message code="maxAllowedTransferSum"/>
-            <b>&nbsp;$<%=(String) request.getAttribute("maxAllowedAmount")%>&nbsp;</b>
+            <b>&nbsp;$${maxAllowedAmount}&nbsp;</b>
             <spring:message code="perDay"/>
         </div>
         <div class="span11 text-center">
@@ -62,6 +74,7 @@
                 </div>
             </div>
             <br>
+
             <div class="control-group">
                 <div class="controls">
                     <button class="btn btn-primary"><spring:message code="sendMoney"/></button>
@@ -73,8 +86,6 @@
 <br>
 
 <div class="row-fluid">
-    <div class="text-warning">
-        <spring:message code="payPalDisclaimer"/>
-    </div>
+    <div class="alert alert-danger alert-block"><spring:message code="payPalDisclaimer"/></div>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
