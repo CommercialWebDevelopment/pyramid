@@ -57,15 +57,15 @@ public class ContactsController {
     public String sendFeedback(ModelMap model, @ModelAttribute("feedbackForm") FeedbackForm feedbackForm) {
         String adminEmail = settingsService.getProperty(Setting.FEEDBACK_RECEIVER_EMAIL);
         com.financial.pyramid.domain.User adminUser = userService.findByEmail(adminEmail);
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String currentUserName = feedbackForm.getName();
         String currentUserEmail = feedbackForm.getEmail();
         String feedback = feedbackForm.getFeedback();
-        if (!user.equals("anonymousUser")) {
-            User currentUser = (User) user;
-            com.financial.pyramid.domain.User systemUser = userService.findByEmail(currentUser.getUsername());
-            currentUserName = systemUser.getName();
-            currentUserEmail = systemUser.getEmail();
+        if (!principal.equals("anonymousUser")) {
+            Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
+            com.financial.pyramid.domain.User user = (com.financial.pyramid.domain.User) details;
+            currentUserName = user.getName();
+            currentUserEmail = user.getEmail();
         }
         Map map = new HashMap();
         map.put("name", adminUser.getName());
