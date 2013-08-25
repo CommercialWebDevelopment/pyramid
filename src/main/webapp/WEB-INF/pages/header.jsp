@@ -84,7 +84,7 @@
                             <li class="dropdown">
                                 <a class="dropdown-toggle" id="profileLabel" role="button" data-toggle="dropdown"
                                    href="#">
-                                    <div style="max-width: 228px; text-overflow: ellipsis"><%=user.getShortName()%></div>
+                                    <div><%=user.getShortName()%></div>
                                 </a>
                                 <ul id="profileDetails" class="dropdown-menu" role="menu"
                                     aria-labelledby="profileLabel">
