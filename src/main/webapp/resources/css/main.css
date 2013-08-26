@@ -250,3 +250,8 @@ body > #page-wrap {
 .profileItem {
     padding: 3px 20px;
 }
+
+.profileBox {
+    border: 1px dotted #DDDDDD;
+    padding: 15px;
+}

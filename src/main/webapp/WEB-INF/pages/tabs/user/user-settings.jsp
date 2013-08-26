@@ -67,7 +67,7 @@
                 <div class="tab-pane active" id="details">
                     <p><b><spring:message code="commonDetails"/></b></p>
 
-                    <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
+                    <div class="span11 profileBox">
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="firstName"/></div>
                             <div class="span4"><b><%=user.getSurname()%>
@@ -175,7 +175,7 @@
                     <form:form action="/user/save_profile" modelAttribute="user">
                         <input type="hidden" name="id" value="<%=user.getId()%>"/>
 
-                        <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
+                        <div class="span11 profileBox">
                             <div class="row-fluid">
                                 <div class="span5"><spring:message code="firstName"/></div>
                                 <div class="span4"><input type="text" name="surname" class="form-field span12"
@@ -217,7 +217,7 @@
                 <div class="tab-pane" id="security">
                     <p><b><spring:message code="accountAccess"/></b></p>
 
-                    <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
+                    <div class="span11 profileBox">
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="emailAddress"/></div>
                             <div class="span4"><%=user.getEmail()%>
