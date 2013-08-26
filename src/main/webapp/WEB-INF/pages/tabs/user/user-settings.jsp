@@ -12,21 +12,25 @@
     </div>
 </div>
 <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
+<c:set var="nodata" value='<spring:message code="nodata"/>'/>
 <div class="row-fluid">
     <div class="span10">
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#details" data-toggle="tab"><span class="add-on"><b class="icon-list"></b></span>&nbsp;Сведения</a>
+                    <a href="#details" data-toggle="tab"><span class="add-on"><b
+                            class="icon-list"></b></span>&nbsp;<spring:message code="details"/></a>
                 </li>
-                <li><a href="#profile" data-toggle="tab"><span class="add-on"><b class="icon-user"></b></span>&nbsp;Профиль</a>
+                <li><a href="#profile" data-toggle="tab"><span class="add-on"><b
+                        class="icon-user"></b></span>&nbsp;<spring:message code="profile"/></a>
                 </li>
-                <li><a href="#security" data-toggle="tab"><span class="add-on"><b class="icon-lock"></b></span>&nbsp;Безопасность</a>
+                <li><a href="#security" data-toggle="tab"><span class="add-on"><b
+                        class="icon-lock"></b></span>&nbsp;<spring:message code="security"/></a>
                 </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="details">
-                    <p>Общие сведения об аккаунте</p>
+                    <p><b><spring:message code="commonDetails"/></b></p>
 
                     <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
                         <div class="row-fluid">
@@ -57,37 +61,82 @@
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="serial"/></div>
                             <div class="span4">
-                                <b><%=user.getPassport() != null ? user.getPassport().getSerial() : "Нет данных"%>
-                                </b></div>
+                                <c:set var="passportSerial"
+                                       value="<%=user.getPassport() != null ? user.getPassport().getSerial() : ""%>"/>
+                                <b>
+                                    <c:if test="${passportSerial != ''}">
+                                        ${passportSerial}
+                                    </c:if>
+                                    <c:if test="${passportSerial == ''}">
+                                        ${nodata}
+                                    </c:if>
+                                </b>
+                            </div>
                         </div>
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="number"/></div>
                             <div class="span4">
-                                <b><%=user.getPassport() != null ? user.getPassport().getNumber() : "Нет данных"%>
-                                </b></div>
+                                <c:set var="passportNumber"
+                                       value="<%=user.getPassport() != null ? user.getPassport().getNumber() : ""%>"/>
+                                <b>
+                                    <c:if test="${passportNumber != ''}">
+                                        ${passportNumber}
+                                    </c:if>
+                                    <c:if test="${passportNumber == ''}">
+                                        ${nodata}
+                                    </c:if>
+                                </b>
+                            </div>
                         </div>
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="dateOfIssue"/></div>
                             <div class="span4">
-                                <b><%=user.getPassport() != null ? user.getPassport().getDate() : "Нет данных"%>
-                                </b></div>
+                                <c:set var="passportIssueDate"
+                                       value="<%=user.getPassport() != null ? user.getPassport().getDate() : ""%>"/>
+                                <b>
+                                    <c:if test="${passportIssueDate != ''}">
+                                        ${passportIssueDate}
+                                    </c:if>
+                                    <c:if test="${passportIssueDate == ''}">
+                                        ${nodata}
+                                    </c:if>
+                                </b>
+                            </div>
                         </div>
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="registeredAddress"/></div>
                             <div class="span4">
-                                <b><%=user.getPassport() != null ? user.getPassport().getRegisteredAddress() : "Нет данных"%>
-                                </b></div>
+                                <c:set var="passportRegisteredAddress"
+                                       value="<%=user.getPassport() != null ? user.getPassport().getRegisteredAddress() : ""%>"/>
+                                <b>
+                                    <c:if test="${passportRegisteredAddress != ''}">
+                                        ${passportRegisteredAddress}
+                                    </c:if>
+                                    <c:if test="${passportRegisteredAddress == ''}">
+                                        ${nodata}
+                                    </c:if>
+                                </b>
+                            </div>
                         </div>
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="residenceAddress"/></div>
                             <div class="span4">
-                                <b><%=user.getPassport() != null ? user.getPassport().getResidenceAddress() : "Нет данных"%>
-                                </b></div>
+                                <c:set var="passportResidenceAddress"
+                                       value="<%=user.getPassport() != null ? user.getPassport().getResidenceAddress() : ""%>"/>
+                                <b>
+                                    <c:if test="${passportResidenceAddress != ''}">
+                                        ${passportResidenceAddress}
+                                    </c:if>
+                                    <c:if test="${passportResidenceAddress == ''}">
+                                        ${nodata}
+                                    </c:if>
+                                </b>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane" id="profile">
-                    <p>Сведения о пользователе</p>
+                    <p><b><spring:message code="userDetails"/></b></p>
 
                     <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
                         <form:form action="/user/save_profile" modelAttribute="user">
@@ -119,10 +168,11 @@
                             </div>
                         </form:form>
                     </div>
-                    <button class="btn btn-primary" type="submit" style="margin-top: 10px">Сохранить изменения</button>
+                    <button class="btn btn-primary" type="submit" style="margin-top: 10px"><spring:message
+                            code="saveChanges"/></button>
                 </div>
                 <div class="tab-pane" id="security">
-                    <p><b>Доступ в аккаунт</b></p>
+                    <p><b><spring:message code="accountAccess"/></b></p>
 
                     <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
                         <div class="row-fluid">
@@ -133,8 +183,10 @@
                         <div class="row-fluid">
                             <div class="span5"><spring:message code="password"/></div>
                             <div class="span4"><a href="#"
-                                                  onclick="Javascript:$('#change-password-form').modal('show')">Изменить
-                                пароль</a><br><a href="/user/forgot"><spring:message code="forgotPassword"/>?</a></div>
+                                                  onclick="Javascript:$('#change-password-form').modal('show')">
+                                <spring:message code="changePassword"/></a><br><a
+                                    href="${pageContext.request.contextPath}/user/forgot">
+                                <spring:message code="forgotPassword"/>?</a></div>
                         </div>
                     </div>
                 </div>
@@ -145,12 +197,14 @@
 <div id="change-password-form" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>Изменить пароль</h3>
+        <h3><spring:message code="changePassword"/></h3>
     </div>
     <div class="modal-body">
         <form:form action="/user/change_password" method="POST" modelAttribute="news" id="form1">
-            <input type="text" name="old_password" class="form-field span12" placeholder="Старый пароль">
-            <input type="text" name="new_password" class="form-field span12" placeholder="Новый пароль">
+            <input type="text" name="old_password" class="form-field span12"
+                   placeholder="<spring:message code="oldPassword"/>">
+            <input type="text" name="new_password" class="form-field span12"
+                   placeholder="<spring:message code="newPassword"/>">
         </form:form>
     </div>
     <div class="modal-footer">
@@ -162,14 +216,16 @@
 <div id="change-email-form" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>Изменить адрес электронной почты</h3>
+        <h3><spring:message code="changeEmailAddress"/></h3>
     </div>
     <div class="modal-body">
         <form:form action="/user/change_email" method="POST" modelAttribute="news" id="form2">
-            <input type="text" name="new_email" class="form-field span12" placeholder="Новый адрес электронной почты">
+            <input type="text" name="new_email" class="form-field span12"
+                   placeholder="<spring:message code="newEmailAddress"/>">
             <input type="text" name="new_email_confirm" class="form-field span12"
-                   placeholder="Подтверждение адреса электронной почты">
-            <input type="text" name="password" class="form-field span12" placeholder="Пароль от аккаунта">
+                   placeholder="<spring:message code="emailAddressConfirm"/>">
+            <input type="text" name="password" class="form-field span12"
+                   placeholder="<spring:message code="accountPassword"/>">
         </form:form>
     </div>
     <div class="modal-footer">
