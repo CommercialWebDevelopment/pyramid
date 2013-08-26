@@ -150,7 +150,8 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
     public String profile(ModelMap model) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User user = userService.findById(current.getId());
         RegistrationForm registrationForm = new RegistrationForm();
         registrationForm.setId(user.getId().toString());
         registrationForm.setName(user.getName());
@@ -167,19 +168,22 @@ public class UserController extends AbstractController {
             registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
         }
         model.addAttribute("registration", registrationForm);
-        Boolean result = (Boolean) model.get("changesSaved");
-        String url = "/tabs/user/user-settings";
-        if (result != null) {
-            url = "redirect:/user/settings/?result=" + result;
-        }
-        return url;
+        return "/tabs/user/user-settings";
     }
 
     @RequestMapping(value = "/change_password", method = RequestMethod.POST)
-    public String changePassword(ModelMap model, @RequestParam("password") String password) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        user.setPassword(passwordEncoder.encode(password));
-        userService.save(user);
+    public String changePassword(ModelMap model,
+                                 @RequestParam("new_password") String newPassword,
+                                 @RequestParam("old_password") String oldPassword) {
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        String password = passwordEncoder.encode(newPassword);
+        User user = userService.findById(current.getId());
+        if (passwordEncoder.encode(oldPassword).equals(user.getPassword())) {
+            user.setPassword(password);
+            userService.save(user);
+        } else {
+            model.addAttribute("invalidPassword", true);
+        }
         return this.profile(model);
     }
 
@@ -188,10 +192,24 @@ public class UserController extends AbstractController {
                               @RequestParam("new_email") String email,
                               @RequestParam("new_email_confirm") String emailConfirmed,
                               @RequestParam("password") String password) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        user.setEmail(email);
-        userService.save(user);
-        model.addAttribute("changesSaved", true);
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User user = userService.findById(current.getId());
+        boolean valid = true;
+        String providedPassword = passwordEncoder.encode(password);
+        String oldPassword = user.getPassword();
+        if (!email.equals(emailConfirmed)) {
+            model.addAttribute("invalidEmail", true);
+            valid = false;
+        }
+        if (!providedPassword.equals(oldPassword)) {
+            model.addAttribute("invalidPassword", true);
+            valid = false;
+        }
+        if (valid) {
+            user.setEmail(email);
+            userService.save(user);
+            model.addAttribute("changesSaved", true);
+        }
         return this.profile(model);
     }
 

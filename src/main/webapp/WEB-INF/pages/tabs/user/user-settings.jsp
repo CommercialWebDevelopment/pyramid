@@ -6,25 +6,43 @@
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <div class="row-fluid">
-    <div class="span10 page-title">
+    <div class="span12 page-title">
         <div class="title"><h3><spring:message code="userSettings"/></h3></div>
         <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
     </div>
 </div>
 <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
 <c:set var="nodata" scope="request"><spring:message code="nodata"/></c:set>
-<c:if test="${param.result == true}">
+<c:set var="changesSaved"
+       value='<%=request.getAttribute("changesSaved") != null ? request.getAttribute("changesSaved") : false%>'/>
+<c:set var="invalidPassword"
+       value='<%=request.getAttribute("invalidPassword") != null ? request.getAttribute("invalidPassword") : false%>'/>
+<c:set var="invalidEmail"
+       value='<%=request.getAttribute("invalidEmail") != null ? request.getAttribute("invalidEmail") : false%>'/>
+<c:if test="${changesSaved || invalidPassword || invalidEmail}">
     <div class="row-fluid">
-        <div class="span10">
-            <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <strong><spring:message code="profileSaved"/></strong>
-            </div>
-        </div>
+    <div class="span12">
+    <c:if test="${changesSaved == true}">
+        <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code="profileSaved"/></strong>
+    </c:if>
+    <c:if test="${invalidPassword == true}">
+        <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code="invalidPassword"/></strong>
+    </c:if>
+    <c:if test="${invalidEmail == true}">
+        <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code="email.invalid"/></strong>
+    </c:if>
+    </div>
+    </div>
     </div>
 </c:if>
 <div class="row-fluid">
-    <div class="span10">
+    <div class="span12">
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -206,23 +224,23 @@
     </div>
 </div>
 <div id="change-password-form" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3><spring:message code="changePassword"/></h3>
-    </div>
-    <div class="modal-body">
-        <form:form action="/user/change_password" method="POST" modelAttribute="news" id="form1">
+    <form:form action="/user/change_password" method="POST" id="form1">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3><spring:message code="changePassword"/></h3>
+        </div>
+        <div class="modal-body">
             <input type="text" name="old_password" class="form-field span12"
                    placeholder="<spring:message code="oldPassword"/>">
             <input type="text" name="new_password" class="form-field span12"
                    placeholder="<spring:message code="newPassword"/>">
-        </form:form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><spring:message code="save"/></button>
-        <button class="btn" type="button" data-dismiss="modal" aria-hidden="true"><spring:message
-                code="cancel"/></button>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit"><spring:message code="save"/></button>
+            <button class="btn" type="button" data-dismiss="modal" aria-hidden="true"><spring:message
+                    code="cancel"/></button>
+        </div>
+    </form:form>
 </div>
 <div id="change-email-form" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-header">
@@ -230,10 +248,10 @@
         <h3><spring:message code="changeEmailAddress"/></h3>
     </div>
     <div class="modal-body">
-        <form:form action="/user/change_email" method="POST" modelAttribute="news" id="form2">
-            <input type="text" name="new_email" class="form-field span12"
+        <form:form action="/user/change_email" method="POST" id="email-form" onsubmit="return formSubmit()">
+            <input type="text" id="email1" name="new_email" class="form-field span12"
                    placeholder="<spring:message code="newEmailAddress"/>">
-            <input type="text" name="new_email_confirm" class="form-field span12"
+            <input type="text" id="email2" name="new_email_confirm" class="form-field span12"
                    placeholder="<spring:message code="emailAddressConfirm"/>">
             <input type="text" name="password" class="form-field span12"
                    placeholder="<spring:message code="accountPassword"/>">
@@ -245,4 +263,19 @@
                 code="cancel"/></button>
     </div>
 </div>
+<script language="javascript">
+    function formSubmit() {
+        var form = $("#email-form");
+        var email1 = form.find("#email1");
+        var email2 = form.find("#email2");
+        Form.validateEMailField(email2, email2.val())
+        Form.validateEMailField(email1, email1.val());
+        var valid = email1.val() == email2.val();
+        if (!Form.validateForm(form) || !valid) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
