@@ -14,7 +14,7 @@
 <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
 <c:set var="nodata" scope="request"><spring:message code="nodata"/></c:set>
 <c:set var="emailConfirmed"
-       value='<%=request.getAttribute("emailConfirmed") != null ? request.getAttribute("emailConfirmed") : false%>'
+       value='<%=request.getAttribute("emailConfirmed") != null ? request.getAttribute("emailConfirmed") : false%>'/>
 <c:set var="changesSaved"
        value='<%=request.getAttribute("changesSaved") != null ? request.getAttribute("changesSaved") : false%>'/>
 <c:set var="invalidPassword"
