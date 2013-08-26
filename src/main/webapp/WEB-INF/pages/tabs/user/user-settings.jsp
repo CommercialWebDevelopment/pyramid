@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <div class="row-fluid">
@@ -29,6 +30,59 @@
 
                     <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
                         <div class="row-fluid">
+                            <div class="span5"><spring:message code="firstName"/></div>
+                            <div class="span4"><b><%=user.getSurname()%>
+                            </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="secondName"/></div>
+                            <div class="span4"><b><%=user.getName()%>
+                            </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="patronymic"/></div>
+                            <div class="span4"><b><%=user.getPatronymic()%>
+                            </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="dateOfBirth"/></div>
+                            <div class="span4"><b><fmt:formatDate value="<%=user.getDateOfBirth()%>"
+                                                                  pattern="dd.MM.yyyy"/></b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="phoneNumber"/></div>
+                            <div class="span4"><b><%=user.getPhoneNumber()%>
+                            </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="serial"/></div>
+                            <div class="span4">
+                                <b><%=user.getPassport() != null ? user.getPassport().getSerial() : "Нет данных"%>
+                                </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="number"/></div>
+                            <div class="span4">
+                                <b><%=user.getPassport() != null ? user.getPassport().getNumber() : "Нет данных"%>
+                                </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="dateOfIssue"/></div>
+                            <div class="span4">
+                                <b><%=user.getPassport() != null ? user.getPassport().getDate() : "Нет данных"%>
+                                </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="registeredAddress"/></div>
+                            <div class="span4">
+                                <b><%=user.getPassport() != null ? user.getPassport().getRegisteredAddress() : "Нет данных"%>
+                                </b></div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span5"><spring:message code="residenceAddress"/></div>
+                            <div class="span4">
+                                <b><%=user.getPassport() != null ? user.getPassport().getResidenceAddress() : "Нет данных"%>
+                                </b></div>
                         </div>
                     </div>
                 </div>
@@ -36,32 +90,34 @@
                     <p>Сведения о пользователе</p>
 
                     <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
-                        <div class="row-fluid">
-                            <div class="span5"><spring:message code="firstName"/></div>
-                            <div class="span4"><input type="text" class="form-field span12"
-                                                      value="<%=user.getSurname()%>"/></div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="span5"><spring:message code="secondName"/></div>
-                            <div class="span4"><input type="text" class="form-field span12"
-                                                      value="<%=user.getName()%>"/></div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="span5"><spring:message code="patronymic"/></div>
-                            <div class="span4"><input type="text" class="form-field span12"
-                                                      value="<%=user.getPatronymic()%>"/></div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="span5"><spring:message code="phoneNumber"/></div>
-                            <div class="span4"><input type="text" class="form-field span12"
-                                                      value="<%=user.getPhoneNumber()%>"/></div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="span5"><spring:message code="emailAddress"/></div>
-                            <div class="span4"><%=user.getEmail()%>&nbsp;<a href="#"
-                                                                            onclick="Javascript:$('#change-email-form').modal('show')">изменить</a>
+                        <form:form action="/user/save_profile" modelAttribute="user">
+                            <div class="row-fluid">
+                                <div class="span5"><spring:message code="firstName"/></div>
+                                <div class="span4"><input type="text" name="surname" class="form-field span12"
+                                                          value="<%=user.getSurname()%>"/></div>
                             </div>
-                        </div>
+                            <div class="row-fluid">
+                                <div class="span5"><spring:message code="secondName"/></div>
+                                <div class="span4"><input type="text" name="name" class="form-field span12"
+                                                          value="<%=user.getName()%>"/></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span5"><spring:message code="patronymic"/></div>
+                                <div class="span4"><input type="text" name="patronymic" class="form-field span12"
+                                                          value="<%=user.getPatronymic()%>"/></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span5"><spring:message code="phoneNumber"/></div>
+                                <div class="span4"><input type="text" name="phoneNumber" class="form-field span12"
+                                                          value="<%=user.getPhoneNumber()%>"/></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span5"><spring:message code="emailAddress"/></div>
+                                <div class="span4"><%=user.getEmail()%>&nbsp;<a href="#"
+                                                                                onclick="Javascript:$('#change-email-form').modal('show')">изменить</a>
+                                </div>
+                            </div>
+                        </form:form>
                     </div>
                     <button class="btn btn-primary" type="submit" style="margin-top: 10px">Сохранить изменения</button>
                 </div>
@@ -111,7 +167,8 @@
     <div class="modal-body">
         <form:form action="/user/change_email" method="POST" modelAttribute="news" id="form2">
             <input type="text" name="new_email" class="form-field span12" placeholder="Новый адрес электронной почты">
-            <input type="text" name="new_email_confirm" class="form-field span12" placeholder="Подтверждение адреса электронной почты">
+            <input type="text" name="new_email_confirm" class="form-field span12"
+                   placeholder="Подтверждение адреса электронной почты">
             <input type="text" name="password" class="form-field span12" placeholder="Пароль от аккаунта">
         </form:form>
     </div>

@@ -190,6 +190,12 @@ public class UserController extends AbstractController {
         return this.profile(model);
     }
 
+    @RequestMapping(value = "/save_profile", method = RequestMethod.POST)
+    public String saveProfile(ModelMap model, @ModelAttribute("user") User user){
+        userService.save(user);
+        return this.profile(model);
+    }
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public void logout() {
         SecurityContextHolder.clearContext();

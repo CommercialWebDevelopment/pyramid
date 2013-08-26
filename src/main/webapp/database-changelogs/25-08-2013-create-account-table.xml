@@ -17,6 +17,9 @@
             <column name="count" type="int">
                 <constraints nullable="true"/>
             </column>
+            <column name="user_id" type="int">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 
