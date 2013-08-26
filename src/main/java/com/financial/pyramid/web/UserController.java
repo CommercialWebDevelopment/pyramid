@@ -11,7 +11,6 @@ import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -97,7 +96,7 @@ public class UserController extends AbstractController {
             if (user.getPassport() != null) {
                 registrationForm.setPassportSerial(user.getPassport().getSerial());
                 registrationForm.setPassportNumber(user.getPassport().getNumber());
-                if(user.getPassport().getDate() != null) {
+                if (user.getPassport().getDate() != null) {
                     registrationForm.setPassportDate(user.getPassport().getDate().toString());
                 }
                 registrationForm.setPassportIssuedBy(user.getPassport().getIssuedBy());
@@ -168,11 +167,16 @@ public class UserController extends AbstractController {
             registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
         }
         model.addAttribute("registration", registrationForm);
-        return "/tabs/user/user-settings";
+        Boolean result = (Boolean) model.get("changesSaved");
+        String url = "/tabs/user/user-settings";
+        if (result != null) {
+            url = "redirect:/user/settings/?result=" + result;
+        }
+        return url;
     }
 
     @RequestMapping(value = "/change_password", method = RequestMethod.POST)
-    public String changePassword(ModelMap model, @RequestParam("password") String password){
+    public String changePassword(ModelMap model, @RequestParam("password") String password) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         user.setPassword(passwordEncoder.encode(password));
         userService.save(user);
@@ -183,16 +187,23 @@ public class UserController extends AbstractController {
     public String changeEmail(ModelMap model,
                               @RequestParam("new_email") String email,
                               @RequestParam("new_email_confirm") String emailConfirmed,
-                              @RequestParam("password") String password){
+                              @RequestParam("password") String password) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         user.setEmail(email);
         userService.save(user);
+        model.addAttribute("changesSaved", true);
         return this.profile(model);
     }
 
     @RequestMapping(value = "/save_profile", method = RequestMethod.POST)
-    public String saveProfile(ModelMap model, @ModelAttribute("user") User user){
-        userService.save(user);
+    public String saveProfile(ModelMap model, @ModelAttribute("user") User user) {
+        User existingUser = userService.findById(user.getId());
+        existingUser.setSurname(user.getSurname());
+        existingUser.setName(user.getName());
+        existingUser.setPatronymic(user.getPatronymic());
+        existingUser.setPhoneNumber(user.getPhoneNumber());
+        userService.save(existingUser);
+        model.addAttribute("changesSaved", true);
         return this.profile(model);
     }
 

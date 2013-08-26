@@ -13,6 +13,16 @@
 </div>
 <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
 <c:set var="nodata" scope="request"><spring:message code="nodata"/></c:set>
+<c:if test="${param.result == true}">
+    <div class="row-fluid">
+        <div class="span10">
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong><spring:message code="profileSaved"/></strong>
+            </div>
+        </div>
+    </div>
+</c:if>
 <div class="row-fluid">
     <div class="span10">
         <div class="tabbable">
@@ -137,9 +147,10 @@
                 </div>
                 <div class="tab-pane" id="profile">
                     <p><b><spring:message code="userDetails"/></b></p>
+                    <form:form action="/user/save_profile" modelAttribute="user">
+                        <input type="hidden" name="id" value="<%=user.getId()%>"/>
 
-                    <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
-                        <form:form action="/user/save_profile" modelAttribute="user">
+                        <div style="border: 1px dotted #DDDDDD; padding: 15px" class="span10">
                             <div class="row-fluid">
                                 <div class="span5"><spring:message code="firstName"/></div>
                                 <div class="span4"><input type="text" name="surname" class="form-field span12"
@@ -166,10 +177,10 @@
                                                                                 onclick="Javascript:$('#change-email-form').modal('show')">изменить</a>
                                 </div>
                             </div>
-                        </form:form>
-                    </div>
-                    <button class="btn btn-primary" type="submit" style="margin-top: 10px"><spring:message
-                            code="saveChanges"/></button>
+                        </div>
+                        <button class="btn btn-primary" type="submit" style="margin-top: 10px"><spring:message
+                                code="saveChanges"/></button>
+                    </form:form>
                 </div>
                 <div class="tab-pane" id="security">
                     <p><b><spring:message code="accountAccess"/></b></p>

@@ -20,6 +20,7 @@
         <security:intercept-url pattern="/user/settings" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/user/change_password" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/user/change_email" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/user/save_profile" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/admin/**" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/news/edit/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/news/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
