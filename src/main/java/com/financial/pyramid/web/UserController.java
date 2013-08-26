@@ -213,6 +213,17 @@ public class UserController extends AbstractController {
         return this.profile(model);
     }
 
+    @RequestMapping(value = "/confirm_email", method = RequestMethod.GET)
+    public String confirmEmail(ModelMap model){
+        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        emailService.setTemplate("email-confirmation");
+        Map map = new HashMap();
+        map.put("name", current.getName());
+        emailService.sendEmail(current, map);
+        model.addAttribute("emailConfirmed", true);
+        return "redirect:/user/settings";
+    }
+
     @RequestMapping(value = "/save_profile", method = RequestMethod.POST)
     public String saveProfile(ModelMap model, @ModelAttribute("user") User user) {
         User existingUser = userService.findById(user.getId());

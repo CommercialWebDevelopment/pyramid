@@ -1,0 +1,8 @@
+<html>
+<body>
+<h3>Dear ${name}, </h3>
+<div>
+    If you have got this email from us, then your email address is correct.
+</div>
+</body>
+</html>

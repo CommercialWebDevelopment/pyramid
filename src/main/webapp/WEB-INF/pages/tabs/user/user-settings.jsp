@@ -13,6 +13,8 @@
 </div>
 <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
 <c:set var="nodata" scope="request"><spring:message code="nodata"/></c:set>
+<c:set var="emailConfirmed"
+       value='<%=request.getAttribute("emailConfirmed") != null ? request.getAttribute("emailConfirmed") : false%>'
 <c:set var="changesSaved"
        value='<%=request.getAttribute("changesSaved") != null ? request.getAttribute("changesSaved") : false%>'/>
 <c:set var="invalidPassword"
@@ -36,6 +38,11 @@
         <div class="alert alert-error alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><spring:message code="email.invalid"/></strong>
+    </c:if>
+    <c:if test="${emailConfirmed == true}">
+        <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code="emailConfirmed" arguments="<%=user.getEmail()%>"/></strong>
     </c:if>
     </div>
     </div>
@@ -192,7 +199,14 @@
                             <div class="row-fluid">
                                 <div class="span5"><spring:message code="emailAddress"/></div>
                                 <div class="span4"><%=user.getEmail()%>&nbsp;<a href="#"
-                                                                                onclick="Javascript:$('#change-email-form').modal('show')">изменить</a>
+                                                                                onclick="Javascript:$('#change-email-form').modal('show')"><spring:message
+                                        code="change"/></a>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span5">&nbsp;</div>
+                                <div class="span4"><a href="${pageContext.request.contextPath}/user/confirm_email"><spring:message
+                                        code="confirmEmail"/></a>
                                 </div>
                             </div>
                         </div>
