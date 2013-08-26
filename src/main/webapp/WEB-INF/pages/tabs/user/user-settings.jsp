@@ -12,7 +12,7 @@
     </div>
 </div>
 <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
-<c:set var="nodata" value='<spring:message code="nodata"/>'/>
+<c:set var="nodata" scope="request"><spring:message code="nodata"/></c:set>
 <div class="row-fluid">
     <div class="span10">
         <div class="tabbable">
@@ -62,7 +62,7 @@
                             <div class="span5"><spring:message code="serial"/></div>
                             <div class="span4">
                                 <c:set var="passportSerial"
-                                       value="<%=user.getPassport() != null ? user.getPassport().getSerial() : ""%>"/>
+                                       value='<%=(user.getPassport() != null) ? user.getPassport().getSerial() : ""%>'/>
                                 <b>
                                     <c:if test="${passportSerial != ''}">
                                         ${passportSerial}
@@ -77,7 +77,7 @@
                             <div class="span5"><spring:message code="number"/></div>
                             <div class="span4">
                                 <c:set var="passportNumber"
-                                       value="<%=user.getPassport() != null ? user.getPassport().getNumber() : ""%>"/>
+                                       value='<%=(user.getPassport() != null) ? user.getPassport().getNumber() : ""%>'/>
                                 <b>
                                     <c:if test="${passportNumber != ''}">
                                         ${passportNumber}
@@ -92,7 +92,7 @@
                             <div class="span5"><spring:message code="dateOfIssue"/></div>
                             <div class="span4">
                                 <c:set var="passportIssueDate"
-                                       value="<%=user.getPassport() != null ? user.getPassport().getDate() : ""%>"/>
+                                       value='<%=(user.getPassport() != null) ? user.getPassport().getDate() : ""%>'/>
                                 <b>
                                     <c:if test="${passportIssueDate != ''}">
                                         ${passportIssueDate}
@@ -107,7 +107,7 @@
                             <div class="span5"><spring:message code="registeredAddress"/></div>
                             <div class="span4">
                                 <c:set var="passportRegisteredAddress"
-                                       value="<%=user.getPassport() != null ? user.getPassport().getRegisteredAddress() : ""%>"/>
+                                       value='<%=(user.getPassport() != null) ? user.getPassport().getRegisteredAddress() : ""%>'/>
                                 <b>
                                     <c:if test="${passportRegisteredAddress != ''}">
                                         ${passportRegisteredAddress}
@@ -122,7 +122,7 @@
                             <div class="span5"><spring:message code="residenceAddress"/></div>
                             <div class="span4">
                                 <c:set var="passportResidenceAddress"
-                                       value="<%=user.getPassport() != null ? user.getPassport().getResidenceAddress() : ""%>"/>
+                                       value='<%=(user.getPassport() != null) ? user.getPassport().getResidenceAddress() : ""%>'/>
                                 <b>
                                     <c:if test="${passportResidenceAddress != ''}">
                                         ${passportResidenceAddress}
