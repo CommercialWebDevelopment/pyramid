@@ -22,31 +22,30 @@
 <c:set var="invalidEmail"
        value='<%=request.getAttribute("invalidEmail") != null ? request.getAttribute("invalidEmail") : false%>'/>
 <c:if test="${param.changesSaved || param.invalidPassword || param.invalidEmail || param.emailConfirmed}">
-    <div class="row-fluid">
-    <div class="span12">
     <c:if test="${param.changesSaved != null && changesSaved == true}">
         <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code="profileSaved"/></strong>
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong><spring:message code="profileSaved"/></strong>
+        </div>
     </c:if>
     <c:if test="${param.invalidPassword != null && param.invalidPassword == true}">
         <div class="alert alert-error alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code="invalidPassword"/></strong>
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong><spring:message code="invalidPassword"/></strong>
+        </div>
     </c:if>
     <c:if test="${param.invalidEmail != null && param.invalidEmail == true}">
         <div class="alert alert-error alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code="email.invalid"/></strong>
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong><spring:message code="email.invalid"/></strong>
+        </div>
     </c:if>
     <c:if test="${param.emailConfirmed != null && param.emailConfirmed == true}">
         <div class="alert alert-success alert-block">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code="emailConfirmed" arguments="<%=user.getEmail()%>"/></strong>
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong><spring:message code="emailConfirmed" arguments="<%=user.getEmail()%>"/></strong>
+        </div>
     </c:if>
-    </div>
-    </div>
-    </div>
 </c:if>
 <div class="row-fluid">
     <div class="span12">
@@ -205,7 +204,8 @@
                             </div>
                             <div class="row-fluid">
                                 <div class="span5">&nbsp;</div>
-                                <div class="span4"><a href="${pageContext.request.contextPath}/user/confirm_email"><spring:message
+                                <div class="span4"><a
+                                        href="${pageContext.request.contextPath}/user/confirm_email"><spring:message
                                         code="confirmEmail"/></a>
                                 </div>
                             </div>
@@ -245,7 +245,7 @@
         </div>
         <div class="modal-body">
             <input type="text" name="old_password" class="form-field span12"
-                   placeholder="<spring:message code="oldPassword"/>">
+                   placeholder="<spring:message code="oldPassword"/>" autofocus="true">
             <input type="text" name="new_password" class="form-field span12"
                    placeholder="<spring:message code="newPassword"/>">
         </div>
