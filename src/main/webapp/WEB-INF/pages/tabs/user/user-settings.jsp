@@ -21,25 +21,25 @@
        value='<%=request.getAttribute("invalidPassword") != null ? request.getAttribute("invalidPassword") : false%>'/>
 <c:set var="invalidEmail"
        value='<%=request.getAttribute("invalidEmail") != null ? request.getAttribute("invalidEmail") : false%>'/>
-<c:if test="${changesSaved || invalidPassword || invalidEmail}">
+<c:if test="${param.changesSaved || param.invalidPassword || param.invalidEmail || param.emailConfirmed}">
     <div class="row-fluid">
     <div class="span12">
-    <c:if test="${changesSaved == true}">
+    <c:if test="${param.changesSaved != null && changesSaved == true}">
         <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><spring:message code="profileSaved"/></strong>
     </c:if>
-    <c:if test="${invalidPassword == true}">
+    <c:if test="${param.invalidPassword != null && param.invalidPassword == true}">
         <div class="alert alert-error alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><spring:message code="invalidPassword"/></strong>
     </c:if>
-    <c:if test="${invalidEmail == true}">
+    <c:if test="${param.invalidEmail != null && param.invalidEmail == true}">
         <div class="alert alert-error alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><spring:message code="email.invalid"/></strong>
     </c:if>
-    <c:if test="${emailConfirmed == true}">
+    <c:if test="${param.emailConfirmed != null && param.emailConfirmed == true}">
         <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><spring:message code="emailConfirmed" arguments="<%=user.getEmail()%>"/></strong>
