@@ -1,12 +1,10 @@
 package com.financial.pyramid.web;
 
-import com.financial.pyramid.service.ApplicationConfigurationService;
-import com.financial.pyramid.service.PayPalService;
-import com.financial.pyramid.service.SettingsService;
-import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -34,6 +32,9 @@ public class PayPalController extends AbstractController {
     ApplicationConfigurationService configurationService;
 
     @Autowired
+    LocalizationService localizationService;
+
+    @Autowired
     UserService userService;
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
@@ -56,7 +57,7 @@ public class PayPalController extends AbstractController {
         if (!officePrice.equals(details.amount)){
             details.amount = officePrice;
         }
-        details.memo = "Private office fee";
+        details.memo = localizationService.translate("paymentOffice");
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
     }
@@ -86,7 +87,7 @@ public class PayPalController extends AbstractController {
         if (!maxAllowedAmount.equals(details.amount)){
             details.amount = maxAllowedAmount;
         }
-        details.memo = "Money transfer";
+        details.memo = localizationService.translate("moneyTransfer");
         payPalService.processTransfer(details);
         return "redirect:" + details.returnUrl;
     }
