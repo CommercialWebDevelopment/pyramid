@@ -39,7 +39,7 @@
     <div class="loader-icon"></div>
     <div class="loader-text"></div>
 </div>
-<c:set var="localeCode" value="${pageContext.response.locale}"/>
+<c:set var="localeCode" value="<%=pageContext.getResponse().getLocale().toString()%>"/>
 <div class="row-fluid" style="height: 20px"></div>
 <div id="page-wrap" class="container-fluid">
     <div class="page-scroll">↑</div>
@@ -56,10 +56,10 @@
                     <ul class="nav nav-pills" style="float: right">
                         <li class="dropdown">
                             <a class="dropdown-toggle" id="languageLabel" role="button" data-toggle="dropdown" href="#">
-                                <c:if test="${localeCode == 'ru'}">
+                                <c:if test="${localeCode == 'ru_RU' || localeCode == 'ru'}">
                                     Русский
                                 </c:if>
-                                <c:if test="${localeCode == 'en'}">
+                                <c:if test="${localeCode == 'en_US' || localeCode == 'en'}">
                                     English
                                 </c:if>
                                 <b class="caret"></b>
@@ -73,23 +73,30 @@
                                 </li>
                             </ul>
                         </li>
-                        <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
+                        <sec:authorize ifNotGranted="SUPER_ADMIN,ADMIN,USER">
                             <li role="button">
                                 <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message
                                         code="signIn"/></a>
                             </li>
                         </sec:authorize>
-                        <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-                            <%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
+                        <sec:authorize ifAnyGranted="SUPER_ADMIN,ADMIN,USER">
+                            <%
+                                User user = null;
+                                if (SecurityContextHolder.getContext().getAuthentication() != null) {
+                                    user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+                                }
+                            %>
                             <li class="dropdown">
                                 <a class="dropdown-toggle" id="profileLabel" role="button" data-toggle="dropdown"
                                    href="#">
-                                    <div><%=user.getShortName()%></div>
+                                    <div><%=(user != null) ? user.getShortName() : ""%>
+                                    </div>
                                 </a>
                                 <ul id="profileDetails" class="dropdown-menu" role="menu"
                                     aria-labelledby="profileLabel">
-                                    <li><span class="profileItem"><%=user.getShortName()%></span></li>
-                                    <li><span class="profileItem"><%=user.getEmail()%></span></li>
+                                    <li><span class="profileItem"><%=(user != null) ? user.getShortName() : ""%></span>
+                                    </li>
+                                    <li><span class="profileItem"><%=(user != null) ? user.getEmail() : ""%></span></li>
                                     <li class="divider"></li>
                                     <li>
                                         <a href="${pageContext.request.contextPath}/user/settings">
