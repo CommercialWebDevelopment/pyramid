@@ -11,6 +11,7 @@ import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -175,16 +176,18 @@ public class UserController extends AbstractController {
     public String changePassword(ModelMap model,
                                  @RequestParam("new_password") String newPassword,
                                  @RequestParam("old_password") String oldPassword) {
-        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current = (User) auth.getDetails();
         String password = passwordEncoder.encode(newPassword);
         User user = userService.findById(current.getId());
-        if (passwordEncoder.encode(oldPassword).equals(user.getPassword())) {
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(password);
             userService.save(user);
+            model.addAttribute("changesSaved", true);
         } else {
             model.addAttribute("invalidPassword", true);
         }
-        return this.profile(model);
+        return "redirect:/user/settings";
     }
 
     @RequestMapping(value = "/change_email", method = RequestMethod.POST)
@@ -210,7 +213,7 @@ public class UserController extends AbstractController {
             userService.save(user);
             model.addAttribute("changesSaved", true);
         }
-        return this.profile(model);
+        return "redirect:/user/settings";
     }
 
     @RequestMapping(value = "/confirm_email", method = RequestMethod.GET)
@@ -233,7 +236,7 @@ public class UserController extends AbstractController {
         existingUser.setPhoneNumber(user.getPhoneNumber());
         userService.save(existingUser);
         model.addAttribute("changesSaved", true);
-        return this.profile(model);
+        return "redirect:/user/settings";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
