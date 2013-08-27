@@ -198,13 +198,11 @@ public class UserController extends AbstractController {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         User user = userService.findById(current.getId());
         boolean valid = true;
-        String providedPassword = passwordEncoder.encode(password);
-        String oldPassword = user.getPassword();
         if (!email.equals(emailConfirmed)) {
             model.addAttribute("invalidEmail", true);
             valid = false;
         }
-        if (!providedPassword.equals(oldPassword)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             model.addAttribute("invalidPassword", true);
             valid = false;
         }
