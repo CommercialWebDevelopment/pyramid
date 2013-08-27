@@ -4,9 +4,12 @@ import com.financial.pyramid.dao.OperationDao;
 import com.financial.pyramid.domain.Operation;
 import com.financial.pyramid.web.form.QueryForm;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,17 +18,39 @@ import java.util.List;
  * Time: 22:32
  */
 @Repository(value = "operationDao")
-public class OperationDaoImpl extends AbstractDaoImpl<Operation,Long> implements OperationDao {
-    protected OperationDaoImpl(){
+public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implements OperationDao {
+    protected OperationDaoImpl() {
         super(Operation.class);
     }
 
-    public List<Operation> findByQuery(QueryForm form){
+    @Override
+    public List<Operation> findByQuery(QueryForm form) {
         Criteria criteria = getCurrentSession().createCriteria(Operation.class);
         criteria.setCacheable(true)
                 .addOrder(form.order.equals("asc") ? Order.asc(form.sort) : Order.desc(form.sort))
                 .setFirstResult((form.page - 1) * form.count)
                 .setMaxResults(form.count);
         return (List<Operation>) criteria.list();
+    }
+
+    @Override
+    public Double getTransferredAmount(Date date, Long userId) {
+        double result = 0;
+        Date end = new DateTime(date).plusDays(1).toDate();
+        String queryStr = "select sum(o.amount) from Operation o" +
+                " where o.date > :dayStart and o.date < :dayEnd" +
+                " and o.success = true" +
+                " and o.userId = :userId";
+        Query query = super.createQuery(queryStr)
+                .setParameter("dayStart", date)
+                .setParameter("dayEnd", end)
+                .setParameter("userId", userId);
+
+        List list = query.list();
+        if (!list.isEmpty()){
+           Object amount = (Object) list.get(0);
+           result = Double.valueOf(amount != null ? amount.toString() : "0");
+        }
+        return result;
     }
 }

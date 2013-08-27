@@ -23,6 +23,7 @@
             <column name="error" type="VARCHAR(500)"/>
             <column name="result" type="VARCHAR(500)"/>
             <column name="success" type="INT"/>
+            <column name="user_id" type="INT"/>
         </createTable>
     </changeSet>
 

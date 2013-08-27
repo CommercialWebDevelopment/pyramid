@@ -4,7 +4,6 @@ import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * User: dbudunov
@@ -23,19 +27,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PayPalController extends AbstractController {
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     PayPalService payPalService;
+
+    @Autowired
+    PaymentsService paymentsService;
 
     @Autowired
     SettingsService settingsService;
 
     @Autowired
-    ApplicationConfigurationService configurationService;
+    OperationsService operationsService;
 
     @Autowired
     LocalizationService localizationService;
 
     @Autowired
-    UserService userService;
+    ApplicationConfigurationService configurationService;
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
     public String payment(ModelMap model) {
@@ -54,7 +64,7 @@ public class PayPalController extends AbstractController {
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
     public String pay(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
-        if (!officePrice.equals(details.amount)){
+        if (!officePrice.equals(details.amount)) {
             details.amount = officePrice;
         }
         details.memo = localizationService.translate("paymentOffice");
@@ -63,10 +73,10 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/transferMoney", method = RequestMethod.GET)
-    public String transferMoney(ModelMap model){
+    public String transferMoney(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
         payPalService.updatePayPalDetails(details);
-        String maxAllowedAmount = settingsService.getProperty(Setting.MAX_ALLOWED_AMOUNT);
+        String maxAllowedAmount = settingsService.getProperty(Setting.MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY);
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
         details.senderEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.amount = maxAllowedAmount;
@@ -83,12 +93,28 @@ public class PayPalController extends AbstractController {
 
     @RequestMapping(value = "/processTransfer", method = RequestMethod.POST)
     public String processTransfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
-        String maxAllowedAmount = settingsService.getProperty(Setting.MAX_ALLOWED_AMOUNT);
-        if (!maxAllowedAmount.equals(details.amount)){
-            details.amount = maxAllowedAmount;
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        com.financial.pyramid.domain.User user = (com.financial.pyramid.domain.User) userDetails;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date date = calendar.getTime();
+        Double allowedSum = paymentsService.allowedToBeTransferred(date, user.getId());
+        boolean isTransferAllowed = allowedSum > 0 &&  Double.valueOf(details.getAmount()) <= allowedSum;
+        if (isTransferAllowed) {
+            details.memo = localizationService.translate("moneyTransfer");
+            payPalService.processTransfer(details);
+        } else {
+            if (allowedSum == 0) {
+                model.addAttribute("limitReached", true);
+            } else {
+                model.addAttribute("allowedToBeTransferred", new BigDecimal(allowedSum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
+            return "redirect:" + details.cancelUrl;
         }
-        details.memo = localizationService.translate("moneyTransfer");
-        payPalService.processTransfer(details);
         return "redirect:" + details.returnUrl;
     }
 }

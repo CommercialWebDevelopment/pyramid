@@ -33,6 +33,18 @@
         <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
     </div>
 </div>
+<c:if test="${param.limitReached != null && param.limitReached == true}">
+    <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code='transferLimitIsReached'/></strong>
+    </div>
+</c:if>
+<c:if test="${param.allowedToBeTransferred != null}">
+    <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code='transferAllowedSum' arguments="${param.allowedToBeTransferred}"/></strong>
+    </div>
+</c:if>
 <div class="row-fluid">
     <form:form action="/paypal/processTransfer" modelAttribute="payPalDetails" id="takeMoneyForm"
                onsubmit="return beforeSubmit()">

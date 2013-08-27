@@ -1,9 +1,10 @@
 package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.domain.Operation;
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.paypal.PayPalPropeties;
 import com.financial.pyramid.service.ApplicationConfigurationService;
-import com.financial.pyramid.service.OperationsLoggingService;
+import com.financial.pyramid.service.OperationsService;
 import com.financial.pyramid.service.PayPalService;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.service.beans.PayPalResponse;
@@ -14,6 +15,7 @@ import com.financial.pyramid.utils.HTTPClient;
 import com.google.gdata.util.common.base.Pair;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,7 +35,7 @@ public class PayPalServiceImpl implements PayPalService {
     ApplicationConfigurationService configurationService;
 
     @Autowired
-    OperationsLoggingService loggingService;
+    OperationsService operationsService;
 
     private static String PAY_PAL_EMPTY_RESPONSE = "Response from PayPal is empty!";
 
@@ -67,6 +69,9 @@ public class PayPalServiceImpl implements PayPalService {
             operation.setSuccess(isSuccessfulPayment(response));
             operation.setResult(result);
 
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            operation.setUserId(user.getId());
+
             payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
             String errorString = "";
             if (response.isEmpty()) {
@@ -80,7 +85,7 @@ public class PayPalServiceImpl implements PayPalService {
             if (!errorString.isEmpty()) {
                 operation.setError(errorString);
             }
-            loggingService.save(operation);
+            operationsService.save(operation);
         } catch (Exception e) {
             throw new PayPalException(e);
         }
@@ -141,6 +146,7 @@ public class PayPalServiceImpl implements PayPalService {
                 + "&returnUrl=" + PayPalPropeties.PAY_PAL_RETURN_URL;
     }
 
+    @Override
     public void updatePayPalDetails(PayPalDetails details) {
         details.actionType = details.actionType == null ? PayPalPropeties.PAY_PAL_ACTION_TYPE : details.actionType;
         details.returnUrl = details.returnUrl == null ? PayPalPropeties.PAY_PAL_RETURN_URL : details.returnUrl;

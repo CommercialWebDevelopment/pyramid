@@ -41,6 +41,9 @@ public class Operation extends AbstractEntity {
     @Column(name = "success", nullable = false)
     public boolean success;
 
+    @Column(name = "user_id", nullable = false)
+    public Long userId;
+
     public String getType() {
         return type;
     }
@@ -111,5 +114,13 @@ public class Operation extends AbstractEntity {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

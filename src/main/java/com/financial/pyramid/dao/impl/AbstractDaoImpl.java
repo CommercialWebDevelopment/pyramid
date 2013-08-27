@@ -2,6 +2,7 @@ package com.financial.pyramid.dao.impl;
 
 import com.financial.pyramid.dao.AbstractDao;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
@@ -44,7 +45,6 @@ public abstract class AbstractDaoImpl <E, I extends Serializable> implements Abs
         return (E) getCurrentSession().merge(e);
     }
 
-
     @Override
     public void delete(E e) {
         getCurrentSession().delete(e);
@@ -68,5 +68,10 @@ public abstract class AbstractDaoImpl <E, I extends Serializable> implements Abs
         Criteria criteria = getCurrentSession().createCriteria(entityClass);
         criteria.add(criterion);
         return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+    }
+
+    @Override
+    public Query createQuery(String query){
+        return getCurrentSession().createQuery(query);
     }
 }

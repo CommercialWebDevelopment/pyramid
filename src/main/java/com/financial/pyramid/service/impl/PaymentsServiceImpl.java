@@ -1,17 +1,18 @@
 package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.domain.Operation;
-import com.financial.pyramid.service.ApplicationConfigurationService;
-import com.financial.pyramid.service.OperationsLoggingService;
-import com.financial.pyramid.service.PaymentsService;
-import com.financial.pyramid.service.PerfectMoneyService;
+import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PerfectMoneyDetails;
 import com.financial.pyramid.service.exception.PerfectMoneyException;
+import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.web.form.QueryForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: dbudunov
@@ -23,49 +24,26 @@ import java.util.Date;
 public class PaymentsServiceImpl implements PaymentsService {
 
     @Autowired
-    PerfectMoneyService perfectMoneyService;
+    OperationsService operationsService;
 
     @Autowired
-    OperationsLoggingService operationsLoggingService;
+    SettingsService settingsService;
 
     @Autowired
     ApplicationConfigurationService applicationConfigurationService;
 
-    private static String PERFECT_MONEY_ACCOUNT = "perfectMoneyAccount";
-    private static String PERFECT_MONEY_PASSWORD = "perfectMoneyPassword";
+    @Override
+    public boolean isTransferLimitReached(Date date, Long userId) {
+        Double transferLimit = Double.valueOf(settingsService.getProperty(Setting.MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY));
+        Double transferredSum = operationsService.getTransferredAmount(date, userId);
+        return transferredSum >= transferLimit;
+    }
 
     @Override
-    public void processPayment(String payee, String memo, Double amount) {
-        PerfectMoneyDetails paymentDetails = new PerfectMoneyDetails();
-        String paymentId = String.valueOf(System.currentTimeMillis());
-        String account = applicationConfigurationService.getParameter(PERFECT_MONEY_ACCOUNT);
-        String password = applicationConfigurationService.getParameter(PERFECT_MONEY_PASSWORD);
-        paymentDetails.setPayerAccount(account);
-        paymentDetails.setPayeeAccount(payee);
-        paymentDetails.setMemo(memo);
-        paymentDetails.setAmount(amount);
-        paymentDetails.setPassPhrase(password);
-        paymentDetails.setPaymentId(paymentId);
-        boolean isSuccessful = true;
-        String paymentResult = "";
-        String error = "";
-        try {
-            paymentResult = perfectMoneyService.transferMoney(paymentDetails);
-        } catch (PerfectMoneyException e) {
-            isSuccessful = false;
-            error = e.getMessage();
-        } finally {
-            Operation operation = new Operation();
-            operation.setType("PAYMENT");
-            operation.setDate(new Date());
-            operation.setMemo(memo);
-            operation.setAmount(amount);
-            operation.setPayee(payee);
-            operation.setPayer(account);
-            operation.setSuccess(isSuccessful);
-            operation.setError(error);
-            operation.setResult(paymentResult);
-            operationsLoggingService.save(operation);
-        }
+    public Double allowedToBeTransferred(Date date, Long userId) {
+        Double transferLimit = Double.valueOf(settingsService.getProperty(Setting.MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY));
+        Double transferredSum = operationsService.getTransferredAmount(date, userId);
+        Double sum = transferLimit - transferredSum;
+        return new BigDecimal(sum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 }

@@ -1,5 +1,6 @@
 package com.financial.pyramid.dao;
 
+import org.hibernate.Query;
 import org.hibernate.criterion.Criterion;
 
 import java.util.List;
@@ -24,4 +25,7 @@ public interface AbstractDao<E, I> {
     public List<E> findAll();
 
     public Long getCount(Criterion criterion);
+
+    public Query createQuery(String query);
+
 }

@@ -2,12 +2,10 @@ package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.*;
 import com.financial.pyramid.service.ContactService;
-import com.financial.pyramid.service.NewsService;
-import com.financial.pyramid.service.OperationsLoggingService;
+import com.financial.pyramid.service.OperationsService;
 import com.financial.pyramid.web.form.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +26,7 @@ public class AdminTabsController extends TabsController {
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);
 
     @Autowired
-    OperationsLoggingService operationsLoggingService;
+    OperationsService operationsService;
 
     @Autowired
     ContactService contactService;
@@ -97,8 +95,8 @@ public class AdminTabsController extends TabsController {
         form.setSort("date");
         form.setOrder("desc");
         form.setPage(page);
-        int total = operationsLoggingService.find().size();
-        List<Operation> list = operationsLoggingService.get(form);
+        int total = operationsService.find().size();
+        List<Operation> list = operationsService.get(form);
         paymentsForm.setPage(page);
         paymentsForm.setRows(list);
         paymentsForm.setTotal(total);

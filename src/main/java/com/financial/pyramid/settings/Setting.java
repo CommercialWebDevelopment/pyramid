@@ -9,7 +9,7 @@ public class Setting {
 
     public static String FEEDBACK_RECEIVER_EMAIL = "feedbackReceiverEmail";
     public static String OFFICE_PRICE = "officePrice";
-    public static String MAX_ALLOWED_AMOUNT = "maxAllowedAmount";
+    public static String MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY = "maxAllowedAmount";
     public static String APPLICATION_URL = "applicationURL";
 
     public static String PAY_PAL_LOGIN = "PAY_PAL_LOGIN";
