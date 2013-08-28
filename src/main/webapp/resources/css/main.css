@@ -139,6 +139,10 @@ body > #page-wrap {
     color: #ffffff;
 }
 
+.copyright {
+    font-size: 8pt;
+}
+
 #header {
     height: 80px;
     position: relative;
@@ -298,4 +302,11 @@ body > #page-wrap {
     border: none;
     background: transparent;
     border-bottom: 1px solid #ddd;
+}
+
+.sum {
+    width: 209px;
+    overflow: hidden;
+    margin-top: 5px;
+    font-size: 20pt;
 }

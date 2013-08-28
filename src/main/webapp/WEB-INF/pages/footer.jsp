@@ -9,7 +9,7 @@
     <div class="row-fluid">
         <div id="footer-content" class="span12">
             <div class="span2">
-                <span>&nbsp;&copy
+                <span class="copyright">&nbsp;&copy
                 <script language="javascript">
                     var date = new Date().getFullYear();
                     if (date > 2013) {
@@ -19,7 +19,7 @@
                     }
                 </script>
                 </span>
-                <div>
+                <div class="copyright">
                     &nbsp;Название
                 </div>
             </div>
