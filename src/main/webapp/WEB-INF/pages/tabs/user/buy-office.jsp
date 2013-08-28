@@ -22,14 +22,14 @@
 </script>
 <div class="row-fluid">
     <form:form action="/paypal/payOfficeAndApp" modelAttribute="payPalDetails" id="payForm" onsubmit="return beforeSubmit()">
-        <legend><spring:message code="privateOfficeBuyFormTitle"/></legend>
+        <legend><spring:message code="privateOfficeAndAppBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
         <input type="hidden" name="receiverEmail" value="${payPalDetails.receiverEmail}"/>
         <input type="hidden" name="memo" value=""/>
 
         <div class="span11 text-center">
-            <spring:message code="privateOfficePrice"/><b> $${payPalDetails.amount}</b>
+            <spring:message code="privateOfficeAndAppPrice"/><b> $${payPalDetails.amount}</b>
         </div>
         <div class="span11 text-center">
             <div class="control-group">
