@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <script language="javascript">
     function beforeSubmit() {
         var form = $("#payForm");
@@ -61,3 +63,4 @@
     <div class="alert alert-warning alert-block"><spring:message code="payPalDisclaimer"/>
     </div>
 </div>
+<%@ include file="/WEB-INF/pages/footer.jsp" %>
