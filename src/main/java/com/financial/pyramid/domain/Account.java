@@ -32,6 +32,18 @@ public class Account extends AbstractEntity implements Serializable {
     @JoinColumn(name = "id", nullable = true)
     private User user;
 
+    @Column(name="date_activated", nullable = true)
+    private Date dateActivated;
+
+    @Column(name="date_expired", nullable = true)
+    private Date dateExpired;
+
+    @Column(name="earnings_sum", nullable = false)
+    private Double earningsSum;
+
+    @Column(name="locked", nullable = false)
+    private boolean locked;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy="account", cascade = CascadeType.ALL)
     @OrderBy("created")
     private List<Transaction> transactions = new ArrayList<Transaction>();
@@ -70,5 +82,37 @@ public class Account extends AbstractEntity implements Serializable {
 
     public List<Transaction> getTransactions() {
         return transactions;
+    }
+
+    public Date getDateActivated() {
+        return dateActivated;
+    }
+
+    public void setDateActivated(Date dateActivated) {
+        this.dateActivated = dateActivated;
+    }
+
+    public Date getDateExpired() {
+        return dateExpired;
+    }
+
+    public void setDateExpired(Date dateExpired) {
+        this.dateExpired = dateExpired;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public Double getEarningsSum() {
+        return earningsSum;
+    }
+
+    public void setEarningsSum(Double earningsSum) {
+        this.earningsSum = earningsSum;
     }
 }

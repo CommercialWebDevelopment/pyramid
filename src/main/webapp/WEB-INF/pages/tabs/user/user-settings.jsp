@@ -11,7 +11,7 @@
         <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
     </div>
 </div>
-<%User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();%>
+<%User user = (User) request.getAttribute("user");%>
 <c:set var="nodata" scope="request"><spring:message code="nodata"/></c:set>
 <c:set var="emailConfirmed"
        value='<%=request.getAttribute("emailConfirmed") != null ? request.getAttribute("emailConfirmed") : false%>'/>
@@ -22,7 +22,7 @@
 <c:set var="invalidEmail"
        value='<%=request.getAttribute("invalidEmail") != null ? request.getAttribute("invalidEmail") : false%>'/>
 <c:if test="${param.changesSaved || param.invalidPassword || param.invalidEmail || param.emailConfirmed}">
-    <c:if test="${param.changesSaved != null && changesSaved == true}">
+    <c:if test="${param.changesSaved != null && param.changesSaved == true}">
         <div class="alert alert-success alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
             <strong><spring:message code="profileSaved"/></strong>

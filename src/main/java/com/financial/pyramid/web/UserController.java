@@ -168,6 +168,7 @@ public class UserController extends AbstractController {
             registrationForm.setRegisteredAddress(user.getPassport().getRegisteredAddress());
             registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
         }
+        model.addAttribute("user", user);
         model.addAttribute("registration", registrationForm);
         return "/tabs/user/user-settings";
     }

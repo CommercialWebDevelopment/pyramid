@@ -20,6 +20,18 @@
             <column name="user_id" type="int">
                 <constraints nullable="true"/>
             </column>
+            <column name="earnings_sum" type="double(10,2)" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_activated" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_expired" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="locked" type="int" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

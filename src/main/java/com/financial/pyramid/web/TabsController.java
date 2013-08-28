@@ -2,6 +2,7 @@ package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.Contact;
 import com.financial.pyramid.domain.News;
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.settings.Setting;
@@ -11,6 +12,7 @@ import com.financial.pyramid.web.tree.BinaryTreeWidget;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -83,9 +85,10 @@ public class TabsController extends AbstractController {
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            BinaryTree tree = userService.getBinaryTree(((UserDetails) principal).getUsername());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            User user = (User) authentication.getDetails();
+            BinaryTree tree = userService.getBinaryTree(user.getEmail());
             BinaryTreeWidget widget = new BinaryTreeWidget(tree);
             widget.setStubText(getMessage("user.add"));
 
@@ -101,13 +104,14 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-            Date activationEndDate = new Date("2013/09/30");
-            int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
-            double earningsSum = new BigDecimal(3000).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             Calendar c = Calendar.getInstance();
-            int monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+            int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+            Date activationEndDate = user.getAccount().getDateExpired();
+            Double earningsAmount = user.getAccount().getEarningsSum();
+            double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
             model.addAttribute("daysLeft", daysLeft);
-            model.addAttribute("monthDays", monthMaxDays);
+            model.addAttribute("monthDays", daysInMonth);
             model.addAttribute("earningsSum", earningsSum);
             model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());

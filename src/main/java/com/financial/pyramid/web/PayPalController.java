@@ -67,7 +67,7 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
         Double totalPrice = Double.valueOf(officePrice) + Double.valueOf(applicationPrice);
-        if (!totalPrice.equals(details.amount)) {
+        if (!totalPrice.toString().equals(details.amount)) {
             details.amount = totalPrice.toString();
         }
         details.memo = localizationService.translate("paymentOffice");

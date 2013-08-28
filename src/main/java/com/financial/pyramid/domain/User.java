@@ -69,7 +69,7 @@ public class User extends AbstractEntity implements Serializable {
     @JoinColumn(name = "right_child_id", nullable = true)
     private User rightChild;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", nullable = true)
     private Account account;
 
