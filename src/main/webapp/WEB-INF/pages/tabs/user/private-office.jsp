@@ -16,15 +16,17 @@
             <div>
                 <small><spring:message code="privateOfficeDueDays" arguments="5"/></small>
             </div>
-            <div style="margin-top: 10px">
+            <div class="office-menu">
                 <ul class="nav nav-pills">
-                    <li><a href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message
+                    <li class="office-menu-item"><a
+                            href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message
                             code="buyPrivateOffice"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}/paypal/sendMoney"><spring:message
+                    <li class="office-menu-item"><a
+                            href="${pageContext.request.contextPath}/paypal/sendMoney"><spring:message
                             code="takeMoney"/></a></li>
                 </ul>
             </div>
-            <div style="margin-top: 10px">
+            <div class="office-menu">
                 <%@ include file="earnings-report.jsp" %>
             </div>
         </div>

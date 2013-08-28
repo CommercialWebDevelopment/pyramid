@@ -280,3 +280,12 @@ body > #page-wrap {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.office-menu-item {
+    width:100%;
+    text-align: left;
+}
+
+.office-menu {
+    margin-top: 10px;
+}
