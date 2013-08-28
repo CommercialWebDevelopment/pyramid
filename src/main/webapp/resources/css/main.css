@@ -272,6 +272,7 @@ body > #page-wrap {
 .bar-graph-normal {
     height: 22px;
     overflow: hidden;
+    max-width: 207px;
     background: #348dd3;
 }
 

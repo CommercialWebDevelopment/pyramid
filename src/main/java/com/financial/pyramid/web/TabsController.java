@@ -101,7 +101,7 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-            Date activationEndDate = new Date("2013/08/31");
+            Date activationEndDate = new Date("2013/09/30");
             int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
             double earningsSum = new BigDecimal(3000).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             Calendar c = Calendar.getInstance();
