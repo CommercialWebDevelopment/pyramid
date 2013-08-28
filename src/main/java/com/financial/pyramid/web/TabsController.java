@@ -6,7 +6,10 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.settings.Setting;
-import com.financial.pyramid.web.form.*;
+import com.financial.pyramid.web.form.AuthenticationForm;
+import com.financial.pyramid.web.form.InvitationForm;
+import com.financial.pyramid.web.form.PageForm;
+import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.tree.BinaryTreeWidget;
 import org.joda.time.DateTime;
@@ -110,7 +113,10 @@ public class TabsController extends AbstractController {
             Date activationEndDate = user.getAccount().getDateExpired();
             Double earningsAmount = user.getAccount().getEarningsSum();
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
+            int daysLeft = 0;
+            if (activationEndDate == null) {
+                daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
+            }
             model.addAttribute("daysLeft", daysLeft);
             model.addAttribute("monthDays", daysInMonth);
             model.addAttribute("earningsSum", earningsSum);
