@@ -7,10 +7,10 @@
 
 <script language="javascript">
     function processPayment(){
-        window.location.href = "/paypal/payment";
+        window.location.href = "/paypal/buyOffice";
     }
     function transferMoney(){
-        window.location.href = "/paypal/transferMoney";
+        window.location.href = "/paypal/sendMoney";
     }
 </script>
 

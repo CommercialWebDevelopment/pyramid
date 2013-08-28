@@ -46,7 +46,7 @@
     </div>
 </c:if>
 <div class="row-fluid">
-    <form:form action="/paypal/processTransfer" modelAttribute="payPalDetails" id="takeMoneyForm"
+    <form:form action="/paypal/sendFunds" modelAttribute="payPalDetails" id="takeMoneyForm"
                onsubmit="return beforeSubmit()">
         <legend><spring:message code="privateOfficeTakeMoneyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>

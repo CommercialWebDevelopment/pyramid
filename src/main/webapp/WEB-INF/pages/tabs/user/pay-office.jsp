@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="row-fluid">
-    <form:form action="/paypal/pay" modelAttribute="payPalDetails" id="payForm" onsubmit="return beforeSubmit()">
+    <form:form action="/paypal/payOffice" modelAttribute="payPalDetails" id="payForm" onsubmit="return beforeSubmit()">
         <legend><spring:message code="privateOfficeBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,8 +46,37 @@ public class PayPalController extends AbstractController {
     @Autowired
     ApplicationConfigurationService configurationService;
 
-    @RequestMapping(value = "/payment", method = RequestMethod.GET)
-    public String payment(ModelMap model) {
+    @RequestMapping(value="/buyOfficeAndApp", method = RequestMethod.GET)
+    public String buyOfficeAndApp(ModelMap model){
+        PayPalDetails details = new PayPalDetails();
+        payPalService.updatePayPalDetails(details);
+        String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
+        String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
+        String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
+        Double totalPrice = Double.valueOf(officePrice) + Double.valueOf(applicationPrice);
+        details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
+        details.cancelUrl = applicationURL + "/paypal/payment";
+        details.returnUrl = applicationURL + "/pyramid/office";
+        details.amount = totalPrice.toString();
+        model.addAttribute("payPalDetails", details);
+        return "tabs/user/buy-office";
+    }
+
+    @RequestMapping(value = "/payOfficeAndApp", method = RequestMethod.POST)
+    public String payOfficeAndApp(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+        String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
+        String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
+        Double totalPrice = Double.valueOf(officePrice) + Double.valueOf(applicationPrice);
+        if (!totalPrice.equals(details.amount)) {
+            details.amount = totalPrice.toString();
+        }
+        details.memo = localizationService.translate("paymentOffice");
+        String redirectURL = payPalService.processPayment(details);
+        return "redirect:" + redirectURL;
+    }
+
+    @RequestMapping(value = "/buyOffice", method = RequestMethod.GET)
+    public String buyOffice(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
         payPalService.updatePayPalDetails(details);
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
@@ -58,11 +86,11 @@ public class PayPalController extends AbstractController {
         details.returnUrl = applicationURL + "/pyramid/office";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
-        return "tabs/user/payment";
+        return "tabs/user/pay-office";
     }
 
-    @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public String pay(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+    @RequestMapping(value = "/payOffice", method = RequestMethod.POST)
+    public String payOffice(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         if (!officePrice.equals(details.amount)) {
             details.amount = officePrice;
@@ -72,8 +100,8 @@ public class PayPalController extends AbstractController {
         return "redirect:" + redirectURL;
     }
 
-    @RequestMapping(value = "/transferMoney", method = RequestMethod.GET)
-    public String transferMoney(ModelMap model) {
+    @RequestMapping(value = "/sendMoney", method = RequestMethod.GET)
+    public String sendMoney(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
         payPalService.updatePayPalDetails(details);
         String maxAllowedAmount = settingsService.getProperty(Setting.MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY);
@@ -88,11 +116,11 @@ public class PayPalController extends AbstractController {
         details.receiverEmail = systemUser.getEmail();
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
-        return "tabs/user/take-money";
+        return "tabs/user/send-money";
     }
 
-    @RequestMapping(value = "/processTransfer", method = RequestMethod.POST)
-    public String processTransfer(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+    @RequestMapping(value = "/sendFunds", method = RequestMethod.POST)
+    public String sendFunds(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
         com.financial.pyramid.domain.User user = (com.financial.pyramid.domain.User) userDetails;
         Calendar calendar = Calendar.getInstance();
