@@ -8,6 +8,8 @@ import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.web.form.*;
 import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.tree.BinaryTreeWidget;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,7 +101,14 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-
+            Date activationEndDate = new Date("2013/08/31");
+            int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
+            double earningsSum = new BigDecimal(3000).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            Calendar c = Calendar.getInstance();
+            int monthMaxDays = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+            model.addAttribute("daysLeft", daysLeft);
+            model.addAttribute("monthDays", monthMaxDays);
+            model.addAttribute("earningsSum", earningsSum);
             model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";
