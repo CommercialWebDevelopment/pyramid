@@ -1,5 +1,6 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.service.LocalizationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -22,7 +23,7 @@ public class AbstractController {
     protected final Logger logger = Logger.getLogger(getClass());
 
     @Autowired
-    private MessageSource messageSource;
+    protected LocalizationService localizationService;
 
     protected static enum  AlertType {
         ERROR("alert_error"),
@@ -43,19 +44,5 @@ public class AbstractController {
         ModelAndView model = new ModelAndView("error");
         model.addObject("message", t.getMessage());
         return model;
-    }
-
-    public String getMessage(String key, Object[] args) {
-        Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(key, args, locale);
-    }
-
-    public String getMessage(String key, Object arg) {
-        Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(key, new Object[] {arg}, locale);
-    }
-
-    public String getMessage(String key) {
-        return getMessage(key, null);
     }
 }

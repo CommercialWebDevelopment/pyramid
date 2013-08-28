@@ -17,9 +17,6 @@
             <column name="count" type="int">
                 <constraints nullable="true"/>
             </column>
-            <column name="user_id" type="int">
-                <constraints nullable="true"/>
-            </column>
             <column name="earnings_sum" type="double(10,2)" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
@@ -39,7 +36,6 @@
         <comment>Add account for user user with role super-admin</comment>
         <insert tableName="account">
             <column name="count" value="0"/>
-            <column name="user_id" value="1"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

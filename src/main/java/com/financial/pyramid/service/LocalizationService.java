@@ -7,5 +7,5 @@ package com.financial.pyramid.service;
  */
 public interface LocalizationService {
     public String translate(String code);
-    public String translate(String code, String[] args);
+    public String translate(String code, String... args);
 }

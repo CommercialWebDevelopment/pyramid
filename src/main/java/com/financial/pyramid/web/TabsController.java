@@ -90,7 +90,7 @@ public class TabsController extends AbstractController {
             User user = (User) authentication.getDetails();
             BinaryTree tree = userService.getBinaryTree(user.getEmail());
             BinaryTreeWidget widget = new BinaryTreeWidget(tree);
-            widget.setStubText(getMessage("user.add"));
+            widget.setStubText(localizationService.translate("user.add"));
 
             while (tree != null) {
                 widget.addUserToWidget(tree);
@@ -141,11 +141,5 @@ public class TabsController extends AbstractController {
         model.addAttribute("showFullMapUrl", fullMapUrl);
         model.addAttribute("contacts", contacts);
         return "/tabs/contacts";
-    }
-
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String registration(ModelMap model, HttpSession session, HttpServletRequest request) {
-        model.addAttribute("registration", new RegistrationForm());
-        return "tabs/user/registration-form";
     }
 }

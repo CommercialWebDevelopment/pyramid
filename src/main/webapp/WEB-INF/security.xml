@@ -34,6 +34,7 @@
         <security:intercept-url pattern="/contacts/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/contacts/remove/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/pyramid/**" access="permitAll" />
+        <security:intercept-url pattern="/user/check_date" access="permitAll" />
         <security:intercept-url pattern="/user/authentication" access="permitAll" />
         <security:form-login login-page="/pyramid/office"
                              username-parameter="email"

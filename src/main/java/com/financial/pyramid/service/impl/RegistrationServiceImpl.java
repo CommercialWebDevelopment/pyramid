@@ -15,14 +15,14 @@ import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 /**
@@ -51,9 +51,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException {
+    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException, ParseException {
         Invitation invitation = invitationService.findById(form.getInvitationId());
-        if(invitation == null) throw new UserAlreadyExistsException();
+        if (invitation == null) throw new UserAlreadyExistsException();
 
         User user = new User();
         user.setName(form.getName());
@@ -67,13 +67,8 @@ public class RegistrationServiceImpl implements RegistrationService {
         account.setUser(user);
         user.setAccount(account);
 
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        try {
-            Date date = format.parse(form.getDateOfBirth());
-            user.setDateOfBirth(date);
-        } catch (ParseException e) {
-            logger.error("User date of birth is not set");
-        }
+        DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
+        user.setDateOfBirth(format.parse(form.getDateOfBirth()));
 
         Passport passport = new Passport();
         passport.setSerial(form.getPassportSerial());
@@ -83,8 +78,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         passport.setResidenceAddress(form.getResidenceAddress());
 
         try {
-            Date date = format.parse(form.getPassportDate());
-            passport.setDate(date);
+            passport.setDate(format.parse(form.getPassportDate()));
         } catch (ParseException e) {
             logger.error("User passport date is not set");
         }
