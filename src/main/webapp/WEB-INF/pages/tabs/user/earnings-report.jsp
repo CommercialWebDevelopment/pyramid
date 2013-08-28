@@ -1,8 +1,8 @@
 <script type="text/javascript">
     <%@ include file="/resources/javascript/reports.js" %>
 </script>
-<div class="span11" id="reports-container" style="margin-top: 5px; margin-bottom: 5px">
-    <div id="placeholder" style="width: 100%; height: 300px"></div>
+<div class="span11" id="reports-container">
+    <div id="placeholder" class="reportViewer"></div>
 </div>
 <div class="pagination pagination-centered">
     <ul>

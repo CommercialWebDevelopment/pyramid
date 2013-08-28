@@ -255,3 +255,28 @@ body > #page-wrap {
     border: 1px dotted #DDDDDD;
     padding: 15px;
 }
+
+.bar-graph {
+    height: 22px;
+    text-align: left;
+    background: #f4faff;
+    border: 1px solid #aeceef;
+    position: relative;
+    padding: 1px;
+}
+
+.bar-graph-normal {
+    height: 22px;
+    overflow: hidden;
+    background: #348dd3;
+}
+
+.reportViewer {
+    width: 100%;
+    height: 150px;
+}
+
+#reports-container {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
