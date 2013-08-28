@@ -87,8 +87,9 @@ public class TabsController extends AbstractController {
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {
-            User user = (User) authentication.getDetails();
-            BinaryTree tree = userService.getBinaryTree(user.getEmail());
+            User currentUser = (User) authentication.getDetails();
+            User user = userService.findById(currentUser.getId());
+            BinaryTree tree = userService.getBinaryTree(currentUser.getEmail());
             BinaryTreeWidget widget = new BinaryTreeWidget(tree);
             widget.setStubText(getMessage("user.add"));
 
@@ -106,10 +107,8 @@ public class TabsController extends AbstractController {
             }
             Calendar c = Calendar.getInstance();
             int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
-//            Date activationEndDate = user.getAccount().getDateExpired();
-//            Double earningsAmount = user.getAccount().getEarningsSum();
-            Date activationEndDate = new DateTime("2013-09-28").toDate();
-            Double earningsAmount = 3000.00;
+            Date activationEndDate = user.getAccount().getDateExpired();
+            Double earningsAmount = user.getAccount().getEarningsSum();
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
             model.addAttribute("daysLeft", daysLeft);
