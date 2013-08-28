@@ -4,7 +4,9 @@ import com.financial.pyramid.dao.UserDao;
 import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.type.Role;
+import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import com.financial.pyramid.web.tree.BinaryTree;
@@ -32,8 +34,13 @@ public class UserServiceImpl implements UserService {
 
     private final static Logger logger = Logger.getLogger(UserService.class);
 
+    private final static Integer COUNT_LEVEL_IN_USER_TREE = 4;
+
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    SettingsService settingsService;
 
     @Override
     @Transactional(readOnly = false)
@@ -125,7 +132,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public BinaryTree getBinaryTree(String email) {
         User user = findByEmail(email);
-        return new BinaryTree(user);
+        Integer levels = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_IN_USER_TREE));
+        return new BinaryTree(user, levels == null ? COUNT_LEVEL_IN_USER_TREE : levels);
     }
 
     @Override

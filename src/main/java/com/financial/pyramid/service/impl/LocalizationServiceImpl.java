@@ -25,11 +25,11 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public String translate(String code, String[] args) {
+    public String translate(String code, String... args) {
         return messageSource.getMessage(code, args, getLocale());
     }
 
-    private Locale getLocale(){
+    private Locale getLocale() {
         return LocaleContextHolder.getLocale();
     }
 }

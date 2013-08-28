@@ -40,6 +40,7 @@ var I18N = {
     contactsFullMap:'<spring:message code="contactsFullMap" javaScriptEscape="true"/>',
     feedbackReceiverEmail:'<spring:message code="feedbackReceiver" javaScriptEscape="true"/>',
     invalidSum:'<spring:message code="invalidSum" javaScriptEscape="true"/>',
-    sendToPayPal:'<spring:message code="sendToPayPal" javaScriptEscape="true"/>'
+    sendToPayPal:'<spring:message code="sendToPayPal" javaScriptEscape="true"/>',
+    countLevelInUserTree:'<spring:message code="countLevelInUserTree" javaScriptEscape="true"/>'
 };
 

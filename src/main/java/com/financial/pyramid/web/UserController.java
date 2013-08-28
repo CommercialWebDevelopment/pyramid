@@ -2,6 +2,7 @@ package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
+import com.financial.pyramid.service.LocalizationService;
 import com.financial.pyramid.service.RegistrationService;
 import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
@@ -11,6 +12,7 @@ import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +23,8 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,13 +69,16 @@ public class UserController extends AbstractController {
             return "redirect:/pyramid/office";
         } catch (SendingMailException e) {
             e.printStackTrace();
+        } catch (ParseException e) {
+            model.put(AlertType.ERROR.getName(), localizationService.translate("exception.dateOfBirthIncorrect"));
+            return "tabs/user/registration-form";
         }
         if (!success) {
             model.addAttribute("registration", registration);
-            model.put(AlertType.ERROR.getName(), getMessage("exception.serviceIsNotAvailable"));
+            model.put(AlertType.ERROR.getName(), localizationService.translate("exception.serviceIsNotAvailable"));
             return "tabs/user/registration-form";
         }
-        redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), getMessage("alert.registrationIsSuccessful"));
+        redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("alert.registrationIsSuccessful"));
         return "redirect:/pyramid/office";
     }
 
@@ -112,7 +119,11 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("registration") final RegistrationForm registration) {
         if (registration.getId() == null || registration.getId().isEmpty()) {
-            registrationService.registration(registration);
+            try {
+                registrationService.registration(registration);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         } else {
             userService.update(registration);
         }
@@ -216,7 +227,7 @@ public class UserController extends AbstractController {
     }
 
     @RequestMapping(value = "/confirm_email", method = RequestMethod.GET)
-    public String confirmEmail(ModelMap model){
+    public String confirmEmail(ModelMap model) {
         User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
         emailService.setTemplate("email-confirmation");
         Map map = new HashMap();
@@ -241,5 +252,16 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public void logout() {
         SecurityContextHolder.clearContext();
+    }
+
+    @RequestMapping(value = "/check_date", method = RequestMethod.GET)
+    public @ResponseBody Boolean checkDate(@RequestParam("date") final String date) {
+        DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
+        try {
+            format.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 }

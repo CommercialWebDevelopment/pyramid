@@ -49,7 +49,24 @@ var Form = {
     },
 
     validateDateField: function (element, value) {
-        this.isDate(value) ? this.setValidField(element) : this.setInvalidField(element);
+        clearTimeout(this.timeOutId);
+        var scope = this;
+        this.timeOutId = setTimeout(function () {
+            $.ajax({
+                type: "GET",
+                url: "/user/check_date",
+                data: {
+                    date: value
+                },
+                dataType: "text",
+                success: function (response, status, xhr) {
+                    response == "false" ? scope.setInvalidField(element) : scope.setValidField(element);
+                },
+                error: function (xhr, status, error) {
+                    scope.setInvalidField(element);
+                }
+            });
+        }, 1000);
     },
 
     validateEMailField: function (element, value) {
@@ -73,33 +90,6 @@ var Form = {
     isText: function (text) {
         var regex = /^[а-яА-яa-zA-Z]+$/;
         return regex.test(text);
-    },
-
-    isDate: function (txtDate) {
-        if (txtDate == '') return false;
-
-        var rxDatePattern = /^(\d{1,2})(\/|.)(\d{1,2})(\/|.)(\d{4})$/;
-        var dtArray = txtDate.match(rxDatePattern);
-
-        if (dtArray == null)
-            return false;
-
-        var dtDay = dtArray[1];
-        var dtMonth = dtArray[3];
-        var dtYear = dtArray[5];
-
-        if (dtMonth < 1 || dtMonth > 12)
-            return false;
-        else if (dtDay < 1 || dtDay > 31)
-            return false;
-        else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
-            return false;
-        else if (dtMonth == 2) {
-            var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
-            if (dtDay > 29 || (dtDay == 29 && !isleap))
-                return false;
-        }
-        return true;
     },
 
     isEmail: function (email) {
@@ -128,7 +118,7 @@ $(document).ready(function () {
         ctx.stroke();
     }
     var form = $("#user-email-form");
-    $(".stub-node").click(function() {
+    $(".stub-node").click(function () {
         form.find("#parentId").val($(this).attr("parentId"));
         form.find("#position").val($(this).attr("position"));
         form.modal("show");

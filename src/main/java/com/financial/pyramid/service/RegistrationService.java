@@ -4,6 +4,8 @@ import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.web.form.RegistrationForm;
 
+import java.text.ParseException;
+
 /**
  * User: Danil
  * Date: 01.06.13
@@ -11,5 +13,5 @@ import com.financial.pyramid.web.form.RegistrationForm;
  */
 public interface RegistrationService {
 
-    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException;
+    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException, ParseException;
 }
