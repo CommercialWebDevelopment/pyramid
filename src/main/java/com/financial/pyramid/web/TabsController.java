@@ -106,8 +106,10 @@ public class TabsController extends AbstractController {
             }
             Calendar c = Calendar.getInstance();
             int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
-            Date activationEndDate = user.getAccount().getDateExpired();
-            Double earningsAmount = user.getAccount().getEarningsSum();
+//            Date activationEndDate = user.getAccount().getDateExpired();
+//            Double earningsAmount = user.getAccount().getEarningsSum();
+            Date activationEndDate = new DateTime("2013-09-28").toDate();
+            Double earningsAmount = 3000.00;
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             int daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
             model.addAttribute("daysLeft", daysLeft);
