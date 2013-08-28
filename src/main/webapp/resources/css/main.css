@@ -261,7 +261,7 @@ body > #page-wrap {
 }
 
 .bar-graph {
-    height: 22px;
+    height: 14px;
     text-align: left;
     background: #f4faff;
     border: 1px solid #aeceef;
@@ -270,7 +270,7 @@ body > #page-wrap {
 }
 
 .bar-graph-normal {
-    height: 22px;
+    height: 14px;
     overflow: hidden;
     max-width: 207px;
     background: #348dd3;
