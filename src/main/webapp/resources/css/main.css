@@ -289,3 +289,13 @@ body > #page-wrap {
 .office-menu {
     margin-top: 10px;
 }
+
+.separator {
+    clear: both;
+    margin: 15px 0;
+    height: 0px;
+    overflow: hidden;
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid #ddd;
+}

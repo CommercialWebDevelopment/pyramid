@@ -132,5 +132,5 @@ $(document).ready(function () {
         form.find("#parentId").val($(this).attr("parentId"));
         form.find("#position").val($(this).attr("position"));
         form.modal("show");
-    })
+    });
 });

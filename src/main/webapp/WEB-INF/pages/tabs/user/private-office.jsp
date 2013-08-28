@@ -9,13 +9,15 @@
         <div class="span9" style="border: 1px dotted blue; height: 589px; overflow: auto; padding: 10px" align="center">
             <%=request.getAttribute("userBinaryTree")%>
         </div>
-        <div class="span3 text-center">
-            <div class="bar-graph">
+        <div id="sidebar" class="span3 text-center">
+            <div><b><spring:message code="privateOfficeActivation"/></b></div>
+            <div id="bar" class="bar-graph">
                 <div class="bar-graph-normal" style="width:50px"></div>
             </div>
             <div>
                 <small><spring:message code="privateOfficeDueDays" arguments="5"/></small>
             </div>
+            <div class="separator"></div>
             <div class="office-menu">
                 <ul class="nav nav-pills">
                     <li class="office-menu-item"><a
@@ -26,6 +28,7 @@
                             code="takeMoney"/></a></li>
                 </ul>
             </div>
+            <div class="separator"></div>
             <div class="office-menu">
                 <%@ include file="earnings-report.jsp" %>
             </div>
