@@ -25,13 +25,13 @@ public class ReportsController extends AbstractController {
         double a[][] = new double[][]{};
         if (period == 3) {
             report.label = "Japan";
-            a = new double[][]{{1999, -0.1}, {2000, 2.9}, {2001, 0.2}, {2002, 0.3}, {2003, 1.4}, {2004, 2.7}, {2005, 1.9}, {2006, 2.0}, {2007, 2.3}, {2008, -0.7}};
+            a = new double[][]{{1, -0.1}, {2, 2.9}, {3, 0.2}, {4, 0.3}, {5, 1.4}, {6, 2.7}, {7, 1.9}};
         } else if (period == 6) {
             report.label = "England";
-            a = new double[][]{{1999, -0.1}, {2000, 2.9}, {2001, 0.2}};
+            a = new double[][]{{1, -0.1}, {2, 2.9}, {3, 0.2}};
         } else if (period == 12) {
             report.label = "France";
-            a = new double[][]{{1999, 1.1}, {2000, 51.9}, {2001, 15}};
+            a = new double[][]{{1, 1.1}, {2, 51.9}, {3, 15}};
         }
         report.data = a;
         Gson gson = new Gson();
