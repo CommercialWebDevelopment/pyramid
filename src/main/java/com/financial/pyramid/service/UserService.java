@@ -1,6 +1,7 @@
 package com.financial.pyramid.service;
 
 import com.financial.pyramid.domain.User;
+import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
 import com.financial.pyramid.web.tree.BinaryTree;
@@ -33,9 +34,11 @@ public interface UserService extends UserDetailsService {
 
     public User findByEmail(String email);
 
-    public BinaryTree getBinaryTree(String email);
+    public BinaryTree getBinaryTree(User user);
 
     public List<User> findUsersByOwner(Long ownerId);
 
     public String createPassword(int n);
+
+    public AccountDetails getAccountDetails(User user);
 }

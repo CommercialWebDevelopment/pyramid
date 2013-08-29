@@ -5,6 +5,7 @@ import com.financial.pyramid.domain.News;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.*;
+import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AuthenticationForm;
@@ -13,8 +14,6 @@ import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.tree.BinaryTreeWidget;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,9 +86,10 @@ public class TabsController extends AbstractController {
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
         Authentication authentication = Session.getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {
-            User currentUser = (User) authentication.getDetails();
-            User user = userService.findById(currentUser.getId());
-            BinaryTree tree = userService.getBinaryTree(currentUser.getEmail());
+            User user = (User) authentication.getDetails();
+            AccountDetails accountDetails = userService.getAccountDetails(user);
+
+            BinaryTree tree = userService.getBinaryTree(user);
             BinaryTreeWidget widget = new BinaryTreeWidget(tree);
             widget.setStubText(localizationService.translate("user.add"));
 
@@ -108,28 +105,10 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-            int daysLeft = 0;
-            int daysMonth = 0;
-            Date activationStartDate = user.getAccount().getDateActivated();
-            Date activationEndDate = user.getAccount().getDateExpired();
-            Double earningsAmount = user.getAccount().getEarningsSum();
-            double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            if (activationStartDate != null) {
-                daysMonth = Days.daysBetween(new DateTime(activationStartDate),
-                        new DateTime(activationEndDate).minusDays(1)).getDays();
-            }
-            if (activationEndDate != null) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                calendar.set(Calendar.HOUR, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                daysLeft = Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays();
-            }
-            model.addAttribute("daysLeft", daysLeft);
-            model.addAttribute("monthDays", daysMonth);
-            model.addAttribute("earningsSum", earningsSum);
+
+            model.addAttribute("daysLeft", accountDetails.getDaysLeft());
+            model.addAttribute("monthDays", accountDetails.getDaysMonth());
+            model.addAttribute("earningsSum", accountDetails.getEarningsSum());
             model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";

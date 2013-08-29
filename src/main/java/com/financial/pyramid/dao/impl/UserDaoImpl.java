@@ -52,4 +52,12 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     public List<User> findByOwner(Long ownerId) {
         return findByCriteria(Restrictions.eq("ownerId", ownerId));
     }
+
+    @Override
+    public User findParent(Long userId) {
+        Criteria criteria = getCurrentSession().createCriteria(User.class);
+        criteria.add(Restrictions.or(Restrictions.eq("leftChild.id", userId), Restrictions.eq("rightChild.id", userId)));
+        List<User> list = (List<User>)criteria.list();
+        return list.size() > 0 ? list.get(0) : null;
+    }
 }

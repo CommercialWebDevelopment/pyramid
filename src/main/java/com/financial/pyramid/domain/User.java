@@ -69,14 +69,8 @@ public class User extends AbstractEntity implements Serializable {
     @JoinColumn(name = "right_child_id", nullable = true)
     private User rightChild;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Account account;
-
-    @Transient
-    public Long getAccountState() {
-      return account.getCount();
-    }
 
     public Account getAccount() {
         return account;

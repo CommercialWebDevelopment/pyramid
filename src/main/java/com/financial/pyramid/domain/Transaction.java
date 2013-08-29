@@ -29,13 +29,24 @@ public class Transaction extends AbstractEntity implements Serializable {
     @Column(name = "count")
     private Long count;
 
+    @Basic
+    @Column(name = "balance")
+    private Long balance;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private TransactionType type;
 
     @ManyToOne
-    @JoinColumn(name="account_id")
     private Account account;
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
 
     public Long getCount() {
         return count;

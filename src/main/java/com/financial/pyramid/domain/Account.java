@@ -25,12 +25,8 @@ import java.util.Set;
 public class Account extends AbstractEntity implements Serializable {
 
     @Basic
-    @Column(name = "count")
-    private Long count = 0L;
-
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = true)
-    private User user;
+    @Column(name = "balance")
+    private Long balance = 0L;
 
     @Column(name="date_activated", nullable = true)
     private Date dateActivated;
@@ -69,34 +65,28 @@ public class Account extends AbstractEntity implements Serializable {
 
     @Transient
     public void writeOFF(Long count) {
-        this.count -= count;
+        this.balance -= count;
         Transaction transaction = new Transaction();
         transaction.setAccount(this);
         transaction.setType(TransactionType.OUT);
         transaction.setCount(count);
+        transaction.setBalance(this.balance);
         transactions.add(transaction);
     }
 
     @Transient
     public void writeIN(Long count) {
-        this.count += count;
+        this.balance += count;
         Transaction transaction = new Transaction();
         transaction.setAccount(this);
         transaction.setType(TransactionType.IN);
         transaction.setCount(count);
+        transaction.setBalance(this.balance);
         transactions.add(transaction);
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Long getCount() {
-        return count;
+    public Long getBalance() {
+        return balance;
     }
 
     public List<Transaction> getTransactions() {

@@ -20,6 +20,9 @@
             <column name="count" type="int">
                 <constraints nullable="true"/>
             </column>
+            <column name="balance" type="int">
+                <constraints nullable="true"/>
+            </column>
             <column name="type" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>

@@ -20,4 +20,6 @@ public interface UserDao extends AbstractDao<User, Long> {
 
     public List<User> findByOwner(Long ownerId);
 
+    public User findParent(Long userId);
+
 }

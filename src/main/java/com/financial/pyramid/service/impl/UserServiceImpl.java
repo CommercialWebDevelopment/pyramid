@@ -6,11 +6,14 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -53,7 +57,16 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     public void delete(Long id) {
         User user = userDao.findById(id);
+        User parent = findParent(id);
+        if(parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
+            parent.setLeftChild(null);
+        }
+        if(parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
+            parent.setRightChild(null);
+        }
+        userDao.saveOrUpdate(parent);
         userDao.delete(user);
+
     }
 
     @Override
@@ -130,8 +143,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BinaryTree getBinaryTree(String email) {
-        User user = findByEmail(email);
+    public BinaryTree getBinaryTree(User u) {
+        User user = findById(u.getId());
         Integer levels = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_IN_USER_TREE));
         return new BinaryTree(user, levels == null ? COUNT_LEVEL_IN_USER_TREE : levels);
     }
@@ -178,5 +191,34 @@ public class UserServiceImpl implements UserService {
         }
         return password.toString();
 
+    }
+
+    @Override
+    public AccountDetails getAccountDetails(User u) {
+        User user = findById(u.getId());
+        AccountDetails accountDetails = new AccountDetails();
+
+        Date activationStartDate = user.getAccount().getDateActivated();
+        Date activationEndDate = user.getAccount().getDateExpired();
+        Double earningsAmount = user.getAccount().getEarningsSum();
+        accountDetails.setEarningsSum(new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        if (activationStartDate != null) {
+            accountDetails.setDaysMonth(Days.daysBetween(new DateTime(activationStartDate),
+                    new DateTime(activationEndDate).minusDays(1)).getDays());
+        }
+        if (activationEndDate != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.set(Calendar.HOUR, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            accountDetails.setDaysLeft(Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays());
+        }
+        return accountDetails;
+    }
+
+    public User findParent(Long userId) {
+        return userDao.findParent(userId);
     }
 }

@@ -1,9 +1,6 @@
 package com.financial.pyramid.service.impl;
 
-import com.financial.pyramid.domain.Account;
-import com.financial.pyramid.domain.Invitation;
-import com.financial.pyramid.domain.Passport;
-import com.financial.pyramid.domain.User;
+import com.financial.pyramid.domain.*;
 import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.service.EmailService;
@@ -23,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -63,8 +62,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(invitation.getEmail());
         user.setRole(Role.USER);
         user.setOwnerId(invitation.getSenderId());
+
         Account account = new Account();
-        account.setUser(user);
+        Calendar calendar = Calendar.getInstance();
+        account.setDateActivated(calendar.getTime());
+        calendar.add(Calendar.MONTH, 1);
+        account.setDateExpired(calendar.getTime());
+        account.setLocked(false);
+        account.setEarningsSum(0D);
+        account.writeIN(0L);
         user.setAccount(account);
 
         DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
