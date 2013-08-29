@@ -109,17 +109,20 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-            Calendar c = Calendar.getInstance();
-            int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+            int daysLeft = 0;
+            int daysMonth = 0;
+            Date activationStartDate = user.getAccount().getDateActivated();
             Date activationEndDate = user.getAccount().getDateExpired();
             Double earningsAmount = user.getAccount().getEarningsSum();
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            int daysLeft = 0;
+            if (activationStartDate != null){
+                daysMonth = Days.daysBetween(new DateTime(activationStartDate), new DateTime(activationEndDate)).getDays();
+            }
             if (activationEndDate != null) {
                 daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
             }
             model.addAttribute("daysLeft", daysLeft);
-            model.addAttribute("monthDays", daysInMonth);
+            model.addAttribute("monthDays", daysMonth);
             model.addAttribute("earningsSum", earningsSum);
             model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());
