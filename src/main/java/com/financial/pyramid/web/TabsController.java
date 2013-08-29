@@ -17,7 +17,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,8 +113,8 @@ public class TabsController extends AbstractController {
             Date activationEndDate = user.getAccount().getDateExpired();
             Double earningsAmount = user.getAccount().getEarningsSum();
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            if (activationStartDate != null){
-                daysMonth = Days.daysBetween(new DateTime(activationStartDate), new DateTime(activationEndDate)).getDays();
+            if (activationStartDate != null) {
+                daysMonth = Days.daysBetween(new DateTime(activationStartDate), new DateTime(activationEndDate).minusDays(1)).getDays();
             }
             if (activationEndDate != null) {
                 daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
