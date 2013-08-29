@@ -62,7 +62,7 @@
 <div class="separator"></div>
 <div class="office-menu">
     <ul class="nav nav-pills">
-        <li class="office-menu-item <c:if test='${daysLeft > 0}'><c:out value="disabled"/></c:if>"><a
+        <li class="office-menu-item <c:if test='${daysLeft >= 0}'><c:out value="disabled"/></c:if>"><a
                 href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message
                 code="buyPrivateOffice"/></a></li>
         <li class="office-menu-item"><a

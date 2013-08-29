@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -118,7 +119,13 @@ public class TabsController extends AbstractController {
                         new DateTime(activationEndDate).minusDays(1)).getDays();
             }
             if (activationEndDate != null) {
-                daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.set(Calendar.HOUR, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                daysLeft = Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays();
             }
             model.addAttribute("daysLeft", daysLeft);
             model.addAttribute("monthDays", daysMonth);
