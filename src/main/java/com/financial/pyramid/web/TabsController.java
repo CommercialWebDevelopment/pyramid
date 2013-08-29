@@ -114,7 +114,8 @@ public class TabsController extends AbstractController {
             Double earningsAmount = user.getAccount().getEarningsSum();
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             if (activationStartDate != null) {
-                daysMonth = Days.daysBetween(new DateTime(activationStartDate), new DateTime(activationEndDate).minusDays(1)).getDays();
+                daysMonth = Days.daysBetween(new DateTime(activationStartDate),
+                        new DateTime(activationEndDate).minusDays(1)).getDays();
             }
             if (activationEndDate != null) {
                 daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
