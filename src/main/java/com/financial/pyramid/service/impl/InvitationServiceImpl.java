@@ -9,6 +9,7 @@ import com.financial.pyramid.service.InvitationService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.exception.InvitationNotFoundException;
 import com.financial.pyramid.service.exception.InvitationOverdueException;
+import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.InvitationForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     @Transactional(readOnly = false)
     public boolean sendInvitation(InvitationForm invitationForm) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = Session.getAuthentication().getPrincipal();
         User sender = userService.findByEmail(((UserDetails) principal).getUsername());
         User parent;
         if (invitationForm.getParentId().equals(sender.getId())) {

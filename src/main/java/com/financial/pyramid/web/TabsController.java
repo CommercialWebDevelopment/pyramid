@@ -6,6 +6,7 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.Video;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.InvitationForm;
 import com.financial.pyramid.web.form.PageForm;
@@ -88,7 +89,7 @@ public class TabsController extends AbstractController {
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
     public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = Session.getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {
             User currentUser = (User) authentication.getDetails();
             User user = userService.findById(currentUser.getId());
@@ -114,7 +115,7 @@ public class TabsController extends AbstractController {
             Double earningsAmount = user.getAccount().getEarningsSum();
             double earningsSum = new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             int daysLeft = 0;
-            if (activationEndDate == null) {
+            if (activationEndDate != null) {
                 daysLeft = Days.daysBetween(new DateTime(), new DateTime(activationEndDate)).getDays();
             }
             model.addAttribute("daysLeft", daysLeft);

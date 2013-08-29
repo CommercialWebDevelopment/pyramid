@@ -3,9 +3,8 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.utils.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -110,10 +109,8 @@ public class PayPalController extends AbstractController {
         details.amount = maxAllowedAmount;
         details.cancelUrl = applicationURL + "/paypal/transferMoney";
         details.returnUrl = applicationURL + "/pyramid/office";
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = (User) user;
-        com.financial.pyramid.domain.User systemUser = userService.findByEmail(currentUser.getUsername());
-        details.receiverEmail = systemUser.getEmail();
+        com.financial.pyramid.domain.User currentUser = Session.getCurrentUser();
+        details.receiverEmail = currentUser.getEmail();
         model.addAttribute("payPalDetails", details);
         model.addAttribute("maxAllowedAmount", maxAllowedAmount);
         return "tabs/user/send-money";
@@ -121,8 +118,7 @@ public class PayPalController extends AbstractController {
 
     @RequestMapping(value = "/sendFunds", method = RequestMethod.POST)
     public String sendFunds(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        com.financial.pyramid.domain.User user = (com.financial.pyramid.domain.User) userDetails;
+        com.financial.pyramid.domain.User user = Session.getCurrentUser();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.set(Calendar.HOUR, 0);

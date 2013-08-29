@@ -2,18 +2,17 @@ package com.financial.pyramid.web;
 
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
-import com.financial.pyramid.service.LocalizationService;
 import com.financial.pyramid.service.RegistrationService;
 import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
+import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -84,7 +83,7 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)
     public String authentication(ModelMap model, @ModelAttribute("authentication") final AuthenticationForm authentication) {
-        logger.info("Successfully authenticated. Security context contains: " + SecurityContextHolder.getContext().getAuthentication());
+        logger.info("Successfully authenticated. Security context contains: " + Session.getAuthentication());
         return "/tabs/office";
     }
 
@@ -162,7 +161,7 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
     public String profile(ModelMap model) {
-        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User current = Session.getCurrentUser();
         User user = userService.findById(current.getId());
         RegistrationForm registrationForm = new RegistrationForm();
         registrationForm.setId(user.getId().toString());
@@ -188,8 +187,7 @@ public class UserController extends AbstractController {
     public String changePassword(ModelMap model,
                                  @RequestParam("new_password") String newPassword,
                                  @RequestParam("old_password") String oldPassword) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User current = (User) auth.getDetails();
+        User current = Session.getCurrentUser();
         String password = passwordEncoder.encode(newPassword);
         User user = userService.findById(current.getId());
         if (passwordEncoder.matches(oldPassword, user.getPassword())) {
@@ -207,7 +205,7 @@ public class UserController extends AbstractController {
                               @RequestParam("new_email") String email,
                               @RequestParam("new_email_confirm") String emailConfirmed,
                               @RequestParam("password") String password) {
-        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User current = Session.getCurrentUser();
         User user = userService.findById(current.getId());
         boolean valid = true;
         if (!email.equals(emailConfirmed)) {
@@ -228,7 +226,7 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/confirm_email", method = RequestMethod.GET)
     public String confirmEmail(ModelMap model) {
-        User current = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        User current = Session.getCurrentUser();
         emailService.setTemplate("email-confirmation");
         Map map = new HashMap();
         map.put("name", current.getName());

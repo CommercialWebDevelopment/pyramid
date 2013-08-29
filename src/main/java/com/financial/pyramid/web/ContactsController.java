@@ -6,10 +6,9 @@ import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +26,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/contacts")
-public class ContactsController {
+public class ContactsController extends AbstractController {
 
     @Autowired
     ContactService contactService;
@@ -57,13 +56,12 @@ public class ContactsController {
     public String sendFeedback(ModelMap model, @ModelAttribute("feedbackForm") FeedbackForm feedbackForm) {
         String adminEmail = settingsService.getProperty(Setting.FEEDBACK_RECEIVER_EMAIL);
         com.financial.pyramid.domain.User adminUser = userService.findByEmail(adminEmail);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = Session.getAuthentication().getPrincipal();
         String currentUserName = feedbackForm.getName();
         String currentUserEmail = feedbackForm.getEmail();
         String feedback = feedbackForm.getFeedback();
         if (!principal.equals("anonymousUser")) {
-            Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
-            com.financial.pyramid.domain.User user = (com.financial.pyramid.domain.User) details;
+            com.financial.pyramid.domain.User user = Session.getCurrentUser();
             currentUserName = user.getName();
             currentUserEmail = user.getEmail();
         }

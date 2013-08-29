@@ -1,15 +1,14 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.LocalizationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Locale;
 
 /**
  * User: dbudunov
@@ -25,7 +24,7 @@ public class AbstractController {
     @Autowired
     protected LocalizationService localizationService;
 
-    protected static enum  AlertType {
+    protected static enum AlertType {
         ERROR("alert_error"),
         SUCCESS("alert_success");
         private String name;

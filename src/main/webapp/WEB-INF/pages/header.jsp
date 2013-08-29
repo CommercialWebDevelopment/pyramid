@@ -1,5 +1,6 @@
 <%@ page import="com.financial.pyramid.domain.User" %>
 <%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="com.financial.pyramid.utils.Session" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -82,8 +83,8 @@
                         <sec:authorize ifAnyGranted="SUPER_ADMIN,ADMIN,USER">
                             <%
                                 User user = null;
-                                if (SecurityContextHolder.getContext().getAuthentication() != null) {
-                                    user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+                                if (Session.getAuthentication() != null) {
+                                    user = Session.getCurrentUser();
                                 }
                             %>
                             <li class="dropdown">

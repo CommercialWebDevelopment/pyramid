@@ -12,6 +12,7 @@ import com.financial.pyramid.service.beans.Receiver;
 import com.financial.pyramid.service.exception.PayPalException;
 import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.utils.HTTPClient;
+import com.financial.pyramid.utils.Session;
 import com.google.gdata.util.common.base.Pair;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class PayPalServiceImpl implements PayPalService {
             operation.setSuccess(isSuccessfulPayment(response));
             operation.setResult(result);
 
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getDetails();
+            User user = Session.getCurrentUser();
             operation.setUserId(user.getId());
 
             payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
