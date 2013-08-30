@@ -24,11 +24,14 @@ public class TestController extends AbstractController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private UserService userService;
+
     @ResponseBody
     @RequestMapping(value = "/pay", method = RequestMethod.GET)
     public String payTest(ModelMap model) {
         User currentUser = Session.getCurrentUser();
-        Account account = accountService.findById(currentUser.getAccount().getId());
+        Account account = userService.getAccount(currentUser);
         accountService.calculateSum(account, 0.01);
         return "Done";
     }
@@ -37,7 +40,7 @@ public class TestController extends AbstractController {
     @RequestMapping(value = "/extend", method = RequestMethod.GET)
     public String extendTest(ModelMap model) {
         User currentUser = Session.getCurrentUser();
-        Account account = accountService.findById(currentUser.getAccount().getId());
+        Account account = userService.getAccount(currentUser);
         accountService.activate(account);
         return "Done";
     }

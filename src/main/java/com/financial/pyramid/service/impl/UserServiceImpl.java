@@ -1,6 +1,7 @@
 package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.dao.UserDao;
+import com.financial.pyramid.domain.Account;
 import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.type.Role;
@@ -216,6 +217,12 @@ public class UserServiceImpl implements UserService {
             accountDetails.setDaysLeft(Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays());
         }
         return accountDetails;
+    }
+
+    @Override
+    public Account getAccount(User u) {
+        User user = findById(u.getId());
+        return user.getAccount();
     }
 
     public User findParent(Long userId) {

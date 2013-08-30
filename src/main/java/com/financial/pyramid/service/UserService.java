@@ -1,5 +1,6 @@
 package com.financial.pyramid.service;
 
+import com.financial.pyramid.domain.Account;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
@@ -41,4 +42,6 @@ public interface UserService extends UserDetailsService {
     public String createPassword(int n);
 
     public AccountDetails getAccountDetails(User user);
+
+    public Account getAccount(User user);
 }
