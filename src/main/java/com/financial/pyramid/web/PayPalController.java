@@ -127,16 +127,21 @@ public class PayPalController extends AbstractController {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         Date date = calendar.getTime();
+        Double transferSum = Double.valueOf(details.getAmount());
+        Double earningsSum = userService.getAccountDetails(user).getEarningsSum();
         Double allowedSum = paymentsService.allowedToBeTransferred(date, user.getId());
-        boolean isTransferAllowed = allowedSum > 0 &&  Double.valueOf(details.getAmount()) <= allowedSum;
+        boolean isTransferAllowed = allowedSum > 0 &&  transferSum <= allowedSum && transferSum <= earningsSum;
         if (isTransferAllowed) {
             details.memo = localizationService.translate("moneyTransfer");
             payPalService.processTransfer(details);
         } else {
-            if (allowedSum == 0) {
-                model.addAttribute("limitReached", true);
+            if (transferSum > earningsSum){
+              model.addAttribute("error", "not_enough_money");
+            } else if (allowedSum == 0) {
+                model.addAttribute("error", "limit_reached");
             } else {
-                model.addAttribute("allowedToBeTransferred", new BigDecimal(allowedSum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                model.addAttribute("error","not_allowed_to_be_transferred");
+                model.addAttribute("transfer_sum", new BigDecimal(allowedSum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             }
             return "redirect:" + details.cancelUrl;
         }

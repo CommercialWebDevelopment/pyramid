@@ -33,16 +33,22 @@
         <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
     </div>
 </div>
-<c:if test="${param.limitReached != null && param.limitReached == true}">
+<c:if test="${param.error != null && param.error == 'limit_reached'}">
     <div class="alert alert-error alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><spring:message code='transferLimitIsReached'/></strong>
     </div>
 </c:if>
-<c:if test="${param.allowedToBeTransferred != null}">
+<c:if test="${param.error != null && param.error == 'not_allowed_to_be_transferred'}">
     <div class="alert alert-error alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code='transferAllowedSum' arguments="${param.allowedToBeTransferred}"/></strong>
+        <strong><spring:message code='transferAllowedSum' arguments="${param.transfer_sum}"/></strong>
+    </div>
+</c:if>
+<c:if test="${param.error != null && param.error == 'not_enough_money'}">
+    <div class="alert alert-error alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong><spring:message code='notEnoughMoney'/></strong>
     </div>
 </c:if>
 <div class="row-fluid">
