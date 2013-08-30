@@ -105,16 +105,23 @@ $(document).ready(function () {
         var $obj = $(obj);
         var height = $obj.height();
         var width = $obj.width();
+
         $obj.attr("height", height);
         $obj.attr("width", width);
+        var left = !!($obj.attr("drawLeft") === "true");
+        var right = !!($obj.attr("drawRight") === "true");
 
         var ctx = obj.getContext('2d');
         ctx.strokeStyle = "black";
         ctx.beginPath();
         var startX = width / 4;
-        ctx.lineTo(startX, height);
+        if (left) {
+            ctx.lineTo(startX, height);
+        }
         ctx.lineTo(width / 2, 0);
-        ctx.lineTo(startX * 3, height);
+        if (right) {
+            ctx.lineTo(startX * 3, height);
+        }
         ctx.stroke();
     }
     var form = $("#user-email-form");

@@ -14,6 +14,8 @@ import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.tree.BinaryTreeWidget;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,8 +95,11 @@ public class TabsController extends AbstractController {
             AccountDetails accountDetails = userService.getAccountDetails(user);
 
             BinaryTree tree = userService.getBinaryTree(user);
-            BinaryTreeWidget widget = new BinaryTreeWidget(tree);
+            BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"));
+            widget.setInfoText(localizationService.translate("user.info"));
+            widget.setAddEnabled(accountDetails.getDaysLeft() >= 0);
+            widget.initTree(tree);
 
             while (tree != null) {
                 widget.addUserToWidget(tree);
@@ -105,7 +113,6 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-
             model.addAttribute("daysLeft", accountDetails.getDaysLeft());
             model.addAttribute("monthDays", accountDetails.getDaysMonth());
             model.addAttribute("earningsSum", accountDetails.getEarningsSum());

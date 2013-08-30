@@ -14,9 +14,11 @@ public class BinaryTreeWidget {
     private String rootElement;
     private double rootElementWidth = 0;
     private String stubText;
+    private String infoText;
+    private boolean addEnabled = true;
 
-    public BinaryTreeWidget(BinaryTree tree) {
-        if(tree == null) {
+    public void initTree(BinaryTree tree) {
+        if (tree == null) {
             this.rootElement = "";
             return;
         }
@@ -38,24 +40,36 @@ public class BinaryTreeWidget {
 
     public String getUserNode(BinaryTree tree, String clazz) {
         UserForm user = tree.getValue();
-        return "<div class='"+clazz+"' style='width:"+ calculateNodeWidth(tree) +"px'>" +
-                "<div class='user-info''>" +
-                "<img src='/resources/images/vcard.png' alt='User Info'><br>" +
-                user.getSurname() + " <br>" +
-                user.getName() +
-                "</div>" +
-                "<canvas class='user-pointer'></canvas>" +
-                "<div class='children-container'>"+getPointForUser(tree)+"</div>"+
-                "</div>";
+        boolean both = this.addEnabled;
+        String result = "<div class='" + clazz + "' style='width:" + calculateNodeWidth(tree) + "px'>";
+        result += "<div class='user-info''>";
+        result += "<img src='/resources/images/vcard.png' title='" + this.infoText + "' alt='" + this.infoText + "'><br>";
+        result += user.getSurname();
+        result += " <br>";
+        result += user.getName();
+        result += "</div>";
+        result += ((tree.isLeft() || tree.isRight() || both) ? "<canvas class='user-pointer' " +
+                "drawLeft='" + (tree.isLeft() || both) + "' " +
+                "drawRight='" + (tree.isRight() || both) + "'>" +
+                "</canvas>" : "");
+        result += "<div class='children-container'>" + getPointForUser(tree) + "</div>";
+        result += "</div>";
+        return result;
     }
 
     public String getStubNode(BinaryTree user, String clazz) {
-        return "<div class='"+clazz+" user-info' style='width:"+ calculateNodeWidth(user) / 2+"px'>" +
-                "<img class='stub-node' " +
-                "parentId="+user.getId()+" " +
-                "position="+ (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString()) +" " +
-                "src='/resources/images/add-user.jpg' alt='Add user'><br>"+
-                "</div>";
+        String result = "<div class='" + clazz + " stub-info user-info' ";
+        result += "style='width:" + calculateNodeWidth(user) / 2 + "px'>";
+        if (this.addEnabled) {
+            result += "<img class='stub-node' parentId=" + user.getId();
+            result += " position=" + (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString());
+            result += " src='/resources/images/add-user.jpg' title='" + this.stubText + "' alt='" + this.stubText + "'>";
+            result += "<br>";
+        } else {
+            result += "&nbsp;";
+        }
+        result += "</div>";
+        return result;
     }
 
     public String getPointForUser(BinaryTree user) {
@@ -71,5 +85,13 @@ public class BinaryTreeWidget {
 
     public void setStubText(String stubText) {
         this.stubText = stubText;
+    }
+
+    public void setInfoText(String infoText) {
+        this.infoText = infoText;
+    }
+
+    public void setAddEnabled(boolean addEnabled) {
+        this.addEnabled = addEnabled;
     }
 }
