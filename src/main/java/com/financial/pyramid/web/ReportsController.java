@@ -1,7 +1,6 @@
 package com.financial.pyramid.web;
 
 import com.google.gson.Gson;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,14 +23,11 @@ public class ReportsController extends AbstractController {
         EarningsReport report = new EarningsReport();
         double a[][] = new double[][]{};
         if (period == 3) {
-            report.label = "Japan";
-            a = new double[][]{{1, -0.1}, {2, 2.9}, {3, 0.2}, {4, 0.3}, {5, 1.4}, {6, 2.7}, {7, 1.9}};
+            a = new double[][]{{1, 100}, {2, 200}, {3, 150}};
         } else if (period == 6) {
-            report.label = "England";
-            a = new double[][]{{1, -0.1}, {2, 2.9}, {3, 0.2}};
+            a = new double[][]{{1, 50}, {2, 100}, {3, 70}, {4, 120}, {5, 200}, {6, 500}};
         } else if (period == 12) {
-            report.label = "France";
-            a = new double[][]{{1, 1.1}, {2, 51.9}, {3, 15}};
+            a = new double[][]{{1, 100}, {2, 50}, {3, 15}, {4, 100}, {5, 1}, {6, 20}, {7, 1000}, {8, 900}, {9, 500}, {8, 50}, {9, 79}, {10, 15}, {11, 200}, {12, 300}};
         }
         report.data = a;
         Gson gson = new Gson();
