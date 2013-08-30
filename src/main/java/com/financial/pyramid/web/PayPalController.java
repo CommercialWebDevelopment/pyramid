@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -55,7 +56,7 @@ public class PayPalController extends AbstractController {
         Double totalPrice = Double.valueOf(officePrice) + Double.valueOf(applicationPrice);
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/payment";
-        details.returnUrl = applicationURL + "/pyramid/office";
+        details.returnUrl = applicationURL + "/paypal/success";
         details.amount = totalPrice.toString();
         model.addAttribute("payPalDetails", details);
         return "tabs/user/buy-office";
@@ -82,7 +83,7 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/payment";
-        details.returnUrl = applicationURL + "/pyramid/office";
+        details.returnUrl = applicationURL + "/paypal/success";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
         return "tabs/user/pay-office";
@@ -108,7 +109,7 @@ public class PayPalController extends AbstractController {
         details.senderEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.amount = maxAllowedAmount;
         details.cancelUrl = applicationURL + "/paypal/transferMoney";
-        details.returnUrl = applicationURL + "/pyramid/office";
+        details.returnUrl = applicationURL + "/paypal/success";
         com.financial.pyramid.domain.User currentUser = Session.getCurrentUser();
         details.receiverEmail = currentUser.getEmail();
         model.addAttribute("payPalDetails", details);
@@ -140,5 +141,11 @@ public class PayPalController extends AbstractController {
             return "redirect:" + details.cancelUrl;
         }
         return "redirect:" + details.returnUrl;
+    }
+
+    @RequestMapping(value="/success", method = RequestMethod.GET)
+    public String success(ModelMap model){
+        model.addAttribute(AlertType.SUCCESS.getName(), localizationService.translate("successfulPayment"));
+        return "redirect:/pyramid/office";
     }
 }
