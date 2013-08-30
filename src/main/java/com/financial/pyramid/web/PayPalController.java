@@ -108,7 +108,7 @@ public class PayPalController extends AbstractController {
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
         details.senderEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.amount = maxAllowedAmount;
-        details.cancelUrl = applicationURL + "/paypal/transferMoney";
+        details.cancelUrl = applicationURL + "/paypal/sendMoney";
         details.returnUrl = applicationURL + "/paypal/success";
         com.financial.pyramid.domain.User currentUser = Session.getCurrentUser();
         details.receiverEmail = currentUser.getEmail();
