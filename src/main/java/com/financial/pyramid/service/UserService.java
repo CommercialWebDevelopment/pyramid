@@ -44,4 +44,6 @@ public interface UserService extends UserDetailsService {
     public AccountDetails getAccountDetails(User user);
 
     public Account getAccount(User user);
+
+    public void activateUserAccount(User user);
 }

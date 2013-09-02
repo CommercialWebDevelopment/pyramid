@@ -27,5 +27,7 @@ public class Setting {
     public static String PAY_PAL_API_PASSWORD = "pay_pal_api_password";
     public static String PAY_PAL_API_SIGNATURE = "pay_pal_api_signature";
     public static String PAY_PAL_API_APPLICATION_ID = "pay_pal_application_id";
+    public static String PAY_PAL_API_TOKEN = "pay_pal_api_token";
+
     public static String COUNT_LEVEL_IN_USER_TREE = "countLevelInUserTree";
 }

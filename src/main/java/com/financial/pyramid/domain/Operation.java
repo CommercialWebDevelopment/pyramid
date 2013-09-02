@@ -44,6 +44,9 @@ public class Operation extends AbstractEntity {
     @Column(name = "user_id", nullable = false)
     public Long userId;
 
+    @Column(name = "global_id", nullable = false)
+    public String globalId;
+
     public String getType() {
         return type;
     }
@@ -122,5 +125,13 @@ public class Operation extends AbstractEntity {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getGlobalId() {
+        return globalId;
+    }
+
+    public void setGlobalId(String globalId) {
+        this.globalId = globalId;
     }
 }

@@ -11,6 +11,7 @@ public class PayPalResponse {
     public ResponseEnvelope responseEnvelope;
     public String payKey;
     public String paymentExecStatus;
+    public String status;
     public List<Error> error;
 
     public class ResponseEnvelope {

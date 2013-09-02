@@ -171,9 +171,10 @@ public class UserController extends AbstractController {
         registrationForm.setDateOfBirth(user.getDateOfBirth().toString());
         registrationForm.setPhoneNumber(user.getPhoneNumber());
         if (user.getPassport() != null) {
+            String passportDate = user.getPassport().getDate() != null ? user.getPassport().getDate().toString() : null;
             registrationForm.setPassportSerial(user.getPassport().getSerial());
             registrationForm.setPassportNumber(user.getPassport().getNumber());
-            registrationForm.setPassportDate(user.getPassport().getDate().toString());
+            registrationForm.setPassportDate(passportDate);
             registrationForm.setPassportIssuedBy(user.getPassport().getIssuedBy());
             registrationForm.setRegisteredAddress(user.getPassport().getRegisteredAddress());
             registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
@@ -253,7 +254,9 @@ public class UserController extends AbstractController {
     }
 
     @RequestMapping(value = "/check_date", method = RequestMethod.GET)
-    public @ResponseBody Boolean checkDate(@RequestParam("date") final String date) {
+    public
+    @ResponseBody
+    Boolean checkDate(@RequestParam("date") final String date) {
         DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
         try {
             format.parse(date);

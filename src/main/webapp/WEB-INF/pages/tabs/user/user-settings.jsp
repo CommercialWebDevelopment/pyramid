@@ -126,7 +126,7 @@
                             <div class="span5"><spring:message code="dateOfIssue"/></div>
                             <div class="span4">
                                 <c:set var="passportIssueDate"
-                                       value='<%=(user.getPassport() != null) ? user.getPassport().getDate() : ""%>'/>
+                                       value='<%=(user.getPassport() != null && user.getPassport().getDate() != null) ? user.getPassport().getDate() : ""%>'/>
                                 <b>
                                     <c:if test="${passportIssueDate != ''}">
                                         ${passportIssueDate}

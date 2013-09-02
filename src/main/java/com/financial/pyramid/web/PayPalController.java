@@ -1,5 +1,6 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.paypal.PayPalPropeties;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
@@ -10,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -106,9 +109,9 @@ public class PayPalController extends AbstractController {
         String maxAllowedAmount = settingsService.getProperty(Setting.MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY);
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
         details.senderEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
-        details.amount = maxAllowedAmount;
+        details.amount = "0.00";
         details.cancelUrl = applicationURL + "/paypal/sendMoney";
-        details.returnUrl = applicationURL + "/paypal/success";
+        details.returnUrl = applicationURL + "/pyramid/office";
         com.financial.pyramid.domain.User currentUser = Session.getCurrentUser();
         details.receiverEmail = currentUser.getEmail();
         model.addAttribute("payPalDetails", details);
@@ -117,7 +120,9 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/sendFunds", method = RequestMethod.POST)
-    public String sendFunds(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
+    public String sendFunds(RedirectAttributes redirectAttributes,
+                            ModelMap model,
+                            @ModelAttribute("payPalDetails") PayPalDetails details) {
         com.financial.pyramid.domain.User user = Session.getCurrentUser();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -128,19 +133,24 @@ public class PayPalController extends AbstractController {
         Date date = calendar.getTime();
         Double transferSum = Double.valueOf(details.getAmount());
         Double earningsSum = userService.getAccountDetails(user).getEarningsSum();
-        Double allowedSum = paymentsService.allowedToBeTransferred(date, user.getId());
-        boolean isTransferAllowed = allowedSum > 0 && transferSum <= allowedSum && transferSum <= earningsSum;
+        Double maxAllowedSum = paymentsService.allowedToBeTransferred(date, user.getId());
+        boolean isTransferAllowed = maxAllowedSum > 0 && transferSum <= maxAllowedSum && transferSum <= earningsSum;
         if (isTransferAllowed) {
             details.memo = localizationService.translate("moneyTransfer");
-            payPalService.processTransfer(details);
+            boolean result = payPalService.processTransfer(details);
+            if (result) {
+                redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("operationSuccess"));
+            } else {
+                redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("operationFailed"));
+            }
         } else {
             if (transferSum > earningsSum) {
-                model.addAttribute("error", "not_enough_money");
-            } else if (allowedSum == 0) {
-                model.addAttribute("error", "limit_reached");
+                redirectAttributes.addAttribute("error", "not_enough_money");
+            } else if (maxAllowedSum == 0) {
+                redirectAttributes.addAttribute("error", "limit_reached");
             } else {
-                model.addAttribute("error", "not_allowed_to_be_transferred");
-                model.addAttribute("transfer_sum", new BigDecimal(allowedSum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                redirectAttributes.addAttribute("error", "not_allowed_to_be_transferred");
+                redirectAttributes.addAttribute("transfer_sum", new BigDecimal(maxAllowedSum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             }
             return "redirect:" + details.cancelUrl;
         }
@@ -148,8 +158,14 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String success(ModelMap model) {
-        model.addAttribute(AlertType.SUCCESS.getName(), localizationService.translate("successfulPayment"));
+    public String success(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "tx") String transactionId) {
+        boolean completed = payPalService.isTransactionCompleted(transactionId);
+        if (completed) {
+            userService.activateUserAccount(Session.getCurrentUser());
+            redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("paymentSuccess"));
+        } else {
+            redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("paymentFailed"));
+        }
         return "redirect:/pyramid/office";
     }
 }

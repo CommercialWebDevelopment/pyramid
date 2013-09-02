@@ -5,6 +5,7 @@ import com.financial.pyramid.domain.Account;
 import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.type.Role;
+import com.financial.pyramid.service.AccountService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.beans.AccountDetails;
@@ -46,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     SettingsService settingsService;
+
+    @Autowired
+    AccountService accountService;
 
     @Override
     @Transactional(readOnly = false)
@@ -223,6 +227,12 @@ public class UserServiceImpl implements UserService {
     public Account getAccount(User u) {
         User user = findById(u.getId());
         return user.getAccount();
+    }
+
+    @Override
+    public void activateUserAccount(User user) {
+        Account account = getAccount(user);
+        accountService.activate(account);
     }
 
     public User findParent(Long userId) {

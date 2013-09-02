@@ -21,6 +21,7 @@ public class PayPalDetails {
     public boolean reverseAllParallelPaymentsOnError = true;
     public String amount;
     public String receiverEmail;
+    public String globalId;
 
     public String getActionType() {
         return actionType;
@@ -124,5 +125,13 @@ public class PayPalDetails {
 
     public void setReceiverEmail(String receiverEmail) {
         this.receiverEmail = receiverEmail;
+    }
+
+    public String getGlobalId() {
+        return globalId;
+    }
+
+    public void setGlobalId(String globalId) {
+        this.globalId = globalId;
     }
 }

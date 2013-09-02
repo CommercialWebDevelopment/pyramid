@@ -12,11 +12,12 @@ import com.financial.pyramid.service.beans.Receiver;
 import com.financial.pyramid.service.exception.PayPalException;
 import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.utils.HTTPClient;
+import com.financial.pyramid.utils.MD5Encoder;
 import com.financial.pyramid.utils.Session;
 import com.google.gdata.util.common.base.Pair;
 import com.google.gson.Gson;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -42,21 +43,49 @@ public class PayPalServiceImpl implements PayPalService {
 
     @Override
     public String processPayment(PayPalDetails payPalDetails) throws PayPalException {
-        PayPalResponse payPalResponse = processPayPalRequest(payPalDetails);
+        PayPalResponse payPalResponse = processPayPalRequest(payPalDetails, true);
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;
     }
 
     @Override
-    public String processTransfer(PayPalDetails details) throws PayPalException {
-        PayPalResponse payPalResponse = processPayPalRequest(details);
-        return payPalResponse.responseEnvelope.ack;
+    public boolean processTransfer(PayPalDetails details) throws PayPalException {
+        PayPalResponse payPalResponse = processPayPalRequest(details, false);
+        return isTransactionCompleted(payPalResponse.payKey, PayPalPropeties.PAY_PAL_PAY_KEY);
     }
 
-    private PayPalResponse processPayPalRequest(PayPalDetails payPalDetails) {
+    @Override
+    public boolean isTransactionCompleted(String transactionId) throws PayPalException {
+        boolean result = false;
+        String token = configurationService.getParameter(Setting.PAY_PAL_API_TOKEN);
+        String url = PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_notify-synch&tx=" + transactionId + "&at=" + token;
+        try {
+            List<String> response = HTTPClient.sendRequest(url);
+            result = response.toString().contains("COMPLETED") && response.toString().contains("SUCCESS");
+        } catch (Exception e) {
+            throw new PayPalException(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isTransactionCompleted(String uid, String type) throws PayPalException {
+        PayPalResponse payPalResponse;
+        try {
+            String url = getPaymentDetailsUrl(uid, type);
+            List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
+            payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
+        } catch (Exception e) {
+            throw new PayPalException(e.getMessage());
+        }
+        return payPalResponse.status != null && payPalResponse.status.equals("COMPLETED");
+    }
+
+    private PayPalResponse processPayPalRequest(PayPalDetails payPalDetails, boolean isPurchasePayment) {
         PayPalResponse payPalResponse;
         try {
             updatePayPalDetails(payPalDetails);
-            List<String> response = HTTPClient.sendRequestWithHeaders(getPaymentUrl(payPalDetails), getHeaders(), RequestMethod.GET.name());
+            String url = isPurchasePayment ? getPaymentUrl(payPalDetails) : getTransferUrl(payPalDetails);
+            List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
 
             String result = isSuccessfulPayment(response) ? "Success" : "Failed";
 
@@ -64,6 +93,7 @@ public class PayPalServiceImpl implements PayPalService {
             operation.setMemo(payPalDetails.memo);
             operation.setType(payPalDetails.actionType);
             operation.setPayer(payPalDetails.senderEmail);
+            operation.setGlobalId(payPalDetails.globalId);
             operation.setDate(new Date(System.currentTimeMillis()));
             operation.setPayee(payPalDetails.receiverList.get(0).email);
             operation.setAmount(Double.valueOf(payPalDetails.receiverList.get(0).amount));
@@ -78,7 +108,8 @@ public class PayPalServiceImpl implements PayPalService {
             if (response.isEmpty()) {
                 errorString = PAY_PAL_EMPTY_RESPONSE;
             }
-            if (payPalResponse.error.size() > 0) {
+
+            if (payPalResponse.error != null && payPalResponse.error.size() > 0) {
                 for (int i = 0; i < payPalResponse.error.size(); i++) {
                     errorString += payPalResponse.error.get(i).message;
                 }
@@ -86,9 +117,10 @@ public class PayPalServiceImpl implements PayPalService {
             if (!errorString.isEmpty()) {
                 operation.setError(errorString);
             }
+
             operationsService.save(operation);
         } catch (Exception e) {
-            throw new PayPalException(e);
+            throw new PayPalException(e.getMessage());
         }
         return payPalResponse;
     }
@@ -102,49 +134,64 @@ public class PayPalServiceImpl implements PayPalService {
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-USERID", securityUserId));
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-PASSWORD", securityPassword));
         headers.add(new Pair<String, String>("X-PAYPAL-SECURITY-SIGNATURE", securitySignature));
-        headers.add(new Pair<String, String>("X-PAYPAL-REQUEST-DATA-FORMAT", "JSON"));
+        headers.add(new Pair<String, String>("X-PAYPAL-REQUEST-DATA-FORMAT", "NV"));
         headers.add(new Pair<String, String>("X-PAYPAL-RESPONSE-DATA-FORMAT", "JSON"));
         headers.add(new Pair<String, String>("X-PAYPAL-APPLICATION-ID", applicationId));
         return headers;
     }
 
     private String getTransferUrl(PayPalDetails details) {
-        String errorLanguage = PayPalPropeties.PAY_PAL_DEFAULT_ERROR_LANGUAGE;
-        if (details.requestEnvelope != null && details.requestEnvelope.errorLanguage != null) {
-            errorLanguage = details.requestEnvelope.errorLanguage;
-        }
-
         return PayPalPropeties.PAY_PAL_ADAPTIVE_PAYMENT_URL
                 + "?actionType=" + PayPalPropeties.PAY_PAL_ACTION_TYPE
-                + "&cancelUrl=" + PayPalPropeties.PAY_PAL_CANCEL_URL
+                + "&cancelUrl=" + details.cancelUrl
                 + "&currencyCode=" + PayPalPropeties.PAY_PAL_CURRENCY
-                + "&feesPayer=" + PayPalPropeties.PAY_PAL_FEES_PAYER
-                + "&memo=" + details.memo
-                + "&preapprovalKey=" + details.preApprovalKey
                 + "&receiverList.receiver(0).amount=" + details.receiverList.get(0).amount
                 + "&receiverList.receiver(0).email=" + details.receiverList.get(0).email
                 + "&receiverList.receiver(0).primary=" + details.receiverList.get(0).primary
-                + "&requestEnvelope.errorLanguage=" + errorLanguage
-                + "&returnUrl=" + PayPalPropeties.PAY_PAL_RETURN_URL
-                + "&reverseAllParallelPaymentsOnError=" + details.reverseAllParallelPaymentsOnError
-                + "&senderEmail=" + details.senderEmail;
+                + "&requestEnvelope.errorLanguage=" + getErrorLanguage(details)
+                + "&returnUrl=" + details.returnUrl
+                + "&senderEmail=" + details.senderEmail
+                + "&trackingId=" + details.globalId
+                + "&feesPayer=" + PayPalPropeties.PAY_PAL_FEES_PAYER
+                + "&memo=" + details.memo
+                + "&preapprovalKey=" + (details.preApprovalKey != null ? details.preApprovalKey : "");
     }
 
     private String getPaymentUrl(PayPalDetails details) {
+        return PayPalPropeties.PAY_PAL_ADAPTIVE_PAYMENT_URL
+                + "?actionType=" + PayPalPropeties.PAY_PAL_ACTION_TYPE
+                + "&cancelUrl=" + details.cancelUrl
+                + "&currencyCode=" + PayPalPropeties.PAY_PAL_CURRENCY
+                + "&receiverList.receiver(0).amount=" + details.receiverList.get(0).amount
+                + "&receiverList.receiver(0).email=" + details.receiverList.get(0).email
+                + "&receiverList.receiver(0).primary=" + details.receiverList.get(0).primary
+                + "&requestEnvelope.errorLanguage=" + getErrorLanguage(details)
+                + "&requestEnvelope.detailLevel=ReturnAll"
+                + "&returnUrl=" + details.returnUrl
+                + "&memo=" + details.memo
+                + "&trackingId=" + details.globalId;
+    }
+
+    private String getPaymentDetailsUrl(String uid, String type) {
+        String url = PayPalPropeties.PAY_PAL_PAYMENT_DETAILS_URL;
+        url += "?requestEnvelope.errorLanguage=" + getErrorLanguage(new PayPalDetails());
+        url += "&requestEnvelope.detailLevel=ReturnAll";
+        if (type.equals(PayPalPropeties.PAY_PAL_PAY_KEY)) {
+            url += "&payKey=" + uid;
+        } else if (type.equals(PayPalPropeties.PAY_PAL_TRANSACTION)) {
+            url += "&transactionId=" + uid;
+        } else if (type.equals(PayPalPropeties.PAY_PAL_TRACKING_ID)) {
+            url += "&trackingId=" + uid;
+        }
+        return url;
+    }
+
+    private String getErrorLanguage(PayPalDetails details) {
         String errorLanguage = PayPalPropeties.PAY_PAL_DEFAULT_ERROR_LANGUAGE;
         if (details.requestEnvelope != null && details.requestEnvelope.errorLanguage != null) {
             errorLanguage = details.requestEnvelope.errorLanguage;
         }
-
-        return PayPalPropeties.PAY_PAL_ADAPTIVE_PAYMENT_URL
-                + "?actionType=" + PayPalPropeties.PAY_PAL_ACTION_TYPE
-                + "&cancelUrl=" + PayPalPropeties.PAY_PAL_CANCEL_URL
-                + "&currencyCode=" + PayPalPropeties.PAY_PAL_CURRENCY
-                + "&receiverList.receiver(0).amount=" + details.receiverList.get(0).amount
-                + "&receiverList.receiver(0).email=" + details.receiverList.get(0).email
-                + "&requestEnvelope.errorLanguage=" + errorLanguage
-                + "&requestEnvelope.detailLevel=ReturnAll"
-                + "&returnUrl=" + PayPalPropeties.PAY_PAL_RETURN_URL;
+        return errorLanguage;
     }
 
     @Override
@@ -154,6 +201,7 @@ public class PayPalServiceImpl implements PayPalService {
         details.cancelUrl = details.cancelUrl == null ? PayPalPropeties.PAY_PAL_CANCEL_URL : details.cancelUrl;
         details.currencyCode = details.currencyCode == null ? PayPalPropeties.PAY_PAL_CURRENCY : details.currencyCode;
         details.feesPayer = details.feesPayer == null ? PayPalPropeties.PAY_PAL_FEES_PAYER : details.feesPayer;
+        details.globalId = generateTransactionUID(details);
 
         List<Receiver> receivers = new ArrayList<Receiver>();
         Receiver receiver = new Receiver();
@@ -165,5 +213,9 @@ public class PayPalServiceImpl implements PayPalService {
 
     private boolean isSuccessfulPayment(List<String> response) {
         return response.toString().contains("SUCCESS");
+    }
+
+    private static String generateTransactionUID(PayPalDetails details) {
+        return MD5Encoder.encode(details.senderEmail + details.receiverEmail + details.amount + new DateTime());
     }
 }
