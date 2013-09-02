@@ -19,4 +19,4 @@ var LoadingBar = {
         loader.css("left", ($(document).innerWidth() - loader.width()) / 2);
         loader.css("top", $(document).scrollTop() + $('body')[0].clientHeight / 2 - loader.height());
     }
-}
+};

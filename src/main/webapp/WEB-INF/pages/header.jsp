@@ -37,7 +37,9 @@
 </script>
 
 <div id="loader" class="loader">
-    <div class="loader-icon"></div>
+    <div class="loader-icon">
+        <img id="loader-img" src="${pageContext.request.contextPath}/resources/images/loader.gif" width="32"/>
+    </div>
     <div class="loader-text"></div>
 </div>
 <c:set var="localeCode" value="<%=pageContext.getResponse().getLocale().toString()%>"/>

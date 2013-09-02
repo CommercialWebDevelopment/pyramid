@@ -14,9 +14,7 @@
             return false;
         } else {
             LoadingBar.show(I18N.sendToPayPal);
-            setTimeout(function () {
-                return true;
-            }, 1000);
+            return true;
         }
     }
 </script>
