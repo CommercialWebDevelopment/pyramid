@@ -26,7 +26,6 @@
         <security:intercept-url pattern="/news/edit/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/news/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/news/remove/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
-        <security:intercept-url pattern="/paypal/**" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/reports/*" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/settings/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/video/remove/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
@@ -34,6 +33,13 @@
         <security:intercept-url pattern="/video/upload" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/contacts/save" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/contacts/remove/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
+        <security:intercept-url pattern="/paypal/sendMoney" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/paypal/sendFunds" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/paypal/payOffice" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/paypal/buyOffice" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/paypal/payOfficeAndApp" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/paypal/buyOfficeAndApp" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
+        <security:intercept-url pattern="/paypal/success" access="permitAll" />
         <security:intercept-url pattern="/pyramid/**" access="permitAll" />
         <security:intercept-url pattern="/user/check_date" access="permitAll" />
         <security:intercept-url pattern="/user/authentication" access="permitAll" />
