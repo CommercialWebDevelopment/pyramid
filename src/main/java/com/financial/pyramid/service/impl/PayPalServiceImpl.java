@@ -58,7 +58,7 @@ public class PayPalServiceImpl implements PayPalService {
         try {
             List<String> response = HTTPClient.sendRequest(url);
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
-            result = response.toString().contains("COMPLETED") && response.toString().contains("SUCCESS");
+            result = response.toString().contains("Completed") && response.toString().contains("Success");
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
             }
@@ -75,7 +75,7 @@ public class PayPalServiceImpl implements PayPalService {
             String url = PayPal.getPaymentDetailsUrl(uid, type);
             List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
-            result = payPalResponse.status != null && payPalResponse.status.equals("COMPLETED");
+            result = payPalResponse.status != null && payPalResponse.status.equals("Completed");
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
             }
