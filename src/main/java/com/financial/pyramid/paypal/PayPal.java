@@ -25,8 +25,8 @@ public class PayPal {
                 + "&senderEmail=" + details.senderEmail
                 + "&trackingId=" + details.globalId
                 + "&feesPayer=" + PayPalPropeties.PAY_PAL_FEES_PAYER
-                + "&memo=" + details.memo
-                + "&preapprovalKey=" + (details.preApprovalKey != null ? details.preApprovalKey : "");
+                + "&preapprovalKey=" + (details.preApprovalKey != null ? details.preApprovalKey : "")
+                + "&memo=" + details.memo;
     }
 
     public static String getPaymentUrl(PayPalDetails details) {
@@ -40,8 +40,8 @@ public class PayPal {
                 + "&requestEnvelope.errorLanguage=" + getErrorLanguage(details)
                 + "&requestEnvelope.detailLevel=ReturnAll"
                 + "&returnUrl=" + details.returnUrl
-                + "&memo=" + details.memo
-                + "&trackingId=" + details.globalId;
+                + "&trackingId=" + details.globalId
+                + "&memo=" + details.memo;
     }
 
     public static String getPaymentDetailsUrl(String uid, String type) {
