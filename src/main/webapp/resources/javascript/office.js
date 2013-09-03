@@ -130,4 +130,22 @@ $(document).ready(function () {
         form.find("#position").val($(this).attr("position"));
         form.modal("show");
     });
+
+    $("#next-button").click(function () {
+        if(Form.validate()) {
+            $("#user-form-step").hide();
+            $("#contract-step").show();
+        }
+    });
+    $("#back-button").click(function () {
+        $("#user-form-step").show();
+        $("#contract-step").hide();
+    });
+    $("#contract-offer-accepted").click(function () {
+        if (this.checked){
+            $("#registration-form-send-button").attr('disabled',false);
+        } else {
+            $("#registration-form-send-button").attr('disabled',true);
+        }
+    });
 });

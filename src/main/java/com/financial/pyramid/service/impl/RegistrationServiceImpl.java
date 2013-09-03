@@ -1,6 +1,9 @@
 package com.financial.pyramid.service.impl;
 
-import com.financial.pyramid.domain.*;
+import com.financial.pyramid.domain.Account;
+import com.financial.pyramid.domain.Invitation;
+import com.financial.pyramid.domain.Passport;
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.service.EmailService;
@@ -11,17 +14,18 @@ import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.web.form.RegistrationForm;
 import org.apache.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
 
 /**
@@ -47,6 +51,9 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
     private InvitationService invitationService;
+
+    @Autowired
+    private VelocityEngine velocityEngine;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
@@ -115,7 +122,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         return true;
     }
 
-    public synchronized String generatePassword() {
+    private synchronized String generatePassword() {
         Random rand = new Random(System.currentTimeMillis());
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i <= PASSWORD_LENGTH; i++) {

@@ -11,6 +11,7 @@ import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,10 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,17 +55,13 @@ public class UserController extends AbstractController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    ServletContext servletContext;
+
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("registration") final RegistrationForm registration) {
-        BeanPropertyBindingResult result = new BeanPropertyBindingResult(registration, "registration");
-        registrationFormValidator.validate(registration, result);
-        if (result.getErrorCount() > 0) {
-            model.addAttribute("registration", registration);
-            model.put("errors", result.getAllErrors());
-            return "/tabs/user/registration-form";
-        }
         boolean success = false;
         try {
             success = registrationService.registration(registration);
@@ -263,6 +264,28 @@ public class UserController extends AbstractController {
             return true;
         } catch (ParseException e) {
             return false;
+        }
+    }
+
+    @RequestMapping(value = "/contract_offer", method = RequestMethod.GET)
+    public String getContractOffer(ModelMap model) {
+        return "contract-offer/contract-offer-"+LocaleContextHolder.getLocale().getLanguage();
+    }
+
+    @RequestMapping(value = "/contract_offer_pdf", method = RequestMethod.GET)
+    public void getContractOfferPDF(HttpServletResponse response) {
+        try {
+            InputStream is = servletContext.getResourceAsStream("resources/pdf/contract-offer-ru.pdf");
+            ServletOutputStream os = response.getOutputStream();
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "inline; filename=contract-offer.pdf");
+            response.setHeader("Cache-Control", "cache, must-revalidate");
+            response.setHeader("Pragma", "public");
+            IOUtils.copy(is,os);
+            response.flushBuffer();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
