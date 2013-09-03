@@ -16,6 +16,7 @@ import com.financial.pyramid.utils.HTTPClient;
 import com.financial.pyramid.utils.Session;
 import com.google.gdata.util.common.base.Pair;
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,15 +39,21 @@ public class PayPalServiceImpl implements PayPalService {
     @Autowired
     OperationsService operationsService;
 
+    protected final Logger logger = Logger.getLogger(getClass());
+
     @Override
     public String processPayment(PayPalDetails payPalDetails) throws PayPalException {
+        logger.info("Process payment operation to PayPal from user " + Session.getCurrentUser().getId());
         PayPalResponse payPalResponse = processPayPalRequest(payPalDetails, true);
+        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " transaction " + payPalResponse.trackingId + ". Redirecting to PayPal...");
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;
     }
 
     @Override
     public boolean processTransfer(PayPalDetails details) throws PayPalException {
+        logger.info("Process transfer operation to PayPal from user" + Session.getCurrentUser().getId());
         PayPalResponse payPalResponse = processPayPalRequest(details, false);
+        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " transaction " + payPalResponse.trackingId + ". Checking status...");
         return isTransactionCompleted(payPalResponse.payKey, PayPalPropeties.PAY_PAL_PAY_KEY);
     }
 
@@ -59,10 +66,13 @@ public class PayPalServiceImpl implements PayPalService {
             List<String> response = HTTPClient.sendRequest(url);
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
             result = response.toString().contains("Completed") && response.toString().contains("Success");
+            logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUser().getId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
             }
         } catch (Exception e) {
+            logger.error("Transaction check for user " + Session.getCurrentUser().getId() + " failed with error: " + e.getMessage());
+            e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }
         return result;
@@ -76,10 +86,13 @@ public class PayPalServiceImpl implements PayPalService {
             List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
             result = payPalResponse.status != null && payPalResponse.status.equals("Completed");
+            logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUser().getId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
             }
         } catch (Exception e) {
+            logger.error("Transaction check for user " + Session.getCurrentUser().getId() + " failed with error: " + e.getMessage());
+            e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }
         return result;
