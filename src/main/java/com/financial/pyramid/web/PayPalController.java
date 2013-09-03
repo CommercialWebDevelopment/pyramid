@@ -1,6 +1,5 @@
 package com.financial.pyramid.web;
 
-import com.financial.pyramid.paypal.PayPalPropeties;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
@@ -162,12 +161,14 @@ public class PayPalController extends AbstractController {
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "tx") String transactionId) {
-        boolean completed = payPalService.isTransactionCompleted(transactionId);
-        if (completed) {
-            userService.activateUserAccount(Session.getCurrentUser());
-            redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("paymentSuccess"));
-        } else {
-            redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("paymentFailed"));
+        if (transactionId != null && !transactionId.isEmpty()) {
+            boolean completed = payPalService.isTransactionCompleted(transactionId);
+            if (completed) {
+                userService.activateUserAccount(Session.getCurrentUser());
+                redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("paymentSuccess"));
+            } else {
+                redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("paymentFailed"));
+            }
         }
         return "redirect:/pyramid/office";
     }
