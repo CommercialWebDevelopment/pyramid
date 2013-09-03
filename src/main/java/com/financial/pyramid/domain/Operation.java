@@ -47,6 +47,9 @@ public class Operation extends AbstractEntity {
     @Column(name = "global_id", nullable = false)
     public String globalId;
 
+    @Column(name = "completed", nullable = false)
+    public boolean completed;
+
     public String getType() {
         return type;
     }
@@ -133,5 +136,13 @@ public class Operation extends AbstractEntity {
 
     public void setGlobalId(String globalId) {
         this.globalId = globalId;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

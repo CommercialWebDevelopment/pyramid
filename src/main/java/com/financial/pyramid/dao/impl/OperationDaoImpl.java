@@ -34,6 +34,15 @@ public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implement
     }
 
     @Override
+    public void updateStatus(String trackingId, boolean status) {
+        String queryStr = "update Operation o set o.completed=:status where o.globalId=:globalId";
+        Query query = super.createQuery(queryStr)
+                .setParameter("status", status)
+                .setParameter("globalId", trackingId);
+        query.executeUpdate();
+    }
+
+    @Override
     public Double getTransferredAmount(Date date, Long userId) {
         double result = 0;
         Date end = new DateTime(date).plusDays(1).toDate();
@@ -47,9 +56,9 @@ public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implement
                 .setParameter("userId", userId);
 
         List list = query.list();
-        if (!list.isEmpty()){
-           Object amount = (Object) list.get(0);
-           result = Double.valueOf(amount != null ? amount.toString() : "0");
+        if (!list.isEmpty()) {
+            Object amount = (Object) list.get(0);
+            result = Double.valueOf(amount != null ? amount.toString() : "0");
         }
         return result;
     }

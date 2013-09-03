@@ -15,5 +15,6 @@ public interface OperationsService {
     public List<Operation> find();
     public List<Operation> get(QueryForm queryForm);
     public void save(Operation operation);
+    public void update(String trackingId, boolean status);
     public Double getTransferredAmount(Date date, Long userId);
 }

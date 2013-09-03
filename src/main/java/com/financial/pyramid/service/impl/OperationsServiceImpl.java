@@ -39,6 +39,11 @@ public class OperationsServiceImpl implements OperationsService {
     }
 
     @Override
+    public void update(String trackingId, boolean status) {
+        operationDao.updateStatus(trackingId, status);
+    }
+
+   @Override
     public Double getTransferredAmount(Date date, Long userId) {
         return operationDao.getTransferredAmount(date, userId);
     }

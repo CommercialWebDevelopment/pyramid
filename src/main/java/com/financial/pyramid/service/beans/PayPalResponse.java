@@ -12,6 +12,7 @@ public class PayPalResponse {
     public String payKey;
     public String paymentExecStatus;
     public String status;
+    public String trackingId;
     public List<Error> error;
 
     public class ResponseEnvelope {

@@ -57,7 +57,11 @@ public class PayPalServiceImpl implements PayPalService {
         String url = PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_notify-synch&tx=" + transactionId + "&at=" + token;
         try {
             List<String> response = HTTPClient.sendRequest(url);
+            PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
             result = response.toString().contains("COMPLETED") && response.toString().contains("SUCCESS");
+            if (result) {
+                operationsService.update(payPalResponse.trackingId, result);
+            }
         } catch (Exception e) {
             throw new PayPalException(e.getMessage());
         }
@@ -66,15 +70,19 @@ public class PayPalServiceImpl implements PayPalService {
 
     @Override
     public boolean isTransactionCompleted(String uid, String type) throws PayPalException {
-        PayPalResponse payPalResponse;
+        boolean result = false;
         try {
             String url = PayPal.getPaymentDetailsUrl(uid, type);
             List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
-            payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
+            PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
+            result = payPalResponse.status != null && payPalResponse.status.equals("COMPLETED");
+            if (result) {
+                operationsService.update(payPalResponse.trackingId, result);
+            }
         } catch (Exception e) {
             throw new PayPalException(e.getMessage());
         }
-        return payPalResponse.status != null && payPalResponse.status.equals("COMPLETED");
+        return result;
     }
 
     private PayPalResponse processPayPalRequest(PayPalDetails payPalDetails, boolean isPurchasePayment) {
