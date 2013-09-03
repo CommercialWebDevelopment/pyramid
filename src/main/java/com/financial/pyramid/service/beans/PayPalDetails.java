@@ -22,6 +22,7 @@ public class PayPalDetails {
     public String amount;
     public String receiverEmail;
     public String globalId;
+    public String currencySign;
 
     public String getActionType() {
         return actionType;
@@ -133,5 +134,13 @@ public class PayPalDetails {
 
     public void setGlobalId(String globalId) {
         this.globalId = globalId;
+    }
+
+    public String getCurrencySign() {
+        return currencySign;
+    }
+
+    public void setCurrencySign(String currencySign) {
+        this.currencySign = currencySign;
     }
 }

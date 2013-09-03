@@ -16,7 +16,7 @@ public class PayPal {
         return PayPalPropeties.PAY_PAL_ADAPTIVE_PAYMENT_URL
                 + "?actionType=" + PayPalPropeties.PAY_PAL_ACTION_TYPE
                 + "&cancelUrl=" + details.cancelUrl
-                + "&currencyCode=" + PayPalPropeties.PAY_PAL_CURRENCY
+                + "&currencyCode=" + details.currencyCode
                 + "&receiverList.receiver(0).amount=" + details.receiverList.get(0).amount
                 + "&receiverList.receiver(0).email=" + details.receiverList.get(0).email
                 + "&receiverList.receiver(0).primary=" + details.receiverList.get(0).primary
@@ -33,7 +33,7 @@ public class PayPal {
         return PayPalPropeties.PAY_PAL_ADAPTIVE_PAYMENT_URL
                 + "?actionType=" + PayPalPropeties.PAY_PAL_ACTION_TYPE
                 + "&cancelUrl=" + details.cancelUrl
-                + "&currencyCode=" + PayPalPropeties.PAY_PAL_CURRENCY
+                + "&currencyCode=" + details.currencyCode
                 + "&receiverList.receiver(0).amount=" + details.receiverList.get(0).amount
                 + "&receiverList.receiver(0).email=" + details.receiverList.get(0).email
                 + "&receiverList.receiver(0).primary=" + details.receiverList.get(0).primary

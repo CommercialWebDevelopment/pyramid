@@ -55,6 +55,7 @@ public class PayPalController extends AbstractController {
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
+        details.currencySign = settingsService.getProperty(Setting.CASH_SIGN);
         Double totalPrice = Double.valueOf(officePrice) + Double.valueOf(applicationPrice);
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/buyOfficeAndApp";
@@ -83,6 +84,7 @@ public class PayPalController extends AbstractController {
         payPalService.updatePayPalDetails(details);
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
+        details.currencySign = settingsService.getProperty(Setting.CASH_SIGN);
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/payOfficeAndApp";
         details.returnUrl = applicationURL + "/paypal/success";
@@ -108,6 +110,7 @@ public class PayPalController extends AbstractController {
         payPalService.updatePayPalDetails(details);
         String maxAllowedAmount = settingsService.getProperty(Setting.MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY);
         String applicationURL = settingsService.getProperty(Setting.APPLICATION_URL);
+        details.currencySign = settingsService.getProperty(Setting.CASH_SIGN);
         details.senderEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.amount = "0.00";
         details.cancelUrl = applicationURL + "/paypal/sendMoney";

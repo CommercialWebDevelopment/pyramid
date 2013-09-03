@@ -10,7 +10,7 @@ public class PayPalPropeties {
     public static String PAY_PAL_PAYMENT_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
     public static String PAY_PAL_ADAPTIVE_PAYMENT_URL = "https://svcs.sandbox.paypal.com/AdaptivePayments/Pay";
     public static String PAY_PAL_PAYMENT_DETAILS_URL = "https://svcs.sandbox.paypal.com/AdaptivePayments/PaymentDetails";
-    public static String PAY_PAL_CURRENCY = "USD";
+    public static String PAY_PAL_CURRENCY = "EUR";
     public static String PAY_PAL_ACTION_TYPE = "PAY";
     public static String PAY_PAL_CANCEL_URL = "http://localhost:8080/pyramid/office";
     public static String PAY_PAL_NOTIFY_URL = "http://localhost:8080/paypal/notify";

@@ -12,6 +12,7 @@ public class Setting {
     public static String APPLICATION_PRICE = "appPrice";
     public static String MAX_ALLOWED_TRANSFER_AMOUNT_PER_DAY = "maxAllowedAmount";
     public static String APPLICATION_URL = "applicationURL";
+    public static String CASH_SIGN = "cashSymbol";
 
     public static String PAY_PAL_LOGIN = "PAY_PAL_LOGIN";
 
@@ -28,6 +29,7 @@ public class Setting {
     public static String PAY_PAL_API_SIGNATURE = "pay_pal_api_signature";
     public static String PAY_PAL_API_APPLICATION_ID = "pay_pal_application_id";
     public static String PAY_PAL_API_TOKEN = "pay_pal_api_token";
+    public static String PAY_PAL_CURRENCY = "pay_pal_currency";
 
     public static String COUNT_LEVEL_IN_USER_TREE = "countLevelInUserTree";
 }

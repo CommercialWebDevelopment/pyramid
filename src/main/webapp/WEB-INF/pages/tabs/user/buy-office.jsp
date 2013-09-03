@@ -29,7 +29,7 @@
         <input type="hidden" name="memo" value=""/>
 
         <div class="span11 text-center">
-            <spring:message code="privateOfficeAndAppPrice"/><b> $${payPalDetails.amount}</b>
+            <spring:message code="privateOfficeAndAppPrice"/><b> ${payPalDetails.currencySign}${payPalDetails.amount}</b>
         </div>
         <div class="span11 text-center">
             <div class="control-group">

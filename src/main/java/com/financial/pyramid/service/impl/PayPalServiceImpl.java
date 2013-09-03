@@ -93,6 +93,7 @@ public class PayPalServiceImpl implements PayPalService {
 
     @Override
     public void updatePayPalDetails(PayPalDetails details) {
+        details.currencyCode = configurationService.getParameter(Setting.PAY_PAL_CURRENCY);
         details.actionType = details.actionType == null ? PayPalPropeties.PAY_PAL_ACTION_TYPE : details.actionType;
         details.returnUrl = details.returnUrl == null ? PayPalPropeties.PAY_PAL_RETURN_URL : details.returnUrl;
         details.cancelUrl = details.cancelUrl == null ? PayPalPropeties.PAY_PAL_CANCEL_URL : details.cancelUrl;

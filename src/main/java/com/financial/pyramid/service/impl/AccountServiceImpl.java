@@ -40,6 +40,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deactivate(Account account) {
         account.setLocked(true);
+        account.setDateActivated(null);
+        account.setDateExpired(null);
         update(account);
     }
 

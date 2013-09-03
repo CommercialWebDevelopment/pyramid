@@ -45,4 +45,12 @@ public class TestController extends AbstractController {
         return "Done";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/block", method = RequestMethod.GET)
+    public String blockTest(ModelMap model) {
+        User currentUser = Session.getCurrentUser();
+        Account account = userService.getAccount(currentUser);
+        accountService.deactivate(account);
+        return "Done";
+    }
 }

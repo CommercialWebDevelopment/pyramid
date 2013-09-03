@@ -60,7 +60,7 @@
 
         <div class="span11 text-center">
             <spring:message code="maxAllowedTransferSum"/>
-            <b>&nbsp;$${maxAllowedAmount}&nbsp;</b>
+            <b>&nbsp;${payPalDetails.currencySign}${maxAllowedAmount}&nbsp;</b>
             <spring:message code="perDay"/>
         </div>
         <div class="span11 text-center">
