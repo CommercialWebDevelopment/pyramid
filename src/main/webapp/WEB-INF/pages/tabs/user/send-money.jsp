@@ -40,7 +40,7 @@
 <c:if test="${param.error != null && param.error == 'not_allowed_to_be_transferred'}">
     <div class="alert alert-error alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code='transferAllowedSum' arguments="${param.transfer_sum}"/></strong>
+        <strong><spring:message code='transferAllowedSum' arguments="${payPalDetails.currencySign}${param.transfer_sum}"/></strong>
     </div>
 </c:if>
 <c:if test="${param.error != null && param.error == 'not_enough_money'}">
