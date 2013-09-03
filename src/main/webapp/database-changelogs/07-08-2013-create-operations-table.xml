@@ -29,4 +29,11 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="CREATE-OPERATIONS-TABLE-INDEX" author="Dmitry">
+        <sql>
+            ALTER TABLE `operations`
+            ADD INDEX `operation_global_id_index` (`global_id`);
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
