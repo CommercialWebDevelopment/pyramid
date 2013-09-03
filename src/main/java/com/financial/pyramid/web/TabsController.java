@@ -14,8 +14,6 @@ import com.financial.pyramid.web.form.PageForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.tree.BinaryTreeWidget;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,12 +88,12 @@ public class TabsController extends AbstractController {
         if (authentication.getPrincipal() instanceof UserDetails) {
             User user = (User) authentication.getDetails();
             AccountDetails accountDetails = userService.getAccountDetails(user);
-
+            boolean addEnabled = accountDetails.getDaysLeft() != null && accountDetails.getDaysLeft() >= 0;
             BinaryTree tree = userService.getBinaryTree(user);
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"));
             widget.setInfoText(localizationService.translate("user.info"));
-            widget.setAddEnabled(accountDetails.getDaysLeft() >= 0);
+            widget.setAddEnabled(addEnabled);
             widget.initTree(tree);
 
             while (tree != null) {
@@ -114,8 +109,8 @@ public class TabsController extends AbstractController {
                 }
             }
             model.addAttribute("currencySign", settingsService.getProperty(Setting.CASH_SIGN));
-            model.addAttribute("daysLeft", accountDetails.getDaysLeft());
-            model.addAttribute("monthDays", accountDetails.getDaysMonth());
+            model.addAttribute("daysLeft", accountDetails.getDaysLeft() != null ? accountDetails.getDaysLeft() : -1);
+            model.addAttribute("monthDays", accountDetails.getDaysMonth() != null ? accountDetails.getDaysMonth() : -1);
             model.addAttribute("earningsSum", accountDetails.getEarningsSum());
             model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());

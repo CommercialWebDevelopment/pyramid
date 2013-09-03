@@ -6,24 +6,24 @@ package com.financial.pyramid.service.beans;
  * Time: 21:42
  */
 public class AccountDetails {
-    private int daysLeft = 0;
-    private int daysMonth = 0;
-    private double earningsSum = 0;
+    private Integer daysLeft;
+    private Integer daysMonth;
+    private double earningsSum;
 
-    public int getDaysMonth() {
-        return daysMonth;
-    }
-
-    public void setDaysMonth(int daysMonth) {
-        this.daysMonth = daysMonth;
-    }
-
-    public int getDaysLeft() {
+    public Integer getDaysLeft() {
         return daysLeft;
     }
 
-    public void setDaysLeft(int daysLeft) {
+    public void setDaysLeft(Integer daysLeft) {
         this.daysLeft = daysLeft;
+    }
+
+    public Integer getDaysMonth() {
+        return daysMonth;
+    }
+
+    public void setDaysMonth(Integer daysMonth) {
+        this.daysMonth = daysMonth;
     }
 
     public double getEarningsSum() {

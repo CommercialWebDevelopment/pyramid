@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="daysLeft"><%=request.getAttribute("daysLeft")%>
-</c:set>
+<c:set var="daysLeft"><%=request.getAttribute("daysLeft")%></c:set>
 <div><b><spring:message code="privateOfficeSum"/></b></div>
 <div class="sum"><%=request.getAttribute("currencySign")%><%=request.getAttribute("earningsSum")%>
 </div>
