@@ -51,7 +51,7 @@ public class PayPalServiceImpl implements PayPalService {
 
     @Override
     public boolean processTransfer(PayPalDetails details) throws PayPalException {
-        logger.info("Process transfer operation to PayPal from user" + Session.getCurrentUser().getId());
+        logger.info("Process transfer operation to PayPal from user " + Session.getCurrentUser().getId());
         PayPalResponse payPalResponse = processPayPalRequest(details, false);
         logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " transaction " + payPalResponse.trackingId + ". Checking status...");
         return isTransactionCompleted(payPalResponse.payKey, PayPalPropeties.PAY_PAL_PAY_KEY);
