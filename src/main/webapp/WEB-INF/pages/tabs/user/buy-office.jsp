@@ -38,7 +38,7 @@
 
                 <div class="controls">
                     <div class="input-prepend">
-                        <span class="add-on"><b>@</b></span>
+                        <span class="add-on">@</span>
                         <input class="span12" id="emailField" type="text" name="senderEmail">
                     </div>
                 </div>

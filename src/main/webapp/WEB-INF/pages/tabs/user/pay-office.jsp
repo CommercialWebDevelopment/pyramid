@@ -33,7 +33,7 @@
         <input type="hidden" name="memo" value=""/>
 
         <div class="span11 text-center">
-            <spring:message code="privateOfficePrice"/><b> $${payPalDetails.amount}</b>
+            <spring:message code="privateOfficePrice"/><b> ${payPalDetails.currencySign}${payPalDetails.amount}</b>
         </div>
         <div class="span11 text-center">
             <div class="control-group">
@@ -42,7 +42,7 @@
 
                 <div class="controls">
                     <div class="input-prepend">
-                        <span class="add-on"><b>@</b></span>
+                        <span class="add-on">@</span>
                         <input class="span12" id="emailField" type="text" name="senderEmail">
                     </div>
                 </div>

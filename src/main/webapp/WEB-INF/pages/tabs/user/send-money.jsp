@@ -69,7 +69,7 @@
 
                 <div class="controls">
                     <div class="input-prepend">
-                        <span class="add-on"><b>@</b></span>
+                        <span class="add-on">@</span>
                         <input class="span12" type="text" id="emailField" name="receiverEmail"
                                value="${payPalDetails.receiverEmail}"
                                onkeyup="Form.validateEMailField(this, value)">
@@ -83,7 +83,7 @@
 
                 <div class="controls">
                     <div class="input-prepend">
-                        <span class="add-on"><b>$</b></span>
+                        <span class="add-on">${payPalDetails.currencySign}</span>
                         <input class="span12" type="text" id="amountField" name="amount"
                                value="${payPalDetails.amount}" onkeyup="Form.validateFloatField(this, value)">
                     </div>
