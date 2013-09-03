@@ -160,8 +160,9 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String success(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "tx") String transactionId) {
-        if (transactionId != null && !transactionId.isEmpty()) {
+    public String success(RedirectAttributes redirectAttributes, ModelMap model,
+                          @RequestParam(value = "tx", defaultValue = "null") String transactionId) {
+        if (transactionId != null && !transactionId.isEmpty() && !transactionId.equals("null")) {
             boolean completed = payPalService.isTransactionCompleted(transactionId);
             if (completed) {
                 userService.activateUserAccount(Session.getCurrentUser());
