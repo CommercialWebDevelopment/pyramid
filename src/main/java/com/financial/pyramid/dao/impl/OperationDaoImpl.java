@@ -35,7 +35,7 @@ public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implement
 
     @Override
     public void updateStatus(String trackingId, boolean status) {
-        String queryStr = "update Operation o set o.completed=:status where o.globalId=:globalId";
+        String queryStr = "update Operation o set o.complete=:status where o.globalId=:globalId";
         Query query = super.createQuery(queryStr)
                 .setParameter("status", status)
                 .setParameter("globalId", trackingId);
@@ -49,6 +49,7 @@ public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implement
         String queryStr = "select sum(o.amount) from Operation o" +
                 " where o.date > :dayStart and o.date < :dayEnd" +
                 " and o.success = true" +
+                " and o.complete = true" +
                 " and o.userId = :userId";
         Query query = super.createQuery(queryStr)
                 .setParameter("dayStart", date)
