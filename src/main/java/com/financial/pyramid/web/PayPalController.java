@@ -59,6 +59,7 @@ public class PayPalController extends AbstractController {
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/buyOfficeAndApp";
         details.returnUrl = applicationURL + "/paypal/success";
+        details.notifyUrl = applicationURL + "/paypal/notify";
         details.amount = totalPrice.toString();
         model.addAttribute("payPalDetails", details);
         return "tabs/user/buy-office";
@@ -87,6 +88,7 @@ public class PayPalController extends AbstractController {
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/buyOffice";
         details.returnUrl = applicationURL + "/paypal/success";
+        details.notifyUrl = applicationURL + "/paypal/notify";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
         return "tabs/user/pay-office";
@@ -174,5 +176,17 @@ public class PayPalController extends AbstractController {
             }
         }
         return "redirect:/pyramid/office";
+    }
+
+    @RequestMapping(value = "/notify", method = RequestMethod.POST)
+    public void notify(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "txn_id") String transactionId) {
+        if (transactionId != null && !transactionId.isEmpty()) {
+            logger.info("IPN notification for transaction " + transactionId + " has been received from PayPal");
+            boolean completed = payPalService.isTransactionCompleted(transactionId);
+            logger.info("Transaction " + transactionId + " has been validated (" + completed + ")");
+            if (completed) {
+                userService.activateUserAccount(Session.getCurrentUser());
+            }
+        }
     }
 }

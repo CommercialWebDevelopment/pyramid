@@ -25,6 +25,7 @@
         <legend><spring:message code="privateOfficeAndAppBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
+        <input type="hidden" name="notifyUrl" value="${payPalDetails.notifyUrl}"/>
         <input type="hidden" name="receiverEmail" value="${payPalDetails.receiverEmail}"/>
         <input type="hidden" name="memo" value=""/>
 

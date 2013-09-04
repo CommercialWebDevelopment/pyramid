@@ -63,10 +63,10 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = userDao.findById(id);
         User parent = findParent(id);
-        if(parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
+        if (parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
             parent.setLeftChild(null);
         }
-        if(parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
+        if (parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
             parent.setRightChild(null);
         }
         userDao.saveOrUpdate(parent);
@@ -232,7 +232,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void activateUserAccount(User user) {
         Account account = getAccount(user);
-        accountService.activate(account);
+        if (account.isLocked()) {
+            accountService.activate(account);
+        }
     }
 
     public User findParent(Long userId) {

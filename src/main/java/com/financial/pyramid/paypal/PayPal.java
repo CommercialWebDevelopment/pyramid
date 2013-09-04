@@ -23,8 +23,7 @@ public class PayPal {
                 + "&senderEmail=" + details.senderEmail
                 + "&trackingId=" + details.globalId
                 + "&feesPayer=" + PayPalPropeties.PAY_PAL_FEES_PAYER
-//                + "&preapprovalKey=" + details.preApprovalKey
-                + "&memo=" + updateMemo(details.memo);
+                + "&memo=" + encodeMemo(details.memo);
     }
 
     public static String getPaymentUrl(PayPalDetails details) {
@@ -39,7 +38,8 @@ public class PayPal {
                 + "&requestEnvelope.detailLevel=ReturnAll"
                 + "&returnUrl=" + details.returnUrl
                 + "&trackingId=" + details.globalId
-                + "&memo=" + updateMemo(details.memo);
+                + "&ipnNotificationUrl=" + details.notifyUrl
+                + "&memo=" + encodeMemo(details.memo);
     }
 
     public static String getPaymentDetailsUrl(String uid, String type) {
@@ -68,7 +68,7 @@ public class PayPal {
         return MD5Encoder.encode(details.senderEmail + details.receiverEmail + details.amount + new DateTime());
     }
 
-    public static String updateMemo(String memo) {
+    public static String encodeMemo(String memo) {
         return (memo != null && !memo.isEmpty()) ? memo.replaceAll(" ", "%20") : "";
     }
 }

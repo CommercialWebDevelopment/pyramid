@@ -118,6 +118,7 @@ public class PayPalServiceImpl implements PayPalService {
         details.actionType = details.actionType == null ? PayPalPropeties.PAY_PAL_ACTION_TYPE : details.actionType;
         details.returnUrl = details.returnUrl == null ? PayPalPropeties.PAY_PAL_RETURN_URL : details.returnUrl;
         details.cancelUrl = details.cancelUrl == null ? PayPalPropeties.PAY_PAL_CANCEL_URL : details.cancelUrl;
+        details.notifyUrl = details.notifyUrl == null ? PayPalPropeties.PAY_PAL_NOTIFY_URL : details.notifyUrl;
         details.currencyCode = details.currencyCode == null ? PayPalPropeties.PAY_PAL_CURRENCY : details.currencyCode;
         details.feesPayer = details.feesPayer == null ? PayPalPropeties.PAY_PAL_FEES_PAYER : details.feesPayer;
         details.globalId = PayPal.generateTransactionUID(details);
