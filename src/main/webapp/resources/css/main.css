@@ -280,6 +280,7 @@ body > #page-wrap {
 }
 
 #reports-container {
+    width: 220px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
