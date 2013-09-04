@@ -85,7 +85,7 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         details.currencySign = settingsService.getProperty(Setting.CASH_SIGN);
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
-        details.cancelUrl = applicationURL + "/paypal/payOfficeAndApp";
+        details.cancelUrl = applicationURL + "/paypal/buyOffice";
         details.returnUrl = applicationURL + "/paypal/success";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);

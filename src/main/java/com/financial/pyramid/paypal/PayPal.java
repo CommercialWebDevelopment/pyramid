@@ -4,8 +4,6 @@ import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.utils.MD5Encoder;
 import org.joda.time.DateTime;
 
-import java.util.List;
-
 /**
  * User: dbudunov
  * Date: 02.09.13
@@ -26,7 +24,7 @@ public class PayPal {
                 + "&trackingId=" + details.globalId
                 + "&feesPayer=" + PayPalPropeties.PAY_PAL_FEES_PAYER
                 + "&preapprovalKey=" + (details.preApprovalKey != null ? details.preApprovalKey : "")
-                + "&memo=" + details.memo;
+                + "&memo=" + updateMemo(details.memo);
     }
 
     public static String getPaymentUrl(PayPalDetails details) {
@@ -41,7 +39,7 @@ public class PayPal {
                 + "&requestEnvelope.detailLevel=ReturnAll"
                 + "&returnUrl=" + details.returnUrl
                 + "&trackingId=" + details.globalId
-                + "&memo=" + details.memo;
+                + "&memo=" + updateMemo(details.memo);
     }
 
     public static String getPaymentDetailsUrl(String uid, String type) {
@@ -70,4 +68,7 @@ public class PayPal {
         return MD5Encoder.encode(details.senderEmail + details.receiverEmail + details.amount + new DateTime());
     }
 
+    public static String updateMemo(String memo) {
+        return (memo != null && !memo.isEmpty()) ? memo.replaceAll(" ", "%20") : "";
+    }
 }
