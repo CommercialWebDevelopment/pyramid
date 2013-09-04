@@ -1,7 +1,7 @@
 <script type="text/javascript">
     <%@ include file="/resources/javascript/reports.js" %>
 </script>
-<div class="span11" id="reports-container">
+<div class="span12" id="reports-container">
     <div id="placeholder" class="reportViewer"></div>
 </div>
 <div class="pagination pagination-centered pagination-mini">

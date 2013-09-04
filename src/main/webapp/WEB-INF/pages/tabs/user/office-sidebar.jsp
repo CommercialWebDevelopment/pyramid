@@ -10,13 +10,13 @@
 <div><b><spring:message code="privateOfficeActivation"/></b></div>
 <c:if test="${daysLeft >= 0}">
     <div style="color:#008000"><b><spring:message code="privateOfficeActivated"/></b></div>
-    <div id="bar" class="bar-graph" style="width: 207px">
+    <div id="bar" class="bar-graph">
         <%
             int barWidth = 0;
             int countDays = (Integer) request.getAttribute("monthDays");
             int leftDays = (Integer) request.getAttribute("daysLeft");
             if (countDays > 0) {
-                barWidth = leftDays * 207 / countDays;
+                barWidth = leftDays * 220 / countDays;
             }
             Integer[] cases = new Integer[6];
             cases[0] = 2;

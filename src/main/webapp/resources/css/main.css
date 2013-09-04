@@ -271,7 +271,6 @@ body > #page-wrap {
 .bar-graph-normal {
     height: 14px;
     overflow: hidden;
-    max-width: 207px;
     background: #348dd3;
 }
 
@@ -286,7 +285,7 @@ body > #page-wrap {
 }
 
 .office-menu-item {
-    width:100%;
+    width: 100%;
     text-align: left;
 }
 
@@ -316,4 +315,14 @@ body > #page-wrap {
     height: 589px;
     overflow: auto;
     padding: 10px
+}
+
+#bar {
+    width: 220px;
+}
+
+#sidebar {
+    width: 225px;
+    float: left;
+    padding-left: 20px;
 }

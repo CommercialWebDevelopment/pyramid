@@ -6,10 +6,10 @@
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
 <div class="row-fluid">
     <div class="span12">
-        <div id="treeContainer" class="span9" align="center">
+        <div id="treeContainer" class="span8" align="center">
             <%=request.getAttribute("userBinaryTree")%>
         </div>
-        <div id="sidebar" class="span3">
+        <div id="sidebar">
             <%@include file="office-sidebar.jsp"%>
         </div>
     </div>
