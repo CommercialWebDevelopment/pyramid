@@ -1,5 +1,6 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.paypal.PayPalPropeties;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
@@ -179,11 +180,12 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)
-    public void notify(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "txn_id") String transactionId) {
-        if (transactionId != null && !transactionId.isEmpty()) {
-            logger.info("IPN notification for transaction " + transactionId + " has been received from PayPal");
-            boolean completed = payPalService.isTransactionCompleted(transactionId);
-            logger.info("Transaction " + transactionId + " has been validated (" + completed + ")");
+    public void notify(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "trackingId") String trackingId) {
+        logger.info("Notification messages listener has been invoked...");
+        if (trackingId != null && !trackingId.isEmpty()) {
+            logger.info("IPN notification for transaction " + trackingId + " has been received from PayPal");
+            boolean completed = payPalService.isTransactionCompleted(trackingId, PayPalPropeties.PAY_PAL_TRACKING_ID);
+            logger.info("Transaction " + trackingId + " has been validated (" + completed + ")");
             if (completed) {
                 userService.activateUserAccount(Session.getCurrentUser());
             }
