@@ -23,7 +23,7 @@ public class PayPal {
                 + "&senderEmail=" + details.senderEmail
                 + "&trackingId=" + details.globalId
                 + "&feesPayer=" + PayPalPropeties.PAY_PAL_FEES_PAYER
-                + "&preapprovalKey=" + (details.preApprovalKey != null ? details.preApprovalKey : "")
+                + "&preapprovalKey=" + details.preApprovalKey
                 + "&memo=" + updateMemo(details.memo);
     }
 

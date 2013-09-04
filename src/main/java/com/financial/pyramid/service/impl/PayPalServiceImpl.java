@@ -45,7 +45,7 @@ public class PayPalServiceImpl implements PayPalService {
     public String processPayment(PayPalDetails payPalDetails) throws PayPalException {
         logger.info("Process payment operation to PayPal from user " + Session.getCurrentUser().getId());
         PayPalResponse payPalResponse = processPayPalRequest(payPalDetails, true);
-        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " transaction " + payPalResponse.trackingId + ". Redirecting to PayPal...");
+        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " payment key " + payPalResponse.payKey + ". Redirecting to PayPal...");
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;
     }
 
@@ -53,7 +53,7 @@ public class PayPalServiceImpl implements PayPalService {
     public boolean processTransfer(PayPalDetails details) throws PayPalException {
         logger.info("Process transfer operation to PayPal from user " + Session.getCurrentUser().getId());
         PayPalResponse payPalResponse = processPayPalRequest(details, false);
-        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " transaction " + payPalResponse.trackingId + ". Checking status...");
+        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " payment key " + payPalResponse.payKey + ". Checking status...");
         return isTransactionCompleted(payPalResponse.payKey, PayPalPropeties.PAY_PAL_PAY_KEY);
     }
 
