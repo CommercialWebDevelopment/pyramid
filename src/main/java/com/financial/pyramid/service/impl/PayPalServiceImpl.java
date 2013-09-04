@@ -65,7 +65,7 @@ public class PayPalServiceImpl implements PayPalService {
         try {
             List<String> response = HTTPClient.sendRequest(url);
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
-            result = response.toString().contains("Completed") && response.toString().contains("Success");
+            result = isCompletePayment(response.toString());
             logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUser().getId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
@@ -85,7 +85,7 @@ public class PayPalServiceImpl implements PayPalService {
             String url = PayPal.getPaymentDetailsUrl(uid, type);
             List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
-            result = payPalResponse.status != null && payPalResponse.status.equals("Completed");
+            result = isCompletePayment(payPalResponse.status);
             logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUser().getId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
@@ -174,11 +174,11 @@ public class PayPalServiceImpl implements PayPalService {
         return headers;
     }
 
-    public boolean isSuccessfulPayment(String response) {
-        return response.contains("Success") || response.equals("Success");
+    public boolean isCompletePayment(String response) {
+        return response != null && !response.isEmpty() && response.toUpperCase().contains("COMPLETED");
     }
 
-    public boolean isSuccessfulPayment(List<String> response) {
-        return response.toString().contains("Success") || response.toString().equals("Success");
+    public boolean isSuccessfulPayment(String response) {
+        return response != null && !response.isEmpty() && response.toUpperCase().contains("SUCCESS");
     }
 }
