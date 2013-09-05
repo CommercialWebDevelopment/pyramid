@@ -62,6 +62,12 @@ public class PayPalServiceImpl implements PayPalService {
     public boolean verifyNotification(Map<String, String> params) throws PayPalException {
         boolean result = false;
         logger.info("Process verification to PayPal...");
+        String transactionId = params.get("txn_id");
+        Operation operation = operationsService.findByTransactionId(transactionId);
+        if (operation != null && operation.isComplete()) {
+            logger.info("Notification with transaction " + transactionId + " is already verified");
+            return false;
+        }
         String url = PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_notify-validate";
         try {
             List<Pair<String, String>> requestParams = new ArrayList<Pair<String, String>>();
@@ -71,7 +77,6 @@ public class PayPalServiceImpl implements PayPalService {
             List<String> response = HTTPClient.sendRequest(url, requestParams);
             result = isVerifiedPayment(response.get(0));
             if (result) {
-                String transactionId = params.get("txn_id");
                 isTransactionCompleted(transactionId, PayPalPropeties.PAY_PAL_TRANSACTION);
             }
         } catch (Exception e) {

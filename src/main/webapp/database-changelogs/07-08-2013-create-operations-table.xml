@@ -36,4 +36,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="ADD-TRANSACTION-ID-COLUMN" author="Dmitry">
+        <addColumn tableName="operations">
+            <column name="transactionId" type="VARCHAR(250)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

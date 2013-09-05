@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface OperationDao extends AbstractDao<Operation, Long> {
     public List<Operation> findByQuery(QueryForm form);
+    public Operation findByTransactionId(String transactionId);
     public Double getTransferredAmount(Date date, Long userId);
     public void updateStatus(String trackingId, boolean status);
 }

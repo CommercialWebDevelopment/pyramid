@@ -44,25 +44,6 @@ public class Account extends AbstractEntity implements Serializable {
     @OrderBy("created")
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Account)) return false;
-        Account account = (Account) o;
-        if (earningsSum != null ? !earningsSum.equals(account.earningsSum) : account.earningsSum != null) return false;
-        if (dateExpired != null ? !dateExpired.equals(account.dateExpired) : account.dateExpired != null) return false;
-        if (dateActivated != null ? !dateActivated.equals(account.dateActivated) : account.dateActivated != null) return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = earningsSum != null ? earningsSum.hashCode() : 0;
-        result = 31 * result + (dateExpired != null ? dateExpired.hashCode() : 0);
-        result = 31 * result + (dateActivated != null ? dateActivated.hashCode() : 0);
-        return result;
-    }
-
     @Transient
     public void writeOFF(Long count) {
         this.balance -= count;

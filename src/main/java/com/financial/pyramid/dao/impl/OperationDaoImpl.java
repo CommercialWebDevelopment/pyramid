@@ -5,7 +5,9 @@ import com.financial.pyramid.domain.Operation;
 import com.financial.pyramid.web.form.QueryForm;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +33,12 @@ public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implement
                 .setFirstResult((form.page - 1) * form.count)
                 .setMaxResults(form.count);
         return (List<Operation>) criteria.list();
+    }
+
+    @Override
+    public Operation findByTransactionId(String transactionId) {
+        List<Operation> operations = findByCriteria(Restrictions.eq("transactionId", transactionId));
+        return operations.size() == 0 ? null : operations.get(0);
     }
 
     @Override

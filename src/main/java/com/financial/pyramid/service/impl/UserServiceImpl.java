@@ -220,6 +220,9 @@ public class UserServiceImpl implements UserService {
             calendar.set(Calendar.MILLISECOND, 0);
             accountDetails.setDaysLeft(Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays());
         }
+        if (accountDetails.getDaysLeft() < 0 && !user.getAccount().isLocked()) {
+            accountService.deactivate(user.getAccount());
+        }
         return accountDetails;
     }
 

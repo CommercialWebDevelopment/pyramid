@@ -29,6 +29,11 @@ public class OperationsServiceImpl implements OperationsService {
     }
 
     @Override
+    public Operation findByTransactionId(String transactionId) {
+        return operationDao.findByTransactionId(transactionId);
+    }
+
+    @Override
     public List<Operation> get(QueryForm queryForm) {
         return operationDao.findByQuery(queryForm);
     }

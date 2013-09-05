@@ -50,6 +50,9 @@ public class Operation extends AbstractEntity {
     @Column(name = "complete", nullable = false)
     public boolean complete;
 
+    @Column(name="transactionId", nullable = true)
+    public String transactionId;
+
     public String getType() {
         return type;
     }
@@ -144,5 +147,13 @@ public class Operation extends AbstractEntity {
 
     public void setComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 }
