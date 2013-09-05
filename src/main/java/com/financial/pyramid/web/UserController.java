@@ -152,6 +152,7 @@ public class UserController extends AbstractController {
             Map map = new HashMap();
             map.put("username", user.getName());
             map.put("password", newPassword);
+            map.put("subject", localizationService.translate("passwordIsGenerated"));
             emailService.setTemplate("password-restore-template");
             result = emailService.sendEmail(user, map);
         }
@@ -232,6 +233,7 @@ public class UserController extends AbstractController {
         emailService.setTemplate("email-confirmation");
         Map map = new HashMap();
         map.put("name", current.getName());
+        map.put("subject", localizationService.translate("emailNeedsConfirmation"));
         emailService.sendEmail(current, map);
         model.addAttribute("emailConfirmed", true);
         return "redirect:/user/settings";

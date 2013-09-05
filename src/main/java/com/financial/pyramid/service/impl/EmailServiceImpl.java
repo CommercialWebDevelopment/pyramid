@@ -2,6 +2,7 @@ package com.financial.pyramid.service.impl;
 
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
+import com.financial.pyramid.service.LocalizationService;
 import com.financial.pyramid.service.validators.EmailValidator;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
@@ -35,6 +36,9 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private VelocityEngine velocityEngine;
 
+    @Autowired
+    private LocalizationService localizationService;
+
     private EmailValidator emailValidator = new EmailValidator();
 
     private String template;
@@ -42,6 +46,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public boolean sendEmail(User user, Map model) {
         try {
+            String projectName = localizationService.translate("projectName");
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
             helper.setTo(user.getEmail());
@@ -49,7 +54,9 @@ public class EmailServiceImpl implements EmailService {
                 throw new RuntimeException("Template is not set");
             }
             String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, this.template, "UTF-8", model);
+            String subject = model.get("subject").toString();
             helper.setText(text, true);
+            helper.setSubject(projectName + ": " + subject);
             this.mailSender.send(message);
         } catch (MailException ex) {
             logger.error(ex.getMessage());
@@ -76,6 +83,7 @@ public class EmailServiceImpl implements EmailService {
         model.put("name", name);
         model.put("uuid", uuid);
         model.put("email", email);
+        model.put("subject", localizationService.translate("invitationToBusiness"));
         setTemplate("invitation-template");
         return sendEmail(model);
     }
@@ -86,6 +94,7 @@ public class EmailServiceImpl implements EmailService {
         model.put("name", name);
         model.put("password", password);
         model.put("email", email);
+        model.put("subject", localizationService.translate("passwordIsReady"));
         setTemplate("password-template");
         return sendEmail(model);
     }
@@ -101,12 +110,15 @@ public class EmailServiceImpl implements EmailService {
 
     private boolean sendEmail(Map<String, Object> model) {
         try {
+            String projectName = localizationService.translate("projectName");
+            String subject = (String) model.get("subject");
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setTo((String)model.get("email"));
+            helper.setTo((String) model.get("email"));
             String text = VelocityEngineUtils.mergeTemplateIntoString(
                     velocityEngine, this.getTemplate(), "UTF-8", model);
             helper.setText(text, true);
+            helper.setSubject(projectName + ": " + subject);
             this.mailSender.send(message);
         } catch (MailException ex) {
             logger.error(ex.getMessage());
