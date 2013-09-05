@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="daysLeft"><%=request.getAttribute("daysLeft")%></c:set>
+<c:set var="daysLeft"><%=request.getAttribute("daysLeft")%>
+</c:set>
 <div><b><spring:message code="privateOfficeSum"/></b></div>
 <div class="sum"><%=request.getAttribute("currencySign")%><%=request.getAttribute("earningsSum")%>
 </div>
@@ -33,7 +34,7 @@
             }
         %>
         <c:set var="p" value="<%=position%>"/>
-        <div class="bar-graph-normal" style="width:<%=barWidth%>px"></div>
+        <div class="bar-graph-normal" style="width:<%=(barWidth > 220) ? 220 : barWidth%>px"></div>
     </div>
     <div class="text-center">
         <small>
