@@ -1,5 +1,6 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
@@ -188,11 +189,16 @@ public class PayPalController extends AbstractController {
             String value = request.getParameter(param);
             params.put(param, value);
         }
-        logger.info("IPN notification for transaction " + params.get("txn_id") + " has been received from PayPal");
-        boolean verified = payPalService.verifyPayment(params);
-        logger.info("Transaction " + params.get("txn_id") + " has been verified (" + verified + ")");
-        if (verified) {
-            userService.activateUserAccount(Session.getCurrentUser());
+        String transactionId = params.get("txn_id");
+        String payerEmail = params.get("payer_email");
+        logger.info("IPN notification for transaction " + transactionId + " has been received from PayPal");
+        if (transactionId != null) {
+            boolean verified = payPalService.verifyNotification(params);
+            logger.info("Transaction " + transactionId + " has been verified (" + verified + ")");
+            if (verified) {
+                User user = userService.findByEmail(payerEmail);
+                userService.activateUserAccount(user);
+            }
         }
     }
 }

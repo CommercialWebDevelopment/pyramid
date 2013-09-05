@@ -44,22 +44,22 @@ public class PayPalServiceImpl implements PayPalService {
 
     @Override
     public String processPayment(PayPalDetails payPalDetails) throws PayPalException {
-        logger.info("Process payment operation to PayPal from user " + Session.getCurrentUser().getId());
+        logger.info("Process payment operation to PayPal from user " + Session.getCurrentUserId());
         PayPalResponse payPalResponse = processPayPalRequest(payPalDetails, true);
-        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " payment key " + payPalResponse.payKey + ". Redirecting to PayPal...");
+        logger.info("Response received from PayPal for user " + Session.getCurrentUserId() + " payment key " + payPalResponse.payKey + ". Redirecting to PayPal...");
         return PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_ap-payment&paykey=" + payPalResponse.payKey;
     }
 
     @Override
     public boolean processTransfer(PayPalDetails details) throws PayPalException {
-        logger.info("Process transfer operation to PayPal from user " + Session.getCurrentUser().getId());
+        logger.info("Process transfer operation to PayPal from user " + Session.getCurrentUserId());
         PayPalResponse payPalResponse = processPayPalRequest(details, false);
-        logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " payment key " + payPalResponse.payKey + ". Checking status...");
+        logger.info("Response received from PayPal for user " + Session.getCurrentUserId() + " payment key " + payPalResponse.payKey + ". Checking status...");
         return isTransactionCompleted(payPalResponse.payKey, PayPalPropeties.PAY_PAL_PAY_KEY);
     }
 
     @Override
-    public boolean verifyPayment(Map<String, String> params) throws PayPalException {
+    public boolean verifyNotification(Map<String, String> params) throws PayPalException {
         boolean result = false;
         logger.info("Process verification to PayPal...");
         String url = PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_notify-validate";
@@ -72,7 +72,7 @@ public class PayPalServiceImpl implements PayPalService {
             result = isVerifiedPayment(response.get(0));
             if (result) {
                 String transactionId = params.get("txn_id");
-                isTransactionCompleted(transactionId);
+                isTransactionCompleted(transactionId, PayPalPropeties.PAY_PAL_TRANSACTION);
             }
         } catch (Exception e) {
             logger.error("Verification failed with error:" + e.getMessage());
@@ -91,12 +91,12 @@ public class PayPalServiceImpl implements PayPalService {
             List<String> response = HTTPClient.sendRequest(url);
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
             result = isCompletePayment(response.toString());
-            logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUser().getId());
+            logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUserId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
             }
         } catch (Exception e) {
-            logger.error("Transaction check for user " + Session.getCurrentUser().getId() + " failed with error: " + e.getMessage());
+            logger.error("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
             e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }
@@ -111,12 +111,12 @@ public class PayPalServiceImpl implements PayPalService {
             List<String> response = HTTPClient.sendRequestWithHeaders(url, getHeaders(), RequestMethod.GET.name());
             PayPalResponse payPalResponse = new Gson().fromJson(response.get(0), PayPalResponse.class);
             result = isCompletePayment(payPalResponse.status);
-            logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUser().getId());
+            logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUserId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
             }
         } catch (Exception e) {
-            logger.error("Transaction check for user " + Session.getCurrentUser().getId() + " failed with error: " + e.getMessage());
+            logger.error("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
             e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }

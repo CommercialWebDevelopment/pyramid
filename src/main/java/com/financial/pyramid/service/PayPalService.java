@@ -15,7 +15,7 @@ public interface PayPalService {
 
     public boolean processTransfer(PayPalDetails details) throws PayPalException;
 
-    public boolean verifyPayment(Map<String, String> params) throws PayPalException;
+    public boolean verifyNotification(Map<String, String> params) throws PayPalException;
 
     public boolean isTransactionCompleted(String transactionId) throws PayPalException;
 

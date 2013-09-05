@@ -17,8 +17,16 @@ public class Session {
     public static User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            return (User) authentication.getDetails();
+            if (authentication.getDetails() != null) {
+                if (!authentication.getPrincipal().equals("anonymousUser")) {
+                    return (User) authentication.getDetails();
+                }
+            }
         }
         return null;
+    }
+
+    public static Long getCurrentUserId() {
+        return getCurrentUser() != null ? getCurrentUser().getId() : null;
     }
 }
