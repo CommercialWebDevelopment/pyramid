@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: dbudunov
@@ -55,6 +56,30 @@ public class PayPalServiceImpl implements PayPalService {
         PayPalResponse payPalResponse = processPayPalRequest(details, false);
         logger.info("Response received from PayPal for user " + Session.getCurrentUser().getId() + " payment key " + payPalResponse.payKey + ". Checking status...");
         return isTransactionCompleted(payPalResponse.payKey, PayPalPropeties.PAY_PAL_PAY_KEY);
+    }
+
+    @Override
+    public boolean verifyPayment(Map<String, String> params) throws PayPalException {
+        boolean result = false;
+        logger.info("Process verification to PayPal...");
+        String url = PayPalPropeties.PAY_PAL_PAYMENT_URL + "?cmd=_notify-validate";
+        try {
+            List<Pair<String, String>> requestParams = new ArrayList<Pair<String, String>>();
+            for (Map.Entry entry : params.entrySet()) {
+                requestParams.add(new Pair<String, String>(entry.getKey().toString(), entry.getValue().toString()));
+            }
+            List<String> response = HTTPClient.sendRequest(url, requestParams);
+            result = isVerifiedPayment(response.get(0));
+            if (result) {
+                String transactionId = params.get("txn_id");
+                isTransactionCompleted(transactionId);
+            }
+        } catch (Exception e) {
+            logger.error("Verification failed with error:" + e.getMessage());
+            e.printStackTrace();
+            throw new PayPalException(e.getMessage());
+        }
+        return result;
     }
 
     @Override
@@ -173,6 +198,10 @@ public class PayPalServiceImpl implements PayPalService {
         headers.add(new Pair<String, String>("X-PAYPAL-RESPONSE-DATA-FORMAT", "JSON"));
         headers.add(new Pair<String, String>("X-PAYPAL-APPLICATION-ID", applicationId));
         return headers;
+    }
+
+    public boolean isVerifiedPayment(String response) {
+        return response != null && !response.isEmpty() && response.toUpperCase().contains("VERIFIED");
     }
 
     public boolean isCompletePayment(String response) {

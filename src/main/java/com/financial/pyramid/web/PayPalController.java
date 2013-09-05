@@ -1,6 +1,5 @@
 package com.financial.pyramid.web;
 
-import com.financial.pyramid.paypal.PayPalPropeties;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * User: dbudunov
@@ -180,15 +179,20 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)
-    public void notify(RedirectAttributes redirectAttributes, ModelMap model, @RequestParam(value = "trackingId") String trackingId) {
+    public void notify(HttpServletRequest request) {
         logger.info("Notification messages listener has been invoked...");
-        if (trackingId != null && !trackingId.isEmpty()) {
-            logger.info("IPN notification for transaction " + trackingId + " has been received from PayPal");
-            boolean completed = payPalService.isTransactionCompleted(trackingId, PayPalPropeties.PAY_PAL_TRACKING_ID);
-            logger.info("Transaction " + trackingId + " has been validated (" + completed + ")");
-            if (completed) {
-                userService.activateUserAccount(Session.getCurrentUser());
-            }
+        Map<String, String> params = new HashMap<String, String>();
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String param = names.nextElement();
+            String value = request.getParameter(param);
+            params.put(param, value);
+        }
+        logger.info("IPN notification for transaction " + params.get("txn_id") + " has been received from PayPal");
+        boolean verified = payPalService.verifyPayment(params);
+        logger.info("Transaction " + params.get("txn_id") + " has been verified (" + verified + ")");
+        if (verified) {
+            userService.activateUserAccount(Session.getCurrentUser());
         }
     }
 }
