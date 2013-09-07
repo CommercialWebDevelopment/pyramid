@@ -152,8 +152,8 @@ $(document).ready(function () {
 
     var cropImage = $("#crop-image");
     var loadedImageSize = {
-        x: cropImage.width(),
-        y: cropImage.height()
+        x: 48,
+        y: 48
     };
     var avatar = $("#avatar");
     var avatarSRCDefault = avatar.attr("src");
@@ -232,6 +232,11 @@ $(document).ready(function () {
             y1: 0,
             x2: 48,
             y2: 48
+        };
+
+        loadedImageSize = {
+            x: 48,
+            y: 48
         };
 
         $("#user-image").val("");
