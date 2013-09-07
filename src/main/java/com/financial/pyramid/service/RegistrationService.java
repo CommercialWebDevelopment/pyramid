@@ -1,10 +1,8 @@
 package com.financial.pyramid.service;
 
-import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
+import com.financial.pyramid.service.exception.UserRegistrationException;
 import com.financial.pyramid.web.form.RegistrationForm;
-
-import java.text.ParseException;
 
 /**
  * User: Danil
@@ -13,5 +11,5 @@ import java.text.ParseException;
  */
 public interface RegistrationService {
 
-    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, SendingMailException, ParseException;
+    public boolean registration(RegistrationForm form) throws UserAlreadyExistsException, UserRegistrationException;
 }

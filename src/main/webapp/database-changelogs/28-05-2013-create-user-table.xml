@@ -67,6 +67,9 @@
             <column name="account_id" type="int">
                 <constraints nullable="false"/>
             </column>
+            <column name="photo" type="TEXT">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 

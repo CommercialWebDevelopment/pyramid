@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="daysLeft"><%=request.getAttribute("daysLeft")%></c:set>
 <div><b><spring:message code="privateOfficeSum"/></b></div>
-<div class="sum"><%=request.getAttribute("currencySign")%><%=request.getAttribute("earningsSum")%>
+<div class="sum"><%=request.getAttribute("currencySign")%><%=request.getAttribute("balance")%>
 </div>
 <div class="separator"></div>
 <div><b><spring:message code="privateOfficeActivation"/></b></div>

@@ -41,9 +41,10 @@ public class BinaryTreeWidget {
     public String getUserNode(BinaryTree tree, String clazz) {
         UserForm user = tree.getValue();
         boolean both = this.addEnabled;
+        String photo = user.getPhoto() != null ? user.getPhoto() : "/resources/images/vcard.png";
         String result = "<div class='" + clazz + "' style='width:" + calculateNodeWidth(tree) + "px'>";
-        result += "<div class='user-info''>";
-        result += "<img src='/resources/images/vcard.png' title='" + this.infoText + "' alt='" + this.infoText + "'><br>";
+        result += "<div class='user-info'>";
+        result += "<img src=\""+ photo + "\" title='" + this.infoText + "' alt='" + this.infoText + "' class='user-image'><br>";
         result += user.getSurname();
         result += " <br>";
         result += user.getName();

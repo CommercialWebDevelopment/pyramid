@@ -5,6 +5,9 @@
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/javascript/crop/imgareaselect-default.css" />
+<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/crop/jquery.imgareaselect.pack.js"></script>
+
 <div class="row-fluid">
     <div class="span12">
         <div class="span6 offset4">
@@ -13,7 +16,7 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
-<form:form method="POST" action="/user/registration" modelAttribute="registration" onsubmit="return Form.validate()">
+<form:form method="POST" action="/user/registration" modelAttribute="registration" onsubmit="return Form.validate()" enctype="multipart/form-data">
     <div id="registration-form" class="container-fluid">
         <div id="user-form-step">
             <div class="row-fluid">
@@ -73,15 +76,9 @@
                         </div>
                     </div>
                 </div>
+
                     <%--Photo--%>
-                <div class="span6">
-                    <div class="span4 offset5">
-                        <a href="#" class="thumbnail" id="user-details" data-toggle="popover" data-placement="left">
-                            <img src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
-                                 style="height: 120px"/>
-                        </a>
-                    </div>
-                </div>
+                <a id="add-photo" href="#"><spring:message code="addAvatar"/></a>
             </div>
 
                 <%--Паспорт--%>
@@ -197,6 +194,54 @@
                             <button id="registration-form-send-button" class="btn btn-primary" type="submit" disabled><spring:message
                                     code="registration"/></button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%--Photo--%>
+        <div class="row-fluid" style="display: none" id="photo-body">
+            <div class="row-fluid">
+                <div class="span10 crop-image-container">
+                    <div id="crop-image-body">
+                        <img id="crop-image" src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""/>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="row-fluid">
+                        <div class="offset4" id="avatar-container">
+                            <div>
+                                <img id="avatar" src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
+                                     style="max-width: none"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid" style="padding-top: 10px">
+                        <div class="span3 offset2">
+                            <img id="upload-image-icon" src="${pageContext.request.contextPath}/resources/images/upload-img.png"/>
+                        </div>
+                        <div class="span7">
+                            <spring:message code="load"/>
+                        </div>
+                    </div>
+
+                    <input type="file" name="photo" id="user-image" accept="image/jpg, image/jpeg, image/png, image/gif"
+                           hidden="hidden">
+                    <input type="text" name="x" id="x" style="display: none">
+                    <input type="text" name="y" id="y" style="display: none">
+                    <input type="text" name="h" id="h" style="display: none">
+                    <input type="text" name="w" id="w" style="display: none">
+                </div>
+            </div>
+            <div class="row-fluid" style="padding-top: 10px">
+                <div class="span10 offset2">
+                    <div class="span2 offset6">
+                        <button id="save-avatar" class="btn btn-primary" type="button" disabled="disabled"><spring:message
+                                code="save"/></button>
+                    </div>
+                    <div class="span2">
+                        <button id="cancel-avatar" class="btn btn-primary" type="button"><spring:message
+                                code="cancel"/></button>
                     </div>
                 </div>
             </div>

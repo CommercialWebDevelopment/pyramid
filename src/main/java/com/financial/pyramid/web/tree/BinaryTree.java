@@ -2,6 +2,7 @@ package com.financial.pyramid.web.tree;
 
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.web.form.UserForm;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 /**
  * User: Danil
@@ -17,7 +18,7 @@ public class BinaryTree {
 
     public BinaryTree(User user, int maxLevel) {
         this.id = user.getId();
-        this.value = new UserForm(user.getName(), user.getSurname(), user.getPhoneNumber());
+        this.value = new UserForm(user.getName(), user.getSurname(), user.getPhoneNumber(), user.getPhoto());
         if(maxLevel == 0) return;
         if (user.getLeftChild() != null) {
             this.left = new BinaryTree(user.getLeftChild(), maxLevel - 1);

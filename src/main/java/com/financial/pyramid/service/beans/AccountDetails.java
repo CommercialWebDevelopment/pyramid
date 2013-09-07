@@ -8,7 +8,7 @@ package com.financial.pyramid.service.beans;
 public class AccountDetails {
     private Integer daysLeft;
     private Integer daysMonth;
-    private double earningsSum;
+    private double balance;
 
     public Integer getDaysLeft() {
         return daysLeft;
@@ -26,11 +26,11 @@ public class AccountDetails {
         this.daysMonth = daysMonth;
     }
 
-    public double getEarningsSum() {
-        return earningsSum;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setEarningsSum(double earningsSum) {
-        this.earningsSum = earningsSum;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

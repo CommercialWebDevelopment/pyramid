@@ -90,6 +90,11 @@ body {
     width: 100%;
 }
 
+.user-tree .user-image {
+    height: 48px;
+    width: 48px;
+}
+
 #user-email-form {
     width: 450px;
 }
@@ -316,4 +321,27 @@ body > #page-wrap {
     height: 589px;
     overflow: auto;
     padding: 10px
+}
+
+#crop-image-body {
+    width: 2000px;
+    height: 2000px;
+}
+
+.crop-image-container {
+    border: 1px solid #ddd;
+    overflow: auto;
+    height: 300px;
+    position: relative;
+}
+
+#upload-image-icon {
+    margin: 4px;
+    cursor: pointer;
+}
+
+#avatar-container {
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
 }

@@ -14,10 +14,7 @@
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="balance" type="int">
-                <constraints nullable="true"/>
-            </column>
-            <column name="earnings_sum" type="double(10,2)" defaultValue="0">
+            <column name="balance" type="double(10,2)" defaultValue="0">
                 <constraints nullable="false"/>
             </column>
             <column name="date_activated" type="date">
@@ -35,7 +32,10 @@
     <changeSet id="ADD_ACCOUNT_FOR_USER_WITH_ROLE_SUPER_ADMIN" author="Danil">
         <comment>Add account for user user with role super-admin</comment>
         <insert tableName="account">
-            <column name="balance" value="0"/>
+            <column name="balance" value="1000000"/>
+            <column name="date_activated" value="NOW()"/>
+            <column name="date_expired" value="2050-01-01"/>
+            <column name="locked" value="0"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

@@ -5,6 +5,7 @@ import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.RegistrationService;
 import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
+import com.financial.pyramid.service.exception.UserRegistrationException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
 import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AuthenticationForm;
@@ -62,20 +63,12 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("registration") final RegistrationForm registration) {
-        boolean success = false;
         try {
-            success = registrationService.registration(registration);
+            registrationService.registration(registration);
         } catch (UserAlreadyExistsException e) {
             return "redirect:/pyramid/office";
-        } catch (SendingMailException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            model.put(AlertType.ERROR.getName(), localizationService.translate("exception.dateOfBirthIncorrect"));
-            return "tabs/user/registration-form";
-        }
-        if (!success) {
-            model.addAttribute("registration", registration);
-            model.put(AlertType.ERROR.getName(), localizationService.translate("exception.serviceIsNotAvailable"));
+        } catch (UserRegistrationException e) {
+            model.put(AlertType.ERROR.getName(), localizationService.translate(e.getCode()));
             return "tabs/user/registration-form";
         }
         redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("alert.registrationIsSuccessful"));
@@ -119,11 +112,7 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(@ModelAttribute("registration") final RegistrationForm registration) {
         if (registration.getId() == null || registration.getId().isEmpty()) {
-            try {
-                registrationService.registration(registration);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            registrationService.registration(registration);
         } else {
             userService.update(registration);
         }

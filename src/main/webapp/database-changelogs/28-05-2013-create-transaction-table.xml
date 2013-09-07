@@ -17,11 +17,11 @@
             <column name="created" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="count" type="int">
-                <constraints nullable="true"/>
+            <column name="count" type="double(10,2)" defaultValue="0">
+                <constraints nullable="false"/>
             </column>
-            <column name="balance" type="int">
-                <constraints nullable="true"/>
+            <column name="balance" type="double(10,2)" defaultValue="0">
+                <constraints nullable="false"/>
             </column>
             <column name="type" type="varchar(100)">
                 <constraints nullable="false"/>

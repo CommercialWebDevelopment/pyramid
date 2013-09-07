@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void calculateSum(Account account, Double sum) {
-        account.setEarningsSum(account.getEarningsSum() + sum);
+        account.writeIN(sum);
         update(account);
     }
 

@@ -93,7 +93,7 @@ public class TabsController extends AbstractController {
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"));
             widget.setInfoText(localizationService.translate("user.info"));
-            widget.setAddEnabled(addEnabled);
+            widget.setAddEnabled(true);
             widget.initTree(tree);
 
             while (tree != null) {
@@ -111,7 +111,7 @@ public class TabsController extends AbstractController {
             model.addAttribute("currencySign", settingsService.getProperty(Setting.CASH_SIGN));
             model.addAttribute("daysLeft", accountDetails.getDaysLeft() != null ? accountDetails.getDaysLeft() : -1);
             model.addAttribute("monthDays", accountDetails.getDaysMonth() != null ? accountDetails.getDaysMonth() : -1);
-            model.addAttribute("earningsSum", accountDetails.getEarningsSum());
+            model.addAttribute("balance", accountDetails.getBalance());
             model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());
             return "/tabs/user/private-office";

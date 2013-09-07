@@ -27,11 +27,11 @@ public class Transaction extends AbstractEntity implements Serializable {
 
     @Basic
     @Column(name = "count")
-    private Long count;
+    private Double count = 0D;
 
     @Basic
     @Column(name = "balance")
-    private Long balance;
+    private Double balance = 0D;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
@@ -40,19 +40,19 @@ public class Transaction extends AbstractEntity implements Serializable {
     @ManyToOne
     private Account account;
 
-    public Long getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
-    public Long getCount() {
+    public Double getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Double count) {
         this.count = count;
     }
 

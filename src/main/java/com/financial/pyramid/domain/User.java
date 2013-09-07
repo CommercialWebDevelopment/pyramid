@@ -72,6 +72,17 @@ public class User extends AbstractEntity implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Account account;
 
+    @Basic(fetch = FetchType.LAZY)
+    private String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public Account getAccount() {
         return account;
     }

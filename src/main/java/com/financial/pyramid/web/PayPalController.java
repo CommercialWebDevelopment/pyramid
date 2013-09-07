@@ -134,9 +134,9 @@ public class PayPalController extends AbstractController {
         calendar.set(Calendar.MILLISECOND, 0);
         Date date = calendar.getTime();
         Double transferSum = Double.valueOf(details.getAmount());
-        Double earningsSum = userService.getAccountDetails(user).getEarningsSum();
+        Double balance = userService.getAccountDetails(user).getBalance();
         Double maxAllowedSum = paymentsService.allowedToBeTransferred(date, user.getId());
-        boolean isTransferAllowed = maxAllowedSum > 0 && transferSum <= maxAllowedSum && transferSum <= earningsSum;
+        boolean isTransferAllowed = maxAllowedSum > 0 && transferSum <= maxAllowedSum && transferSum <= balance;
         if (isTransferAllowed) {
             details.memo = localizationService.translate("moneyTransfer");
             boolean result = payPalService.processTransfer(details);
@@ -146,7 +146,7 @@ public class PayPalController extends AbstractController {
                 redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("operationFailed"));
             }
         } else {
-            if (transferSum > earningsSum) {
+            if (transferSum > balance) {
                 redirectAttributes.addAttribute("error", "not_enough_money");
             } else if (maxAllowedSum == 0) {
                 redirectAttributes.addAttribute("error", "limit_reached");

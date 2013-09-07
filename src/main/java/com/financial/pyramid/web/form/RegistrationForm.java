@@ -1,5 +1,7 @@
 package com.financial.pyramid.web.form;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * User: Danil
  * Date: 30.05.13
@@ -19,6 +21,51 @@ public class RegistrationForm {
     private String registeredAddress;
     private String residenceAddress;
     private Long invitationId;
+    public MultipartFile photo;
+    public Integer x;
+    public Integer y;
+    public Integer h;
+    public Integer w;
+
+    public Integer getX() {
+        return x;
+    }
+
+    public void setX(Integer x) {
+        this.x = x;
+    }
+
+    public Integer getY() {
+        return y;
+    }
+
+    public void setY(Integer y) {
+        this.y = y;
+    }
+
+    public Integer getH() {
+        return h;
+    }
+
+    public void setH(Integer h) {
+        this.h = h;
+    }
+
+    public Integer getW() {
+        return w;
+    }
+
+    public void setW(Integer w) {
+        this.w = w;
+    }
+
+    public MultipartFile getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(MultipartFile photo) {
+        this.photo = photo;
+    }
 
     public Long getInvitationId() {
         return invitationId;

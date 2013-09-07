@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = userDao.findById(id);
         User parent = findParent(id);
+        parent.getAccount().writeIN(1D);
         if(parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
             parent.setLeftChild(null);
         }
@@ -205,8 +206,8 @@ public class UserServiceImpl implements UserService {
 
         Date activationStartDate = user.getAccount().getDateActivated();
         Date activationEndDate = user.getAccount().getDateExpired();
-        Double earningsAmount = user.getAccount().getEarningsSum();
-        accountDetails.setEarningsSum(new BigDecimal(earningsAmount).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        Double balance = user.getAccount().getBalance();
+        accountDetails.setBalance(new BigDecimal(balance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         if (activationStartDate != null) {
             accountDetails.setDaysMonth(Days.daysBetween(new DateTime(activationStartDate),
                     new DateTime(activationEndDate).minusDays(1)).getDays());

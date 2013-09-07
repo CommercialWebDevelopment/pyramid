@@ -43,6 +43,7 @@
         <security:intercept-url pattern="/pyramid/**" access="permitAll" />
         <security:intercept-url pattern="/user/check_date" access="permitAll" />
         <security:intercept-url pattern="/user/authentication" access="permitAll" />
+        <security:intercept-url pattern="/invitation/**" access="permitAll" />
         <security:form-login login-page="/pyramid/office"
                              username-parameter="email"
                              password-parameter="password"

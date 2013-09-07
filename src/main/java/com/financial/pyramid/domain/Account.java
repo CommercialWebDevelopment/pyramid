@@ -26,16 +26,13 @@ public class Account extends AbstractEntity implements Serializable {
 
     @Basic
     @Column(name = "balance")
-    private Long balance = 0L;
+    private Double balance = 0D;
 
     @Column(name="date_activated", nullable = true)
     private Date dateActivated;
 
     @Column(name="date_expired", nullable = true)
     private Date dateExpired;
-
-    @Column(name="earnings_sum", nullable = false)
-    private Double earningsSum;
 
     @Column(name="locked", nullable = false)
     private boolean locked;
@@ -49,7 +46,6 @@ public class Account extends AbstractEntity implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
-        if (earningsSum != null ? !earningsSum.equals(account.earningsSum) : account.earningsSum != null) return false;
         if (dateExpired != null ? !dateExpired.equals(account.dateExpired) : account.dateExpired != null) return false;
         if (dateActivated != null ? !dateActivated.equals(account.dateActivated) : account.dateActivated != null) return false;
         return true;
@@ -57,14 +53,14 @@ public class Account extends AbstractEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = earningsSum != null ? earningsSum.hashCode() : 0;
+        int result = balance != null ? balance.hashCode() : 0;
         result = 31 * result + (dateExpired != null ? dateExpired.hashCode() : 0);
         result = 31 * result + (dateActivated != null ? dateActivated.hashCode() : 0);
         return result;
     }
 
     @Transient
-    public void writeOFF(Long count) {
+    public void writeOFF(Double count) {
         this.balance -= count;
         Transaction transaction = new Transaction();
         transaction.setAccount(this);
@@ -75,7 +71,7 @@ public class Account extends AbstractEntity implements Serializable {
     }
 
     @Transient
-    public void writeIN(Long count) {
+    public void writeIN(Double count) {
         this.balance += count;
         Transaction transaction = new Transaction();
         transaction.setAccount(this);
@@ -85,7 +81,7 @@ public class Account extends AbstractEntity implements Serializable {
         transactions.add(transaction);
     }
 
-    public Long getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
@@ -115,13 +111,5 @@ public class Account extends AbstractEntity implements Serializable {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
-    }
-
-    public Double getEarningsSum() {
-        return earningsSum;
-    }
-
-    public void setEarningsSum(Double earningsSum) {
-        this.earningsSum = earningsSum;
     }
 }
