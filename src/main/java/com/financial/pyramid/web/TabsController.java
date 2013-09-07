@@ -93,7 +93,7 @@ public class TabsController extends AbstractController {
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"));
             widget.setInfoText(localizationService.translate("user.info"));
-            widget.setAddEnabled(true);
+            widget.setAddEnabled(addEnabled);
             widget.initTree(tree);
 
             while (tree != null) {
