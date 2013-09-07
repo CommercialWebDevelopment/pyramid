@@ -41,6 +41,8 @@ var I18N = {
     feedbackReceiverEmail:'<spring:message code="feedbackReceiver" javaScriptEscape="true"/>',
     invalidSum:'<spring:message code="invalidSum" javaScriptEscape="true"/>',
     sendToPayPal:'<spring:message code="sendToPayPal" javaScriptEscape="true"/>',
-    countLevelInUserTree:'<spring:message code="countLevelInUserTree" javaScriptEscape="true"/>'
+    countLevelInUserTree:'<spring:message code="countLevelInUserTree" javaScriptEscape="true"/>',
+    appPrice:'<spring:message code="appPrice" javaScriptEscape="true"/>',
+    cashSymbol:'<spring:message code="cashSymbol" javaScriptEscape="true"/>'
 };
 

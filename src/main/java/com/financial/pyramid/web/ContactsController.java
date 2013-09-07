@@ -70,6 +70,7 @@ public class ContactsController extends AbstractController {
         map.put("username", currentUserName);
         map.put("usermail", currentUserEmail);
         map.put("feedback", feedback);
+        map.put("subject", localizationService.translate("feedbackFromUser"));
         emailService.setTemplate("feedback-template");
         boolean result = emailService.sendEmail(adminUser, map);
         return "redirect:/pyramid/contacts?sent=" + result;

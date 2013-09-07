@@ -16,6 +16,7 @@ public class PayPalDetails {
     public List<Receiver> receiverList;
     public String returnUrl;
     public String cancelUrl;
+    public String notifyUrl;
     public String senderEmail;
     public RequestEnvelope requestEnvelope;
     public boolean reverseAllParallelPaymentsOnError = true;
@@ -86,6 +87,14 @@ public class PayPalDetails {
 
     public void setCancelUrl(String cancelUrl) {
         this.cancelUrl = cancelUrl;
+    }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public void setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
     }
 
     public String getSenderEmail() {

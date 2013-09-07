@@ -16,7 +16,7 @@ import java.util.Date;
  * Time: 14:31
  */
 @Service("accountService")
-@Transactional
+@Transactional(readOnly = false)
 public class AccountServiceImpl implements AccountService {
 
     @Autowired

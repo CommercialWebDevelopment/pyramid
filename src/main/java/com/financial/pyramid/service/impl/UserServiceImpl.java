@@ -63,11 +63,10 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = userDao.findById(id);
         User parent = findParent(id);
-        parent.getAccount().writeIN(1D);
-        if(parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
+        if (parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
             parent.setLeftChild(null);
         }
-        if(parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
+        if (parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
             parent.setRightChild(null);
         }
         userDao.saveOrUpdate(parent);
@@ -221,6 +220,9 @@ public class UserServiceImpl implements UserService {
             calendar.set(Calendar.MILLISECOND, 0);
             accountDetails.setDaysLeft(Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays());
         }
+        if (accountDetails.getDaysLeft() < 0 && !user.getAccount().isLocked()) {
+            this.deactivateUserAccount(user);
+        }
         return accountDetails;
     }
 
@@ -231,9 +233,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void activateUserAccount(User user) {
         Account account = getAccount(user);
-        accountService.activate(account);
+        if (account.isLocked()) {
+            accountService.activate(account);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deactivateUserAccount(User user) {
+        Account account = getAccount(user);
+        if (!account.isLocked()) {
+            accountService.deactivate(account);
+        }
     }
 
     public User findParent(Long userId) {

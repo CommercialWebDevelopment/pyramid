@@ -1,5 +1,6 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.settings.Setting;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * User: dbudunov
@@ -59,6 +60,7 @@ public class PayPalController extends AbstractController {
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.cancelUrl = applicationURL + "/paypal/buyOfficeAndApp";
         details.returnUrl = applicationURL + "/paypal/success";
+        details.notifyUrl = applicationURL + "/paypal/notify";
         details.amount = totalPrice.toString();
         model.addAttribute("payPalDetails", details);
         return "tabs/user/buy-office";
@@ -85,8 +87,9 @@ public class PayPalController extends AbstractController {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         details.currencySign = settingsService.getProperty(Setting.CASH_SIGN);
         details.receiverEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
-        details.cancelUrl = applicationURL + "/paypal/payOfficeAndApp";
+        details.cancelUrl = applicationURL + "/paypal/buyOffice";
         details.returnUrl = applicationURL + "/paypal/success";
+        details.notifyUrl = applicationURL + "/paypal/notify";
         details.amount = officePrice;
         model.addAttribute("payPalDetails", details);
         return "tabs/user/pay-office";
@@ -174,5 +177,28 @@ public class PayPalController extends AbstractController {
             }
         }
         return "redirect:/pyramid/office";
+    }
+
+    @RequestMapping(value = "/notify", method = RequestMethod.POST)
+    public void notify(HttpServletRequest request) {
+        logger.info("Notification messages listener has been invoked...");
+        Map<String, String> params = new HashMap<String, String>();
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String param = names.nextElement();
+            String value = request.getParameter(param);
+            params.put(param, value);
+        }
+        String transactionId = params.get("txn_id");
+        String payerEmail = params.get("payer_email");
+        logger.info("IPN notification for transaction " + transactionId + " has been received from PayPal");
+        if (transactionId != null) {
+            boolean verified = payPalService.verifyNotification(params);
+            logger.info("Transaction " + transactionId + " has been verified (" + verified + ")");
+            if (verified) {
+                User user = userService.findByEmail(payerEmail);
+                userService.activateUserAccount(user);
+            }
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.financial.pyramid.service;
 import com.financial.pyramid.service.beans.PayPalDetails;
 import com.financial.pyramid.service.exception.PayPalException;
 
+import java.util.Map;
+
 /**
  * User: dbudunov
  * Date: 13.08.13
@@ -12,6 +14,8 @@ public interface PayPalService {
     public String processPayment(PayPalDetails details) throws PayPalException;
 
     public boolean processTransfer(PayPalDetails details) throws PayPalException;
+
+    public boolean verifyNotification(Map<String, String> params) throws PayPalException;
 
     public boolean isTransactionCompleted(String transactionId) throws PayPalException;
 

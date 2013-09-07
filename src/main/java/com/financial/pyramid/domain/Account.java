@@ -106,7 +106,7 @@ public class Account extends AbstractEntity implements Serializable {
     }
 
     public boolean isLocked() {
-        return locked;
+        return this.locked;
     }
 
     public void setLocked(boolean locked) {
