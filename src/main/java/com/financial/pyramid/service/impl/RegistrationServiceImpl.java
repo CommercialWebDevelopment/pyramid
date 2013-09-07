@@ -21,19 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.*;
 
 /**
  * User: Danil
@@ -45,6 +40,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private final static Logger logger = Logger.getLogger(RegistrationServiceImpl.class);
     private static final String CHARSET = "0123456789abcdefghijklmnopqrstuvwxyz";
+    private static final java.util.List<String> AVAILABLE_IMAGE_TYPES = Arrays.asList("image/jpg", "image/jpeg", "image/png", "image/gif");
     private static final short PASSWORD_LENGTH = 10;
     private static final int IMAGE_LIMIT = 50000;
 
@@ -147,13 +143,16 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (r.getPhoto() == null || r.getPhoto().isEmpty()) return null;
         try {
             String type = r.getPhoto().getContentType();
+            if(!AVAILABLE_IMAGE_TYPES.contains(type)) {
+                throw new UserRegistrationException("imageTypeIncorrect");
+            }
             if(r.getX() == null || r.getY() == null || r.getW() == null || r.getH() == null) {
                 return "data:" + type + ";base64," + Base64.encode(r.getPhoto().getBytes());
             }
             BufferedImage bufferedImage = ImageIO.read(r.getPhoto().getInputStream());
             BufferedImage resizeImage = bufferedImage.getSubimage(r.getX(), r.getY(), r.getW(), r.getH());
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ImageIO.write(resizeImage, type.replace("image/",""), os);
+            ImageIO.write(resizeImage, type.replace("image/", ""), os);
             if (os.size() > IMAGE_LIMIT) {
                 throw new UserRegistrationException("imageIsTooLarge");
             }
