@@ -70,6 +70,9 @@
             <column name="photo" type="TEXT">
                 <constraints nullable="true"/>
             </column>
+            <column name="created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -85,6 +88,7 @@
             <column name="password" value="2394b658be329301269184eef9f5754f2f459c5300cf9695"/>
             <column name="role" value="SUPER_ADMIN"/>
             <column name="account_id" value="1"/>
+            <column name="created" value="NOW()"/>
         </insert>
     </changeSet>
 

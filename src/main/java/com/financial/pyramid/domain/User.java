@@ -29,6 +29,10 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class User extends AbstractEntity implements Serializable {
 
+    @Column(name = "created", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created = new Date();
+
     @Column(name = "name", nullable = false, length = 200)
     private String name;
 
@@ -74,6 +78,10 @@ public class User extends AbstractEntity implements Serializable {
 
     @Basic(fetch = FetchType.LAZY)
     private String photo;
+
+    public Date getCreated() {
+        return created;
+    }
 
     public String getPhoto() {
         return photo;

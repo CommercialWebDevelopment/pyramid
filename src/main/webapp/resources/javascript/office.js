@@ -151,6 +151,10 @@ $(document).ready(function () {
     });
 
     var cropImage = $("#crop-image");
+    var loadedImageSize = {
+        x: cropImage.width(),
+        y: cropImage.height()
+    };
     var avatar = $("#avatar");
     var avatarSRCDefault = avatar.attr("src");
     var select = {
@@ -175,19 +179,17 @@ $(document).ready(function () {
             y1: select.y1,
             x2: select.x2,
             y2: select.y2,
-            parent:cropBody.parent(),
+            parent: cropBody.parent(),
             onSelectEnd: function (img, selection) {
                 select = selection;
             },
             onSelectChange: function (img, selection) {
-                var x = cropImage.width();
-                var y = cropImage.height();
                 var scaleX = 48 / selection.width;
                 var scaleY = 48 / selection.height;
 
                 avatar.css({
-                    width: Math.round(scaleX * x),
-                    height: Math.round(scaleY * y),
+                    width: Math.round(scaleX * loadedImageSize.x),
+                    height: Math.round(scaleY * loadedImageSize.y),
                     marginLeft: -Math.round(scaleX * selection.x1),
                     marginTop: -Math.round(scaleY * selection.y1)
                 });
@@ -252,6 +254,8 @@ $(document).ready(function () {
                 avatar.attr("src", e.target.result);
                 cropImage.parent().width(cropImage.width());
                 cropImage.parent().height(cropImage.height());
+                loadedImageSize.x = cropImage.width();
+                loadedImageSize.y = cropImage.height();
             };
         })(file);
         reader.readAsDataURL(file);
