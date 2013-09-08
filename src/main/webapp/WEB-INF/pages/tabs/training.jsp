@@ -49,7 +49,7 @@
 %>
 <div class="row-fluid">
     <div class="span10">
-        <iframe id="player" type="text/html" width="748" height="455" src='<%=defaultVideo%>' frameborder="0"></iframe>
+        <iframe id="player" type="text/html" width="100%" height="455" src='<%=defaultVideo%>' frameborder="0"></iframe>
     </div>
 </div>
 <br>
