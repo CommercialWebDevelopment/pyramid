@@ -257,34 +257,34 @@
     </form:form>
 </div>
 <div id="change-email-form" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3><spring:message code="changeEmailAddress"/></h3>
-    </div>
-    <div class="modal-body">
-        <form:form action="/user/change_email" method="POST" id="email-form" onsubmit="return formSubmit()">
+    <form:form action="/user/change_email" method="POST" id="email-form" onsubmit="return formSubmit()">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3><spring:message code="changeEmailAddress"/></h3>
+        </div>
+        <div class="modal-body">
             <input type="text" id="email1" name="new_email" class="form-field span12"
                    placeholder="<spring:message code="newEmailAddress"/>">
             <input type="text" id="email2" name="new_email_confirm" class="form-field span12"
                    placeholder="<spring:message code="emailAddressConfirm"/>">
             <input type="text" name="password" class="form-field span12"
                    placeholder="<spring:message code="accountPassword"/>">
-        </form:form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="submit"><spring:message code="save"/></button>
-        <button class="btn" type="button" data-dismiss="modal" aria-hidden="true"><spring:message
-                code="cancel"/></button>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit"><spring:message code="save"/></button>
+            <button class="btn" type="button" data-dismiss="modal" aria-hidden="true"><spring:message
+                    code="cancel"/></button>
+        </div>
+    </form:form>
 </div>
 <script language="javascript">
     function formSubmit() {
         var form = $("#email-form");
         var email1 = form.find("#email1");
         var email2 = form.find("#email2");
-        Form.validateEMailField(email2, email2.val())
         Form.validateEMailField(email1, email1.val());
-        var valid = email1.val() == email2.val();
+        Form.validateEMailField(email2, email2.val());
+        var valid = (email1.val() != "" && email2.val() != "") && email1.val() == email2.val();
         if (!Form.validateForm(form) || !valid) {
             return false;
         } else {
