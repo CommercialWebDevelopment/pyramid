@@ -1,5 +1,7 @@
 package com.financial.pyramid.web.form;
 
+import java.util.Date;
+
 /**
  * User: Danil
  * Date: 07.08.13
@@ -7,15 +9,24 @@ package com.financial.pyramid.web.form;
  */
 public class UserForm {
     private String name;
-    private String surname;
-    private String phoneNumber;
     private String photo;
+    private String email;
+    private String surname;
+    private boolean active;
+    private Date birthDate;
+    private String bigPhoto;
+    private String phoneNumber;
 
-    public UserForm(String name, String surname, String phoneNumber, String photo) {
+    public UserForm(String name, String surname, String phoneNumber, String photo, String bigPhoto, String email,
+                    Date birthDate, boolean active) {
         this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
         this.photo = photo;
+        this.email = email;
+        this.active = active;
+        this.surname = surname;
+        this.bigPhoto = bigPhoto;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPhoto() {
@@ -48,5 +59,37 @@ public class UserForm {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getBigPhoto() {
+        return bigPhoto;
+    }
+
+    public void setBigPhoto(String bigPhoto) {
+        this.bigPhoto = bigPhoto;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

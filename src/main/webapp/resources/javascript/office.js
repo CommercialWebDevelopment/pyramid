@@ -124,6 +124,7 @@ $(document).ready(function () {
         }
         ctx.stroke();
     }
+    $(".user-info").find("img").popover({placement: "right", animation: true, html: true, trigger: "hover"});
     var form = $("#user-email-form");
     $(".stub-node").click(function () {
         form.find("#parentId").val($(this).attr("parentId"));
