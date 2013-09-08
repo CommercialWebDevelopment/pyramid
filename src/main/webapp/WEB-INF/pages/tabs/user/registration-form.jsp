@@ -204,14 +204,14 @@
             <div class="row-fluid">
                 <div class="span10 crop-image-container">
                     <div id="crop-image-body">
-                        <img id="crop-image" src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""/>
+                        <img id="crop-image" src="${pageContext.request.contextPath}/resources/images/vcard-inactive.png" alt=""/>
                     </div>
                 </div>
                 <div class="span2">
                     <div class="row-fluid">
                         <div class="offset4" id="avatar-container">
                             <div style="width: 3000px; height: 3000px">
-                                <img id="avatar" src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""/>
+                                <img id="avatar" src="${pageContext.request.contextPath}/resources/images/vcard-inactive.png" alt=""/>
                             </div>
                         </div>
                     </div>
