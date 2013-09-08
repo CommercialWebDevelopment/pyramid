@@ -210,9 +210,8 @@
                 <div class="span2">
                     <div class="row-fluid">
                         <div class="offset4" id="avatar-container">
-                            <div>
-                                <img id="avatar" src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""
-                                     style="max-width: none"/>
+                            <div style="width: 3000px; height: 3000px">
+                                <img id="avatar" src="${pageContext.request.contextPath}/resources/images/vcard.png" alt=""/>
                             </div>
                         </div>
                     </div>

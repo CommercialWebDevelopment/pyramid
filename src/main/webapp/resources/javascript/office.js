@@ -169,8 +169,6 @@ $(document).ready(function () {
         $("#user-form-step").hide();
         $("#photo-body").show();
         var cropBody = cropImage.parent();
-        cropBody.width(cropImage.width());
-        cropBody.height(cropImage.height());
         cropImage.imgAreaSelect({
             handles: true,
             maxWidth: 48,
@@ -220,13 +218,6 @@ $(document).ready(function () {
         avatar.attr("src", avatarSRCDefault);
         cropImage.attr("src", avatarSRCDefault);
 
-        avatar.css({
-            width: 48,
-            height: 48,
-            marginLeft: 0,
-            marginTop: 0
-        });
-
         select = {
             x1: 0,
             y1: 0,
@@ -253,12 +244,8 @@ $(document).ready(function () {
         var reader = new FileReader();
         reader.onload = (function (theFile) {
             return function (e) {
-                cropImage.parent().width(5000);
-                cropImage.parent().height(5000);
-                cropImage.attr("src", e.target.result);
-                avatar.attr("src", e.target.result);
-                cropImage.parent().width(cropImage.width());
-                cropImage.parent().height(cropImage.height());
+                avatar.get(0).src = e.target.result;
+                cropImage.get(0).src = e.target.result;
                 loadedImageSize.x = cropImage.width();
                 loadedImageSize.y = cropImage.height();
             };

@@ -324,8 +324,8 @@ body > #page-wrap {
 }
 
 #crop-image-body {
-    width: 2000px;
-    height: 2000px;
+    width: 3000px;
+    height: 3000px;
 }
 
 .crop-image-container {
@@ -344,6 +344,7 @@ body > #page-wrap {
     width: 48px;
     height: 48px;
     overflow: hidden;
+    position: relative;
 }
 
 #bar {
