@@ -39,8 +39,6 @@ public interface UserService extends UserDetailsService {
 
     public List<User> findUsersByOwner(Long ownerId);
 
-    public String createPassword(int n);
-
     public AccountDetails getAccountDetails(User user);
 
     public Account getAccount(User user);

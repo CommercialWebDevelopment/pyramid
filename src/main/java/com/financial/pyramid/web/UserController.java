@@ -7,6 +7,7 @@ import com.financial.pyramid.service.exception.SendingMailException;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.exception.UserRegistrationException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
+import com.financial.pyramid.utils.Password;
 import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AuthenticationForm;
 import com.financial.pyramid.web.form.PageForm;
@@ -135,7 +136,7 @@ public class UserController extends AbstractController {
         User user = userService.findByEmail(email.trim());
         boolean result = false;
         if (user != null) {
-            String newPassword = userService.createPassword(15);
+            String newPassword = Password.generate();
             user.setPassword(passwordEncoder.encode(newPassword));
             userService.save(user);
             Map map = new HashMap();

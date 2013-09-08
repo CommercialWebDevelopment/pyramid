@@ -12,6 +12,7 @@ import com.financial.pyramid.service.RegistrationService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.exception.UserRegistrationException;
+import com.financial.pyramid.utils.Password;
 import com.financial.pyramid.web.form.RegistrationForm;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.apache.log4j.Logger;
@@ -39,9 +40,7 @@ import java.util.*;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final static Logger logger = Logger.getLogger(RegistrationServiceImpl.class);
-    private static final String CHARSET = "0123456789abcdefghijklmnopqrstuvwxyz";
     private static final java.util.List<String> AVAILABLE_IMAGE_TYPES = Arrays.asList("image/jpg", "image/jpeg", "image/png", "image/gif");
-    private static final short PASSWORD_LENGTH = 10;
     private static final int IMAGE_LIMIT = 50000;
 
     @Autowired
@@ -102,7 +101,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             logger.error("User passport date is not set. Email: " + user.getEmail());
         }
         user.setPassport(passport);
-        String password = generatePassword();
+        String password = Password.generate();
         user.setPassword(passwordEncoder.encode(password));
         userService.save(user);
 
@@ -127,16 +126,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         invitationService.delete(invitation);
         logger.info("User registered! id: " + user.getId() + "; email: " + user.getEmail());
         return true;
-    }
-
-    private synchronized String generatePassword() {
-        Random rand = new Random(System.currentTimeMillis());
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i <= PASSWORD_LENGTH; i++) {
-            int pos = rand.nextInt(CHARSET.length());
-            sb.append(CHARSET.charAt(pos));
-        }
-        return sb.toString();
     }
 
     private String getImage(RegistrationForm r){
