@@ -4,9 +4,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
-
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/excanvas.min.js"></script><![endif]-->
-<script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/jquery.flot.js"></script>
+<!--[if lte IE 8]>
+<script language="javascript" type="text/javascript"
+src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/excanvas.min.js"></script>
+<![endif]-->
+<script language="javascript" type="text/javascript"
+        src="${pageContext.request.contextPath}/resources/javascript/flot-0.8.1/jquery.flot.js"></script>
 
 <%--Tabs--%>
 <div class="row-fluid">
@@ -16,7 +19,8 @@
             <security:authorize access="hasAnyRole('SUPER_ADMIN,ADMIN')">
                 <li><a href="<c:url value="/pyramid/admin/"/>"><spring:message code="settings"/></a></li>
             </security:authorize>
-            <li class="active"><a href="<c:url value="/pyramid/office"/>"><spring:message code="privateOffice"/></a></li>
+            <li class="active"><a href="<c:url value="/pyramid/office"/>"><spring:message code="privateOffice"/></a>
+            </li>
             <li><a href="<c:url value="/pyramid/news"/>"><spring:message code="news"/></a></li>
             <li><a href="<c:url value="/pyramid/training"/>"><spring:message code="training"/></a></li>
             <li><a href="<c:url value="/pyramid/about"/>"><spring:message code="aboutProject"/></a></li>

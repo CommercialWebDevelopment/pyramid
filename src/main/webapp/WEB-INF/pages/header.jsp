@@ -1,5 +1,4 @@
 <%@ page import="com.financial.pyramid.domain.User" %>
-<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page import="com.financial.pyramid.utils.Session" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -24,18 +23,18 @@
             src="${pageContext.request.contextPath}/resources/javascript/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/main.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/office.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/settings.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/alerts.js"></script>
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/flexigrid/js/flexigrid.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/loader.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/modal.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/main.js"></script>
+    <sec:authorize ifAnyGranted="SUPER_ADMIN,ADMIN">
+        <script type="text/javascript"
+                src="${pageContext.request.contextPath}/resources/javascript/admin/admin.js"></script>
+    </sec:authorize>
 </head>
 <body>
 <script type="text/javascript">
     <%@ include file="/resources/javascript/i18n.js" %>
 </script>
-
 <div id="loader" class="loader">
     <div class="loader-icon">
         <img id="loader-img" src="${pageContext.request.contextPath}/resources/images/loader.gif" width="32"/>

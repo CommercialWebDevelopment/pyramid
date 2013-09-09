@@ -4,20 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
-<script language="javascript">
-    function beforeSubmit() {
-        var form = $("#feedbackForm");
-        var emailField = form.find("#emailField");
-        var nameField = form.find("#nameField");
-        if (emailField.val() == "" || nameField.val() == "") {
-            Alert.show(Alert.ERROR, I18N.feedbackFormError);
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
-<%--Tabs--%>
 <div class="row-fluid">
     <div class="span8 offset1">
         <ul class="nav nav-pills" id="tabs">
@@ -75,7 +61,7 @@
                 <div class="span5">
                     <pre><spring:message code="feedbackForm"/>:</pre>
                     <form:form id="feedbackForm" action="/contacts/feedback" method="POST"
-                               modelAttribute="feedbackForm" onsubmit="return beforeSubmit()">
+                               modelAttribute="feedbackForm" onsubmit="return ContactsPage.beforeSubmit()">
                         <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
                             <input id="nameField" type="text" class="form-field span12" name="name"
                                    placeholder="<spring:message code="yourName"/>"/>

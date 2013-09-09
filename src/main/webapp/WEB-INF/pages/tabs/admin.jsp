@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/admin/admin.js"></script>
 
 <%--Tabs--%>
 <div class="row-fluid">

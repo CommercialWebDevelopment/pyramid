@@ -25,7 +25,7 @@
     <%@ include file="/resources/javascript/wysiwyg/bootstrap-wysiwyg.js" %>
 </script>
 <script type="text/javascript">
-    <%@ include file="/resources/javascript/news.js" %>
+    <%@ include file="/resources/javascript/admin/news.js" %>
 </script>
 <div class="row-fluid" style="word-wrap: normal">
     <spring:message var="removeNewsConfirm" code="removeNews"/>
@@ -92,20 +92,10 @@
         </form:form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" onclick="onSubmit()"><spring:message code="save"/></button>
+        <button class="btn btn-primary" type="button" onclick="NewsAdmin.beforeAdd()"><spring:message code="save"/></button>
     </div>
 </div>
 <div class="text-center">
-    <button class="btn btn-primary" onclick="addForm()"><spring:message code="addNewsTitle"/></button>
+    <button class="btn btn-primary" onclick="NewsAdmin.addForm()"><spring:message code="addNewsTitle"/></button>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
-<script>
-    function onSubmit() {
-        var content = $("#editor").html();
-        $("#content").val(content);
-        $("#addForm").submit();
-    }
-    function addForm() {
-        Modal.show($("#add-news-form"));
-    }
-</script>

@@ -1,3 +1,44 @@
+var NewsAdmin = {
+    onSubmit: function () {
+        var content = $("#editor").html();
+        $("#content").val(content);
+        $("#editForm").submit();
+    },
+    beforeAdd: function () {
+        var content = $("#editor").html();
+        $("#content").val(content);
+        $("#addForm").submit();
+    },
+    addForm: function () {
+        Modal.show($("#add-news-form"));
+    }
+};
+var NewsEditor = {
+    open: function () {
+        var editor = $('#editor');
+        editor.wysiwyg();
+        editor.cleanHtml();
+    }
+};
+var ContactsAdmin = {
+    onSubmit: function () {
+        $("#addForm").submit();
+    },
+    addForm: function () {
+        var form = $("#edit-contact-form");
+        form.find("#edit-contact-form-label").html('${addContactFormTitle}');
+        form.modal("show");
+    },
+    editForm: function (name, phone, email, id) {
+        var form = $("#edit-contact-form");
+        form.find("#edit-contact-form-label").html('${editContactFormTitle}');
+        form.find("#person").val(name);
+        form.find("#phone").val(phone);
+        form.find("#email").val(email);
+        form.find("#id").val(id);
+        form.modal("show");
+    }
+};
 $(document).ready(function () {
     var selectedRow = null;
     var ugrid = $("#user-grid");
@@ -6,7 +47,7 @@ $(document).ready(function () {
         dataType: 'json',
         method: 'GET',
         resizable: false,
-        pagetext:I18N.page,
+        pagetext: I18N.page,
         outof: I18N.of,
         findtext: I18N.find,
         pagestat: I18N.pageStat,
@@ -124,7 +165,7 @@ $(document).ready(function () {
         height: 200,
         rowClick: function (row, data) {
             var fxgrid = $(".flexigrid");
-            if(selectedRow && selectedRow.id == data.id) {
+            if (selectedRow && selectedRow.id == data.id) {
                 selectedRow = null;
                 fxgrid.find(".edit").css("opacity", 0.3);
                 fxgrid.find(".delete").css("opacity", 0.3);

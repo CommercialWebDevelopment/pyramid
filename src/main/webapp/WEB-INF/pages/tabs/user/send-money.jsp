@@ -4,27 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
-<script language="javascript">
-    function beforeSubmit() {
-        var form = $("#takeMoneyForm");
-        var emailField = form.find("#emailField");
-        var amountField = form.find("#amountField");
-        Form.validateEMailField(emailField, emailField.val());
-        Form.validateFloatField(amountField, amountField.val());
-        var invalidSum = amountField.val() > ${maxAllowedAmount};
-        if (invalidSum) {
-            Form.setInvalidField(amountField);
-            Alert.show(Alert.ERROR, I18N.invalidSum);
-            return false;
-        } else if (!Form.validateForm(form)) {
-            Alert.show(Alert.ERROR, I18N.incorrectFields);
-            return false;
-        } else {
-            LoadingBar.show(I18N.sendToPayPal);
-            return true;
-        }
-    }
-</script>
 <div class="row-fluid">
     <div class="span10 page-title">
         <div class="title"><h3><spring:message code="takeMoney"/></h3></div>
@@ -51,7 +30,7 @@
 </c:if>
 <div class="row-fluid">
     <form:form action="/paypal/sendFunds" modelAttribute="payPalDetails" id="takeMoneyForm"
-               onsubmit="return beforeSubmit()">
+               onsubmit="return SendMoneyPage.beforeSubmit('${maxAllowedAmount}')">
         <legend><spring:message code="privateOfficeTakeMoneyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>

@@ -61,6 +61,8 @@ public class TabsController extends AbstractController {
         List<Video> videos = videoService.find();
         Video video = videos != null && videos.size() > 0 ? videos.get(0) : null;
         String defaultVideo = settingsService.getProperty(Setting.YOU_TUBE_VIDEO_URL, video != null ? video.getExternalId() : null);
+        String youTubeUrl = settingsService.getProperty(Setting.YOU_TUBE_VIDEO_URL);
+        model.addAttribute("youTubeUrl", youTubeUrl);
         model.addAttribute("defaultVideo", defaultVideo);
         model.addAttribute("videos", videos);
         return "/tabs/training";
@@ -138,5 +140,11 @@ public class TabsController extends AbstractController {
         model.addAttribute("showFullMapUrl", fullMapUrl);
         model.addAttribute("contacts", contacts);
         return "/tabs/contacts";
+    }
+
+    @RequestMapping(value = "/redirect", method = RequestMethod.GET)
+    public String redirect(ModelMap modelMap, @RequestParam(value = "to") String destination) {
+        String url = settingsService.getProperty(destination);
+        return "redirect:" + url;
     }
 }

@@ -9,7 +9,7 @@
     <%@ include file="/resources/javascript/wysiwyg/bootstrap-wysiwyg.js" %>
 </script>
 <script type="text/javascript">
-    <%@ include file="/resources/javascript/news.js" %>
+    <%@ include file="/resources/javascript/admin/news.js" %>
 </script>
 <div class="row-fluid">
     <div class="span10">
@@ -28,13 +28,6 @@
     <div id="editor" contenteditable="true" style="overflow:scroll; height: 300px">${news.content}</div>
 </form:form>
 <div class="text-left">
-    <button class="btn btn-primary" type="button" onclick="onSubmit()"><spring:message code="save"/></button>
+    <button class="btn btn-primary" type="button" onclick="NewsAdmin.onSubmit()"><spring:message code="save"/></button>
 </div>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
-<script>
-    function onSubmit() {
-        var content = $("#editor").html();
-        $("#content").val(content);
-        $("#editForm").submit();
-    }
-</script>

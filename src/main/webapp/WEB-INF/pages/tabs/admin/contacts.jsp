@@ -43,7 +43,7 @@
             <td>${contact.email}</td>
             <td style="width: 20px">
                 <button class="btn"
-                        onclick="editForm('${contact.person}','${contact.phone}','${contact.email}', '${contact.id}')">
+                        onclick="ContactsAdmin.editForm('${contact.person}','${contact.phone}','${contact.email}', '${contact.id}')">
                     <spring:message code="edit"/></button>
             </td>
             <td style="width: 20px">
@@ -76,30 +76,11 @@
         </form:form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" onclick="onSubmit()"><spring:message code="save"/></button>
+        <button class="btn btn-primary" type="button" onclick="ContactsAdmin.onSubmit()"><spring:message code="save"/></button>
     </div>
 </div>
 
 <div class="text-center">
-    <button class="btn btn-primary" onclick="addForm()"><spring:message code="add"/></button>
+    <button class="btn btn-primary" onclick="ContactsAdmin.addForm()"><spring:message code="add"/></button>
 </div>
 <%@include file="/WEB-INF/pages/footer.jsp" %>
-<script language="javascript">
-    function onSubmit(){
-        $("#addForm").submit();
-    }
-    function addForm() {
-        var form = $("#edit-contact-form");
-        form.find("#edit-contact-form-label").html('${addContactFormTitle}');
-        form.modal("show");
-    }
-    function editForm(name, phone, email, id) {
-        var form = $("#edit-contact-form");
-        form.find("#edit-contact-form-label").html('${editContactFormTitle}');
-        form.find("#person").val(name);
-        form.find("#phone").val(phone);
-        form.find("#email").val(email);
-        form.find("#id").val(id);
-        form.modal("show");
-    }
-</script>

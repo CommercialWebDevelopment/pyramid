@@ -19,17 +19,6 @@
     </div>
 </div>
 
-
-<%--
-<div class="row-fluid" style="text-align: right">
-    <a href="#uploadVideoForm">
-        <button class="btn">Загрузить</button>
-    </a>
-    <a href="#addVideoForm">
-        <button class="btn">Добавить</button>
-    </a>
-</div>
---%>
 <h1>
     <small><spring:message code="uploadedVideos"/>:</small>
 </h1>
@@ -68,24 +57,6 @@
         </form:form>
     </div>
 </c:forEach>
-<%--
-<h2>
-    <small>Загрузить новое видео на YouTube:</small>
-</h2>
-<div class="row-fluid" id="uploadVideoForm">
-    <div class="span8">
-        <form:form action="/video/upload" enctype="multipart/form-data" method="POST" modelAttribute="videoUploadForm">
-            <label>Название:<span class="asterisk_red">*</span></label>
-            <input type="text" name="video.name" class="form-field" style="width: 100%">
-            <label>Описание:</label>
-            <textarea style="width:100%; height: 130px; resize:none" maxlength="500" name="video.description"></textarea>
-            <label>Выберите файл:<span class="asterisk_red">*</span></label>
-            <input id="file" type="file" name="file" class="form-field"/>
-            <button class="btn btn-primary" type="submit">Загрузить</button>
-        </form:form>
-    </div>
-</div>
---%>
 <h2>
     <small><spring:message code="videoUploadFromYouTube"/>:</small>
 </h2>

@@ -257,7 +257,7 @@
     </form:form>
 </div>
 <div id="change-email-form" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <form:form action="/user/change_email" method="POST" id="email-form" onsubmit="return formSubmit()">
+    <form:form action="/user/change_email" method="POST" id="email-form" onsubmit="return UserSettingsPage.beforeSubmit()">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3><spring:message code="changeEmailAddress"/></h3>
@@ -277,19 +277,4 @@
         </div>
     </form:form>
 </div>
-<script language="javascript">
-    function formSubmit() {
-        var form = $("#email-form");
-        var email1 = form.find("#email1");
-        var email2 = form.find("#email2");
-        Form.validateEMailField(email1, email1.val());
-        Form.validateEMailField(email2, email2.val());
-        var valid = (email1.val() != "" && email2.val() != "") && email1.val() == email2.val();
-        if (!Form.validateForm(form) || !valid) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

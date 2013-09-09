@@ -5,18 +5,6 @@
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
 
-<script language="javascript">
-    function beforeSubmit() {
-        var form = $("#restorePasswordForm");
-        var email = form.find("#email");
-        Form.validateEMailField(email, email.val());
-        if (!Form.validateForm(form)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
 <%--Tabs--%>
 <div class="row-fluid">
     <div class="span8 offset1">
@@ -59,7 +47,7 @@
                 <div class="alert alert-info">
                     <spring:message code="restorePasswordInformation"/>
                 </div>
-                <form:form action="/user/restore" method="post" onsubmit="return beforeSubmit()"
+                <form:form action="/user/restore" method="post" onsubmit="return RestorePasswordPage.beforeSubmit()"
                            id="restorePasswordForm">
                     <div class="control-group">
                     <div class="controls">

@@ -4,24 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
-<script language="javascript">
-    function beforeSubmit() {
-        var form = $("#payForm");
-        var emailField = form.find("#emailField");
-        Form.validateEMailField(emailField, emailField.val());
-        if (!Form.validateForm(form)) {
-            Alert.show(Alert.ERROR, I18N.incorrectFields);
-            return false;
-        } else {
-            LoadingBar.show(I18N.sendToPayPal);
-            setTimeout(function () {
-                return true;
-            }, 1000);
-        }
-    }
-</script>
 <div class="row-fluid">
-    <form:form action="/paypal/payOfficeAndApp" modelAttribute="payPalDetails" id="payForm" onsubmit="return beforeSubmit()">
+    <form:form action="/paypal/payOfficeAndApp" modelAttribute="payPalDetails" id="payForm" onsubmit="return BuyOfficePage.beforeSubmit()">
         <legend><spring:message code="privateOfficeAndAppBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
