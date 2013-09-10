@@ -217,12 +217,14 @@ public class UserController extends AbstractController {
             String serverUrl = settingsService.getProperty(Setting.APPLICATION_URL);
             String returnUrl = serverUrl + "/user/email_confirmed?uuid=" + MD5Encoder.encode(email + "1234567890") + "&email=" + email;
             emailService.setTemplate("email-changing");
+            String oldEmail = current.getEmail();
             current.setEmail(email);
             Map map = new HashMap();
             map.put("name", current.getName());
             map.put("return_url", returnUrl);
             map.put("subject", localizationService.translate("emailNeedsConfirmation"));
             emailService.sendEmail(current, map);
+            current.setEmail(oldEmail);
             model.addAttribute("emailConfirmed", true);
         }
         return "redirect:/user/settings";
