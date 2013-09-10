@@ -3,10 +3,12 @@ package com.financial.pyramid.web;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.RegistrationService;
-import com.financial.pyramid.service.exception.SendingMailException;
+import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.exception.UserRegistrationException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
+import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.utils.MD5Encoder;
 import com.financial.pyramid.utils.Password;
 import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AuthenticationForm;
@@ -20,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,7 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -56,6 +57,9 @@ public class UserController extends AbstractController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SettingsService settingsService;
 
     @Autowired
     ServletContext servletContext;
@@ -210,9 +214,15 @@ public class UserController extends AbstractController {
             valid = false;
         }
         if (valid) {
-            user.setEmail(email);
-            userService.save(user);
-            model.addAttribute("changesSaved", true);
+            String serverUrl = settingsService.getProperty(Setting.APPLICATION_URL);
+            String returnUrl = serverUrl + "/user/email_confirmed?uuid=" + MD5Encoder.encode(email + "1234567890") + "&email=" + email;
+            emailService.setTemplate("email-changing");
+            Map map = new HashMap();
+            map.put("name", current.getName());
+            map.put("return_url", returnUrl);
+            map.put("subject", localizationService.translate("emailNeedsConfirmation"));
+            emailService.sendEmail(current, map);
+            model.addAttribute("emailConfirmed", true);
         }
         return "redirect:/user/settings";
     }
@@ -227,6 +237,27 @@ public class UserController extends AbstractController {
         emailService.sendEmail(current, map);
         model.addAttribute("emailConfirmed", true);
         return "redirect:/user/settings";
+    }
+
+    @RequestMapping(value = "/email_confirmed", method = RequestMethod.GET)
+    public String confirmed(ModelMap model, @RequestParam("email") String email, @RequestParam("uuid") String uuid) {
+        User current = Session.getCurrentUser();
+        if (current != null) {
+            User user = userService.findById(current.getId());
+            User existingUser = userService.findByEmail(email);
+            if (existingUser == null) {
+                if (uuid.equals(MD5Encoder.encode(email + "1234567890"))) {
+                    user.setEmail(email);
+                    userService.save(user);
+                    model.addAttribute("changesSaved", true);
+                }
+            } else {
+                model.addAttribute("emailAddress", email);
+                model.addAttribute("userExists", true);
+            }
+            return "redirect:/user/settings";
+        }
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/save_profile", method = RequestMethod.POST)
@@ -261,7 +292,7 @@ public class UserController extends AbstractController {
 
     @RequestMapping(value = "/contract_offer", method = RequestMethod.GET)
     public String getContractOffer(ModelMap model) {
-        return "contract-offer/contract-offer-"+LocaleContextHolder.getLocale().getLanguage();
+        return "contract-offer/contract-offer-" + LocaleContextHolder.getLocale().getLanguage();
     }
 
     @RequestMapping(value = "/contract_offer_pdf", method = RequestMethod.GET)
@@ -273,10 +304,9 @@ public class UserController extends AbstractController {
             response.setHeader("Content-Disposition", "inline; filename=contract-offer.pdf");
             response.setHeader("Cache-Control", "cache, must-revalidate");
             response.setHeader("Pragma", "public");
-            IOUtils.copy(is,os);
+            IOUtils.copy(is, os);
             response.flushBuffer();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

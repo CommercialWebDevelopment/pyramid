@@ -3,6 +3,10 @@
 <h3>Dear ${username}, thanks for you registration!</h3>
 <div>
     For continuing registration procedure, please follow <a href="http://localhost:8080/user/confirm?ui=${uuid}">this</a> link.
+    <br>
+    <br>
+    Regards,<br>
+    Project X team
 </div>
 </body>
 </html>

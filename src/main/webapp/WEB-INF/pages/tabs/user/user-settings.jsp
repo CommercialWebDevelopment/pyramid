@@ -28,6 +28,12 @@
             <strong><spring:message code="profileSaved"/></strong>
         </div>
     </c:if>
+    <c:if test="${param.userExists != null && param.userExists == true}">
+        <div class="alert alert-error alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong><spring:message code="exception.userAlreadyExistWithEmail" arguments="${param.emailAddress}"/></strong>
+        </div>
+    </c:if>
     <c:if test="${param.invalidPassword != null && param.invalidPassword == true}">
         <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
