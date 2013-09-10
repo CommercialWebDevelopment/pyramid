@@ -13,4 +13,45 @@
         <comment>Alter settings table</comment>
         <modifyDataType tableName="settings" columnName="valueString" newDataType="VARCHAR(1000)"/>
     </changeSet>
+
+    <changeSet id="default-settings" author="Dmitry">
+        <comment>Create default settings</comment>
+        <sql>
+            <![CDATA[
+            DELETE FROM settings;
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('applicationURL', 'http://localhost:8080');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('appPrice', '0.01');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('cashSymbol', '€');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('contactsAddress', 'г.Тольятти, Автозаводское шоссе 1');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('contactsFullMap', 'https://maps.google.com/maps?f=q&source=embed&hl=ru&geocode=&q=%D0%A2%D0%BE%D0%BB%D1%8C%D1%8F%D1%82%D1%82%D0%B8&aq=&sll=53.526399,49.400546&sspn=0.057859,0.169086&t=m&ie=UTF8&hq=&hnear=%D0%A2%D0%BE%D0%BB%D1%8C%D1%8F%D1%82%D1%82%D0%B8,+%D0%B3%D0%BE%D1%80%D0%BE%D0%B4+%D0%A2%D0%BE%D0%BB%D1%8C%D1%8F%D1%82%D1%82%D0%B8,+%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C,+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F&z=11&ll=53.509513,49.417527');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('contactsMap', 'https://maps.google.com/maps?f=q&source=s_q&hl=ru&geocode=&q=%D0%A2%D0%BE%D0%BB%D1%8C%D1%8F%D1%82%D1%82%D0%B8&aq=&sll=53.526399,49.400546&sspn=0.057859,0.169086&t=m&ie=UTF8&hq=&hnear=%D0%A2%D0%BE%D0%BB%D1%8C%D1%8F%D1%82%D1%82%D0%B8,+%D0%B3%D0%BE%D1%80%D0%BE%D0%B4+%D0%A2%D0%BE%D0%BB%D1%8C%D1%8F%D1%82%D1%82%D0%B8,+%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C,+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F&z=11&ll=53.509513,49.417527&output=embed');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('contactsPhones', ' (123) 456-7890, (123) 456-7891, (123) 456-7892');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('countLevelInUserTree', '3');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('facebook', 'http://facebook.com/');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('feedbackReceiverEmail', 'd.budunov@gmail.com');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('maxAllowedAmount', '1000.00');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('officePrice', '0.01');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('twitter', 'http://twitter.com');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('vkontakte', 'http://vk.com/feed');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('youtube', 'http://youtube.com/');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('youTubeVideoThumbnailsUrl', 'http://img.youtube.com/vi/{0}/0.jpg');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('youTubeVideoUrl', 'http://www.youtube.com/embed/{0}?enablejsapi=1&origin={1}');
+            ]]>
+        </sql>
+    </changeSet>
+    <changeSet id="default-application-configuration-params" author="Dmitry">
+        <comment>Create default application configuration settings</comment>
+        <sql>
+            <![CDATA[
+            DELETE FROM application_configuration;
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('PAY_PAL_LOGIN', 'jackson.simon@mail.ru');
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('pay_pal_api_username', 'jackson.simon_api1.mail.ru');
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('pay_pal_api_password', '55U4WP8NF4CTLFED');
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('pay_pal_api_signature', 'AlJQzL-3dhQlK.aslxICbNgTXEErA0EUH8tC.gWGLvpSGgx3YO.694wC');
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('pay_pal_application_id', 'APP-80W284485P519543T');
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('pay_pal_api_token', 'FCV2kNTRe4Ga6IvA2Ahg1byhBnSbocw3_45jN8MQe8sV0G4jGHJq4nbXk8m');
+            INSERT INTO `application_configuration` (`keyString`, `valueString`) VALUES ('pay_pal_currency', 'EUR');
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
