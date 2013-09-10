@@ -217,6 +217,7 @@ public class UserController extends AbstractController {
             String serverUrl = settingsService.getProperty(Setting.APPLICATION_URL);
             String returnUrl = serverUrl + "/user/email_confirmed?uuid=" + MD5Encoder.encode(email + "1234567890") + "&email=" + email;
             emailService.setTemplate("email-changing");
+            current.setEmail(email);
             Map map = new HashMap();
             map.put("name", current.getName());
             map.put("return_url", returnUrl);
