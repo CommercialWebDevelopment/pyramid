@@ -9,6 +9,15 @@ public class AccountDetails {
     private Integer daysLeft;
     private Integer daysMonth;
     private double balance;
+    private boolean appPaid;
+
+    public boolean isAppPaid() {
+        return appPaid;
+    }
+
+    public void setAppPaid(boolean appPaid) {
+        this.appPaid = appPaid;
+    }
 
     public Integer getDaysLeft() {
         return daysLeft;

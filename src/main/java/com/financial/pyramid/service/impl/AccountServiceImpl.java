@@ -34,6 +34,7 @@ public class AccountServiceImpl implements AccountService {
         account.setLocked(false);
         account.setDateActivated(newActivationDate);
         account.setDateExpired(new DateTime(newActivationDate).plusMonths(1).plusDays(1).toDate());
+        account.setAppPaid(true);
         update(account);
     }
 

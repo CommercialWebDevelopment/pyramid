@@ -184,6 +184,7 @@ public class UserServiceImpl implements UserService {
         if (accountDetails.getDaysLeft() < 0 && !user.getAccount().isLocked()) {
             this.deactivateUserAccount(user);
         }
+        accountDetails.setAppPaid(user.getAccount().isAppPaid());
         return accountDetails;
     }
 

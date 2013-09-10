@@ -62,9 +62,27 @@
 <div class="separator"></div>
 <div class="office-menu">
     <ul class="nav nav-pills">
-        <li class="office-menu-item <c:if test='${daysLeft >= 0}'><c:out value="disabled"/></c:if>"><a
-                href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message
-                code="buyPrivateOffice"/></a></li>
+        <c:choose>
+            <c:when test="${isAppPaid == true}">
+                <c:choose>
+                    <c:when test="${daysLeft >= 0}">
+                        <li class="office-menu-item disabled">
+                            <a href="#"><spring:message code="buyPrivateOffice"/>
+                        </a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="office-menu-item"><a
+                                href="${pageContext.request.contextPath}/paypal/buyOfficeAndApp"><spring:message
+                                code="privateOfficeAndAppBuyFormTitle"/></a></li>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+            <c:otherwise>
+                <li class="office-menu-item"><a
+                        href="${pageContext.request.contextPath}/paypal/buyOfficeAndApp"><spring:message
+                        code="privateOfficeAndAppBuyFormTitle"/></a></li>
+            </c:otherwise>
+        </c:choose>
         <li class="office-menu-item"><a
                 href="${pageContext.request.contextPath}/paypal/sendMoney"><spring:message
                 code="takeMoney"/></a></li>

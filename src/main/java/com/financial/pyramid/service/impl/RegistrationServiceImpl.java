@@ -74,9 +74,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         Account account = new Account();
         Calendar calendar = Calendar.getInstance();
         account.setDateActivated(calendar.getTime());
-        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.MONTH, -1);
         account.setDateExpired(calendar.getTime());
-        account.setLocked(false);
+        account.setLocked(true);
         account.writeIN(0D);
         user.setAccount(account);
 

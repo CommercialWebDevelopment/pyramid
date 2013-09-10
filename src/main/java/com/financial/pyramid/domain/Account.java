@@ -41,6 +41,17 @@ public class Account extends AbstractEntity implements Serializable {
     @OrderBy("created")
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
+    @Column(name="app_paid", nullable = false, columnDefinition = "boolean default false")
+    private boolean appPaid;
+
+    public boolean isAppPaid() {
+        return appPaid;
+    }
+
+    public void setAppPaid(boolean appPaid) {
+        this.appPaid = appPaid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
