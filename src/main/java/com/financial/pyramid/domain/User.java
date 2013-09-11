@@ -79,6 +79,17 @@ public class User extends AbstractEntity implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     private String photo;
 
+    @Column(name = "level", nullable = false)
+    private Integer level;
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
     public Date getCreated() {
         return created;
     }

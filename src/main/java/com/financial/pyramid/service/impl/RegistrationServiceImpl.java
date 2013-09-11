@@ -6,12 +6,10 @@ import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.domain.type.Role;
-import com.financial.pyramid.service.EmailService;
-import com.financial.pyramid.service.InvitationService;
-import com.financial.pyramid.service.RegistrationService;
-import com.financial.pyramid.service.UserService;
+import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.exception.UserRegistrationException;
+import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.utils.Password;
 import com.financial.pyramid.web.form.RegistrationForm;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
@@ -55,6 +53,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private InvitationService invitationService;
 
+    @Autowired
+    SettingsService settingsService;
+
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public boolean registration(RegistrationForm form) throws UserRegistrationException, UserAlreadyExistsException {
@@ -68,7 +69,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setPhoneNumber(form.getPhoneNumber());
         user.setEmail(invitation.getEmail());
         user.setRole(Role.USER);
-        user.setOwnerId(invitation.getSenderId());
         user.setPhoto(getImage(form));
 
         Account account = new Account();
@@ -103,25 +103,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setPassport(passport);
         String password = Password.generate();
         user.setPassword(passwordEncoder.encode(password));
+        user.setLevel(invitation.getParent().getLevel() + 1);
+        setOwner(user, invitation.getSenderId());
+        setParent(user, invitation);
         userService.save(user);
 
         // отправка пароля после удачной регистрации
         if (!emailService.sendPassword(user.getName(), password, user.getEmail()))
             throw new UserRegistrationException("serviceIsNotAvailable");
-
-        // связь с родителем
-        User parent = invitation.getParent();
-        if (invitation.getPosition().equals(Position.LEFT)) {
-            // если место уже занято, ищем первое свободное по левой ноге
-            while (parent.getLeftChild() != null)
-                parent = parent.getLeftChild();
-            parent.setLeftChild(user);
-        } else {
-            // если место уже занято, ищем первое свободное по правой ноге
-            while (parent.getRightChild() != null)
-                parent = parent.getRightChild();
-            parent.setRightChild(user);
-        }
 
         invitationService.delete(invitation);
         logger.info("User registered! id: " + user.getId() + "; email: " + user.getEmail());
@@ -150,5 +139,39 @@ public class RegistrationServiceImpl implements RegistrationService {
             logger.error("File not loaded! User: " + r.getName() + "; message: " + e.getMessage());
         }
         return null;
+    }
+
+    private void setParent(User user, Invitation invitation) {
+        User parent = invitation.getParent();
+        if (invitation.getPosition().equals(Position.LEFT)) {
+            // если место уже занято, ищем первое свободное по левой ноге
+            while (parent.getLeftChild() != null)
+                parent = parent.getLeftChild();
+            parent.setLeftChild(user);
+        } else {
+            // если место уже занято, ищем первое свободное по правой ноге
+            while (parent.getRightChild() != null)
+                parent = parent.getRightChild();
+            parent.setRightChild(user);
+        }
+        if (!invitation.getSenderId().equals(parent.getId())) {
+            Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
+            parent.getAccount().writeIN(costByUser);
+        }
+    }
+
+    private void setOwner(User user, Long ownerId) {
+        Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
+        User owner = userService.findById(ownerId);
+        if ((user.getLevel() - owner.getLevel()) <= maxLevelForPayment) {
+            Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
+            owner.getAccount().writeIN(costByUser);
+            Long count = userService.getCountUsersOnLevel(user.getLevel());
+            if (count.equals(user.getLevel().longValue())) {
+                Double costByCompletedLevel = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_COMPLETED_LEVEL));
+                owner.getAccount().writeIN(costByCompletedLevel);
+            }
+        }
+        user.setOwnerId(ownerId);
     }
 }

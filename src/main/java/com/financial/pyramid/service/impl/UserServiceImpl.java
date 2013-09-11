@@ -220,6 +220,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Long getCountUsersOnLevel(Integer level) {
+        return userDao.getCountUsersOnLevel(level);
+    }
+
     public User findParent(Long userId) {
         return userDao.findParent(userId);
     }

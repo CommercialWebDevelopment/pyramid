@@ -60,4 +60,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
         List<User> list = (List<User>)criteria.list();
         return list.size() > 0 ? list.get(0) : null;
     }
+
+    @Override
+    public Long getCountUsersOnLevel(Integer level) {
+        return getCount(Restrictions.eq("level", level));
+    }
 }

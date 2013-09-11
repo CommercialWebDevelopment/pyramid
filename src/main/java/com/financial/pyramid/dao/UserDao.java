@@ -22,4 +22,5 @@ public interface UserDao extends AbstractDao<User, Long> {
 
     public User findParent(Long userId);
 
+    Long getCountUsersOnLevel(Integer level);
 }

@@ -73,6 +73,9 @@
             <column name="created" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
+            <column name="level" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -89,16 +92,31 @@
             <column name="role" value="SUPER_ADMIN"/>
             <column name="account_id" value="1"/>
             <column name="created" value="NOW()"/>
+            <column name="level" value="0"/>
         </insert>
     </changeSet>
 
     <changeSet id="USER_INDEXES-1" author="Danil">
-        <comment>Add email index for user</comment>
+        <comment>Add index by emil, owner, level</comment>
         <createIndex indexName="user_email"
                      tableName="user"
                      tablespace="user_email"
                      unique="true">
             <column name="email" type="varchar(200)"/>
+        </createIndex>
+
+        <createIndex indexName="user_owner"
+                     tableName="user"
+                     tablespace="user_owner"
+                     unique="false">
+            <column name="owner_id" type="int"/>
+        </createIndex>
+
+        <createIndex indexName="user_level"
+                     tableName="user"
+                     tablespace="user_level"
+                     unique="false">
+            <column name="level" type="int"/>
         </createIndex>
     </changeSet>
 </databaseChangeLog>

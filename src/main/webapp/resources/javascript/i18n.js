@@ -43,6 +43,10 @@ var I18N = {
     sendToPayPal:'<spring:message code="sendToPayPal" javaScriptEscape="true"/>',
     countLevelInUserTree:'<spring:message code="countLevelInUserTree" javaScriptEscape="true"/>',
     appPrice:'<spring:message code="appPrice" javaScriptEscape="true"/>',
-    cashSymbol:'<spring:message code="cashSymbol" javaScriptEscape="true"/>'
+    cashSymbol:'<spring:message code="cashSymbol" javaScriptEscape="true"/>',
+    costByCompletedLevel:'<spring:message code="costByCompletedLevel" javaScriptEscape="true"/>',
+    costByUser:'<spring:message code="costByUser" javaScriptEscape="true"/>',
+    costByPersonalUser:'<spring:message code="costByPersonalUser" javaScriptEscape="true"/>',
+    maxLevelForPayment:'<spring:message code="maxLevelForPayment" javaScriptEscape="true"/>'
 };
 

@@ -46,4 +46,6 @@ public interface UserService extends UserDetailsService {
     public void activateUserAccount(User user);
 
     public void deactivateUserAccount(User user);
+
+    public Long getCountUsersOnLevel(Integer level);
 }

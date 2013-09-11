@@ -32,4 +32,8 @@ public class Setting {
     public static String PAY_PAL_CURRENCY = "pay_pal_currency";
 
     public static String COUNT_LEVEL_IN_USER_TREE = "countLevelInUserTree";
+    public static String COST_BY_COMPLETED_LEVEL = "costByCompletedLevel";
+    public static String COST_BY_USER = "costByUser";
+    public static String COST_BY_PERSONAL_USER = "costByPersonalUser";
+    public static String MAX_LEVEL_FOR_PAYMENT = "maxLevelForPayment";
 }

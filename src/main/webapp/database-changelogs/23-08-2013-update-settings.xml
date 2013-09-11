@@ -54,4 +54,16 @@
             ]]>
         </sql>
     </changeSet>
+
+    <changeSet id="additional-settings-1" author="Danil">
+        <comment>Additional settings</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('costByCompletedLevel', '11.36');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('costByUser', '2.27');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('costByPersonalUser', '11.36');
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('maxLevelForPayment', '10');
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

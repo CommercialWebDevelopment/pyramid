@@ -26,6 +26,9 @@
             <column name="locked" type="int" defaultValue="1">
                 <constraints nullable="false"/>
             </column>
+            <column name="app_paid" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -36,13 +39,7 @@
             <column name="date_activated" value="NOW()"/>
             <column name="date_expired" value="2050-01-01"/>
             <column name="locked" value="0"/>
+            <column name="app_paid" value="1"/>
         </insert>
-    </changeSet>
-
-    <changeSet id="ADD_APP_PAID_FOR_ACCOUNT" author="Danil">
-        <comment>Add app_paid field</comment>
-        <addColumn tableName="account">
-            <column name="app_paid" type="boolean" defaultValueBoolean="false"/>
-        </addColumn>
     </changeSet>
 </databaseChangeLog>
