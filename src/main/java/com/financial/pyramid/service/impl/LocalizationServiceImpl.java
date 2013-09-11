@@ -6,6 +6,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -27,6 +29,28 @@ public class LocalizationServiceImpl implements LocalizationService {
     @Override
     public String translate(String code, String... args) {
         return messageSource.getMessage(code, args, getLocale());
+    }
+
+    @Override
+    public String formatDate(Date date) {
+        SimpleDateFormat dateFormat = null;
+        if (getLocale().getLanguage().equals("ru")) {
+            dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        } else {
+            dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        }
+        return dateFormat.format(date);
+    }
+
+    @Override
+    public String formatDateTime(Date date) {
+        SimpleDateFormat dateFormat = null;
+        if (getLocale().getLanguage().equals("ru")) {
+            dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        } else {
+            dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        }
+        return dateFormat.format(date);
     }
 
     private Locale getLocale() {

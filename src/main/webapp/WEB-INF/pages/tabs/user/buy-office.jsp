@@ -5,6 +5,12 @@
 
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <div class="row-fluid">
+    <div class="span10 page-title">
+        <div class="title"><h3><spring:message code="buyPrivateOffice"/></h3></div>
+        <div class="back"><a href="Javascript:history.back()"><spring:message code="back"/></a></div>
+    </div>
+</div>
+<div class="row-fluid">
     <form:form action="/paypal/payOfficeAndApp" modelAttribute="payPalDetails" id="payForm" onsubmit="return BuyOfficePage.beforeSubmit()">
         <legend><spring:message code="privateOfficeAndAppBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>

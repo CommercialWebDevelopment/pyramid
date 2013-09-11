@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:set var="daysLeft"><%=request.getAttribute("daysLeft")%>
-</c:set>
+<c:set var="daysLeft"><%=request.getAttribute("daysLeft")%></c:set>
 <div><b><spring:message code="privateOfficeSum"/></b></div>
 <div class="sum"><%=request.getAttribute("currencySign")%><%=request.getAttribute("balance")%>
 </div>
@@ -68,7 +67,7 @@
                     <c:when test="${daysLeft >= 0}">
                         <li class="office-menu-item disabled">
                             <a href="#"><spring:message code="buyPrivateOffice"/>
-                        </a></li>
+                            </a></li>
                     </c:when>
                     <c:otherwise>
                         <li class="office-menu-item"><a

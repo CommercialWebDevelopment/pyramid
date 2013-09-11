@@ -1,5 +1,7 @@
 package com.financial.pyramid.service.beans;
 
+import java.util.Date;
+
 /**
  * User: Danil
  * Date: 29.08.13
@@ -8,6 +10,8 @@ package com.financial.pyramid.service.beans;
 public class AccountDetails {
     private Integer daysLeft;
     private Integer daysMonth;
+    private Date dateExpired;
+    private Date dateActivated;
     private double balance;
     private boolean appPaid;
 
@@ -41,5 +45,21 @@ public class AccountDetails {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public Date getDateExpired() {
+        return dateExpired;
+    }
+
+    public void setDateExpired(Date dateExpired) {
+        this.dateExpired = dateExpired;
+    }
+
+    public Date getDateActivated() {
+        return dateActivated;
+    }
+
+    public void setDateActivated(Date dateActivated) {
+        this.dateActivated = dateActivated;
     }
 }

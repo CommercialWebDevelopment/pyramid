@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
 <div class="row-fluid">
     <div class="span8">
-        <div id="treeContainer" class="span12" align="center">
+        <div id="treeContainer" align="center">
             <%=request.getAttribute("userBinaryTree")%>
         </div>
     </div>

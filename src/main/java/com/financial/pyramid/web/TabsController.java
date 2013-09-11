@@ -110,6 +110,8 @@ public class TabsController extends AbstractController {
                     tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
+            model.addAttribute("dateExpired", localizationService.formatDate(accountDetails.getDateExpired()));
+            model.addAttribute("dateActivated", localizationService.formatDate(accountDetails.getDateActivated()));
             model.addAttribute("currencySign", settingsService.getProperty(Setting.CASH_SIGN));
             model.addAttribute("daysLeft", accountDetails.getDaysLeft() != null ? accountDetails.getDaysLeft() : -1);
             model.addAttribute("monthDays", accountDetails.getDaysMonth() != null ? accountDetails.getDaysMonth() : -1);

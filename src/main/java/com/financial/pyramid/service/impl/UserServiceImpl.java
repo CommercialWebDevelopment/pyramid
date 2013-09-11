@@ -166,12 +166,18 @@ public class UserServiceImpl implements UserService {
 
         Date activationStartDate = user.getAccount().getDateActivated();
         Date activationEndDate = user.getAccount().getDateExpired();
+
+        accountDetails.setDateExpired(activationEndDate);
+        accountDetails.setDateActivated(activationStartDate);
+
         Double balance = user.getAccount().getBalance();
         accountDetails.setBalance(new BigDecimal(balance).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
         if (activationStartDate != null) {
             accountDetails.setDaysMonth(Days.daysBetween(new DateTime(activationStartDate),
                     new DateTime(activationEndDate).minusDays(1)).getDays());
         }
+
         if (activationEndDate != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
@@ -181,9 +187,11 @@ public class UserServiceImpl implements UserService {
             calendar.set(Calendar.MILLISECOND, 0);
             accountDetails.setDaysLeft(Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays());
         }
+
         if (accountDetails.getDaysLeft() < 0 && !user.getAccount().isLocked()) {
             this.deactivateUserAccount(user);
         }
+
         accountDetails.setAppPaid(user.getAccount().isAppPaid());
         return accountDetails;
     }
