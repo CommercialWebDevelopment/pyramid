@@ -91,7 +91,7 @@
                             <li class="dropdown">
                                 <a class="dropdown-toggle" id="profileLabel" role="button" data-toggle="dropdown"
                                    href="#">
-                                    <div><%=(user != null) ? user.getShortName() : ""%>
+                                    <div class="user-profile"><%=(user != null) ? user.getShortName() : ""%>
                                     </div>
                                 </a>
                                 <ul id="profileDetails" class="dropdown-menu" role="menu"

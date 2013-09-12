@@ -31,6 +31,12 @@ body {
     margin: 0 0;
 }
 
+.user-profile {
+    white-space: nowrap;
+    max-width: 228px;
+    overflow: hidden;
+}
+
 #add-user-form.modal.fade.in {
     top: 0;
 }
@@ -79,6 +85,17 @@ body {
     text-align: center;
     height: 70px;
     width: auto;
+}
+
+.user-tree .user-photo {
+    margin-bottom: 2px;
+}
+
+.user-tree .user-name {
+    min-width: 195px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .user-tree .stub-node {
