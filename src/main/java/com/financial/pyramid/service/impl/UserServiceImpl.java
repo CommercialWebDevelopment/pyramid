@@ -10,6 +10,8 @@ import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.utils.Password;
+import com.financial.pyramid.web.form.AdminRegistrationForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
 import com.financial.pyramid.web.tree.BinaryTree;
@@ -21,6 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = false)
@@ -95,16 +101,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
-    public void update(RegistrationForm form) {
+    public void update(AdminRegistrationForm form) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        User user = findById(Long.parseLong(form.getId()));
+        User user = findById(form.getId());
         user.setName(form.getName());
         user.setSurname(form.getSurname());
         user.setPatronymic(form.getPatronymic());
         user.setPhoneNumber(form.getPhoneNumber());
-        user.setRole(Role.USER);
-
+        user.setEmail(form.getEmail());
         try {
             Date date = format.parse(form.getDateOfBirth());
             user.setDateOfBirth(date);
@@ -225,6 +231,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getCountUsersOnLevel(level);
     }
 
+    @Override
     public User findParent(Long userId) {
         return userDao.findParent(userId);
     }

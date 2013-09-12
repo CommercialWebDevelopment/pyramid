@@ -5,6 +5,7 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.service.exception.UserConfirmOverdueException;
 import com.financial.pyramid.service.exception.UserNotFoundException;
+import com.financial.pyramid.web.form.AdminRegistrationForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.form.RegistrationForm;
@@ -31,7 +32,7 @@ public interface UserService extends UserDetailsService {
 
     public List<User> findByQuery(QueryForm form);
 
-    public void update(RegistrationForm form);
+    public void update(AdminRegistrationForm form);
 
     public User findByEmail(String email);
 
@@ -48,4 +49,6 @@ public interface UserService extends UserDetailsService {
     public void deactivateUserAccount(User user);
 
     public Long getCountUsersOnLevel(Integer level);
+
+    public User findParent(Long userId);
 }
