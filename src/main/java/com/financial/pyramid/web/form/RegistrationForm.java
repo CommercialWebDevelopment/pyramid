@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
  * Time: 21:59
  */
 public class RegistrationForm {
-    private String id;
+    private Long id;
     private String name;
     private String surname;
     private String patronymic;
@@ -75,11 +75,11 @@ public class RegistrationForm {
         this.invitationId = invitationId;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

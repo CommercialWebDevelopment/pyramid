@@ -37,7 +37,7 @@
                 <h5 id="add-user-form-abel"><spring:message code="user.add"/></h5>
             </div>
             <div class="modal-body" style="height: 515px">
-                <form:form method="POST" id="register_user" action="/user/add" modelAttribute="registration">
+                <form:form method="POST" id="register_user" action="/user/update" modelAttribute="registration">
                     <input id="id" name="id" type="hidden"/>
 
                     <div class="row-fluid control-group success">
@@ -78,7 +78,7 @@
                         <div class="span7 controls">
                             <input id="date_of_birth" name="dateOfBirth" type="text"
                                    class="form-field"
-                                   placeholder="дд.мм.гггг">
+                                   placeholder="дд-мм-гггг">
                         </div>
                     </div>
                     <div class="row-fluid control-group success">
@@ -106,25 +106,6 @@
                                    class="form-field">
                         </div>
                     </div>
-                    <div class="row-fluid control-group success">
-                        <div class="span5">
-                            <label for="login" class="required_label form-field"><spring:message
-                                    code="login"/><span class="asterisk_red">*</span></label>
-                        </div>
-                        <div class="span7 controls">
-                            <input id="login" name="login" type="text" class=" form-field">
-                        </div>
-                    </div>
-                    <div class="row-fluid control-group success">
-                        <div class="span5">
-                            <label for="password" class="required_label form-field"><spring:message
-                                    code="password"/><span class="asterisk_red">*</span></label>
-                        </div>
-                        <div class="span7 controls">
-                            <input id="password" name="password" type="password" class=" form-field">
-                        </div>
-                    </div>
-
                     <div class="row-fluid">
                         <div class="span12">
                             <legend><spring:message code="passport.info"/></legend>
@@ -161,8 +142,7 @@
                         </div>
                         <div class="span7">
                             <input id="date_of_issue" name="passportDate" type="text"
-                                   class="form-field"
-                                   placeholder="дд.мм.гггг">
+                                   class="form-field" placeholder="дд-мм-гггг">
                         </div>
                     </div>
                     <div class="row-fluid">

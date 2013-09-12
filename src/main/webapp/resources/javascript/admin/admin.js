@@ -56,6 +56,13 @@ $(document).ready(function () {
         nomsg: I18N.noItems,
         colModel: [
             {
+                display: 'ID',
+                name: 'id',
+                width: 130,
+                sortable: false,
+                align: 'center'
+            },
+            {
                 display: I18N.secondName,
                 name: 'name',
                 width: 130,
@@ -82,32 +89,18 @@ $(document).ready(function () {
                 width: 130,
                 sortable: true,
                 align: 'center'
-            },
-            {
-                display: I18N.confirmed,
-                name: 'confirmed',
-                width: 130,
-                sortable: true,
-                align: 'center'
-            },
-            {
-                display: I18N.role,
-                name: 'role',
-                width: 130,
-                sortable: true,
-                align: 'center'
             }
         ],
         buttons: [
-            {
-                name: I18N.add,
-                bclass: 'add',
-                onpress: function (com, grid) {
-                    $("#add-user-form").modal("show");
-                },
-                bimage: '/resources/javascript/flexigrid/css/images/add.png'
-            }
-            ,
+//            {
+//                name: I18N.add,
+//                bclass: 'add',
+//                onpress: function (com, grid) {
+//                    $("#add-user-form").modal("show");
+//                },
+//                bimage: '/resources/javascript/flexigrid/css/images/add.png'
+//            }
+//            ,
             {
                 name: I18N.edit,
                 bclass: 'edit',
@@ -118,13 +111,6 @@ $(document).ready(function () {
                     $.each(selectedRow, function (key, value) {
                         $('[name=' + key + ']', form).val(value);
                     });
-                    var passport = selectedRow.passport;
-                    $('[name=passportDate]', form).val(passport.date);
-                    $('[name=passportIssuedBy]', form).val(passport.issuedBy);
-                    $('[name=passportNumber]', form).val(passport.number);
-                    $('[name=registeredAddress]', form).val(passport.registeredAddress);
-                    $('[name=residenceAddress]', form).val(passport.residenceAddress);
-                    $('[name=passportSerial]', form).val(passport.serial);
                 },
                 bimage: '/resources/javascript/flexigrid/css/images/edit.png'
             }

@@ -11,10 +11,7 @@ import com.financial.pyramid.settings.Setting;
 import com.financial.pyramid.utils.MD5Encoder;
 import com.financial.pyramid.utils.Password;
 import com.financial.pyramid.utils.Session;
-import com.financial.pyramid.web.form.AuthenticationForm;
-import com.financial.pyramid.web.form.PageForm;
-import com.financial.pyramid.web.form.QueryForm;
-import com.financial.pyramid.web.form.RegistrationForm;
+import com.financial.pyramid.web.form.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -92,35 +89,32 @@ public class UserController extends AbstractController {
         List<RegistrationForm> result = new ArrayList<RegistrationForm>();
         List<User> users = userService.findByQuery(queryForm);
         for (User user : users) {
-            RegistrationForm registrationForm = new RegistrationForm();
-            registrationForm.setId(user.getId().toString());
-            registrationForm.setName(user.getName());
-            registrationForm.setSurname(user.getSurname());
-            registrationForm.setPatronymic(user.getPatronymic());
-            registrationForm.setDateOfBirth(user.getDateOfBirth().toString());
-            registrationForm.setPhoneNumber(user.getPhoneNumber());
+            AdminRegistrationForm form = new AdminRegistrationForm();
+            form.setId(user.getId());
+            form.setName(user.getName());
+            form.setSurname(user.getSurname());
+            form.setPatronymic(user.getPatronymic());
+            form.setDateOfBirth(user.getDateOfBirth().toString());
+            form.setPhoneNumber(user.getPhoneNumber());
+            form.setEmail(user.getEmail());
             if (user.getPassport() != null) {
-                registrationForm.setPassportSerial(user.getPassport().getSerial());
-                registrationForm.setPassportNumber(user.getPassport().getNumber());
+                form.setPassportSerial(user.getPassport().getSerial());
+                form.setPassportNumber(user.getPassport().getNumber());
                 if (user.getPassport().getDate() != null) {
-                    registrationForm.setPassportDate(user.getPassport().getDate().toString());
+                    form.setPassportDate(user.getPassport().getDate().toString());
                 }
-                registrationForm.setPassportIssuedBy(user.getPassport().getIssuedBy());
-                registrationForm.setRegisteredAddress(user.getPassport().getRegisteredAddress());
-                registrationForm.setResidenceAddress(user.getPassport().getResidenceAddress());
+                form.setPassportIssuedBy(user.getPassport().getIssuedBy());
+                form.setRegisteredAddress(user.getPassport().getRegisteredAddress());
+                form.setResidenceAddress(user.getPassport().getResidenceAddress());
             }
-            result.add(registrationForm);
+            result.add(form);
         }
         return new PageForm<RegistrationForm>(result);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("registration") final RegistrationForm registration) {
-        if (registration.getId() == null || registration.getId().isEmpty()) {
-            registrationService.registration(registration);
-        } else {
-            userService.update(registration);
-        }
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("registration") final AdminRegistrationForm registration) {
+        userService.update(registration);
         return "redirect:/pyramid/admin/user_settings";
     }
 
@@ -160,7 +154,7 @@ public class UserController extends AbstractController {
         User current = Session.getCurrentUser();
         User user = userService.findById(current.getId());
         RegistrationForm registrationForm = new RegistrationForm();
-        registrationForm.setId(user.getId().toString());
+        registrationForm.setId(user.getId());
         registrationForm.setName(user.getName());
         registrationForm.setSurname(user.getSurname());
         registrationForm.setPatronymic(user.getPatronymic());
