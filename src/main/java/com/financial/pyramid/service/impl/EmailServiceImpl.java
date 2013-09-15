@@ -3,7 +3,9 @@ package com.financial.pyramid.service.impl;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.LocalizationService;
+import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.validators.EmailValidator;
+import com.financial.pyramid.settings.Setting;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private LocalizationService localizationService;
+
+    @Autowired
+    private SettingsService settingsService;
 
     private EmailValidator emailValidator = new EmailValidator();
 
@@ -82,6 +87,7 @@ public class EmailServiceImpl implements EmailService {
         Map<String, Object> model = new HashMap<String, Object>(5);
         model.put("name", name);
         model.put("uuid", uuid);
+        model.put("host", settingsService.getProperty(Setting.APPLICATION_URL));
         model.put("email", email);
         model.put("subject", localizationService.translate("invitationToBusiness"));
         setTemplate("invitation-template");
@@ -93,6 +99,7 @@ public class EmailServiceImpl implements EmailService {
         Map<String, Object> model = new HashMap<String, Object>(3);
         model.put("name", name);
         model.put("password", password);
+        model.put("host", settingsService.getProperty(Setting.APPLICATION_URL));
         model.put("email", email);
         model.put("subject", localizationService.translate("passwordIsReady"));
         setTemplate("password-template");
