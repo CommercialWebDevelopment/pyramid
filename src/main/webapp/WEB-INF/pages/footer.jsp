@@ -34,7 +34,7 @@
                 <span><a href="${pageContext.request.contextPath}/pyramid/contacts"><spring:message
                         code="contacts"/></a></span>
             </div>
-            <div class="span1">
+            <div class="contacts">
                 <a href="${pageContext.request.contextPath}/pyramid/redirect?to=vkontakte" target="_blank">
                     <div class="contact vk"></div>
                 </a>

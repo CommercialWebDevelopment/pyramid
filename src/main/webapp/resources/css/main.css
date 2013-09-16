@@ -379,3 +379,9 @@ body > #page-wrap {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.contacts {
+    width: 80px;
+    float: right;
+    margin-right: 10px;
+}
