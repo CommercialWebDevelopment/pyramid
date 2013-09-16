@@ -373,3 +373,9 @@ body > #page-wrap {
     float: left;
     padding-left: 20px;
 }
+
+.profileItemList {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

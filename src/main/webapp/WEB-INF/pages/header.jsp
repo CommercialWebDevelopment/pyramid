@@ -96,9 +96,10 @@
                                 </a>
                                 <ul id="profileDetails" class="dropdown-menu" role="menu"
                                     aria-labelledby="profileLabel">
-                                    <li><span class="profileItem"><%=(user != null) ? user.getShortName() : ""%></span>
+                                    <li class="profileItemList">
+                                        <span class="profileItem"><%=(user != null) ? user.getShortName() : ""%></span>
                                     </li>
-                                    <li><span class="profileItem"><%=(user != null) ? user.getEmail() : ""%></span></li>
+                                    <li class="profileItemList"><span class="profileItem"><%=(user != null) ? user.getEmail() : ""%></span></li>
                                     <li class="divider"></li>
                                     <li>
                                         <a href="${pageContext.request.contextPath}/user/settings">
