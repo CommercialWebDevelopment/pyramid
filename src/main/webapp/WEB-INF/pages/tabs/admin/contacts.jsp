@@ -55,8 +55,6 @@
             </c:forEach>
     </table>
 </div>
-<spring:message code="addContactForm" var="addContactFormTitle"/>
-<spring:message code="editContactForm" var="editContactFormTitle"/>
 <div id="edit-contact-form" class="modal hide fade"
      tabindex="-1" role="dialog"
      aria-labelledby="edit-contact-form-label" aria-hidden="true">

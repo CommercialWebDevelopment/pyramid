@@ -26,12 +26,12 @@ var ContactsAdmin = {
     },
     addForm: function () {
         var form = $("#edit-contact-form");
-        form.find("#edit-contact-form-label").html('${addContactFormTitle}');
+        form.find("#edit-contact-form-label").html(I18N.addContactFormTitle);
         form.modal("show");
     },
     editForm: function (name, phone, email, id) {
         var form = $("#edit-contact-form");
-        form.find("#edit-contact-form-label").html('${editContactFormTitle}');
+        form.find("#edit-contact-form-label").html(I18N.editContactFormTitle);
         form.find("#person").val(name);
         form.find("#phone").val(phone);
         form.find("#email").val(email);
