@@ -39,21 +39,15 @@ public class InvitationController extends AbstractController {
     public String invitation(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("invitation") final InvitationForm invitationForm) {
         if (!emailService.checkEmail(invitationForm.getEmail())) {
             redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("exception.emailIsNotCorrect", invitationForm.getEmail()));
-            return "redirect:/pyramid/office";
-        }
-        if (userService.findByEmail(invitationForm.getEmail()) != null) {
+        } else if (userService.findByEmail(invitationForm.getEmail()) != null) {
             redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("exception.userAlreadyExistWithEmail", invitationForm.getEmail()));
-            return "redirect:/pyramid/office";
-        }
-        if (invitationService.findByEmail(invitationForm.getEmail()) != null) {
+        } else if (invitationService.findByEmail(invitationForm.getEmail()) != null) {
             redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("exception.userAlreadyHasInvitation", invitationForm.getEmail()));
-            return "redirect:/pyramid/office";
-        }
-        if (!invitationService.sendInvitation(invitationForm)) {
+        } else if (!invitationService.sendInvitation(invitationForm)) {
             redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("exception.serviceIsNotAvailable"));
-            return "redirect:/pyramid/office";
+        } else {
+            redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("alert.invitationWasSent"));
         }
-        redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("alert.invitationWasSent"));
         return "redirect:/pyramid/office";
     }
 

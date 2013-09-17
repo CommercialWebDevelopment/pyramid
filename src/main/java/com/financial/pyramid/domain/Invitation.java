@@ -30,10 +30,11 @@ public class Invitation extends AbstractEntity implements Serializable {
     @Column(name = "email", nullable = false, length = 200)
     private String email;
 
-    @Column(name = "sender_id", nullable = false)
-    private Long senderId;
+    @OneToOne
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "parent_id", nullable = false)
     private User parent;
 
@@ -91,11 +92,11 @@ public class Invitation extends AbstractEntity implements Serializable {
         this.parent = parent;
     }
 
-    public Long getSenderId() {
-        return senderId;
+    public User getSender() {
+        return sender;
     }
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 }

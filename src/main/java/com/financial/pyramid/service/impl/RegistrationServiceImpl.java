@@ -70,16 +70,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(invitation.getEmail());
         user.setRole(Role.USER);
         user.setPhoto(getImage(form));
-
-        Account account = new Account();
-        Calendar calendar = Calendar.getInstance();
-        account.setDateActivated(calendar.getTime());
-        calendar.add(Calendar.MONTH, -1);
-        account.setDateExpired(calendar.getTime());
-        account.setLocked(true);
-        account.writeIN(0D);
-        user.setAccount(account);
-
+        user.setLevel(invitation.getParent().getLevel() + 1);
+        setAccount(user);
+        setPassport(user, form);
         DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
         try {
             user.setDateOfBirth(format.parse(form.getDateOfBirth()));
@@ -87,24 +80,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new UserRegistrationException("dateOfBirthIncorrect");
         }
 
-        Passport passport = new Passport();
-        passport.setSerial(form.getPassportSerial());
-        passport.setNumber(form.getPassportNumber());
-        passport.setIssuedBy(form.getPassportIssuedBy());
-        passport.setRegisteredAddress(form.getRegisteredAddress());
-        passport.setResidenceAddress(form.getResidenceAddress());
-
-        try {
-            passport.setDate(format.parse(form.getPassportDate()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            logger.error("User passport date is not set. Email: " + user.getEmail());
-        }
-        user.setPassport(passport);
         String password = Password.generate();
         user.setPassword(passwordEncoder.encode(password));
-        user.setLevel(invitation.getParent().getLevel() + 1);
-        setOwner(user, invitation.getSenderId());
+        setOwner(user, invitation);
         setParent(user, invitation);
         userService.save(user);
 
@@ -154,15 +132,15 @@ public class RegistrationServiceImpl implements RegistrationService {
                 parent = parent.getRightChild();
             parent.setRightChild(user);
         }
-        if (!invitation.getSenderId().equals(parent.getId())) {
+        if (!invitation.getSender().getId().equals(parent.getId())) {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
             parent.getAccount().writeIN(costByUser);
         }
     }
 
-    private void setOwner(User user, Long ownerId) {
+    private void setOwner(User user, Invitation invitation) {
         Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
-        User owner = userService.findById(ownerId);
+        User owner = invitation.getSender();
         if ((user.getLevel() - owner.getLevel()) <= maxLevelForPayment) {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
             owner.getAccount().writeIN(costByUser);
@@ -172,6 +150,35 @@ public class RegistrationServiceImpl implements RegistrationService {
                 owner.getAccount().writeIN(costByCompletedLevel);
             }
         }
-        user.setOwnerId(ownerId);
+        user.setOwnerId(owner.getId());
+    }
+
+    private void setAccount(User user) {
+        Account account = new Account();
+        Calendar calendar = Calendar.getInstance();
+        account.setDateActivated(calendar.getTime());
+        calendar.add(Calendar.MONTH, -1);
+        account.setDateExpired(calendar.getTime());
+        account.setLocked(true);
+        account.writeIN(0D);
+        user.setAccount(account);
+    }
+
+    private void setPassport(User user, RegistrationForm form) {
+        DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
+        Passport passport = new Passport();
+        passport.setSerial(form.getPassportSerial());
+        passport.setNumber(form.getPassportNumber());
+        passport.setIssuedBy(form.getPassportIssuedBy());
+        passport.setRegisteredAddress(form.getRegisteredAddress());
+        passport.setResidenceAddress(form.getResidenceAddress());
+
+        try {
+            passport.setDate(format.parse(form.getPassportDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            logger.error("User passport date is not set. Email: " + user.getEmail());
+        }
+        user.setPassport(passport);
     }
 }

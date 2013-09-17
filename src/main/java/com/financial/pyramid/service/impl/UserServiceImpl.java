@@ -71,13 +71,13 @@ public class UserServiceImpl implements UserService {
         User parent = findParent(id);
         if (parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
             parent.setLeftChild(null);
+            userDao.saveOrUpdate(parent);
         }
         if (parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
             parent.setRightChild(null);
+            userDao.saveOrUpdate(parent);
         }
-        userDao.saveOrUpdate(parent);
         userDao.delete(user);
-
     }
 
     @Override

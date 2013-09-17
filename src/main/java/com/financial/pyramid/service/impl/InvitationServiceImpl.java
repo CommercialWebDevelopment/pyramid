@@ -85,7 +85,7 @@ public class InvitationServiceImpl implements InvitationService {
         invitation.setGlobalId(passwordEncoder.encode(invitationForm.getEmail()));
         invitation.setParent(parent);
         invitation.setPosition(Position.valueOf(invitationForm.getPosition()));
-        invitation.setSenderId(sender.getId());
+        invitation.setSender(sender);
 
         if (emailService.sendInvitation(invitation.getGlobalId(), sender.getName(), invitation.getEmail())) {
             invitationDao.saveOrUpdate(invitation);
