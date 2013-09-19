@@ -163,19 +163,8 @@ public class PayPalController extends AbstractController {
     }
 
     @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String success(RedirectAttributes redirectAttributes, ModelMap model,
-                          @RequestParam(value = "tx", defaultValue = "") String transactionId) {
-        if (transactionId != null && !transactionId.isEmpty()) {
-            logger.info("Transaction " + transactionId + " has been received from PayPal for user " + Session.getCurrentUser().getId());
-            boolean completed = payPalService.isTransactionCompleted(transactionId);
-            logger.info("Transaction " + transactionId + " has been validated (" + completed + ") for user " + Session.getCurrentUser().getId());
-            if (completed) {
-                userService.activateUserAccount(Session.getCurrentUser());
-                redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("paymentSuccess"));
-            } else {
-                redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("paymentFailed"));
-            }
-        }
+    public String success(RedirectAttributes redirectAttributes, ModelMap model) {
+        redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("thanksForPayment"));
         return "redirect:/pyramid/office";
     }
 

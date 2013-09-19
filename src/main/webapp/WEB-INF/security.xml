@@ -40,6 +40,7 @@
         <security:intercept-url pattern="/paypal/payOfficeAndApp" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/paypal/buyOfficeAndApp" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/paypal/success" access="permitAll" />
+        <security:intercept-url pattern="/paypal/notify" access="permitAll" />
         <security:intercept-url pattern="/pyramid/**" access="permitAll" />
         <security:intercept-url pattern="/user/check_date" access="permitAll" />
         <security:intercept-url pattern="/user/authentication" access="permitAll" />
