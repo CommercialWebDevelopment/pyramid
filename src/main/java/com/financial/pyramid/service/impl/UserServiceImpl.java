@@ -235,4 +235,13 @@ public class UserServiceImpl implements UserService {
     public User findParent(Long userId) {
         return userDao.findParent(userId);
     }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void withdrawFromAccount(User user, Double count) {
+        User u = findById(user.getId());
+        if(u == null) return;
+        u.getAccount().writeOFF(count);
+        save(user);
+    }
 }

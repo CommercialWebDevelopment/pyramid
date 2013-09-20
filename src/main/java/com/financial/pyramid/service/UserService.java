@@ -51,4 +51,6 @@ public interface UserService extends UserDetailsService {
     public Long getCountUsersOnLevel(Integer level);
 
     public User findParent(Long userId);
+
+    public void withdrawFromAccount(User user, Double count);
 }

@@ -144,6 +144,7 @@ public class PayPalController extends AbstractController {
             details.memo = localizationService.translate("moneyTransfer");
             boolean result = payPalService.processTransfer(details);
             if (result) {
+                userService.withdrawFromAccount(user, transferSum);
                 redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("operationSuccess"));
             } else {
                 redirectAttributes.addFlashAttribute(AlertType.ERROR.getName(), localizationService.translate("operationFailed"));
