@@ -27,7 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
 
 /**
  * User: Danil
@@ -95,14 +96,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         return true;
     }
 
-    private String getImage(RegistrationForm r){
+    private String getImage(RegistrationForm r) {
         if (r.getPhoto() == null || r.getPhoto().isEmpty()) return null;
         try {
             String type = r.getPhoto().getContentType();
-            if(!AVAILABLE_IMAGE_TYPES.contains(type)) {
+            if (!AVAILABLE_IMAGE_TYPES.contains(type)) {
                 throw new UserRegistrationException("imageTypeIncorrect");
             }
-            if(r.getX() == null || r.getY() == null || r.getW() == null || r.getH() == null) {
+            if (r.getX() == null || r.getY() == null || r.getW() == null || r.getH() == null) {
                 return "data:" + type + ";base64," + Base64.encode(r.getPhoto().getBytes());
             }
             BufferedImage bufferedImage = ImageIO.read(r.getPhoto().getInputStream());
@@ -121,17 +122,38 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private void setParent(User user, Invitation invitation) {
         User parent = invitation.getParent();
+
+        // если родитель ни кого не пригласил
+        // и не активен
+        // и это не тот кто пригласил
+        while (userService.findUsersByOwner(parent.getId()).size() == 0
+                && parent.getAccount().isLocked()
+                && !invitation.getSender().getId().equals(parent.getId())) {
+            parent = userService.findParent(parent.getId());
+        }
+
         if (invitation.getPosition().equals(Position.LEFT)) {
             // если место уже занято, ищем первое свободное по левой ноге
-            while (parent.getLeftChild() != null)
+            // пока в левой ноге кто то есть
+            // и он уже кого то пригласил или активен
+            while (parent.getLeftChild() != null
+                    && (userService.findUsersByOwner(parent.getLeftChild().getId()).size() != 0
+                    || !parent.getLeftChild().getAccount().isLocked())) {
                 parent = parent.getLeftChild();
+            }
             parent.setLeftChild(user);
         } else {
             // если место уже занято, ищем первое свободное по правой ноге
-            while (parent.getRightChild() != null)
+            // пока в правой ноге кто то есть
+            // и он уже кого то пригласил или активен
+            while (parent.getRightChild() != null
+                    && (userService.findUsersByOwner(parent.getRightChild().getId()).size() != 0
+                    || !parent.getRightChild().getAccount().isLocked())) {
                 parent = parent.getRightChild();
+            }
             parent.setRightChild(user);
         }
+        // если пригласившии не является родителем
         if (!invitation.getSender().getId().equals(parent.getId())) {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
             parent.getAccount().writeIN(costByUser);
