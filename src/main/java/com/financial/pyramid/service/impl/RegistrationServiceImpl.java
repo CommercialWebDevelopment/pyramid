@@ -71,7 +71,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setEmail(invitation.getEmail());
         user.setRole(Role.USER);
         user.setPhoto(getImage(form));
-        user.setLevel(invitation.getParent().getLevel() + 1);
         setAccount(user);
         setPassport(user, form);
         DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
@@ -83,8 +82,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         String password = Password.generate();
         user.setPassword(passwordEncoder.encode(password));
-        setOwner(user, invitation);
+
         setParent(user, invitation);
+        setOwner(user, invitation);
+
         userService.save(user);
 
         // отправка пароля после удачной регистрации
@@ -123,9 +124,12 @@ public class RegistrationServiceImpl implements RegistrationService {
     private void setParent(User user, Invitation invitation) {
         User parent = invitation.getParent();
 
-        // если родитель ни кого не пригласил
-        // и не активен
-        // и это не тот кто пригласил
+        /*
+        если родитель ни кого не пригласил
+        и аккаунт не активирован
+        и это не тот кто пригласил
+        перепрыгиваем его
+        */
         while (userService.findUsersByOwner(parent.getId()).size() == 0
                 && parent.getAccount().isLocked()
                 && !invitation.getSender().getId().equals(parent.getId())) {
@@ -133,22 +137,23 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 
         if (invitation.getPosition().equals(Position.LEFT)) {
-            // если место уже занято, ищем первое свободное по левой ноге
-            // пока в левой ноге кто то есть
-            // и он уже кого то пригласил или активен
+            /*
+            если место уже занято, ищем первое свободное по левой ноге
+            пока в левой ноге кто то есть
+            и он уже кого то пригласил или активирован аккаунт
+            */
             while (parent.getLeftChild() != null
                     && (userService.findUsersByOwner(parent.getLeftChild().getId()).size() != 0
                     || !parent.getLeftChild().getAccount().isLocked())) {
                 parent = parent.getLeftChild();
             }
+            // перепревязываем неактивного пользователя
             if (parent.getLeftChild() != null) {
                 user.setLeftChild(parent.getLeftChild());
+                incrementLevel(parent.getLeftChild());
             }
             parent.setLeftChild(user);
-        } else {
-            // если место уже занято, ищем первое свободное по правой ноге
-            // пока в правой ноге кто то есть
-            // и он уже кого то пригласил или активен
+        } else {  // то же самое для правой ноги
             while (parent.getRightChild() != null
                     && (userService.findUsersByOwner(parent.getRightChild().getId()).size() != 0
                     || !parent.getRightChild().getAccount().isLocked())) {
@@ -156,6 +161,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             }
             if (parent.getRightChild() != null) {
                 user.setRightChild(parent.getRightChild());
+                incrementLevel(parent.getRightChild());
             }
             parent.setRightChild(user);
         }
@@ -164,15 +170,18 @@ public class RegistrationServiceImpl implements RegistrationService {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
             parent.getAccount().writeIN(costByUser);
         }
+        user.setLevel(parent.getLevel() + 1);
     }
 
     private void setOwner(User user, Invitation invitation) {
-        Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
         User owner = invitation.getSender();
+        Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
+        // если за этого пользователя положена оплата
         if ((user.getLevel() - owner.getLevel()) <= maxLevelForPayment) {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
             owner.getAccount().writeIN(costByUser);
             Long count = userService.getCountUsersOnLevel(user.getLevel());
+            // если уровень заполнен
             if (count.equals(user.getLevel().longValue())) {
                 Double costByCompletedLevel = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_COMPLETED_LEVEL));
                 owner.getAccount().writeIN(costByCompletedLevel);
@@ -208,5 +217,11 @@ public class RegistrationServiceImpl implements RegistrationService {
             logger.error("User passport date is not set. Email: " + user.getEmail());
         }
         user.setPassport(passport);
+    }
+
+    private void incrementLevel(User user) {
+        user.setLevel(user.getLevel() + 1);
+        if (user.getLeftChild() != null) incrementLevel(user.getLeftChild());
+        if (user.getRightChild() != null) incrementLevel(user.getRightChild());
     }
 }
