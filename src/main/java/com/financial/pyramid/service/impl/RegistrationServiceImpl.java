@@ -141,6 +141,9 @@ public class RegistrationServiceImpl implements RegistrationService {
                     || !parent.getLeftChild().getAccount().isLocked())) {
                 parent = parent.getLeftChild();
             }
+            if (parent.getLeftChild() != null) {
+                user.setLeftChild(parent.getLeftChild());
+            }
             parent.setLeftChild(user);
         } else {
             // если место уже занято, ищем первое свободное по правой ноге
@@ -150,6 +153,9 @@ public class RegistrationServiceImpl implements RegistrationService {
                     && (userService.findUsersByOwner(parent.getRightChild().getId()).size() != 0
                     || !parent.getRightChild().getAccount().isLocked())) {
                 parent = parent.getRightChild();
+            }
+            if (parent.getRightChild() != null) {
+                user.setRightChild(parent.getRightChild());
             }
             parent.setRightChild(user);
         }
