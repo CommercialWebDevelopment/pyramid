@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
             logger.error("User passport date is not set");
         }
         user.setPassport(passport);
-        save(user);
+        userDao.saveOrUpdate(user);
     }
 
     @Override
