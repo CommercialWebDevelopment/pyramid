@@ -83,8 +83,10 @@ public class RegistrationServiceImpl implements RegistrationService {
         String password = Password.generate();
         user.setPassword(passwordEncoder.encode(password));
 
-        setParent(user, invitation);
-        setOwner(user, invitation);
+        User parent = findParent(invitation);
+        user.setLevel(parent.getLevel() + 1);
+        setOwner(user, invitation.getSender());
+        setParent(user, invitation, parent);
 
         userService.save(user);
 
@@ -121,7 +123,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         return null;
     }
 
-    private void setParent(User user, Invitation invitation) {
+    private User findParent(Invitation invitation) {
         User parent = invitation.getParent();
 
         /*
@@ -147,18 +149,24 @@ public class RegistrationServiceImpl implements RegistrationService {
                     || !parent.getLeftChild().getAccount().isLocked())) {
                 parent = parent.getLeftChild();
             }
-            // перепревязываем неактивного пользователя
-            if (parent.getLeftChild() != null) {
-                user.setLeftChild(parent.getLeftChild());
-                incrementLevel(parent.getLeftChild());
-            }
-            parent.setLeftChild(user);
         } else {  // то же самое для правой ноги
             while (parent.getRightChild() != null
                     && (userService.findUsersByOwner(parent.getRightChild().getId()).size() != 0
                     || !parent.getRightChild().getAccount().isLocked())) {
                 parent = parent.getRightChild();
             }
+        }
+        return parent;
+    }
+
+    private void setParent(User user, Invitation invitation, User parent) {
+        if (invitation.getPosition().equals(Position.LEFT)) {
+            if (parent.getLeftChild() != null) {
+                user.setLeftChild(parent.getLeftChild());
+                incrementLevel(parent.getLeftChild());
+            }
+            parent.setLeftChild(user);
+        } else {
             if (parent.getRightChild() != null) {
                 user.setRightChild(parent.getRightChild());
                 incrementLevel(parent.getRightChild());
@@ -170,11 +178,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
             parent.getAccount().writeIN(costByUser);
         }
-        user.setLevel(parent.getLevel() + 1);
     }
 
-    private void setOwner(User user, Invitation invitation) {
-        User owner = invitation.getSender();
+    private void setOwner(User user, User owner) {
         Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
         // если за этого пользователя положена оплата
         if ((user.getLevel() - owner.getLevel()) <= maxLevelForPayment) {
