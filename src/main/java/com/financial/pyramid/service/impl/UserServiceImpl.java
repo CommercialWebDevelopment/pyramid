@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = false)
     public void save(User user) {
-        userDao.saveOrUpdate(user);
+        userDao.merge(user);
     }
 
     @Override
