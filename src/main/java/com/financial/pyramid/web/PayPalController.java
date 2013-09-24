@@ -74,7 +74,7 @@ public class PayPalController extends AbstractController {
         if (!totalPrice.toString().equals(details.amount)) {
             details.amount = totalPrice.toString();
         }
-        details.memo = localizationService.translate("paymentOffice");
+        details.memo = localizationService.translate("paymentOfficeAndApp");
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
     }
