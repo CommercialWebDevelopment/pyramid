@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = false)
     public void save(User user) {
-        userDao.saveOrUpdate(user);
+        userDao.merge(user);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
             logger.error("User passport date is not set");
         }
         user.setPassport(passport);
-        save(user);
+        userDao.saveOrUpdate(user);
     }
 
     @Override
