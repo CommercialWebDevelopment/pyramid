@@ -16,6 +16,7 @@ public class UserForm {
     private Date birthDate;
     private String bigPhoto;
     private String phoneNumber;
+    private boolean showDetails;
 
     public UserForm(String name, String surname, String phoneNumber, String photo, String bigPhoto, String email,
                     Date birthDate, boolean active) {
@@ -27,6 +28,21 @@ public class UserForm {
         this.bigPhoto = bigPhoto;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
+        this.showDetails = true;
+    }
+
+    public UserForm(String photo, boolean active) {
+        this.photo = photo;
+        this.active = active;
+        this.showDetails = false;
+    }
+
+    public boolean isShowDetails() {
+        return showDetails;
+    }
+
+    public void setShowDetails(boolean showDetails) {
+        this.showDetails = showDetails;
     }
 
     public String getPhoto() {

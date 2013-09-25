@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private final static Logger logger = Logger.getLogger(UserService.class);
 
     private final static Integer COUNT_LEVEL_IN_USER_TREE = 4;
+    private final static Integer COUNT_LEVEL_FOR_USER_DETAILS = 3;
 
     @Autowired
     private UserDao userDao;
@@ -60,7 +61,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = false)
     public void save(User user) {
-        userDao.merge(user);
+        userDao.saveOrUpdate(user);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public User merge(User user) {
+        return userDao.merge(user);
     }
 
     @Override
@@ -157,7 +164,8 @@ public class UserServiceImpl implements UserService {
     public BinaryTree getBinaryTree(User u) {
         User user = findById(u.getId());
         Integer levels = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_IN_USER_TREE));
-        return new BinaryTree(user, levels == null ? COUNT_LEVEL_IN_USER_TREE : levels);
+        Integer details = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_FOR_USER_DETAILS));
+        return new BinaryTree(user, levels == null ? COUNT_LEVEL_IN_USER_TREE : levels, details == null ? COUNT_LEVEL_FOR_USER_DETAILS : details);
     }
 
     @Override
@@ -242,6 +250,6 @@ public class UserServiceImpl implements UserService {
         User u = findById(user.getId());
         if(u == null) return;
         u.getAccount().writeOFF(count);
-        save(user);
+        merge(user);
     }
 }

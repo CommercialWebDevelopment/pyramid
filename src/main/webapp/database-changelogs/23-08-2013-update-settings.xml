@@ -66,4 +66,13 @@
             ]]>
         </sql>
     </changeSet>
+
+    <changeSet id="additional-settings-2" author="Danil">
+        <comment>Additional settings</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('countLevelForUserDetails', '3');
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

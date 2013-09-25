@@ -36,4 +36,5 @@ public class Setting {
     public static String COST_BY_USER = "costByUser";
     public static String COST_BY_PERSONAL_USER = "costByPersonalUser";
     public static String MAX_LEVEL_FOR_PAYMENT = "maxLevelForPayment";
+    public static String COUNT_LEVEL_FOR_USER_DETAILS = "countLevelForUserDetails";
 }

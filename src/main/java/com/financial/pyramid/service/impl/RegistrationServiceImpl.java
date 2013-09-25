@@ -216,12 +216,14 @@ public class RegistrationServiceImpl implements RegistrationService {
         passport.setRegisteredAddress(form.getRegisteredAddress());
         passport.setResidenceAddress(form.getResidenceAddress());
 
-        try {
-            passport.setDate(format.parse(form.getPassportDate()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            logger.error("User passport date is not set. Email: " + user.getEmail());
+        if (form.getPassportDate() != null && !form.getPassportDate().isEmpty()) {
+            try {
+                passport.setDate(format.parse(form.getPassportDate()));
+            } catch (ParseException e) {
+                logger.error("User passport date is not set. Email: " + user.getEmail());
+            }
         }
+
         user.setPassport(passport);
     }
 

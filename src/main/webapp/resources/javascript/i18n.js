@@ -49,6 +49,7 @@ var I18N = {
     costByPersonalUser:'<spring:message code="costByPersonalUser" javaScriptEscape="true"/>',
     maxLevelForPayment:'<spring:message code="maxLevelForPayment" javaScriptEscape="true"/>',
     addContactFormTitle:'<spring:message code="addContactForm" javaScriptEscape="true"/>',
-    editContactFormTitle:'<spring:message code="editContactForm" javaScriptEscape="true"/>'
+    editContactFormTitle:'<spring:message code="editContactForm" javaScriptEscape="true"/>',
+    countLevelForUserDetails:'<spring:message code="countLevelForUserDetails" javaScriptEscape="true"/>'
 };
 

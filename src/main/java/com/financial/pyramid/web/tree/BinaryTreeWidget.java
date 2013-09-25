@@ -51,13 +51,25 @@ public class BinaryTreeWidget {
         String statusText = user.isActive() ? this.activeStatus : this.inactiveStatus;
         String statusColor = user.isActive() ? "green" : "red";
         String popupTitle = "<div><b>" + user.getName() + " " + user.getSurname() + "</b></div>";
-        String popupContent = "<small><div>" + user.getEmail() + "</div><div style=\"color:" + statusColor + "\">" + statusText + "</div></small>";
+        String popupContent;
+
+        if (!user.isShowDetails()) {
+            popupContent = "<small><div style=\"color:" + statusColor + "\">" + statusText + "</div></small>";
+        } else {
+            popupContent = "<small><div>" + user.getEmail() + "</div><div style=\"color:" + statusColor + "\">" + statusText + "</div></small>";
+        }
 
         String result = "<div class='" + clazz + "' style='width:" + calculateNodeWidth(tree) + "px'>";
         result += "<div class='user-info'>";
         result += "<img src=\"" + photo + "\" class='user-photo'";
-        result += "title='" + popupTitle + "' data-content='" + popupContent + "'><br>";
-        result += "<div class='user-name'>" + user.getName() + " " + user.getSurname() + "</div>";
+
+        if (!user.isShowDetails()) {
+            result += "data-content='" + popupContent + "'><br>";
+        } else {
+            result += "title='" + popupTitle + "' data-content='" + popupContent + "'><br>";
+            result += "<div class='user-name'>" + user.getName() + " " + user.getSurname() + "</div>";
+        }
+
         result += "</div>";
         result += ((tree.isLeft() || tree.isRight() || both) ? "<canvas class='user-pointer' " +
                 "drawLeft='" + (tree.isLeft() || both) + "' " +
