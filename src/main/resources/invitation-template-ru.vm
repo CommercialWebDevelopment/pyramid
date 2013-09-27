@@ -5,8 +5,7 @@
     Для того чтобы продолжить регистрацию, перейдите по <a href="${host}/invitation/confirm?ui=${uuid}">этой</a> ссылке.
     <br>
     <br>
-    С уважением,<br>
-    Команда Project X
+    ${emailFooter}
 </div>
 </body>
 

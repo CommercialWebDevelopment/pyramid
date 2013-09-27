@@ -5,8 +5,7 @@
     If you have got this email from us, then your email address is correct.
     <br>
     <br>
-    Regards,<br>
-    Project X team
+    ${emailFooter}
 </div>
 </body>
 </html>

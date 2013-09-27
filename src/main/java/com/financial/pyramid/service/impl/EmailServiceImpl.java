@@ -51,6 +51,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public boolean sendEmail(User user, Map model) {
         try {
+            model.put("emailFooter", localizationService.translate("emailFooter"));
             String projectName = localizationService.translate("projectName");
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -117,6 +118,7 @@ public class EmailServiceImpl implements EmailService {
 
     private boolean sendEmail(Map<String, Object> model) {
         try {
+            model.put("emailFooter", localizationService.translate("emailFooter"));
             String projectName = localizationService.translate("projectName");
             String subject = (String) model.get("subject");
             MimeMessage message = mailSender.createMimeMessage();

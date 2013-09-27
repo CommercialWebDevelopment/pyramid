@@ -10,6 +10,6 @@
 <c:if test="${alert_success != null}">
     <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong><spring:message code='success'/>!</strong> <c:out value="${alert_success}"/>.
+        <c:out value="${alert_success}"/>.
     </div>
 </c:if>

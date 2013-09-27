@@ -12,7 +12,7 @@
                 <span class="copyright">&nbsp;&copy&nbsp;<script>Copyright.get()</script></span>
 
                 <div class="copyright">
-                    &nbsp;Название
+                    &nbsp;<spring:message code="projectName"/>
                 </div>
             </div>
             <div class="span9">

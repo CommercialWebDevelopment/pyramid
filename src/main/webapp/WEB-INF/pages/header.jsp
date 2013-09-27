@@ -50,9 +50,7 @@
             <%--Header--%>
             <div id="header" class="row-fluid">
                 <div class="span6">
-                    <h1>Название |
-                        <small>Финансовый проект №1</small>
-                    </h1>
+                    <h1><spring:message code="projectName"/></h1>
                 </div>
                 <div class="span4" style="overflow: visible">
                     <ul class="nav nav-pills" style="float: right">

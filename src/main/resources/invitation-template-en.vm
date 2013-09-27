@@ -5,8 +5,7 @@
     For continuing registration procedure, please follow <a href="${host}/user/confirm?ui=${uuid}">this</a> link.
     <br>
     <br>
-    Regards,<br>
-    Project X team
+    ${emailFooter}
 </div>
 </body>
 </html>

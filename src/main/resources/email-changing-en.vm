@@ -5,8 +5,7 @@
     You have requested to change you email address. Please click <a href="${return_url}">here</a> to return back to complete email confirmation.
     <br>
     <br>
-    Regards,<br>
-    Project X team
+    ${emailFooter}
 </div>
 </body>
 </html>
