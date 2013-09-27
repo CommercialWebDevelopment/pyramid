@@ -219,6 +219,13 @@ var EarningsReport = {
         xaxis: {
             tickDecimals: 0,
             tickSize: 1
+        },
+        yaxis: {
+            tickDecimals: 2,
+            tickSize: 0
+        },
+        grid: {
+            hoverable: true
         }
     },
     url: "/reports/earnings",

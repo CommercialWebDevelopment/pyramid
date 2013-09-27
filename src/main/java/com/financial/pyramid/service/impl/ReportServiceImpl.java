@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +36,8 @@ public class ReportServiceImpl implements ReportService {
         List<Double> earnings = reportDao.getEarningsData(dateFrom, dateTo, accountId);
         if (!earnings.isEmpty()) {
             for (int i = 1; i <= earnings.size(); i++) {
-                result.add(new Object[][]{{i}, {earnings.get(i - 1).toString()}});
+                BigDecimal sum = new BigDecimal(earnings.get(i - 1)).setScale(2, BigDecimal.ROUND_HALF_DOWN);
+                result.add(new Object[][]{{i}, {sum}});
             }
         } else {
             result.add(new Object[][]{{0},{0}});
