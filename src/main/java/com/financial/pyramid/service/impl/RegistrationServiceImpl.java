@@ -83,10 +83,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         String password = Password.generate();
         user.setPassword(passwordEncoder.encode(password));
 
-        User parent = findParent(invitation);
-        user.setLevel(parent.getLevel() + 1);
-        setOwner(user, invitation.getSender());
-        setParent(user, invitation, parent);
+        User owner = updateOwner(user, invitation);
+        if (owner.getId().equals(invitation.getParent().getId())) {
+            invitation.setParent(owner);
+        }
+        User parent = updateParent(user, invitation);
+        payment(owner, parent, user);
 
         userService.save(user);
 
@@ -95,7 +97,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new UserRegistrationException("serviceIsNotAvailable");
 
         invitationService.delete(invitation);
-        logger.info("User registered! id: " + user.getId() + "; email: " + user.getEmail());
+        logger.info("User registered! id: " + user.getId() + "; email: " + user.getEmail() + " " + password);
         return true;
     }
 
@@ -123,77 +125,105 @@ public class RegistrationServiceImpl implements RegistrationService {
         return null;
     }
 
-    private User findParent(Invitation invitation) {
-        User parent = invitation.getParent();
-
-        /*
-        если родитель ни кого не пригласил
-        и аккаунт не активирован
-        и это не тот кто пригласил
-        перепрыгиваем его
-        */
-        while (userService.findUsersByOwner(parent.getId()).size() == 0
-                && parent.getAccount().isLocked()
-                && !invitation.getSender().getId().equals(parent.getId())) {
-            parent = userService.findParent(parent.getId());
+    private User findFirstInactiveUser(User user) {
+        if (user == null) return null;
+        User inactiveUser = null;
+        User next = user;
+        while (next.getCountInvitedUsers() == 0) {
+            inactiveUser = next;
+            next = userService.findParent(next.getId());
         }
+        return inactiveUser;
+    }
 
-        if (invitation.getPosition().equals(Position.LEFT)) {
-            /*
-            если место уже занято, ищем первое свободное по левой ноге
-            пока в левой ноге кто то есть
-            и он уже кого то пригласил или активирован аккаунт
-            */
-            while (parent.getLeftChild() != null
-                    && (userService.findUsersByOwner(parent.getLeftChild().getId()).size() != 0
-                    || !parent.getLeftChild().getAccount().isLocked())) {
+    // выставляет участнику user, родителя parent, обновляя связи
+    // возвращает общего родителя
+    private User setParentForUser(User user, User parent) {
+        User userParent = userService.findParent(user.getId());
+        // user уже имеет родителя
+        if (userParent != null) {
+            // parent имеет свох детей, передаем их его родителю
+            if (parent.getId() != null) {
+                User parentParent = userService.findParent(parent.getId());
+                if (parentParent.getLeftChild() != null && parentParent.getLeftChild().getId().equals(parent.getId())) {
+                    parentParent.setLeftChild(parent.getLeftChild());
+                } else {
+                    parentParent.setRightChild(parent.getRightChild());
+                }
+            }
+            // выставляем user детем parent а parent детем userParent
+            if (userParent.getLeftChild() != null && userParent.getLeftChild().getId().equals(user.getId())) {
+                parent.setLeftChild(user);
+                userParent.setLeftChild(parent);
+            } else {
+                parent.setRightChild(user);
+                userParent.setRightChild(parent);
+            }
+            // так как начиная с parent, уровни у низстоящих пользователей поменялись, то инкрементим
+            parent.setLevel(userParent.getLevel());
+            incrementLevel(parent);
+        }
+        return userParent;
+    }
+
+    private void setUserToPosition(User user, User parent, Position position) {
+        // если место уже занято, ищем первое свободное
+        if (position.equals(Position.LEFT)) {
+            while (parent.getLeftChild() != null && parent.getLeftChild().getCountInvitedUsers() != 0) {
                 parent = parent.getLeftChild();
             }
-        } else {  // то же самое для правой ноги
-            while (parent.getRightChild() != null
-                    && (userService.findUsersByOwner(parent.getRightChild().getId()).size() != 0
-                    || !parent.getRightChild().getAccount().isLocked())) {
+            user.setLeftChild(parent.getLeftChild());
+            parent.setLeftChild(user);
+        } else {
+            while (parent.getRightChild() != null && parent.getRightChild().getCountInvitedUsers() != 0) {
                 parent = parent.getRightChild();
             }
+            user.setRightChild(parent.getRightChild());
+            parent.setRightChild(user);
         }
+    }
+
+    private User updateParent(User user, Invitation invitation) {
+        User parent = invitation.getParent();
+        User inactiveUserOverParent = findFirstInactiveUser(parent);
+
+        /* если есть неактивные участники над родителем
+        * поднимаем нового участника до первого активного
+        * иначе ставим в запланирванную позицию
+        * */
+        if (inactiveUserOverParent != null) {
+            parent = setParentForUser(inactiveUserOverParent, user);
+        } else {
+            setUserToPosition(user, parent, invitation.getPosition());
+            user.setLevel(parent.getLevel() + 1);
+        }
+
         return parent;
     }
 
-    private void setParent(User user, Invitation invitation, User parent) {
-        if (invitation.getPosition().equals(Position.LEFT)) {
-            if (parent.getLeftChild() != null) {
-                user.setLeftChild(parent.getLeftChild());
-                incrementLevel(parent.getLeftChild());
-            }
-            parent.setLeftChild(user);
-        } else {
-            if (parent.getRightChild() != null) {
-                user.setRightChild(parent.getRightChild());
-                incrementLevel(parent.getRightChild());
-            }
-            parent.setRightChild(user);
+    private User updateOwner(User user, Invitation invitation) {
+        User owner = invitation.getSender();
+        User parent = userService.findParent(owner.getId());
+        User inactiveUserOverOwner = findFirstInactiveUser(parent);
+
+        /* если есть неактивные участники над приглашающим
+        * поднимаем приглашаущего до первого активного участника
+        * */
+        if (inactiveUserOverOwner != null) {
+            setParentForUser(inactiveUserOverOwner, owner);
         }
-        // если пригласившии не является родителем
-        if (!invitation.getSender().getId().equals(parent.getId())) {
-            Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
-            parent.getAccount().writeIN(costByUser);
-        }
+        user.setOwnerId(owner.getId());
+        owner.setCountInvitedUsers(owner.getCountInvitedUsers() + 1);
+        return owner;
     }
 
-    private void setOwner(User user, User owner) {
+    private void payment(User owner, User parent, User user) {
         Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
         // если за этого пользователя положена оплата
         if ((user.getLevel() - owner.getLevel()) <= maxLevelForPayment) {
             Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
             owner.getAccount().writeIN(costByUser);
-            Long count = userService.getCountUsersOnLevel(user.getLevel());
-            // если уровень заполнен
-            if (count.equals(user.getLevel().longValue())) {
-                Double costByCompletedLevel = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_COMPLETED_LEVEL));
-                owner.getAccount().writeIN(costByCompletedLevel);
-            }
         }
-        user.setOwnerId(owner.getId());
     }
 
     private void setAccount(User user) {

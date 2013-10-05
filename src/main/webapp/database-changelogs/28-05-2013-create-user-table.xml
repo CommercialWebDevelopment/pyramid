@@ -76,6 +76,9 @@
             <column name="level" type="int">
                 <constraints nullable="false"/>
             </column>
+            <column name="count_invited_users" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -93,6 +96,7 @@
             <column name="account_id" value="1"/>
             <column name="created" value="NOW()"/>
             <column name="level" value="0"/>
+            <column name="count_invited_users" value="0"/>
         </insert>
     </changeSet>
 

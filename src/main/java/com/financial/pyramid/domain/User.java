@@ -82,6 +82,17 @@ public class User extends AbstractEntity implements Serializable {
     @Column(name = "level", nullable = false)
     private Integer level;
 
+    @Column(name = "count_invited_users", nullable = false)
+    private Integer countInvitedUsers = 0;
+
+    public Integer getCountInvitedUsers() {
+        return countInvitedUsers;
+    }
+
+    public void setCountInvitedUsers(Integer countInvitedUsers) {
+        this.countInvitedUsers = countInvitedUsers;
+    }
+
     public Integer getLevel() {
         return level;
     }
