@@ -59,7 +59,7 @@ public class TestController extends AbstractController {
     public String extendTest(ModelMap model) {
         User currentUser = Session.getCurrentUser();
         Account account = userService.getAccount(currentUser);
-        accountService.activate(account);
+        accountService.activate(account, 1);
         return "Done";
     }
 

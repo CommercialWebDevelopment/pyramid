@@ -24,6 +24,7 @@ public class PayPalDetails {
     public String receiverEmail;
     public String globalId;
     public String currencySign;
+    public int months;
 
     public String getActionType() {
         return actionType;
@@ -151,5 +152,13 @@ public class PayPalDetails {
 
     public void setCurrencySign(String currencySign) {
         this.currencySign = currencySign;
+    }
+
+    public int getMonths() {
+        return months;
+    }
+
+    public void setMonths(int months) {
+        this.months = months;
     }
 }

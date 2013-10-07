@@ -1,5 +1,6 @@
 package com.financial.pyramid.web;
 
+import com.financial.pyramid.domain.Operation;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.*;
 import com.financial.pyramid.service.beans.PayPalDetails;
@@ -11,7 +12,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,10 +70,9 @@ public class PayPalController extends AbstractController {
     public String payOfficeAndApp(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
-        Double totalPrice = Double.valueOf(officePrice) + Double.valueOf(applicationPrice);
-        if (!totalPrice.toString().equals(details.amount)) {
-            details.amount = totalPrice.toString();
-        }
+        details.months = details.months > 12 ? 12 : details.months;
+        Double totalPrice = Double.valueOf(officePrice) * details.months + Double.valueOf(applicationPrice);
+        details.amount = totalPrice.toString();
         details.memo = localizationService.translate("paymentOfficeAndApp");
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
@@ -98,9 +97,9 @@ public class PayPalController extends AbstractController {
     @RequestMapping(value = "/payOffice", method = RequestMethod.POST)
     public String payOffice(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
-        if (!officePrice.equals(details.amount)) {
-            details.amount = officePrice;
-        }
+        details.months = details.months > 12 ? 12 : details.months;
+        Double totalPrice = Double.valueOf(officePrice) * details.months;
+        details.amount = totalPrice.toString();
         details.memo = localizationService.translate("paymentOffice");
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
@@ -186,8 +185,9 @@ public class PayPalController extends AbstractController {
             boolean verified = payPalService.verifyNotification(params);
             logger.info("Transaction " + transactionId + " has been verified (" + verified + ")");
             if (verified) {
+                Operation operation = operationsService.findByTransactionId(transactionId);
                 User user = userService.findByEmail(payerEmail);
-                userService.activateUserAccount(user);
+                userService.activateUserAccount(user, operation.getMonthsPayed());
             }
         }
     }

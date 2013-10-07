@@ -173,6 +173,7 @@ public class PayPalServiceImpl implements PayPalService {
         operation.setPayee(payPalDetails.receiverList.get(0).email);
         operation.setAmount(Double.valueOf(payPalDetails.receiverList.get(0).amount));
         operation.setSuccess(isSuccessfulPayment(payPalResponse.responseEnvelope.ack));
+        operation.setMonthsPayed(payPalDetails.months);
         operation.setResult(result);
 
         User user = Session.getCurrentUser();

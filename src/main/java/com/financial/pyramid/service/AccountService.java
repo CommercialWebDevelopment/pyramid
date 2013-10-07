@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * Time: 14:30
  */
 public interface AccountService {
-    public void activate(Account account);
+    public void activate(Account account, int months);
     public void deactivate(Account account);
     public void calculateSum(Account account, Double sum);
     public void update(Account account);

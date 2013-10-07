@@ -53,6 +53,9 @@ public class Operation extends AbstractEntity {
     @Column(name="transactionId", nullable = true)
     public String transactionId;
 
+    @Column(name="monthsPayed", nullable = false)
+    public Integer monthsPayed;
+
     public String getType() {
         return type;
     }
@@ -155,5 +158,13 @@ public class Operation extends AbstractEntity {
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public Integer getMonthsPayed() {
+        return monthsPayed;
+    }
+
+    public void setMonthsPayed(Integer monthsPayed) {
+        this.monthsPayed = monthsPayed;
     }
 }

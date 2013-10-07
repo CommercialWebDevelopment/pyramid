@@ -42,4 +42,10 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="ADD-MONTHS-PAYED-COLUMN" author="Dmitry">
+        <addColumn tableName="operations">
+            <column name="monthsPayed" type="INT" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

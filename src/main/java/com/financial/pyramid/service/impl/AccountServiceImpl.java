@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
     private AccountDao accountDao;
 
     @Override
-    public void activate(Account account) {
+    public void activate(Account account, int months) {
         Date currentDate = new Date();
         Date newActivationDate = null;
         if (account.getDateExpired().before(currentDate)){
@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
         }
         account.setLocked(false);
         account.setDateActivated(newActivationDate);
-        account.setDateExpired(new DateTime(newActivationDate).plusMonths(1).plusDays(1).toDate());
+        account.setDateExpired(new DateTime(newActivationDate).plusMonths(months).plusDays(1).toDate());
         account.setAppPaid(true);
         update(account);
     }

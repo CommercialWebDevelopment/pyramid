@@ -46,7 +46,7 @@ public interface UserService extends UserDetailsService {
 
     public Account getAccount(User user);
 
-    public void activateUserAccount(User user);
+    public void activateUserAccount(User user, int monthsPayed);
 
     public void deactivateUserAccount(User user);
 

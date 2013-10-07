@@ -97,7 +97,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new UserRegistrationException("serviceIsNotAvailable");
 
         invitationService.delete(invitation);
-        logger.info("User registered! id: " + user.getId() + "; email: " + user.getEmail() + " " + password);
+        logger.info("User registered! id: " + user.getId() + "; email: " + user.getEmail());
         return true;
     }
 

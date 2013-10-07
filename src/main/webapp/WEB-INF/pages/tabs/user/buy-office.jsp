@@ -11,7 +11,8 @@
     </div>
 </div>
 <div class="row-fluid">
-    <form:form action="/paypal/payOfficeAndApp" modelAttribute="payPalDetails" id="payForm" onsubmit="return BuyOfficePage.beforeSubmit()">
+    <form:form action="/paypal/payOfficeAndApp" modelAttribute="payPalDetails" id="payForm"
+               onsubmit="return BuyOfficePage.beforeSubmit()">
         <legend><spring:message code="privateOfficeAndAppBuyFormTitle"/></legend>
         <input type="hidden" name="returnUrl" value="${payPalDetails.returnUrl}"/>
         <input type="hidden" name="cancelUrl" value="${payPalDetails.cancelUrl}"/>
@@ -19,19 +20,21 @@
         <input type="hidden" name="receiverEmail" value="${payPalDetails.receiverEmail}"/>
         <input type="hidden" name="memo" value=""/>
 
+        <div class="span11 text-center" style="font-size: 18px">
+            <spring:message code="privateOfficeAndAppPrice"/>:<b> ${payPalDetails.currencySign}${payPalDetails.amount} x
+            <span id="monthsCount">1 <spring:message code="monthSingle"/></span> = ${payPalDetails.currencySign}<span id="paymentAmount">${payPalDetails.amount}</span></b>
+        </div>
         <div class="span11 text-center">
-            <spring:message code="privateOfficeAndAppPrice"/><b> ${payPalDetails.currencySign}${payPalDetails.amount}</b>
+            <div id="amountSlider" style="width:265px"></div>
         </div>
         <div class="span11 text-center">
             <div class="control-group">
-                <input type="hidden" name="amount" value="${payPalDetails.amount}"/>
+                <input id="officePrice" type="hidden" name="amount" value="${payPalDetails.amount}"/>
+                <input id="officeMonths" type="hidden" name="months" value="1"/>
                 <label class="control-label" for="emailField"><spring:message code="payPalLogin"/>:</label>
 
                 <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on">@</span>
-                        <input class="span12" id="emailField" type="text" name="senderEmail">
-                    </div>
+                    <input class="span4" id="emailField" type="text" name="senderEmail">
                 </div>
             </div>
         </div>

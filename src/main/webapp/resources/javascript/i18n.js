@@ -50,6 +50,9 @@ var I18N = {
     maxLevelForPayment:'<spring:message code="maxLevelForPayment" javaScriptEscape="true"/>',
     addContactFormTitle:'<spring:message code="addContactForm" javaScriptEscape="true"/>',
     editContactFormTitle:'<spring:message code="editContactForm" javaScriptEscape="true"/>',
-    countLevelForUserDetails:'<spring:message code="countLevelForUserDetails" javaScriptEscape="true"/>'
+    countLevelForUserDetails:'<spring:message code="countLevelForUserDetails" javaScriptEscape="true"/>',
+    monthSingle:'<spring:message code="monthSingle" javaScriptEscape="true"/>',
+    monthMulti:'<spring:message code="monthMulti" javaScriptEscape="true"/>',
+    monthMany:'<spring:message code="monthMany" javaScriptEscape="true"/>'
 };
 
