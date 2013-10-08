@@ -25,6 +25,10 @@ $(document).ready(function () {
         ctx.stroke();
     }
     $(".user-info").find("img").popover({placement: "right", animation: true, html: true, trigger: "hover"});
+
+    var tree = $("#treeContainer");
+    tree.scrollLeft(parseInt(tree[0].offsetLeft) / 2);
+
     var form = $("#user-email-form");
     $(".stub-node").click(function () {
         form.find("#parentId").val($(this).attr("parentId"));
@@ -153,6 +157,7 @@ $(document).ready(function () {
         })(file);
         reader.readAsDataURL(file);
     });
+
     var amountSlider = $('#amountSlider');
     var paymentAmount = $('#paymentAmount');
     var officePrice = $('#officePrice');
