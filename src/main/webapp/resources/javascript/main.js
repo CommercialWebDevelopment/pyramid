@@ -60,7 +60,7 @@ var Alert = {
     },
     position: function (dialog) {
         dialog.css("left", ($(document).innerWidth() - dialog.width()) / 2);
-        dialog.css("top", $(document).scrollTop() + $('body')[0].clientHeight / 2 - dialog.height());
+        dialog.css("top", $(document).scrollTop() + 10);
     }
 };
 var LoadingBar = {
