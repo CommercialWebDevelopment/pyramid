@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var userPointer = $(".user-pointer");
+    var rootUser = $(".user-tree")[0];
     for (var i = 0; i < userPointer.length; i++) {
         var obj = userPointer[i];
         var $obj = $(obj);
@@ -27,7 +28,7 @@ $(document).ready(function () {
     $(".user-info").find("img").popover({placement: "right", animation: true, html: true, trigger: "hover"});
 
     var tree = $("#treeContainer");
-    tree.scrollLeft(parseInt(tree[0].offsetLeft) / 2);
+    tree.scrollLeft(rootUser.offsetWidth / 2 - tree.width() / 2);
 
     var form = $("#user-email-form");
     $(".stub-node").click(function () {
