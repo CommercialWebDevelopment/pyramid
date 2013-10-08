@@ -232,7 +232,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         account.setDateActivated(calendar.getTime());
         calendar.add(Calendar.MONTH, -1);
         account.setDateExpired(calendar.getTime());
-        account.setLocked(true);
         account.writeIN(0D);
         user.setAccount(account);
     }

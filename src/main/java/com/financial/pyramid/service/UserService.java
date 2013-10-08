@@ -48,8 +48,6 @@ public interface UserService extends UserDetailsService {
 
     public void activateUserAccount(User user, int monthsPayed);
 
-    public void deactivateUserAccount(User user);
-
     public Long getCountUsersOnLevel(Integer level);
 
     public User findParent(Long userId);

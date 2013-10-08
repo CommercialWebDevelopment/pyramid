@@ -14,6 +14,7 @@ public class AccountDetails {
     private Date dateActivated;
     private double balance;
     private boolean appPaid;
+    private boolean isLocked;
 
     public boolean isAppPaid() {
         return appPaid;
@@ -61,5 +62,13 @@ public class AccountDetails {
 
     public void setDateActivated(Date dateActivated) {
         this.dateActivated = dateActivated;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
     }
 }

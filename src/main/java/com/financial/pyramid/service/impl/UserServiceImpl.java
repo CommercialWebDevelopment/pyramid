@@ -202,10 +202,7 @@ public class UserServiceImpl implements UserService {
             accountDetails.setDaysLeft(Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(activationEndDate)).getDays());
         }
 
-        if (accountDetails.getDaysLeft() < 0 && !user.getAccount().isLocked()) {
-            this.deactivateUserAccount(user);
-        }
-
+        accountDetails.setLocked(user.getAccount().isLocked());
         accountDetails.setAppPaid(user.getAccount().isAppPaid());
         return accountDetails;
     }
@@ -222,15 +219,6 @@ public class UserServiceImpl implements UserService {
         Account account = getAccount(user);
         if (account.isLocked()) {
             accountService.activate(account, monthsPayed);
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = false)
-    public void deactivateUserAccount(User user) {
-        Account account = getAccount(user);
-        if (!account.isLocked()) {
-            accountService.deactivate(account);
         }
     }
 

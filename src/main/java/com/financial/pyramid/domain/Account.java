@@ -5,13 +5,12 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User: Danil
@@ -33,9 +32,6 @@ public class Account extends AbstractEntity implements Serializable {
 
     @Column(name="date_expired", nullable = true)
     private Date dateExpired;
-
-    @Column(name="locked", nullable = false)
-    private boolean locked;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="account", cascade = CascadeType.ALL)
     @OrderBy("created")
@@ -117,10 +113,12 @@ public class Account extends AbstractEntity implements Serializable {
     }
 
     public boolean isLocked() {
-        return this.locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return Days.daysBetween(new DateTime(calendar.getTime()), new DateTime(this.dateExpired)).getDays() < 0;
     }
 }

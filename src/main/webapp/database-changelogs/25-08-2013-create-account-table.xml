@@ -42,4 +42,9 @@
             <column name="app_paid" value="1"/>
         </insert>
     </changeSet>
+
+    <changeSet id="REMOVE_LOCKED_COLUMN" author="Dmitry">
+        <dropColumn tableName="account" columnName="locked"/>
+    </changeSet>
+
 </databaseChangeLog>

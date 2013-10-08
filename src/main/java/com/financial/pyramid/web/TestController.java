@@ -105,7 +105,6 @@ public class TestController extends AbstractController {
                 account.setDateActivated(calendar.getTime());
                 calendar.add(Calendar.MONTH, -1);
                 account.setDateExpired(calendar.getTime());
-                account.setLocked(true);
                 account.writeIN(0D);
 
                 currentUser.setAccount(account);

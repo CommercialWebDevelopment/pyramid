@@ -90,12 +90,11 @@ public class TabsController extends AbstractController {
         if (authentication.getPrincipal() instanceof UserDetails) {
             User user = (User) authentication.getDetails();
             AccountDetails accountDetails = userService.getAccountDetails(user);
-            boolean addEnabled = accountDetails.getDaysLeft() != null && accountDetails.getDaysLeft() >= 0;
             BinaryTree tree = userService.getBinaryTree(user);
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
-            widget.setAddEnabled(addEnabled);
+            widget.setAddEnabled(!accountDetails.isLocked());
             widget.initTree(tree);
 
             while (tree != null) {

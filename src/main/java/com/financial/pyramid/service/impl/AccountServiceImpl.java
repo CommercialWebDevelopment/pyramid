@@ -31,7 +31,6 @@ public class AccountServiceImpl implements AccountService {
         } else {
             newActivationDate = account.getDateExpired();
         }
-        account.setLocked(false);
         account.setDateActivated(newActivationDate);
         account.setDateExpired(new DateTime(newActivationDate).plusMonths(months).plusDays(1).toDate());
         account.setAppPaid(true);
@@ -40,7 +39,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deactivate(Account account) {
-        account.setLocked(true);
         account.setDateActivated(null);
         account.setDateExpired(null);
         update(account);
