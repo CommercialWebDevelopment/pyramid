@@ -62,6 +62,8 @@ public class PayPalController extends AbstractController {
         details.returnUrl = applicationURL + "/paypal/success";
         details.notifyUrl = applicationURL + "/paypal/notify";
         details.amount = totalPrice.toString();
+        model.addAttribute("officePrice", Double.valueOf(officePrice));
+        model.addAttribute("applicationPrice", Double.valueOf(applicationPrice));
         model.addAttribute("payPalDetails", details);
         return "tabs/user/buy-office";
     }
