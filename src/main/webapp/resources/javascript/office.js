@@ -166,6 +166,7 @@ $(document).ready(function () {
     var officePrice = $('#officePrice');
     var officeMonths = $('#officeMonths');
     var monthsCount = $('#monthsCount');
+    var appPrice = $('#applicationPrice');
     amountSlider.slider({
         min: 1,
         max: 12,
@@ -183,7 +184,8 @@ $(document).ready(function () {
         } else {
             position = cases[Math.min(ev.value % 10, 5)];
         }
-        var v = parseFloat(officePrice.val());
+        var v1 = parseFloat(officePrice.val());
+        var v2 = appPrice.length > 0 ? parseFloat(appPrice.val()) : 0;
         var m = I18N.monthSingle;
         if (position == 1) {
             m = I18N.monthMulti;
@@ -191,7 +193,7 @@ $(document).ready(function () {
         if (position == 2) {
             m = I18N.monthMany;
         }
-        paymentAmount.html(ev.value * v);
+        paymentAmount.html(ev.value * v1 + v2);
         monthsCount.html(ev.value + " " + m);
         officeMonths.val(ev.value);
     });

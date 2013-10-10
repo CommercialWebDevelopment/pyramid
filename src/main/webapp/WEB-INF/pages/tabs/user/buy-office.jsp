@@ -30,7 +30,8 @@
         </div>
         <div class="span11 text-center">
             <div class="control-group">
-                <input id="officePrice" type="hidden" name="amount" value="${payPalDetails.amount}"/>
+                <input id="officePrice" type="hidden" name="amount" value="${officePrice}"/>
+                <input id="applicationPrice" type="hidden" name="amount" value="${applicationPrice}"/>
                 <input id="officeMonths" type="hidden" name="months" value="1"/>
                 <label class="control-label" for="emailField"><spring:message code="payPalLogin"/>:</label>
 
