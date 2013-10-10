@@ -21,9 +21,9 @@
         <input type="hidden" name="memo" value=""/>
 
         <div class="span11 text-center" style="font-size: 18px">
-            <spring:message code="privateOfficeAndAppPrice"/>:<b> ${payPalDetails.currencySign}${officePrice} x
+            <spring:message code="privateOfficeAndAppPrice"/>:<b> ${payPalDetails.currencySign}${officePrice + applicationPrice} x
             <span id="monthsCount">1 <spring:message code="monthSingle"/></span> = ${payPalDetails.currencySign}<span
-                    id="paymentAmount">${applicationPrice}</span></b>
+                    id="paymentAmount">${payPalDetails.amount}</span></b>
         </div>
         <div class="span11 text-center">
             <div id="amountSlider" style="width:265px"></div>
