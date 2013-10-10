@@ -64,7 +64,7 @@
     <ul class="nav nav-pills">
         <c:choose>
             <c:when test="${isAppPaid == true}">
-                <li class="office-menu-item disabled">
+                <li class="office-menu-item">
                     <a href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message code="buyPrivateOffice"/></a>
                 </li>
             </c:when>
