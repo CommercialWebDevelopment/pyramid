@@ -28,7 +28,9 @@ $(document).ready(function () {
     $(".user-info").find("img").popover({placement: "right", animation: true, html: true, trigger: "hover"});
 
     var tree = $("#treeContainer");
-    tree.scrollLeft(rootUser.offsetWidth / 2 - tree.width() / 2);
+    if (tree.length > 0) {
+        tree.scrollLeft(rootUser.offsetWidth / 2 - tree.width() / 2);
+    }
 
     var form = $("#user-email-form");
     $(".stub-node").click(function () {
