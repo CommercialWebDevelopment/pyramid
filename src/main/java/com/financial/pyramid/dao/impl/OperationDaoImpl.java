@@ -42,6 +42,12 @@ public class OperationDaoImpl extends AbstractDaoImpl<Operation, Long> implement
     }
 
     @Override
+    public Operation findByGlobalId(String globalId) {
+        List<Operation> operations = findByCriteria(Restrictions.eq("globalId", globalId));
+        return operations.size() == 0 ? null : operations.get(0);
+    }
+
+    @Override
     public void updateStatus(String trackingId, boolean status) {
         String queryStr = "update Operation o set o.complete=:status where o.globalId=:globalId";
         Query query = super.createQuery(queryStr)

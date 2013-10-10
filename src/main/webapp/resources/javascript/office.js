@@ -162,10 +162,7 @@ $(document).ready(function () {
     });
 
     var amountSlider = $('#amountSlider');
-    var paymentAmount = $('#paymentAmount');
     var officePrice = $('#officePrice');
-    var officeMonths = $('#officeMonths');
-    var monthsCount = $('#monthsCount');
     var appPrice = $('#applicationPrice');
     amountSlider.slider({
         min: 1,
@@ -186,6 +183,7 @@ $(document).ready(function () {
         }
         var v1 = parseFloat(officePrice.val());
         var v2 = appPrice.length > 0 ? parseFloat(appPrice.val()) : 0;
+        var total = parseInt(ev.value) * v1 + v2;
         var m = I18N.monthSingle;
         if (position == 1) {
             m = I18N.monthMulti;
@@ -193,9 +191,10 @@ $(document).ready(function () {
         if (position == 2) {
             m = I18N.monthMany;
         }
-        paymentAmount.html(ev.value * v1 + v2);
-        monthsCount.html(ev.value + " " + m);
-        officeMonths.val(ev.value);
+        $('#totalPrice').val(total.toFixed(2));
+        $('#paymentAmount').html(total.toFixed(2));
+        $('#officeMonths').val(ev.value);
+        $('#monthsCount').html(ev.value + " " + m);
     });
 });
 /* =========================================================

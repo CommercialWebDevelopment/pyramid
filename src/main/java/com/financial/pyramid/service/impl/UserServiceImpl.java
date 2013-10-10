@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
             Date date = format.parse(form.getDateOfBirth());
             user.setDateOfBirth(date);
         } catch (ParseException e) {
-            logger.error("User date of birth is not set");
+            logger.info("User date of birth is not set");
         }
 
         Passport passport = user.getPassport();
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
             Date date = format.parse(form.getPassportDate());
             passport.setDate(date);
         } catch (ParseException e) {
-            logger.error("User passport date is not set");
+            logger.info("User passport date is not set");
         }
         user.setPassport(passport);
         userDao.saveOrUpdate(user);

@@ -80,7 +80,7 @@ public class PayPalServiceImpl implements PayPalService {
                 isTransactionCompleted(transactionId, PayPalPropeties.PAY_PAL_TRANSACTION);
             }
         } catch (Exception e) {
-            logger.error("Verification failed with error:" + e.getMessage());
+            logger.info("Verification failed with error:" + e.getMessage());
             e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }
@@ -101,7 +101,7 @@ public class PayPalServiceImpl implements PayPalService {
                 operationsService.update(payPalResponse.trackingId, result);
             }
         } catch (Exception e) {
-            logger.error("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
+            logger.info("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
             e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }
@@ -118,10 +118,15 @@ public class PayPalServiceImpl implements PayPalService {
             result = isCompletePayment(payPalResponse.status);
             logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUserId());
             if (result) {
-                operationsService.update(payPalResponse.trackingId, result);
+                Operation operation = operationsService.findByGlobalId(payPalResponse.trackingId);
+                if (type.equals(PayPalPropeties.PAY_PAL_TRANSACTION)){
+                    operation.setTransactionId(uid);
+                }
+                operation.setComplete(result);
+                operationsService.save(operation);
             }
         } catch (Exception e) {
-            logger.error("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
+            logger.info("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
             e.printStackTrace();
             throw new PayPalException(e.getMessage());
         }

@@ -120,7 +120,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             }
             return "data:" + r.getPhoto().getContentType() + ";base64," + Base64.encode(os.toByteArray());
         } catch (IOException e) {
-            logger.error("File not loaded! User: " + r.getName() + "; message: " + e.getMessage());
+            logger.info("File not loaded! User: " + r.getName() + "; message: " + e.getMessage());
         }
         return null;
     }
@@ -249,7 +249,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             try {
                 passport.setDate(format.parse(form.getPassportDate()));
             } catch (ParseException e) {
-                logger.error("User passport date is not set. Email: " + user.getEmail());
+                logger.info("User passport date is not set. Email: " + user.getEmail());
             }
         }
 

@@ -14,6 +14,7 @@ import java.util.List;
 public interface OperationsService {
     public List<Operation> find();
     public Operation findByTransactionId(String transactionId);
+    public Operation findByGlobalId(String globalId);
     public List<Operation> get(QueryForm queryForm);
     public void save(Operation operation);
     public void update(String trackingId, boolean status);

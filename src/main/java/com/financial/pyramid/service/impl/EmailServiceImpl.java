@@ -65,10 +65,10 @@ public class EmailServiceImpl implements EmailService {
             helper.setSubject(projectName + ": " + subject);
             this.mailSender.send(message);
         } catch (MailException ex) {
-            logger.error(ex.getMessage());
+            logger.info(ex.getMessage());
             return false;
         } catch (MessagingException ex) {
-            logger.error(ex.getMessage());
+            logger.info(ex.getMessage());
             return false;
         }
         return true;
@@ -130,10 +130,10 @@ public class EmailServiceImpl implements EmailService {
             helper.setSubject(projectName + ": " + subject);
             this.mailSender.send(message);
         } catch (MailException ex) {
-            logger.error(ex.getMessage());
+            logger.info(ex.getMessage());
             return false;
         } catch (MessagingException ex) {
-            logger.error(ex.getMessage());
+            logger.info(ex.getMessage());
             return false;
         }
         return true;

@@ -34,6 +34,11 @@ public class OperationsServiceImpl implements OperationsService {
     }
 
     @Override
+    public Operation findByGlobalId(String globalId) {
+        return operationDao.findByGlobalId(globalId);
+    }
+
+    @Override
     public List<Operation> get(QueryForm queryForm) {
         return operationDao.findByQuery(queryForm);
     }

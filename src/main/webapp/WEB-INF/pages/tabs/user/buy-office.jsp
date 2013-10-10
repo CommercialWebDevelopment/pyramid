@@ -21,7 +21,8 @@
         <input type="hidden" name="memo" value=""/>
 
         <div class="span11 text-center" style="font-size: 18px">
-            <spring:message code="privateOfficeAndAppPrice"/>:<b> ${payPalDetails.currencySign}${officePrice + applicationPrice} x
+            <spring:message code="privateOfficeAndAppPrice"/>:<b>
+            ${payPalDetails.currencySign}${applicationPrice} + ${payPalDetails.currencySign}${officePrice} x
             <span id="monthsCount">1 <spring:message code="monthSingle"/></span> = ${payPalDetails.currencySign}<span
                     id="paymentAmount">${payPalDetails.amount}</span></b>
         </div>
@@ -30,9 +31,10 @@
         </div>
         <div class="span11 text-center">
             <div class="control-group">
-                <input id="officePrice" type="hidden" name="amount" value="${officePrice + applicationPrice}"/>
-                <input id="applicationPrice" type="hidden" name="appPrice" value="${applicationPrice}"/>
+                <input id="officePrice" type="hidden" value="${officePrice}"/>
                 <input id="officeMonths" type="hidden" name="months" value="1"/>
+                <input id="applicationPrice" type="hidden" value="${applicationPrice}"/>
+                <input id="totalPrice" type="hidden" name="amount" value="${officePrice + applicationPrice}"/>
                 <label class="control-label" for="emailField"><spring:message code="payPalLogin"/>:</label>
 
                 <div class="controls">
