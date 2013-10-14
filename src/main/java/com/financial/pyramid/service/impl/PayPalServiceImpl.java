@@ -98,6 +98,7 @@ public class PayPalServiceImpl implements PayPalService {
             logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUserId());
             if (result) {
                 operationsService.update(payPalResponse.trackingId, result);
+                logger.info("Operation with trackingId " + payPalResponse.trackingId + " was completed");
             }
         } catch (Exception e) {
             logger.info("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
@@ -123,6 +124,7 @@ public class PayPalServiceImpl implements PayPalService {
                 }
                 operation.setComplete(result);
                 operationsService.save(operation);
+                logger.info("Operation with transaction " + uid + " was completed");
             }
         } catch (Exception e) {
             logger.info("Transaction check for user " + Session.getCurrentUserId() + " failed with error: " + e.getMessage());
