@@ -75,9 +75,8 @@ public class PayPalServiceImpl implements PayPalService {
                 requestParams.add(new Pair<String, String>(entry.getKey().toString(), entry.getValue().toString()));
             }
             List<String> response = HTTPClient.sendRequest(url, requestParams);
-            result = isVerifiedPayment(response.get(0));
-            if (result) {
-                isTransactionCompleted(transactionId, PayPalPropeties.PAY_PAL_TRANSACTION);
+            if (isVerifiedPayment(response.get(0))) {
+                result = isTransactionCompleted(transactionId, PayPalPropeties.PAY_PAL_TRANSACTION);
             }
         } catch (Exception e) {
             logger.info("Verification failed with error:" + e.getMessage());
@@ -119,7 +118,7 @@ public class PayPalServiceImpl implements PayPalService {
             logger.info("Transaction status is " + payPalResponse.status + ". User " + Session.getCurrentUserId());
             if (result) {
                 Operation operation = operationsService.findByGlobalId(payPalResponse.trackingId);
-                if (type.equals(PayPalPropeties.PAY_PAL_TRANSACTION)){
+                if (type.equals(PayPalPropeties.PAY_PAL_TRANSACTION)) {
                     operation.setTransactionId(uid);
                 }
                 operation.setComplete(result);
