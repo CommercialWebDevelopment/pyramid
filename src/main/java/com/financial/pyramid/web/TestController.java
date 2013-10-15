@@ -12,6 +12,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,14 +74,14 @@ public class TestController extends AbstractController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/generate", method = RequestMethod.GET)
-    public String generateTree(ModelMap model) {
+    @RequestMapping(value = "/generate/{levels}", method = RequestMethod.GET)
+    public String generateTree(ModelMap model, @PathVariable int levels) {
         System.out.println("Started generator...");
         User parentUser = userService.findById(1L);
         Map<Integer, User> users = new HashMap<Integer, User>();
         users.put(0, parentUser);
         int counter = 0;
-        for (int i = 1; i <= 1000; i++) {
+        for (int i = 1; i <= levels; i++) {
             for (int j = 0; j < i * 2; j++) {
                 long timePoint = new Date().getTime();
                 User currentUser = new User();
@@ -105,7 +106,7 @@ public class TestController extends AbstractController {
                 account.setDateActivated(calendar.getTime());
                 calendar.add(Calendar.MONTH, -1);
                 account.setDateExpired(calendar.getTime());
-                account.writeIN(0D);
+                account.writeIN(1D);
 
                 currentUser.setAccount(account);
                 userService.save(currentUser);
