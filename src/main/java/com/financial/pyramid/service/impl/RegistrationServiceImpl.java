@@ -88,8 +88,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             invitation.setParent(owner);
         }
         User parent = updateParent(user, invitation);
-        payment(owner, parent, user);
 
+        userService.save(user);
+        payment(owner, parent, user);
         userService.save(user);
 
         // отправка пароля после удачной регистрации
@@ -218,11 +219,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     private void payment(User owner, User parent, User user) {
+        Double costByPersonalUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
+        owner.getAccount().writeIN(costByPersonalUser);
+
         Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
-        // если за этого пользователя положена оплата
-        if ((user.getLevel() - owner.getLevel()) <= maxLevelForPayment) {
-            Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
-            owner.getAccount().writeIN(costByUser);
+        Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
+        User parentForPay = parent;
+        while (parentForPay != null && (user.getLevel() - parentForPay.getLevel()) <= maxLevelForPayment) {
+            if (parentForPay.getCountInvitedUsers() >= 2 && !parentForPay.getAccount().isLocked()) {
+                parentForPay.getAccount().writeIN(costByUser);
+            }
+            parentForPay = userService.findParent(parentForPay.getId());
         }
     }
 
