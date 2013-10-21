@@ -155,41 +155,50 @@ public class TestController extends AbstractController {
     @ResponseBody
     @RequestMapping(value = "/generateTree/{levels}", method = RequestMethod.GET)
     public String generateTree(@PathVariable int levels) {
+        if(levels == 1) return "Done";
+
         System.out.println("Started generator...");
         long timePoint = new Date().getTime();
 
-        User admin = userService.findById(1L); // Admin
         Integer totalCount = (1 - ((Double)Math.pow(2, levels)).intValue()) / -1; // количество пользователей
-        Queue<User> userWithoutParent = generateUsers(totalCount, admin);
+        Queue<User> userWithoutParent = generateUsers(totalCount - 1);   // -1 admin
 
-        while (!userWithoutParent.isEmpty()) {
+        // выставляем всем детей, пока не останется 2 для админа
+        while (userWithoutParent.size() > 2) {
             User parent = userWithoutParent.poll();
             User left = userWithoutParent.poll();
             User right = userWithoutParent.poll();
             if (left != null) {
-                left.setLevel(parent.getLevel() + 1);
-                if (left.getId() == null) left = userService.merge(left);
                 parent.setLeftChild(left);
-                userWithoutParent.add(left);
             }
             if (right != null) {
-                right.setLevel(parent.getLevel() + 1);
-                if (right.getId() == null) right = userService.merge(right);
                 parent.setRightChild(right);
-                userWithoutParent.add(right);
             }
-            userService.merge(parent);
+            userWithoutParent.add(parent);
         }
 
+        // дети для админа
+        User admin = userService.findById(1L); // Admin
+        admin.setLeftChild(userWithoutParent.poll());
+        admin.setRightChild(userWithoutParent.poll());
+
+        // сохраняем с выставлением уровней
+        save(admin, 0);
         System.out.println("Duration is " + (new Date().getTime() - timePoint) + " milliseconds");
         return "Done";
     }
 
-    private Queue<User> generateUsers(Integer users, User first) {
-        Queue<User> userQueue = new ArrayBlockingQueue<User>(users);
-        userQueue.add(first);
+    private User save(User user, int level) {
+        if (user.getLeftChild() != null) user.setLeftChild(save(user.getLeftChild(), level + 1));
+        if (user.getRightChild() != null) user.setRightChild(save(user.getRightChild(), level + 1));
+        user.setLevel(level);
+        return userService.merge(user);
+    }
 
-        for (int i = 0; i < users - 1; i++) {
+    private Queue<User> generateUsers(Integer users) {
+        Queue<User> userQueue = new ArrayBlockingQueue<User>(users);
+
+        for (int i = 0; i < users; i++) {
             User user = new User();
             user.setName("TestUser_" + i);
             user.setSurname("TestUser_" + i);
