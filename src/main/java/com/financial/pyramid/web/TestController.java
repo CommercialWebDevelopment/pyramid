@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * User: dbudunov
@@ -152,5 +150,65 @@ public class TestController extends AbstractController {
             }
         }
         return String.valueOf(counter);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/generateTree/{levels}", method = RequestMethod.GET)
+    public String generateTree(@PathVariable int levels) {
+        System.out.println("Started generator...");
+        long timePoint = new Date().getTime();
+
+        User admin = userService.findById(1L); // Admin
+        Integer totalCount = (2 - 2*((Double)Math.pow(2, levels)).intValue()) / -1; // количество пользователей
+        Queue<User> userWithoutParent = generateUsers(totalCount, admin);
+
+        while (!userWithoutParent.isEmpty()) {
+            User parent = userWithoutParent.poll();
+            User left = userWithoutParent.poll();
+            User right = userWithoutParent.poll();
+            if (left != null) {
+                if (left.getId() == null) left = userService.merge(left);
+                parent.setLeftChild(left);
+                userWithoutParent.add(left);
+            }
+            if (right != null) {
+                if (right.getId() == null) right = userService.merge(right);
+                parent.setRightChild(right);
+                userWithoutParent.add(right);
+            }
+            userService.merge(parent);
+        }
+
+        System.out.println("Duration is " + (new Date().getTime() - timePoint) + " milliseconds");
+        return "Done";
+    }
+
+    private Queue<User> generateUsers(Integer users, User first) {
+        Queue<User> userQueue = new ArrayBlockingQueue<User>(users + 1);
+        userQueue.add(first);
+
+        for (int i = 0; i < users; i++) {
+            User user = new User();
+            user.setName("TestUser_" + i);
+            user.setSurname("TestUser_" + i);
+            user.setPatronymic("TestUser_" + i);
+            user.setPhoneNumber(String.valueOf(8917702200L + i));
+            user.setEmail("test_" + i + "@test.com");
+            user.setRole(Role.USER);
+            user.setOwnerId(1L);
+            user.setLevel(i);
+            user.setDateOfBirth(new Date());
+            user.setPassword(passwordEncoder.encode("qwerty"));
+
+            Account account = new Account();
+            Calendar calendar = Calendar.getInstance();
+            account.setDateActivated(calendar.getTime());
+            calendar.add(Calendar.MONTH, -1);
+            account.setDateExpired(calendar.getTime());
+            account.writeIN(1D);
+            user.setAccount(account);
+            userQueue.add(user);
+        }
+        return userQueue;
     }
 }
