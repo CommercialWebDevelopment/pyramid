@@ -18,6 +18,8 @@ public class BinaryTreeWidget {
     private String activeStatus;
     private String inactiveStatus;
     private boolean addEnabled = true;
+    private static final short DEFAULT_CANVAS_HEIGHT = 30;
+    private int depth = 1;
 
     public void initTree(BinaryTree tree) {
         if (tree == null) {
@@ -29,7 +31,8 @@ public class BinaryTreeWidget {
     }
 
     private double calculateTotalWidth(BinaryTree tree) {
-        return Math.pow(2, tree.getDepth()) * 50;
+        this.depth = tree.getDepth();
+        return Math.pow(2, this.depth) * 50;
     }
 
     private double calculateNodeWidth(BinaryTree tree) {
@@ -73,7 +76,8 @@ public class BinaryTreeWidget {
         result += "</div>";
         result += ((tree.isLeft() || tree.isRight() || both) ? "<canvas class='user-pointer' " +
                 "drawLeft='" + (tree.isLeft() || both) + "' " +
-                "drawRight='" + (tree.isRight() || both) + "'>" +
+                "drawRight='" + (tree.isRight() || both) + "' " +
+                "style='height:"+ (DEFAULT_CANVAS_HEIGHT + (this.depth - (tree.getLevel() + 1)) * 10)+"px'>" +
                 "</canvas>" : "");
         result += "<div class='children-container'>" + getPointForUser(tree) + "</div>";
         result += "</div>";
