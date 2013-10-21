@@ -8,7 +8,7 @@
 <% if (request.getAttribute("error") != null && request.getAttribute("error").equals("email_confirm_out_of_date")) {%>
 <div class="alert alert-error">
     <button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>Ошибка!</strong> Данные устарели
+    <spring:message code="error"/>! <spring:message code="oldData"/>
 </div>
 <%}%>
 
@@ -16,7 +16,7 @@
     <div class="span12">
         <div class="alert alert-error">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>Ошибка!</strong> Пользователь с такими данными отсутсвует в системе.
+            <spring:message code="error"/>! <spring:message code="userAlreadyExists"/>
         </div>
     </div>
 </div>

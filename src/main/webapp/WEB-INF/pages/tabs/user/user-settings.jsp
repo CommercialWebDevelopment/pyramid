@@ -25,31 +25,31 @@
     <c:if test="${param.changesSaved != null && param.changesSaved == true}">
         <div class="alert alert-success alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong><spring:message code="profileSaved"/></strong>
+            <spring:message code="profileSaved"/>
         </div>
     </c:if>
     <c:if test="${param.userExists != null && param.userExists == true}">
         <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong><spring:message code="exception.userAlreadyExistWithEmail" arguments="${param.emailAddress}"/></strong>
+            <spring:message code="exception.userAlreadyExistWithEmail" arguments="${param.emailAddress}"/>
         </div>
     </c:if>
     <c:if test="${param.invalidPassword != null && param.invalidPassword == true}">
         <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong><spring:message code="invalidPassword"/></strong>
+            <spring:message code="invalidPassword"/>
         </div>
     </c:if>
     <c:if test="${param.invalidEmail != null && param.invalidEmail == true}">
         <div class="alert alert-error alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong><spring:message code="email.invalid"/></strong>
+            <spring:message code="email.invalid"/>
         </div>
     </c:if>
     <c:if test="${param.emailConfirmed != null && param.emailConfirmed == true}">
         <div class="alert alert-success alert-block">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong><spring:message code="emailConfirmed" arguments="<%=user.getEmail()%>"/></strong>
+            <spring:message code="emailConfirmed" arguments="<%=user.getEmail()%>"/>
         </div>
     </c:if>
 </c:if>
