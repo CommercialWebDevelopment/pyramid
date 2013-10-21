@@ -160,27 +160,29 @@ public class TestController extends AbstractController {
         System.out.println("Started generator...");
         long timePoint = new Date().getTime();
 
-        Integer totalCount = (1 - ((Double)Math.pow(2, levels)).intValue()) / -1; // количество пользователей
-        Queue<User> userWithoutParent = generateUsers(totalCount - 1);   // -1 admin
-
-        // выставляем всем детей, пока не останется 2 для админа
-        while (userWithoutParent.size() > 2) {
-            User parent = userWithoutParent.poll();
-            User left = userWithoutParent.poll();
-            User right = userWithoutParent.poll();
-            if (left != null) {
-                parent.setLeftChild(left);
-            }
-            if (right != null) {
-                parent.setRightChild(right);
-            }
-            userWithoutParent.add(parent);
-        }
-
-        // дети для админа
         User admin = userService.findById(1L); // Admin
-        admin.setLeftChild(userWithoutParent.poll());
-        admin.setRightChild(userWithoutParent.poll());
+        Integer totalCount = (1 - ((Double)Math.pow(2, levels)).intValue()) / -1; // количество пользователей
+        Queue<User> users = generateUsers(totalCount - 1);   // -1 admin
+        Queue<User> parents = new ArrayBlockingQueue<User>(totalCount - 1);
+        parents.add(admin);
+
+        while (!users.isEmpty()) {
+            List<User> usersWithoutParents = new ArrayList<User>(parents.size() * 2);
+            while (!parents.isEmpty()) {
+                User parent = parents.poll();
+                User left = users.poll();
+                User right = users.poll();
+                if (left != null) {
+                    parent.setLeftChild(left);
+                    usersWithoutParents.add(left);
+                }
+                if (right != null) {
+                    parent.setRightChild(right);
+                    usersWithoutParents.add(right);
+                }
+            }
+            parents.addAll(usersWithoutParents);
+        }
 
         // сохраняем с выставлением уровней
         save(admin, 0);
