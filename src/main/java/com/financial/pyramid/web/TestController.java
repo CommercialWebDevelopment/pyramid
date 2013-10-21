@@ -7,6 +7,7 @@ import com.financial.pyramid.service.AccountService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.utils.Session;
+import com.financial.pyramid.web.tree.BinaryTree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -47,7 +47,7 @@ public class TestController extends AbstractController {
     private SettingsService settingsService;
 
     @ResponseBody
-    @RequestMapping(value = "/pay", method = RequestMethod.GET)
+    @RequestMapping(value = "/payAccountTest", method = RequestMethod.GET)
     public String payTest(ModelMap model) {
         User currentUser = Session.getCurrentUser();
         Account account = userService.getAccount(currentUser);
@@ -56,7 +56,7 @@ public class TestController extends AbstractController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/extend", method = RequestMethod.GET)
+    @RequestMapping(value = "/extendAccountTest", method = RequestMethod.GET)
     public String extendTest(ModelMap model) {
         User currentUser = Session.getCurrentUser();
         Account account = userService.getAccount(currentUser);
@@ -65,7 +65,7 @@ public class TestController extends AbstractController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/block", method = RequestMethod.GET)
+    @RequestMapping(value = "/blockAccountTest", method = RequestMethod.GET)
     public String blockTest(ModelMap model) {
         User currentUser = Session.getCurrentUser();
         Account account = userService.getAccount(currentUser);
@@ -74,20 +74,21 @@ public class TestController extends AbstractController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/generate/{levels}", method = RequestMethod.GET)
-    public String generateTree(ModelMap model, @PathVariable int levels) {
+    @RequestMapping(value = "/generateTreeTest/{levels}", method = RequestMethod.GET)
+    public String generateTreeTest(ModelMap model, @PathVariable int levels) {
         System.out.println("Started generator...");
         User parentUser = userService.findById(1L);
         Map<Integer, User> users = new HashMap<Integer, User>();
         users.put(0, parentUser);
         int counter = 0;
+        int previousLevelCount = 1;
         for (int i = 1; i <= levels; i++) {
-            for (int j = 0; j < i * 2; j++) {
+            for (int j = 0; j < previousLevelCount * 2; j++) {
                 long timePoint = new Date().getTime();
                 User currentUser = new User();
-                currentUser.setName("TestUserName_" + i + "_" + j);
-                currentUser.setSurname("TestUserSurname_" + i + "_" + j);
-                currentUser.setPatronymic("TestUserPatronymic_" + i + "_" + j);
+                currentUser.setName("TestUser_" + i + "_" + j);
+                currentUser.setSurname("TestUser_" + i + "_" + j);
+                currentUser.setPatronymic("TestUser_" + i + "_" + j);
                 currentUser.setPhoneNumber(String.valueOf(8917702200L + i));
                 currentUser.setEmail("test_" + i + "_" + j + "@test.com");
                 currentUser.setRole(Role.USER);
@@ -107,9 +108,9 @@ public class TestController extends AbstractController {
                 calendar.add(Calendar.MONTH, -1);
                 account.setDateExpired(calendar.getTime());
                 account.writeIN(1D);
-
                 currentUser.setAccount(account);
                 userService.save(currentUser);
+
                 System.out.println("New user [" + currentUser.getShortName() + "] created");
                 User createdUser = userService.findByEmail(currentUser.getEmail());
                 if (parentUser.getLeftChild() == null) {
@@ -117,16 +118,39 @@ public class TestController extends AbstractController {
                 } else if (parentUser.getRightChild() == null) {
                     parentUser.setRightChild(createdUser);
                 }
-                counter++;
+                parentUser.setCountInvitedUsers(parentUser.getCountInvitedUsers()+1);
                 userService.save(parentUser);
+                counter++;
+
                 System.out.println("Parent user [" + parentUser.getShortName() + "] updated");
                 users.put(counter, createdUser);
                 int previousParent = (int) (counter - 1) / 2;
                 parentUser = userService.findById(users.get(previousParent).getId());
                 System.out.println("Duration is " + (new Date().getTime() - timePoint) + " milliseconds");
             }
+            previousLevelCount = previousLevelCount * 2;
             System.out.println("Level " + i + " is completed");
         }
         return "Done";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/countUsersTest/{userId}", method = RequestMethod.GET)
+    public String countUsersTest(ModelMap model, @PathVariable long userId) {
+        User user = userService.findById(userId);
+        BinaryTree tree = userService.getBinaryTree(user);
+        int counter = 0;
+        while (tree != null) {
+            counter++;
+            if (tree.isChild()) {
+                tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
+            } else {
+                while (tree.itIsRight() || (tree.isParent() && !tree.getParent().isRight())) {
+                    tree = tree.getParent();
+                }
+                tree = tree.isParent() ? tree.getParent().getRight() : null;
+            }
+        }
+        return String.valueOf(counter);
     }
 }
