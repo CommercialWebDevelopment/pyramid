@@ -48,7 +48,7 @@ public class InvitationController extends AbstractController {
         } else {
             redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("alert.invitationWasSent"));
         }
-        return "redirect:/pyramid/office";
+        return "redirect:/app/office";
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET, params = {"ui"})

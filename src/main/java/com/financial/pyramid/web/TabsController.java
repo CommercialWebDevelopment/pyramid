@@ -33,7 +33,7 @@ import java.util.List;
  * Time: 23:03
  */
 @Controller
-@RequestMapping("/pyramid")
+@RequestMapping("/app")
 public class TabsController extends AbstractController {
 
     @Autowired

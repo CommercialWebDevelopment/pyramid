@@ -58,7 +58,7 @@ public class NewsController extends AbstractController {
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
-        return "redirect:/pyramid/admin/news_settings";
+        return "redirect:/app/admin/news_settings";
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
@@ -73,7 +73,7 @@ public class NewsController extends AbstractController {
         model.addAttribute("newsForm", newsForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "news_settings");
-        return "redirect:/pyramid/admin/news_settings";
+        return "redirect:/app/admin/news_settings";
     }
 
 }

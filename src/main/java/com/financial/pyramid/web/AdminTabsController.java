@@ -20,7 +20,7 @@ import java.util.List;
  * Time: 11:56
  */
 @Controller
-@RequestMapping("/pyramid/admin")
+@RequestMapping("/app/admin")
 public class AdminTabsController extends TabsController {
 
     private final static Logger logger = Logger.getLogger(AdminTabsController.class);

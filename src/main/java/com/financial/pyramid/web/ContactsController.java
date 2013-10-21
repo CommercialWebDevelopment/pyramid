@@ -43,13 +43,13 @@ public class ContactsController extends AbstractController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(ModelMap model, @ModelAttribute("contact") Contact contact) {
         contactService.save(contact);
-        return "redirect:/pyramid/admin/contact_settings";
+        return "redirect:/app/admin/contact_settings";
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
     public String remove(ModelMap model, @PathVariable Long id) {
         contactService.remove(id);
-        return "redirect:/pyramid/admin/contact_settings";
+        return "redirect:/app/admin/contact_settings";
     }
 
     @RequestMapping(value = "/feedback", method = RequestMethod.POST)
@@ -73,6 +73,6 @@ public class ContactsController extends AbstractController {
         map.put("subject", localizationService.translate("feedbackFromUser"));
         emailService.setTemplate("feedback-template");
         boolean result = emailService.sendEmail(adminUser, map);
-        return "redirect:/pyramid/contacts?sent=" + result;
+        return "redirect:/app/contacts?sent=" + result;
     }
 }

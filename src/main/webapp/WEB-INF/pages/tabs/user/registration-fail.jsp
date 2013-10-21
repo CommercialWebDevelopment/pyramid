@@ -8,6 +8,6 @@
 <h3>Регистрация не удаласть</h3>
 <div>Извините, во время регистрации произошла неизвестная ошибка</div><br>
 <div>Пожалуйста нажмите кнопку "Регистрация", что бы повторить попытку регистрации</div><br>
-<a href="${pageContext.request.contextPath}/pyramid/office" class="btn btn-primary" type="button">Регистрация</a>
+<a href="${pageContext.request.contextPath}/app/office" class="btn btn-primary" type="button">Регистрация</a>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

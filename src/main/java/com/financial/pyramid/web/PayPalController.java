@@ -118,7 +118,7 @@ public class PayPalController extends AbstractController {
         details.senderEmail = configurationService.getParameter(Setting.PAY_PAL_LOGIN);
         details.amount = "0.00";
         details.cancelUrl = applicationURL + "/paypal/sendMoney";
-        details.returnUrl = applicationURL + "/pyramid/office";
+        details.returnUrl = applicationURL + "/app/office";
         com.financial.pyramid.domain.User currentUser = Session.getCurrentUser();
         details.receiverEmail = currentUser.getEmail();
         model.addAttribute("payPalDetails", details);
@@ -168,7 +168,7 @@ public class PayPalController extends AbstractController {
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(RedirectAttributes redirectAttributes, ModelMap model) {
         redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("thanksForPayment"));
-        return "redirect:/pyramid/office";
+        return "redirect:/app/office";
     }
 
     @RequestMapping(value = "/notify", method = RequestMethod.POST)

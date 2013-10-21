@@ -41,23 +41,23 @@
         <security:intercept-url pattern="/paypal/buyOfficeAndApp" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/paypal/success" access="permitAll" />
         <security:intercept-url pattern="/paypal/notify" access="permitAll" />
-        <security:intercept-url pattern="/pyramid/**" access="permitAll" />
+        <security:intercept-url pattern="/app/**" access="permitAll" />
         <security:intercept-url pattern="/user/check_date" access="permitAll" />
         <security:intercept-url pattern="/user/authentication" access="permitAll" />
         <security:intercept-url pattern="/invitation/**" access="permitAll" />
-        <security:form-login login-page="/pyramid/office"
+        <security:form-login login-page="/app/office"
                              username-parameter="email"
                              password-parameter="password"
                              login-processing-url="/user/authentication"
-                             authentication-failure-url="/pyramid/office?error=true"
-                             default-target-url="/pyramid/office"/>
-        <security:logout logout-success-url="/pyramid/office" logout-url="/user/logout" delete-cookies="JSESSIONID" invalidate-session="true"/>
+                             authentication-failure-url="/app/office?error=true"
+                             default-target-url="/app/office"/>
+        <security:logout logout-success-url="/app/office" logout-url="/user/logout" delete-cookies="JSESSIONID" invalidate-session="true"/>
         <security:remember-me key="secretKey" user-service-ref="userService" use-secure-cookie="true"/>
         <security:session-management
                 invalid-session-url="/"
                 session-authentication-error-url="/"
                 session-fixation-protection="migrateSession">
-            <security:concurrency-control max-sessions="1" expired-url="/pyramid/office"/>
+            <security:concurrency-control max-sessions="1" expired-url="/app/office"/>
         </security:session-management>
     </security:http>
 

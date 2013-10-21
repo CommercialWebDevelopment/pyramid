@@ -70,13 +70,13 @@ public class UserController extends AbstractController {
         try {
             registrationService.registration(registration);
         } catch (UserAlreadyExistsException e) {
-            return "redirect:/pyramid/office";
+            return "redirect:/app/office";
         } catch (UserRegistrationException e) {
             model.put(AlertType.ERROR.getName(), localizationService.translate(e.getCode()));
             return "tabs/user/registration-form";
         }
         redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("alert.registrationIsSuccessful"));
-        return "redirect:/pyramid/office";
+        return "redirect:/app/office";
     }
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST)
@@ -117,13 +117,13 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@ModelAttribute("registration") final AdminRegistrationForm registration) {
         userService.update(registration);
-        return "redirect:/pyramid/admin/user_settings";
+        return "redirect:/app/admin/user_settings";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") final Long id) {
         userService.delete(id);
-        return "redirect:/pyramid/admin/user_settings";
+        return "redirect:/app/admin/user_settings";
     }
 
     @RequestMapping(value = "/forgot", method = RequestMethod.GET)
@@ -165,7 +165,7 @@ public class UserController extends AbstractController {
                 redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("passwordRestored"));
             }
         }
-        return "redirect:/pyramid/office";
+        return "redirect:/app/office";
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)

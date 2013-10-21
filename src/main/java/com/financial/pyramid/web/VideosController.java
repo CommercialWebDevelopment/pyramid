@@ -56,7 +56,7 @@ public class VideosController extends AbstractController {
         model.addAttribute("videosForm", videosForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "video_settings");
-        return "redirect:/pyramid/admin/video_settings";
+        return "redirect:/app/admin/video_settings";
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class VideosController extends AbstractController {
         model.addAttribute("videosForm", videosForm);
         model.addAttribute("page-name", "admin");
         model.addAttribute("admin-page-name", "video_settings");
-        return "redirect:/pyramid/admin/video_settings";
+        return "redirect:/app/admin/video_settings";
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)

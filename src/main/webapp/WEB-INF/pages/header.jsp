@@ -75,7 +75,7 @@
                         </li>
                         <sec:authorize ifNotGranted="SUPER_ADMIN,ADMIN,USER">
                             <li role="button">
-                                <a href="${pageContext.request.contextPath}/pyramid/office"><spring:message
+                                <a href="${pageContext.request.contextPath}/app/office"><spring:message
                                         code="signIn"/></a>
                             </li>
                         </sec:authorize>

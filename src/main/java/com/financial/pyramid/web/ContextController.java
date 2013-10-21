@@ -15,6 +15,6 @@ public class ContextController extends AbstractController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String root() {
-        return "redirect:/pyramid/home";
+        return "redirect:/app/home";
     }
 }

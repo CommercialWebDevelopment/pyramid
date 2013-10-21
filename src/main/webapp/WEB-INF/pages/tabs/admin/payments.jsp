@@ -9,19 +9,19 @@
 <div class="row-fluid">
     <div class="span12" id="admin-menu">
         <ul class="nav nav-tabs">
-            <li><a href="<c:url value="/pyramid/admin/user_settings"/>" data-toogle="tab"><spring:message
+            <li><a href="<c:url value="/app/admin/user_settings"/>" data-toogle="tab"><spring:message
                     code="users"/></a></li>
-            <li><a href="<c:url value="/pyramid/admin/content_settings"/>" data-toogle="tab"><spring:message
+            <li><a href="<c:url value="/app/admin/content_settings"/>" data-toogle="tab"><spring:message
                     code="tabs.text"/></a></li>
-            <li><a href="<c:url value="/pyramid/admin/news_settings"/>" data-toogle="tab"><spring:message
+            <li><a href="<c:url value="/app/admin/news_settings"/>" data-toogle="tab"><spring:message
                     code="news"/></a></li>
-            <li><a href="<c:url value="/pyramid/admin/video_settings"/>" data-toogle="tab"><spring:message
+            <li><a href="<c:url value="/app/admin/video_settings"/>" data-toogle="tab"><spring:message
                     code="tabs.video"/></a></li>
-            <li><a href="<c:url value="/pyramid/admin/contact_settings"/>" data-toogle="tab"><spring:message
+            <li><a href="<c:url value="/app/admin/contact_settings"/>" data-toogle="tab"><spring:message
                     code="contacts"/></a></li>
-            <li><a href="<c:url value="/pyramid/admin/application_settings"/>" data-toogle="tab"><spring:message
+            <li><a href="<c:url value="/app/admin/application_settings"/>" data-toogle="tab"><spring:message
                     code="tabs.parameters"/></a></li>
-            <li class="active"><a href="<c:url value="/pyramid/admin/payments"/>" data-toogle="tab"><spring:message
+            <li class="active"><a href="<c:url value="/app/admin/payments"/>" data-toogle="tab"><spring:message
                     code="tabs.payments"/></a></li>
         </ul>
     </div>
@@ -63,7 +63,7 @@
             <div class="pagination pagination-centered">
                 <ul>
                     <li>
-                        <a href="/pyramid/admin/payments?page=<%=(pageForm.getPage()-1 > 0 ? pageForm.getPage()-1 : 1)%>">«</a>
+                        <a href="/app/admin/payments?page=<%=(pageForm.getPage()-1 > 0 ? pageForm.getPage()-1 : 1)%>">«</a>
                     </li>
                     <%
                         for (int i = 1; i <= pages; i++) {
@@ -73,12 +73,12 @@
                                 active = "active";
                             }
                     %>
-                    <li class="<%=active%>"><a href="/pyramid/admin/payments?page=<%=i%>"><%=i%>
+                    <li class="<%=active%>"><a href="/app/admin/payments?page=<%=i%>"><%=i%>
                     </a></li>
                     <%
                         }
                     %>
-                    <li><a href="/pyramid/admin/payments?page=<%=pageForm.getPage()+1%>">»</a></li>
+                    <li><a href="/app/admin/payments?page=<%=pageForm.getPage()+1%>">»</a></li>
                 </ul>
             </div>
             <%
