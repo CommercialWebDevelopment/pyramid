@@ -63,6 +63,8 @@ public class UserController extends AbstractController {
 
     private Validator registrationFormValidator = new RegistrationFormValidator();
 
+    private static String SECRET_KEY = "1234567890qwerty";
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(RedirectAttributes redirectAttributes, ModelMap model, @ModelAttribute("registration") final RegistrationForm registration) {
         try {
@@ -135,11 +137,12 @@ public class UserController extends AbstractController {
         boolean result = false;
         if (user != null) {
             String newPassword = Password.generate();
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userService.save(user);
+            String serverUrl = settingsService.getProperty(Setting.APPLICATION_URL);
+            String returnUrl = serverUrl + "/user/restore_confirmed?uuid=" + MD5Encoder.encode(email + SECRET_KEY) + "&email=" + email + "&password=" + newPassword;
             Map map = new HashMap();
             map.put("username", user.getName());
             map.put("password", newPassword);
+            map.put("returnUrl", returnUrl);
             map.put("subject", localizationService.translate("passwordIsGenerated"));
             emailService.setTemplate("password-restore-template");
             result = emailService.sendEmail(user, map);
@@ -147,6 +150,22 @@ public class UserController extends AbstractController {
         model.addAttribute("result", result);
         model.addAttribute("email", email);
         return "redirect:/user/forgot";
+    }
+
+    @RequestMapping(value = "/restore_confirmed", method = RequestMethod.GET)
+    public String restoreConfirm(RedirectAttributes redirectAttributes, ModelMap model,
+                                 @RequestParam("email") String email,
+                                 @RequestParam("uuid") String uuid,
+                                 @RequestParam("password") String password) {
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            if (uuid.equals(MD5Encoder.encode(email + SECRET_KEY))) {
+                user.setPassword(passwordEncoder.encode(password));
+                userService.save(user);
+                redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("passwordRestored"));
+            }
+        }
+        return "redirect:/pyramid/office";
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
@@ -209,7 +228,7 @@ public class UserController extends AbstractController {
         }
         if (valid) {
             String serverUrl = settingsService.getProperty(Setting.APPLICATION_URL);
-            String returnUrl = serverUrl + "/user/email_confirmed?uuid=" + MD5Encoder.encode(email + "1234567890") + "&email=" + email;
+            String returnUrl = serverUrl + "/user/email_confirmed?uuid=" + MD5Encoder.encode(email + SECRET_KEY) + "&email=" + email;
             emailService.setTemplate("email-changing");
             String oldEmail = current.getEmail();
             current.setEmail(email);
@@ -243,7 +262,7 @@ public class UserController extends AbstractController {
             User user = userService.findById(current.getId());
             User existingUser = userService.findByEmail(email);
             if (existingUser == null) {
-                if (uuid.equals(MD5Encoder.encode(email + "1234567890"))) {
+                if (uuid.equals(MD5Encoder.encode(email + SECRET_KEY))) {
                     user.setEmail(email);
                     userService.save(user);
                     model.addAttribute("changesSaved", true);
