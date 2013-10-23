@@ -123,19 +123,20 @@ public class BinaryTreeWidget {
             double XC = width / 2; // из ромба делаем 2 - а прямоугольных треугольника
             double XA = width / 4;      // начало треугольника над первым участником, а не с 0
             double BC = height;
+
+            double calculatedStart = 0;
+            if (XA > MAX_CANVAS_WIDTH) {
+                calculatedStart = ((Double)(XA / MAX_CANVAS_WIDTH)).intValue() * MAX_CANVAS_WIDTH;
+                canvas += "<div style='height:" + BC + "px; width:" + calculatedStart + "px; float:left'></div>";
+                XA -= calculatedStart;
+                XC -= calculatedStart;
+            }
+
             double AC = XC - XA;
             double XE = MAX_CANVAS_WIDTH;
             double AE = XE - XA;
             double tgA = BC / AC;
             double DE = AE * tgA;
-
-            if (XA > MAX_CANVAS_WIDTH) {
-                double w = ((Double)(XA / MAX_CANVAS_WIDTH)).intValue() * MAX_CANVAS_WIDTH;
-                canvas += "<div style='height:" + BC + "px; width:" + w + "px; float:left'></div>";
-                XA -= w;
-                XC -= w;
-            }
-
             double startX = XA;
             double startY = BC;
             double endX = XE;
@@ -173,12 +174,18 @@ public class BinaryTreeWidget {
                 startY = 0;
                 endX = CG;
                 endY = BC - HG;
-                while (CG < CS) {
+                while (CG < CF) {
                     canvas += getCanvas(BC, MAX_CANVAS_WIDTH, startX, startY, endX, endY, true);
                     startY = endY;
 
-                    if ((CG + MAX_CANVAS_WIDTH) > CS) {
-                        canvas += getCanvas(BC, (CS - CG), startX, startY, (CS - CG), 0, false);
+                    if ((CG + MAX_CANVAS_WIDTH) > CF) {
+                        if ((CG + MAX_CANVAS_WIDTH) < (CS + calculatedStart)) {
+                            canvas += getCanvas(BC, MAX_CANVAS_WIDTH, startX, startY, (CF - CG), BC, true);
+                            canvas += "<div style='height:" + BC + "px; width:" + ((CS + calculatedStart) - (CG + MAX_CANVAS_WIDTH)) + "px'></div>";
+                        } else {
+                            canvas += getCanvas(BC, (CS - CG), startX, startY, (CF - CG), BC, false);
+                        }
+
                     }
 
                     CG += MAX_CANVAS_WIDTH;
