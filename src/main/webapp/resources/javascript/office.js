@@ -4,25 +4,35 @@ $(document).ready(function () {
     for (var i = 0; i < userPointer.length; i++) {
         var obj = userPointer[i];
         var $obj = $(obj);
-        var height = $obj.height();
-        var width = $obj.width();
+        var height = $obj.attr("height");
+        var width = $obj.attr("width");
 
-        $obj.attr("height", height);
-        $obj.attr("width", width);
-        var left = !!($obj.attr("drawLeft") === "true");
-        var right = !!($obj.attr("drawRight") === "true");
+        var startX = $obj.attr("startX");
+        var startY = $obj.attr("startY");
+        var endX = $obj.attr("endX");
+        var endY = $obj.attr("endY");
 
         var ctx = obj.getContext('2d');
         ctx.strokeStyle = "black";
         ctx.beginPath();
-        var startX = width / 4;
-        if (left) {
-            ctx.lineTo(startX, height);
+
+        if(startX && startY && endX && endY) {
+            ctx.lineTo(startX, startY);
+            ctx.lineTo(endX, endY);
+        } else {
+            var left = !!($obj.attr("drawLeft") === "true");
+            var right = !!($obj.attr("drawRight") === "true");
+
+            startX = width / 4;
+            if (left) {
+                ctx.lineTo(startX, height);
+            }
+            ctx.lineTo(width / 2, 0);
+            if (right) {
+                ctx.lineTo(startX * 3, height);
+            }
         }
-        ctx.lineTo(width / 2, 0);
-        if (right) {
-            ctx.lineTo(startX * 3, height);
-        }
+
         ctx.stroke();
     }
     $(".user-info").find("img").popover({placement: "right", animation: true, html: true, trigger: "hover"});
