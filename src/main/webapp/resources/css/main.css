@@ -521,3 +521,7 @@ body > #page-wrap {
 .slider-handle.triangle {
     background: transparent none;
 }
+
+#treeCanvas{
+    border: 1px solid lightgrey;
+}

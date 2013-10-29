@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -90,38 +91,68 @@ public class TabsController extends AbstractController {
         if (authentication.getPrincipal() instanceof UserDetails) {
             User user = (User) authentication.getDetails();
             AccountDetails accountDetails = userService.getAccountDetails(user);
-            BinaryTree tree = userService.getBinaryTree(user);
-            BinaryTreeWidget widget = new BinaryTreeWidget();
-            widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
-            widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
-            widget.setAddEnabled(!accountDetails.isLocked());
-            widget.initTree(tree);
-
-            while (tree != null) {
-                widget.addUserToWidget(tree);
-
-                if (tree.isChild()) {
-                    tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
-                } else {
-                    while (tree.itIsRight() || (tree.isParent() && !tree.getParent().isRight())) {
-                        tree = tree.getParent();
-                    }
-                    tree = tree.isParent() ? tree.getParent().getRight() : null;
-                }
-            }
             model.addAttribute("dateExpired", localizationService.formatDate(accountDetails.getDateExpired()));
             model.addAttribute("dateActivated", localizationService.formatDate(accountDetails.getDateActivated()));
             model.addAttribute("currencySign", settingsService.getProperty(Setting.CASH_SIGN));
             model.addAttribute("daysLeft", accountDetails.getDaysLeft() != null ? accountDetails.getDaysLeft() : -1);
             model.addAttribute("monthDays", accountDetails.getDaysMonth() != null ? accountDetails.getDaysMonth() : -1);
             model.addAttribute("balance", accountDetails.getBalance());
-            model.addAttribute("userBinaryTree", widget.getRootElement());
             model.addAttribute("invitation", new InvitationForm());
             model.addAttribute("isAppPaid", accountDetails.isAppPaid());
             return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());
         return "/tabs/login";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/tree", method = RequestMethod.GET)
+    public String tree(ModelMap model) {
+        Authentication authentication = Session.getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            User user = (User) authentication.getDetails();
+            AccountDetails accountDetails = userService.getAccountDetails(user);
+            BinaryTree tree = userService.getBinaryTree(user);
+            BinaryTreeWidget widget = new BinaryTreeWidget();
+            widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
+            widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
+            widget.setAddEnabled(!accountDetails.isLocked());
+//            widget.initTree(tree);
+            double treeWidth = Math.pow(2, tree.getDepth()) * 50;
+            String treeCanvas = "<link rel='stylesheet' href='/resources/css/tree.css' type='text/css'>";
+            treeCanvas += "<div class='tree'>";
+            treeCanvas += "<ul><li style='width:" + treeWidth + "px'><a href='#'>" + tree.getValue().getName() + " " + tree.getValue().getSurname() + "</a>";
+            while (tree != null) {
+                treeCanvas += "<ul>";
+                if (tree.isLeft()) {
+                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getLeft().getLevel())) + "px'><a href='#'>" + tree.getLeft().getValue().getName() + " " + tree.getLeft().getValue().getSurname() + "</a>";
+                } else {
+                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getLevel())) + "px'><a href='#'>+</a></li>";
+                }
+                if (tree.isRight()) {
+                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getRight().getLevel())) + "px'><a href='#'>" + tree.getRight().getValue().getName() + " " + tree.getRight().getValue().getSurname() + "</a>";
+                } else {
+                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getLevel())) + "px'><a href='#'>+</a></li>";
+                }
+                if (tree.isChild()) {
+                    tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
+                } else {
+                    while (tree.itIsRight() || (tree.isParent() && !tree.getParent().isRight())) {
+                        tree = tree.getParent();
+                    }
+                    if (tree.isParent()) {
+                        tree = tree.getParent().getRight();
+                        treeCanvas += "</li>";
+                    } else {
+                        tree = null;
+                        treeCanvas += "</li></ul>";
+                    }
+                }
+            }
+            treeCanvas += "</li></ul>";
+            return treeCanvas;
+        }
+        return "";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)

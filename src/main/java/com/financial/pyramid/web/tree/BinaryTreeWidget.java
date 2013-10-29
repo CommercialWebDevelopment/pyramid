@@ -126,7 +126,7 @@ public class BinaryTreeWidget {
 
             double calculatedStart = 0;
             if (XA > MAX_CANVAS_WIDTH) {
-                calculatedStart = ((Double)(XA / MAX_CANVAS_WIDTH)).intValue() * MAX_CANVAS_WIDTH;
+                calculatedStart = ((Double) (XA / MAX_CANVAS_WIDTH)).intValue() * MAX_CANVAS_WIDTH;
                 canvas += "<div style='height:" + BC + "px; width:" + calculatedStart + "px; float:left'></div>";
                 XA -= calculatedStart;
                 XC -= calculatedStart;
@@ -213,15 +213,15 @@ public class BinaryTreeWidget {
             double endX,
             double endY,
             boolean isFloat) {
-          return "<canvas class='user-pointer' " +
-                  "height='" + height + "' " +
-                  "width='" + width + "' " +
-                  "startX='" + startX + "' " +
-                  "startY='" + startY + "' " +
-                  "endX='" + endX + "' " +
-                  "endY='" + endY + "' " +
-                  "style='height:" + height + "px; width:" + width + "px;"+ (isFloat ? "float:left" : "")+"'>" +
-                  "</canvas>";
+        return "<canvas class='user-pointer' " +
+                "height='" + height + "' " +
+                "width='" + width + "' " +
+                "startX='" + startX + "' " +
+                "startY='" + startY + "' " +
+                "endX='" + endX + "' " +
+                "endY='" + endY + "' " +
+                "style='height:" + height + "px; width:" + width + "px;" + (isFloat ? "float:left" : "") + "'>" +
+                "</canvas>";
     }
 
     public String getStubNode(BinaryTree user, String clazz) {
