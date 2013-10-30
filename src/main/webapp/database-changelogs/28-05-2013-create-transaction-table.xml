@@ -31,4 +31,15 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="ADD-DESCRIPTION-COLUMN" author="Dmitry">
+        <addColumn tableName="transaction">
+            <column name="description" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

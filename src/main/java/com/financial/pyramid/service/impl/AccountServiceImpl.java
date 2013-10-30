@@ -45,12 +45,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void calculateSum(Account account, Double sum) {
-        account.writeIN(sum);
-        update(account);
-    }
-
-    @Override
     public void update(Account account) {
         accountDao.saveOrUpdate(account);
     }
