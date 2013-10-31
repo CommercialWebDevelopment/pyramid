@@ -158,9 +158,7 @@
         <div id="contract-step" style="display: none">
             <div class="row-fluid">
                 <div class="span12">
-                    <iframe src="${pageContext.request.contextPath}/user/contract_offer" width="100%" height="300px">
-                        Ваш браузер не поддерживает плавающие фреймы!
-                    </iframe>
+                    <iframe id="registrationFrame" src="${pageContext.request.contextPath}/user/contract_offer" width="100%" height="300px"></iframe>
                 </div>
             </div>
 
