@@ -510,3 +510,7 @@ body > #page-wrap {
 #treeCanvas{
     border: 1px solid lightgrey;
 }
+
+#registrationFrame {
+    border: 1px solid lightgrey;
+}
