@@ -37,6 +37,14 @@ public class Transaction extends AbstractEntity implements Serializable {
     @Column(name = "type", nullable = false)
     private TransactionType type;
 
+    @Basic
+    @Column(name="description", nullable = false)
+    private String description;
+
+    @Basic
+    @Column(name="user_id", nullable = true)
+    private Long userId;
+
     @ManyToOne
     private Account account;
 
@@ -78,5 +86,21 @@ public class Transaction extends AbstractEntity implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

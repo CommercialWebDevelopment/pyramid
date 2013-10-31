@@ -4,16 +4,13 @@ import com.financial.pyramid.dao.UserDao;
 import com.financial.pyramid.domain.Account;
 import com.financial.pyramid.domain.Passport;
 import com.financial.pyramid.domain.User;
-import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.service.AccountService;
 import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.settings.Setting;
-import com.financial.pyramid.utils.Password;
 import com.financial.pyramid.web.form.AdminRegistrationForm;
 import com.financial.pyramid.web.form.QueryForm;
-import com.financial.pyramid.web.form.RegistrationForm;
 import com.financial.pyramid.web.tree.BinaryTree;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -30,7 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: Danil
@@ -236,8 +236,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public void withdrawFromAccount(User user, Double count) {
         User u = findById(user.getId());
-        if(u == null) return;
-        u.getAccount().writeOFF(count);
+        if (u == null) return;
+        u.getAccount().writeOFF(count, "withdraw_funds_from_account");
         merge(user);
     }
 }

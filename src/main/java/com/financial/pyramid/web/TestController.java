@@ -36,40 +36,7 @@ public class TestController extends AbstractController {
     private UserService userService;
 
     @Autowired
-    private AccountService accountService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private SettingsService settingsService;
-
-    @ResponseBody
-    @RequestMapping(value = "/payAccountTest", method = RequestMethod.GET)
-    public String payTest(ModelMap model) {
-        User currentUser = Session.getCurrentUser();
-        Account account = userService.getAccount(currentUser);
-        accountService.calculateSum(account, 0.01);
-        return "Done";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/extendAccountTest", method = RequestMethod.GET)
-    public String extendTest(ModelMap model) {
-        User currentUser = Session.getCurrentUser();
-        Account account = userService.getAccount(currentUser);
-        accountService.activate(account, 1);
-        return "Done";
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/blockAccountTest", method = RequestMethod.GET)
-    public String blockTest(ModelMap model) {
-        User currentUser = Session.getCurrentUser();
-        Account account = userService.getAccount(currentUser);
-        accountService.deactivate(account);
-        return "Done";
-    }
 
     @ResponseBody
     @RequestMapping(value = "/generateTreeTest/{levels}", method = RequestMethod.GET)
@@ -105,7 +72,7 @@ public class TestController extends AbstractController {
                 account.setDateActivated(calendar.getTime());
                 calendar.add(Calendar.MONTH, -1);
                 account.setDateExpired(calendar.getTime());
-                account.writeIN(1D);
+                account.writeIN(1D, "test_account_created", null);
                 currentUser.setAccount(account);
                 userService.save(currentUser);
 
@@ -217,7 +184,7 @@ public class TestController extends AbstractController {
             account.setDateActivated(calendar.getTime());
             calendar.add(Calendar.MONTH, -1);
             account.setDateExpired(calendar.getTime());
-            account.writeIN(1D);
+            account.writeIN(1D, "test_account_created", null);
             user.setAccount(account);
             userQueue.add(user);
         }

@@ -41,6 +41,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final static Logger logger = Logger.getLogger(RegistrationServiceImpl.class);
     private static final java.util.List<String> AVAILABLE_IMAGE_TYPES = Arrays.asList("image/jpg", "image/jpeg", "image/png", "image/gif");
     private static final int IMAGE_LIMIT = 50000;
+    private static final String BONUS_FOR_PERSONAL_USER = "bonus_for_personal_user";
+    private static final String BONUS_FOR_USER = "bonus_for_user";
+    private static final String ACCOUNT_CREATED = "account_created";
 
     @Autowired
     UserService userService;
@@ -220,14 +223,14 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private void payment(User owner, User parent, User user) {
         Double costByPersonalUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_PERSONAL_USER));
-        owner.getAccount().writeIN(costByPersonalUser);
+        owner.getAccount().writeIN(costByPersonalUser, BONUS_FOR_PERSONAL_USER, user.getId());
 
         Double maxLevelForPayment = Double.parseDouble(settingsService.getProperty(Setting.MAX_LEVEL_FOR_PAYMENT));
         Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
         User parentForPay = parent;
         while (parentForPay != null && (user.getLevel() - parentForPay.getLevel()) <= maxLevelForPayment) {
             if (parentForPay.getCountInvitedUsers() >= 2 && !parentForPay.getAccount().isLocked()) {
-                parentForPay.getAccount().writeIN(costByUser);
+                parentForPay.getAccount().writeIN(costByUser, BONUS_FOR_USER, user.getId());
             }
             parentForPay = userService.findParent(parentForPay.getId());
         }
@@ -239,7 +242,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         account.setDateActivated(calendar.getTime());
         calendar.add(Calendar.MONTH, -1);
         account.setDateExpired(calendar.getTime());
-        account.writeIN(0D);
+        account.writeIN(0D, ACCOUNT_CREATED, null);
         user.setAccount(account);
     }
 

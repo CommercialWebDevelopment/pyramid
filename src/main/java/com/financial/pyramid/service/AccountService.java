@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 public interface AccountService {
     public void activate(Account account, int months);
     public void deactivate(Account account);
-    public void calculateSum(Account account, Double sum);
     public void update(Account account);
     public Account findById(Long id);
 }

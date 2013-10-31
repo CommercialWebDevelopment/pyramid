@@ -43,16 +43,5 @@
                     </a>
                 </p>
             </div>
-            <div class="hero-unit">
-                <h1>Мы работаем с PayPal</h1>
-
-                <p>Для работы с личном кабинете вам понадобится аккаунт PayPal. Если у Вас еще нет своего аккаунта PayPal, то Вы можете
-                зарегистрироваться прямо сейчас.</p>
-                <p>
-                    <a class="btn btn-primary btn-large" href="http://paypal.com">
-                        Узнать больше
-                    </a>
-                </p>
-            </div>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>

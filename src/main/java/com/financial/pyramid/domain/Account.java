@@ -67,24 +67,27 @@ public class Account extends AbstractEntity implements Serializable {
     }
 
     @Transient
-    public void writeOFF(Double count) {
+    public void writeOFF(Double count, String description) {
         this.balance -= count;
         Transaction transaction = new Transaction();
-        transaction.setAccount(this);
-        transaction.setType(TransactionType.OUT);
         transaction.setCount(count);
+        transaction.setAccount(this);
         transaction.setBalance(this.balance);
+        transaction.setDescription(description);
+        transaction.setType(TransactionType.OUT);
         transactions.add(transaction);
     }
 
     @Transient
-    public void writeIN(Double count) {
+    public void writeIN(Double count, String description, Long userId) {
         this.balance += count;
         Transaction transaction = new Transaction();
-        transaction.setAccount(this);
-        transaction.setType(TransactionType.IN);
         transaction.setCount(count);
+        transaction.setAccount(this);
+        transaction.setUserId(userId);
         transaction.setBalance(this.balance);
+        transaction.setType(TransactionType.IN);
+        transaction.setDescription(description);
         transactions.add(transaction);
     }
 
