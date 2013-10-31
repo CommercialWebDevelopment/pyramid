@@ -105,7 +105,6 @@ public class TabsController extends AbstractController {
         return "/tabs/login";
     }
 
-    @ResponseBody
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public String tree(ModelMap model) {
         Authentication authentication = Session.getAuthentication();
@@ -117,42 +116,24 @@ public class TabsController extends AbstractController {
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
             widget.setAddEnabled(!accountDetails.isLocked());
-//            widget.initTree(tree);
-            double treeWidth = Math.pow(2, tree.getDepth()) * 50;
-            String treeCanvas = "<link rel='stylesheet' href='/resources/css/tree.css' type='text/css'>";
-            treeCanvas += "<div class='tree'>";
-            treeCanvas += "<ul><li style='width:" + treeWidth + "px'><a href='#'>" + tree.getValue().getName() + " " + tree.getValue().getSurname() + "</a>";
+            widget.initTree(tree);
             while (tree != null) {
-                treeCanvas += "<ul>";
-                if (tree.isLeft()) {
-                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getLeft().getLevel())) + "px'><a href='#'>" + tree.getLeft().getValue().getName() + " " + tree.getLeft().getValue().getSurname() + "</a>";
-                } else {
-                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getLevel())) + "px'><a href='#'>+</a></li>";
-                }
-                if (tree.isRight()) {
-                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getRight().getLevel())) + "px'><a href='#'>" + tree.getRight().getValue().getName() + " " + tree.getRight().getValue().getSurname() + "</a>";
-                } else {
-                    treeCanvas += "<li style='width:" + (treeWidth / Math.pow(2, tree.getLevel())) + "px'><a href='#'>+</a></li>";
-                }
+                widget.addUserToWidget(tree);
+
                 if (tree.isChild()) {
                     tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
                 } else {
                     while (tree.itIsRight() || (tree.isParent() && !tree.getParent().isRight())) {
                         tree = tree.getParent();
                     }
-                    if (tree.isParent()) {
-                        tree = tree.getParent().getRight();
-                        treeCanvas += "</li>";
-                    } else {
-                        tree = null;
-                        treeCanvas += "</li></ul>";
-                    }
+                    tree = tree.isParent() ? tree.getParent().getRight() : null;
                 }
             }
-            treeCanvas += "</li></ul>";
-            return treeCanvas;
+            model.addAttribute("userBinaryTree", widget.getRootElement());
+            return "/tabs/user/tree-iframe";
         }
-        return "";
+        model.addAttribute("authentication", new AuthenticationForm());
+        return "/tabs/login";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)

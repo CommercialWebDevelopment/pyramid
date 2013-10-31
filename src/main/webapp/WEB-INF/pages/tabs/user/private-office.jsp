@@ -6,7 +6,7 @@
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
 <div class="row-fluid">
     <div class="span8">
-        <iframe id="treeCanvas" class="one" src="${pageContext.request.contextPath}/app/tree" width="600" height="500"></iframe>
+        <iframe id="treeCanvas" class="one" src="${pageContext.request.contextPath}/app/tree" width="100%" height="500"></iframe>
     </div>
     <div id="sidebar">
         <%@include file="office-sidebar.jsp" %>

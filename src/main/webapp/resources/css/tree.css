@@ -2,9 +2,13 @@
 /*Now the CSS*/
 * {margin: 0; padding: 0;}
 
+.tree {
+    display: inline-block;
+}
+
 .tree ul {
     padding-top: 20px; position: relative;
-
+    margin: 0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
     -moz-transition: all 0.5s;
@@ -102,3 +106,17 @@ right connector from last child*/
 
 /*Thats all. I hope you enjoyed it.
 Thanks :)*/
+
+.tree .user-photo {
+    margin-bottom: 2px;
+}
+
+.tree .user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tree .stub-node {
+    cursor: pointer;
+}

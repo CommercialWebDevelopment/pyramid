@@ -86,21 +86,6 @@ body {
     width: auto;
 }
 
-.user-tree .user-photo {
-    margin-bottom: 2px;
-}
-
-.user-tree .user-name {
-    min-width: 195px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.user-tree .stub-node {
-    cursor: pointer;
-}
-
 .user-tree .user-pointer {
 }
 
