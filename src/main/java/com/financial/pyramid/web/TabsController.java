@@ -115,7 +115,6 @@ public class TabsController extends AbstractController {
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
-            widget.setAddEnabled(!accountDetails.isLocked());
             widget.initTree(tree);
             while (tree != null) {
                 widget.addUserToWidget(tree);
