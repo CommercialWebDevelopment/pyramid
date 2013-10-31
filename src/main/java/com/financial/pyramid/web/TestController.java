@@ -128,7 +128,7 @@ public class TestController extends AbstractController {
         long timePoint = new Date().getTime();
 
         User admin = userService.findById(1L); // Admin
-        Integer totalCount = (1 - ((Double)Math.pow(2, levels)).intValue()) / -1; // количество пользователей
+        Integer totalCount = ((Double)Math.pow(2, levels)).intValue() - 1; // количество пользователей
         Queue<User> users = generateUsers(totalCount - 1);   // -1 admin
         Queue<User> parents = new ArrayBlockingQueue<User>(totalCount - 1);
         parents.add(admin);

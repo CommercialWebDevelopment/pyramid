@@ -17,7 +17,6 @@ public class BinaryTreeWidget {
     private String stubTextContent;
     private String activeStatus;
     private String inactiveStatus;
-    private boolean addEnabled = true;
     private static final short DEFAULT_CANVAS_HEIGHT = 30;
     private static final short MAX_CANVAS_WIDTH = 30000;
     private int depth = 1;
@@ -69,10 +68,13 @@ public class BinaryTreeWidget {
             body += "title=" + popupTitle + " data-content=" + popupContent + "/></br>";
             body += "<div class='user-name'>" + user.getName() + " " + user.getSurname() + "</div>";
         }
-        return "<li style='width:" + calculateNodeWidth(tree.getDepth()) + "px'>" + body + "<ul>" + getPointForUser(tree) + "</ul>" + "</li>";
+        boolean isChild = tree.isLeft() || tree.isRight();
+        String childPlace = tree.getValue().isActive() || isChild  ? "<ul>" + getPointForUser(tree) + "</ul>" : "";
+        return "<li style='width:" + calculateNodeWidth(tree.getDepth()) + "px'>" + body + childPlace + "</li>";
     }
 
     public String getStubNode(BinaryTree tree, String clazz) {
+        if(!tree.getValue().isActive()) return "";
         String image = "<img class=stub-node parentId=" + tree.getId();
         image += " position=" + (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString());
         image += " src=/resources/images/add-user.jpg title='" + this.stubTextTitle + "' data-content='" + this.stubTextContent + "'/>";
@@ -98,9 +100,5 @@ public class BinaryTreeWidget {
     public void setStatus(String activeStatus, String inactiveStatus) {
         this.activeStatus = activeStatus;
         this.inactiveStatus = inactiveStatus;
-    }
-
-    public void setAddEnabled(boolean addEnabled) {
-        this.addEnabled = addEnabled;
     }
 }
