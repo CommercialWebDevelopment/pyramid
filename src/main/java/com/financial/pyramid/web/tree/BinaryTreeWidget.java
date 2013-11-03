@@ -37,8 +37,8 @@ public class BinaryTreeWidget {
         return (STUB_WITH + 10) + (countUsers - 1) * (STUB_WITH + 20);
     }
 
-    private double calculateNodeWidth(Integer depth) {
-        double countUsers = Math.pow(2, depth);
+    private double calculateNodeWidth(Integer level) {
+        double countUsers = Math.pow(2, (this.depth - level));
         return STUB_WITH + (countUsers - 1) * (STUB_WITH + 20);  // padding
     }
 
@@ -70,15 +70,15 @@ public class BinaryTreeWidget {
         }
         boolean isChild = tree.isLeft() || tree.isRight();
         String childPlace = tree.getValue().isActive() || isChild  ? "<ul>" + getPointForUser(tree) + "</ul>" : "";
-        return "<li style='width:" + calculateNodeWidth(tree.getDepth()) + "px'>" + body + childPlace + "</li>";
+        return "<li style='width:" + calculateNodeWidth(tree.getLevel()) + "px'>" + body + childPlace + "</li>";
     }
 
     public String getStubNode(BinaryTree tree, String clazz) {
-        if(!tree.getValue().isActive()) return "<div style=width:" + calculateNodeWidth(tree.getDepth() - 1) + "px></div>";
+        if(!tree.getValue().isActive()) return "<div style='width:" + calculateNodeWidth(tree.getLevel() + 1) + "px; float: left; padding: 20px 5px;'></div>";
         String image = "<img class=stub-node parentId=" + tree.getId();
         image += " position=" + (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString());
         image += " src=/resources/images/add-user.jpg title='" + this.stubTextTitle + "' data-content='" + this.stubTextContent + "'/>";
-        return "<li style=width:" + calculateNodeWidth(tree.getDepth() - 1) + "px>" + image + "</li>";
+        return "<li style=width:" + calculateNodeWidth(tree.getLevel() + 1) + "px>" + image + "</li>";
     }
 
     public String getPointForUser(BinaryTree user) {
