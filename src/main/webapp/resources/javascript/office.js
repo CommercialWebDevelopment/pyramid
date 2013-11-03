@@ -1,11 +1,10 @@
 $(document).ready(function () {
-    $('#treeCanvas').load(function() {
-        var form = $("#user-email-form");
-        $(this).contents().find('.stub-node').click(function () {
-            form.find("#parentId").val($(this).attr("parentId"));
-            form.find("#position").val($(this).attr("position"));
-            form.modal("show");
-        });
+    $(".user-photo").popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
+    var form = $("#user-email-form");
+    $('.stub-node').click(function () {
+        form.find("#parentId").val($(this).attr("parentId"));
+        form.find("#position").val($(this).attr("position"));
+        form.modal("show");
     });
 
     $("#next-button").click(function () {

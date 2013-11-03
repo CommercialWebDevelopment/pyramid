@@ -514,3 +514,8 @@ body > #page-wrap {
 #registrationFrame {
     border: 1px solid lightgrey;
 }
+
+#users-tree {
+    overflow: auto;
+    height: 500px;
+}

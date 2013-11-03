@@ -91,26 +91,6 @@ public class TabsController extends AbstractController {
         if (authentication.getPrincipal() instanceof UserDetails) {
             User user = (User) authentication.getDetails();
             AccountDetails accountDetails = userService.getAccountDetails(user);
-            model.addAttribute("dateExpired", localizationService.formatDate(accountDetails.getDateExpired()));
-            model.addAttribute("dateActivated", localizationService.formatDate(accountDetails.getDateActivated()));
-            model.addAttribute("currencySign", settingsService.getProperty(Setting.CASH_SIGN));
-            model.addAttribute("daysLeft", accountDetails.getDaysLeft() != null ? accountDetails.getDaysLeft() : -1);
-            model.addAttribute("monthDays", accountDetails.getDaysMonth() != null ? accountDetails.getDaysMonth() : -1);
-            model.addAttribute("balance", accountDetails.getBalance());
-            model.addAttribute("invitation", new InvitationForm());
-            model.addAttribute("isAppPaid", accountDetails.isAppPaid());
-            return "/tabs/user/private-office";
-        }
-        model.addAttribute("authentication", new AuthenticationForm());
-        return "/tabs/login";
-    }
-
-    @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public String tree(ModelMap model) {
-        Authentication authentication = Session.getAuthentication();
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            User user = (User) authentication.getDetails();
-            AccountDetails accountDetails = userService.getAccountDetails(user);
             BinaryTree tree = userService.getBinaryTree(user);
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
@@ -129,7 +109,15 @@ public class TabsController extends AbstractController {
                 }
             }
             model.addAttribute("userBinaryTree", widget.getRootElement());
-            return "/tabs/user/tree-iframe";
+            model.addAttribute("dateExpired", localizationService.formatDate(accountDetails.getDateExpired()));
+            model.addAttribute("dateActivated", localizationService.formatDate(accountDetails.getDateActivated()));
+            model.addAttribute("currencySign", settingsService.getProperty(Setting.CASH_SIGN));
+            model.addAttribute("daysLeft", accountDetails.getDaysLeft() != null ? accountDetails.getDaysLeft() : -1);
+            model.addAttribute("monthDays", accountDetails.getDaysMonth() != null ? accountDetails.getDaysMonth() : -1);
+            model.addAttribute("balance", accountDetails.getBalance());
+            model.addAttribute("invitation", new InvitationForm());
+            model.addAttribute("isAppPaid", accountDetails.isAppPaid());
+            return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());
         return "/tabs/login";

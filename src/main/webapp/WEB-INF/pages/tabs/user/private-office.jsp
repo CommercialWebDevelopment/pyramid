@@ -4,11 +4,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
+
+<link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/tree.css" type="text/css">
+
 <div class="row-fluid">
     <div class="span8">
-        <iframe id="treeCanvas" class="one" src="${pageContext.request.contextPath}/app/tree" width="100%" height="500"></iframe>
+        <div id="users-tree" class="text-center"><%=request.getAttribute("userBinaryTree")%></div>
     </div>
-    <div id="sidebar">
+    <div id="sidebar" class="span4">
         <%@include file="office-sidebar.jsp" %>
     </div>
 </div>

@@ -74,7 +74,7 @@ public class BinaryTreeWidget {
     }
 
     public String getStubNode(BinaryTree tree, String clazz) {
-        if(!tree.getValue().isActive()) return "";
+        if(!tree.getValue().isActive()) return "<div style=width:" + calculateNodeWidth(tree.getDepth() - 1) + "px></div>";
         String image = "<img class=stub-node parentId=" + tree.getId();
         image += " position=" + (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString());
         image += " src=/resources/images/add-user.jpg title='" + this.stubTextTitle + "' data-content='" + this.stubTextContent + "'/>";
