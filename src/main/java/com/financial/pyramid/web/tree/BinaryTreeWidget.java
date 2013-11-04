@@ -37,13 +37,13 @@ public class BinaryTreeWidget {
     private double calculateTotalWidth(BinaryTree tree) {
         this.depth = tree.getDepth();
         double countUsers = Math.pow(2, this.depth);
-        int stubWidth = this.mode.equals("huge") ? STUB_WIDTH_HUGE : STUB_WIDTH_SMALL;
+        int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
         return (stubWidth + 10) + (countUsers - 1) * (stubWidth + 20);
     }
 
     private double calculateNodeWidth(Integer level) {
         double countUsers = Math.pow(2, (this.depth - level));
-        int stubWidth = this.mode.equals("huge") ? STUB_WIDTH_HUGE : STUB_WIDTH_SMALL;
+        int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
         return stubWidth + (countUsers - 1) * (stubWidth + 20);  // padding
     }
 
@@ -71,8 +71,8 @@ public class BinaryTreeWidget {
             body += "data-content=" + popupContent + "/>";
         } else {
             popupContent = " '<small><div>" + user.getEmail() + "</div><div style=color:" + statusColor + ">" + statusText + "</div></small>' ";
-            body += "title=" + popupTitle + " data-content=" + popupContent + "/></br>";
-            body += "<div class='user-name'>" + user.getName() + " " + user.getSurname() + "</div>";
+            body += "title=" + popupTitle + " data-content=" + popupContent + "/>";
+            body += tree.getLevel() == 0 || isStandardView() ? "</br><div class='user-name'>" + user.getName() + " " + user.getSurname() + "</div>" : "";
         }
         boolean isChild = tree.isLeft() || tree.isRight();
         String childPlace = tree.getValue().isActive() || isChild ? "<ul>" + getPointForUser(tree) + "</ul>" : "";
@@ -93,10 +93,6 @@ public class BinaryTreeWidget {
         return point + user.getId() + point;
     }
 
-    private int getIconWidth() {
-        return this.mode.equals("huge") ? STUB_WIDTH_HUGE : STUB_WIDTH_SMALL;
-    }
-
     public void addUserToWidget(BinaryTree user) {
         String result = user.isLeft() ? getUserNode(user.getLeft()) : getStubNode(user, LEFT_TREE);
         result += user.isRight() ? getUserNode(user.getRight()) : getStubNode(user, RIGHT_TREE);
@@ -111,5 +107,13 @@ public class BinaryTreeWidget {
     public void setStatus(String activeStatus, String inactiveStatus) {
         this.activeStatus = activeStatus;
         this.inactiveStatus = inactiveStatus;
+    }
+
+    private int getIconWidth() {
+        return isStandardView() ? STUB_WIDTH_HUGE : STUB_WIDTH_SMALL;
+    }
+
+    private boolean isStandardView(){
+        return this.mode.equals("huge");
     }
 }
