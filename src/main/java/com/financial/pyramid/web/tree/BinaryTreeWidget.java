@@ -19,7 +19,7 @@ public class BinaryTreeWidget {
     private String inactiveStatus;
     private int depth = 1;
     private static int STUB_WIDTH_HUGE = 48;
-    private static int STUB_WIDTH_SMALL = 24;
+    private static int STUB_WIDTH_SMALL = 20;
     private String mode;
     private boolean addEnabled;
 
