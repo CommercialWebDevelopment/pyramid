@@ -17,10 +17,8 @@ public class BinaryTreeWidget {
     private String stubTextContent;
     private String activeStatus;
     private String inactiveStatus;
-    private static final short DEFAULT_CANVAS_HEIGHT = 30;
-    private static final short MAX_CANVAS_WIDTH = 30000;
     private int depth = 1;
-    private static int STUB_WITH = 48;
+    private static int STUB_WIDTH = 48;
 
     public void initTree(BinaryTree tree) {
         if (tree == null) {
@@ -34,12 +32,12 @@ public class BinaryTreeWidget {
     private double calculateTotalWidth(BinaryTree tree) {
         this.depth = tree.getDepth();
         double countUsers = Math.pow(2, this.depth);
-        return (STUB_WITH + 10) + (countUsers - 1) * (STUB_WITH + 20);
+        return (STUB_WIDTH + 10) + (countUsers - 1) * (STUB_WIDTH + 20);
     }
 
     private double calculateNodeWidth(Integer level) {
         double countUsers = Math.pow(2, (this.depth - level));
-        return STUB_WITH + (countUsers - 1) * (STUB_WITH + 20);  // padding
+        return STUB_WIDTH + (countUsers - 1) * (STUB_WIDTH + 20);  // padding
     }
 
     public String getRootElement() {
