@@ -21,6 +21,7 @@ public class BinaryTreeWidget {
     private static int STUB_WIDTH_HUGE = 48;
     private static int STUB_WIDTH_SMALL = 24;
     private String mode;
+    private boolean addEnabled;
 
     public void initTree(BinaryTree tree, String mode) {
         if (tree == null) {
@@ -28,6 +29,7 @@ public class BinaryTreeWidget {
             return;
         }
         this.mode = mode != null ? mode : "huge";
+        this.addEnabled = tree.getValue().isActive();
         this.rootElementWidth = calculateTotalWidth(tree);
         this.rootElement = "<div class='tree' style='width:" + this.rootElementWidth + "px'><ul>" + getUserNode(tree) + "</ul></div>";
     }
@@ -78,7 +80,7 @@ public class BinaryTreeWidget {
     }
 
     public String getStubNode(BinaryTree tree, String clazz) {
-        if (!tree.getValue().isActive())
+        if (!this.addEnabled)
             return "<div style='width:" + calculateNodeWidth(tree.getLevel() + 1) + "px; float: left; padding: 20px 5px;'></div>";
         String image = "<img class=stub-node parentId=" + tree.getId() + " width='" + getIconWidth() + "px'";
         image += " position=" + (clazz.equals(RIGHT_TREE) ? Position.RIGHT.toString() : Position.LEFT.toString());
