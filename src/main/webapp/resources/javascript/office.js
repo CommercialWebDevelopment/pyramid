@@ -1,12 +1,52 @@
 $(document).ready(function () {
-    $(".user-photo").popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
+    var users = $(".user-photo");
+    users.popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
+    $(".stub-node").popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
     var form = $("#user-email-form");
     $('.stub-node').click(function () {
         form.find("#parentId").val($(this).attr("parentId"));
         form.find("#position").val($(this).attr("position"));
         form.modal("show");
     });
-
+    var tree = $("#users-tree");
+    var scrollTree = function () {
+        if (users.length > 0 && tree.length > 0) {
+            var parentEl = users.parent();
+            if (parentEl.length > 0) {
+                tree.scrollLeft(parentEl[0].offsetWidth / 2 - tree.width() / 2);
+            }
+        }
+    };
+    scrollTree();
+    var viewHuge = function (element) {
+        element.removeClass("icon-resize-full");
+        element.addClass("icon-resize-small");
+        element.attr("title", I18N.compactView);
+        tree.parent().removeClass("span8");
+        tree.parent().addClass("span12");
+        $("#sidebar").hide();
+    };
+    var viewSmall = function (element) {
+        element.removeClass("icon-resize-small");
+        element.addClass("icon-resize-full");
+        element.attr("title", I18N.extendedView);
+        tree.parent().removeClass("span12");
+        tree.parent().addClass("span8");
+        $("#sidebar").show();
+    };
+    $("#viewSwitcher").click(function () {
+        if ($(this).hasClass("icon-resize-full")) {
+            viewHuge($(this));
+        } else {
+            viewSmall($(this));
+        }
+    });
+    $("#usersLarge").click(function () {
+        document.location.href = "/app/office?mode=huge";
+    });
+    $("#usersSmall").click(function () {
+        document.location.href = "/app/office?mode=small";
+    });
     $("#next-button").click(function () {
         if (Form.validate()) {
             $("#user-form-step").hide();
@@ -40,7 +80,7 @@ $(document).ready(function () {
         y2: 48
     };
 
-    // Добавить аватарку
+// Добавить аватарку
     $("#add-photo").click(function () {
         $("#user-form-step").hide();
         $("#photo-body").show();
@@ -71,14 +111,14 @@ $(document).ready(function () {
         });
     });
 
-    // Выбрать фото с диска
+// Выбрать фото с диска
     $("#upload-image-icon").click(function () {
         var file = $("#user-image");
         file.val("");
         file.click();
     });
 
-    // Сохранить аватарку
+// Сохранить аватарку
     $("#save-avatar").click(function () {
         $("#x").val(select.x1);
         $("#y").val(select.y1);
@@ -88,7 +128,7 @@ $(document).ready(function () {
         $("#user-form-step").show();
     });
 
-    // Не сохранить аватарку
+// Не сохранить аватарку
     $("#cancel-avatar").click(function () {
         $("#save-avatar").attr('disabled', true);
         avatar.attr("src", avatarSRCDefault);
@@ -111,7 +151,7 @@ $(document).ready(function () {
         $("#user-form-step").show();
     });
 
-    // Выбран файл с диска
+// Выбран файл с диска
     $("#user-image").change(function (evt) {
         $("#save-avatar").attr('disabled', false);
         var files = evt.target.files;
@@ -164,7 +204,8 @@ $(document).ready(function () {
         $('#officeMonths').val(ev.value);
         $('#monthsCount').html(ev.value + " " + m);
     });
-});
+})
+;
 /* =========================================================
  * bootstrap-slider.js v2.0.0
  * http://www.eyecon.ro/bootstrap-slider

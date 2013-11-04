@@ -53,6 +53,8 @@ var I18N = {
     countLevelForUserDetails:'<spring:message code="countLevelForUserDetails" javaScriptEscape="true"/>',
     monthSingle:'<spring:message code="monthSingle" javaScriptEscape="true"/>',
     monthMulti:'<spring:message code="monthMulti" javaScriptEscape="true"/>',
-    monthMany:'<spring:message code="monthMany" javaScriptEscape="true"/>'
+    monthMany:'<spring:message code="monthMany" javaScriptEscape="true"/>',
+    extendedView:'<spring:message code="extendedView" javaScriptEscape="true"/>',
+    compactView:'<spring:message code="compactView" javaScriptEscape="true"/>'
 };
 

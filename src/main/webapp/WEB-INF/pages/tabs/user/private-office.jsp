@@ -5,11 +5,16 @@
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
 
-<link rel=stylesheet href="${pageContext.request.contextPath}/resources/css/tree.css" type="text/css">
-
 <div class="row-fluid">
     <div class="span8">
-        <div id="users-tree" class="text-center"><%=request.getAttribute("userBinaryTree")%></div>
+        <div id="users-tree" class="text-center">
+            <div id="tree-panel">
+                <div id="usersLarge" class="icon-th-large" title='<spring:message code="bigPhotos"/>'></div>
+                <div id="usersSmall" class="icon-th" title='<spring:message code="smallPhotos"/>'></div>
+                <div id="viewSwitcher" class="icon-resize-full" title='<spring:message code="extendedView"/>'></div>
+            </div>
+            <%=request.getAttribute("userBinaryTree")%>
+        </div>
     </div>
     <div id="sidebar" class="span4">
         <%@include file="office-sidebar.jsp" %>

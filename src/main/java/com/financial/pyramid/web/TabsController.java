@@ -22,7 +22,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -95,7 +94,7 @@ public class TabsController extends AbstractController {
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
-            widget.initTree(tree);
+            widget.initTree(tree, request.getParameter("mode"));
             while (tree != null) {
                 widget.addUserToWidget(tree);
 
