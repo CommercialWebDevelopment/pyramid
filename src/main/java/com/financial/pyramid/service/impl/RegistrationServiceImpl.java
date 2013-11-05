@@ -229,7 +229,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         Double costByUser = Double.parseDouble(settingsService.getProperty(Setting.COST_BY_USER));
         User parentForPay = parent;
         while (parentForPay != null && (user.getLevel() - parentForPay.getLevel()) <= maxLevelForPayment) {
-            if (parentForPay.getCountInvitedUsers() >= 2 && !parentForPay.getAccount().isLocked()) {
+            if (!parentForPay.getId().equals(owner.getId()) && parentForPay.getCountInvitedUsers() >= 2 && !parentForPay.getAccount().isLocked()) {
                 parentForPay.getAccount().writeIN(costByUser, BONUS_FOR_USER, user.getId());
             }
             parentForPay = userService.findParent(parentForPay.getId());
