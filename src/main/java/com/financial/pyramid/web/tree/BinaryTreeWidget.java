@@ -3,6 +3,8 @@ package com.financial.pyramid.web.tree;
 import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.web.form.UserForm;
 
+import java.math.BigDecimal;
+
 /**
  * User: Danil
  * Date: 10.08.13
@@ -34,17 +36,17 @@ public class BinaryTreeWidget {
         this.rootElement = "<div class='tree' style='width:" + this.rootElementWidth + "px'><ul>" + getUserNode(tree) + "</ul></div>";
     }
 
-    private double calculateTotalWidth(BinaryTree tree) {
+    private long calculateTotalWidth(BinaryTree tree) {
         this.depth = tree.getDepth();
         double countUsers = Math.pow(2, this.depth);
         int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
-        return (stubWidth + 10) + (countUsers - 1) * (stubWidth + 20);
+        return new BigDecimal((stubWidth + 10) + (countUsers - 1) * (stubWidth + 20)).setScale(0).longValue();
     }
 
-    private double calculateNodeWidth(Integer level) {
+    private long calculateNodeWidth(Integer level) {
         double countUsers = Math.pow(2, (this.depth - level));
         int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
-        return stubWidth + (countUsers - 1) * (stubWidth + 20);  // padding
+        return new BigDecimal(stubWidth + (countUsers - 1) * (stubWidth + 20)).setScale(0).longValue();
     }
 
     public String getRootElement() {
@@ -113,7 +115,7 @@ public class BinaryTreeWidget {
         return isStandardView() ? STUB_WIDTH_HUGE : STUB_WIDTH_SMALL;
     }
 
-    private boolean isStandardView(){
+    private boolean isStandardView() {
         return this.mode.equals("huge");
     }
 }

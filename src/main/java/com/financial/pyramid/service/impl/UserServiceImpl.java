@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
         User user = findById(u.getId());
         Integer levels = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_IN_USER_TREE));
         Integer details = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_FOR_USER_DETAILS));
-        return new BinaryTree(user, levels == null ? COUNT_LEVEL_IN_USER_TREE : levels, details == null ? COUNT_LEVEL_FOR_USER_DETAILS : details);
+        return new BinaryTree(user, details);
     }
 
     @Override

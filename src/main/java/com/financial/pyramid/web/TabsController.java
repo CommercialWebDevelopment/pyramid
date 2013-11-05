@@ -97,7 +97,6 @@ public class TabsController extends AbstractController {
             widget.initTree(tree, request.getParameter("mode"));
             while (tree != null) {
                 widget.addUserToWidget(tree);
-
                 if (tree.isChild()) {
                     tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
                 } else {
