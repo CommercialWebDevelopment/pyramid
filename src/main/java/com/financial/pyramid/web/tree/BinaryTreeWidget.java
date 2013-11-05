@@ -14,7 +14,7 @@ public class BinaryTreeWidget {
     private static String LEFT_TREE = "left-tree";
     private static String RIGHT_TREE = "right-tree";
     private String rootElement;
-    private double rootElementWidth = 0;
+    private long rootElementWidth = 0;
     private String stubTextTitle;
     private String stubTextContent;
     private String activeStatus;

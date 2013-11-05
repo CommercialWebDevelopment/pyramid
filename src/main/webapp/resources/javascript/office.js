@@ -13,7 +13,7 @@ $(document).ready(function () {
         if (users.length > 0 && tree.length > 0) {
             var parentEl = users.parent();
             if (parentEl.length > 0) {
-                tree.scrollLeft(parentEl[0].offsetWidth / 2 - tree.width() / 2);
+                tree.scrollLeft(parentEl.width() / 2 - tree.width() / 2);
             }
         }
     };
