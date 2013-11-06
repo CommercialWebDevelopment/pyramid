@@ -15,7 +15,7 @@ public class BinaryTree {
     private BinaryTree left;
     private BinaryTree right;
 
-    public BinaryTree(User user, int details) {
+    public BinaryTree(User user, int maxLevel, int details) {
         this.id = user.getId();
         if (details < 0) {
             this.value = new UserForm(user.getPhoto(), !user.getAccount().isLocked());
@@ -23,12 +23,13 @@ public class BinaryTree {
             this.value = new UserForm(user.getName(), user.getSurname(), user.getPhoneNumber(), user.getPhoto(), "",
                     user.getEmail(), user.getDateOfBirth(), !user.getAccount().isLocked());
         }
+        if (maxLevel == 0) return;
         if (user.getLeftChild() != null) {
-            this.left = new BinaryTree(user.getLeftChild(), details - 1);
+            this.left = new BinaryTree(user.getLeftChild(), maxLevel - 1, details - 1);
             this.left.setParent(this);
         }
         if (user.getRightChild() != null) {
-            this.right = new BinaryTree(user.getRightChild(), details - 1);
+            this.right = new BinaryTree(user.getRightChild(), maxLevel - 1, details - 1);
             this.right.setParent(this);
         }
     }

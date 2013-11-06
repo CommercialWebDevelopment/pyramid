@@ -3,8 +3,6 @@ package com.financial.pyramid.web.tree;
 import com.financial.pyramid.domain.type.Position;
 import com.financial.pyramid.web.form.UserForm;
 
-import java.math.BigDecimal;
-
 /**
  * User: Danil
  * Date: 10.08.13
@@ -14,7 +12,7 @@ public class BinaryTreeWidget {
     private static String LEFT_TREE = "left-tree";
     private static String RIGHT_TREE = "right-tree";
     private String rootElement;
-    private long rootElementWidth = 0;
+    private double rootElementWidth = 0;
     private String stubTextTitle;
     private String stubTextContent;
     private String activeStatus;
@@ -33,22 +31,21 @@ public class BinaryTreeWidget {
         this.mode = mode != null ? mode : "huge";
         this.addEnabled = tree.getValue().isActive();
         this.rootElementWidth = calculateTotalWidth(tree);
-        this.rootElement = "<div class='tree' style='width:" + this.rootElementWidth + "px'><ul>" + getUserNode(tree) + "</ul></div>";
+        this.rootElement = "<div id='tree' class='tree' style='width:" + this.rootElementWidth + "px' parent='user-"+tree.getId()+"'><ul>" + getUserNode(tree) + "</ul></div>";
     }
 
-    private long calculateTotalWidth(BinaryTree tree) {
+    private double calculateTotalWidth(BinaryTree tree) {
         this.depth = tree.getDepth();
         double countUsers = Math.pow(2, this.depth);
         int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
-        return new BigDecimal((stubWidth + 10) + (countUsers - 1) * (stubWidth + 20)).setScale(0).longValue();
+        return (stubWidth + 10) + (countUsers - 1) * (stubWidth + 20);
     }
 
-    private long calculateNodeWidth(Integer level) {
+    private double calculateNodeWidth(Integer level) {
         double countUsers = Math.pow(2, (this.depth - level));
         int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
-        return new BigDecimal(stubWidth + (countUsers - 1) * (stubWidth + 20)).setScale(0).longValue();
+        return stubWidth + (countUsers - 1) * (stubWidth + 20);  // padding
     }
-
     public String getRootElement() {
         return rootElement;
     }
@@ -67,7 +64,7 @@ public class BinaryTreeWidget {
             photo = imgDir + (user.isActive() ? "vcard-active" : "vcard-inactive") + ".png";
         }
         int iconWidth = tree.getLevel() == 0 ? STUB_WIDTH_HUGE : getIconWidth();
-        String body = "<img src=" + photo + " class=user-photo width='" + iconWidth + "px'";
+        String body = "<img src=" + photo + " class=user-photo width='" + iconWidth + "px' id='user-"+tree.getId()+"'";
         if (!user.isShowDetails()) {
             popupContent = " '<small><div style=color:" + statusColor + ">" + statusText + "</div></small>' ";
             body += "data-content=" + popupContent + "/>";

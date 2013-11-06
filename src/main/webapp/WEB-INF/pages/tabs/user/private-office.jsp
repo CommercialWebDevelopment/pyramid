@@ -12,6 +12,7 @@
                 <div id="usersLarge" class="icon-th-large" title='<spring:message code="bigPhotos"/>'></div>
                 <div id="usersSmall" class="icon-th" title='<spring:message code="smallPhotos"/>'></div>
                 <div id="viewSwitcher" class="icon-resize-full" title='<spring:message code="extendedView"/>'></div>
+                <div id="top-user" class="icon-user" title='<spring:message code="displayYourTree"/>'></div>
             </div>
             <%=request.getAttribute("userBinaryTree")%>
         </div>

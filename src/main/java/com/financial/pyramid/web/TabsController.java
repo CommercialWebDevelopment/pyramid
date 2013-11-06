@@ -19,9 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -85,7 +83,7 @@ public class TabsController extends AbstractController {
     }
 
     @RequestMapping(value = "/office", method = RequestMethod.GET)
-    public String office(ModelMap model, HttpSession session, HttpServletRequest request) {
+    public String office(ModelMap model) {
         Authentication authentication = Session.getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails) {
             User user = (User) authentication.getDetails();
@@ -94,7 +92,7 @@ public class TabsController extends AbstractController {
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
-            widget.initTree(tree, request.getParameter("mode"));
+            widget.initTree(tree, null);
             while (tree != null) {
                 widget.addUserToWidget(tree);
                 if (tree.isChild()) {
@@ -119,6 +117,32 @@ public class TabsController extends AbstractController {
         }
         model.addAttribute("authentication", new AuthenticationForm());
         return "/tabs/login";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/office/{userId}", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+    public String office(@PathVariable("userId") final Long userId, @RequestParam(value = "mode", required = false, defaultValue = "huge") String mode) {
+        Authentication authentication = Session.getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails && userId != null) {
+            BinaryTree tree = userService.getBinaryTree(userService.findById(userId));
+            BinaryTreeWidget widget = new BinaryTreeWidget();
+            widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
+            widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
+            widget.initTree(tree, mode);
+            while (tree != null) {
+                widget.addUserToWidget(tree);
+                if (tree.isChild()) {
+                    tree = tree.getLeft() != null ? tree.getLeft() : tree.getRight();
+                } else {
+                    while (tree.itIsRight() || (tree.isParent() && !tree.getParent().isRight())) {
+                        tree = tree.getParent();
+                    }
+                    tree = tree.isParent() ? tree.getParent().getRight() : null;
+                }
+            }
+            return widget.getRootElement();
+        }
+        return "";
     }
 
     @RequestMapping(value = "/about", method = RequestMethod.GET)

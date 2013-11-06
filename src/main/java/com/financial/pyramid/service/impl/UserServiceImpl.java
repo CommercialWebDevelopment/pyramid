@@ -20,7 +20,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,9 +42,6 @@ public class UserServiceImpl implements UserService {
 
     private final static Logger logger = Logger.getLogger(UserService.class);
 
-    private final static Integer COUNT_LEVEL_IN_USER_TREE = 4;
-    private final static Integer COUNT_LEVEL_FOR_USER_DETAILS = 3;
-
     @Autowired
     private UserDao userDao;
 
@@ -54,9 +50,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     AccountService accountService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = false)
@@ -165,7 +158,7 @@ public class UserServiceImpl implements UserService {
         User user = findById(u.getId());
         Integer levels = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_IN_USER_TREE));
         Integer details = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_FOR_USER_DETAILS));
-        return new BinaryTree(user, details);
+        return new BinaryTree(user, levels, details);
     }
 
     @Override
