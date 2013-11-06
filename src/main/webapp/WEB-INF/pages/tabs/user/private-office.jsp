@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ include file="/WEB-INF/pages/tabs/office.jsp" %>
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/tree.js"></script>
 
 <div class="row-fluid">
     <div class="span8">
@@ -13,6 +14,7 @@
                 <div id="usersSmall" class="icon-th" title='<spring:message code="smallPhotos"/>'></div>
                 <div id="viewSwitcher" class="icon-resize-full" title='<spring:message code="extendedView"/>'></div>
                 <div id="top-user" class="icon-user" title='<spring:message code="displayYourTree"/>'></div>
+                <div id="addUser" class="icon-plus-sign" title='<spring:message code="addUserWithAutomatic"/>'></div>
             </div>
             <%=request.getAttribute("userBinaryTree")%>
         </div>

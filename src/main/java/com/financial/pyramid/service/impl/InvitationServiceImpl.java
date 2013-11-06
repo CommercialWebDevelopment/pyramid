@@ -13,6 +13,7 @@ import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.InvitationForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,27 +71,33 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     @Transactional(readOnly = false)
     public boolean sendInvitation(InvitationForm invitationForm) {
-        Object principal = Session.getAuthentication().getPrincipal();
-        User sender = userService.findByEmail(((UserDetails) principal).getUsername());
-        User parent;
-        if (invitationForm.getParentId().equals(sender.getId())) {
-            parent = sender;
-        } else {
-            parent = userService.findById(invitationForm.getParentId());
-        }
+        Authentication authentication = Session.getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            User user = (User) authentication.getDetails();
+            User sender = userService.findById(user.getId());
+            User parent;
+            if (invitationForm.getParentId() == null) {
+                parent = findAvailableParent(sender);
+                invitationForm.setPosition(parent.getLeftChild() == null ? Position.LEFT.toString() : Position.RIGHT.toString());
+            } else if (invitationForm.getParentId().equals(sender.getId())) {
+                parent = sender;
+            } else {
+                parent = userService.findById(invitationForm.getParentId());
+            }
 
-        Invitation invitation = new Invitation();
-        invitation.setConfirmed(false);
-        invitation.setEmail(invitationForm.getEmail());
-        invitation.setGlobalId(passwordEncoder.encode(invitationForm.getEmail()));
-        invitation.setParent(parent);
-        invitation.setPosition(Position.valueOf(invitationForm.getPosition()));
-        invitation.setSender(sender);
+            Invitation invitation = new Invitation();
+            invitation.setConfirmed(false);
+            invitation.setEmail(invitationForm.getEmail());
+            invitation.setGlobalId(passwordEncoder.encode(invitationForm.getEmail()));
+            invitation.setParent(parent);
+            invitation.setPosition(Position.valueOf(invitationForm.getPosition()));
+            invitation.setSender(sender);
 
-        if (emailService.sendInvitation(invitation.getGlobalId(), sender.getName(), invitation.getEmail())) {
-            invitationDao.saveOrUpdate(invitation);
-            logger.info("Invitation created. User: " + invitation.getEmail() + " Sender: " + sender.getId() + " Owner: " + parent.getId());
-            return true;
+            if (emailService.sendInvitation(invitation.getGlobalId(), sender.getName(), invitation.getEmail())) {
+                invitationDao.saveOrUpdate(invitation);
+                logger.info("Invitation created. User: " + invitation.getEmail() + " Sender: " + sender.getId() + " Owner: " + parent.getId());
+                return true;
+            }
         }
         return false;
     }
@@ -103,5 +110,15 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     public void delete(Invitation invitation) {
         invitationDao.delete(invitation);
+    }
+
+    private User findAvailableParent(User user) {
+        if (user.getLeftChild() == null || user.getRightChild() == null) {
+            return user;
+        } else {
+            User userFromLeft = findAvailableParent(user.getLeftChild());
+            User userFromRight = findAvailableParent(user.getRightChild());
+            return userFromRight.getLevel() < userFromLeft.getLevel() ? userFromRight : userFromLeft;
+        }
     }
 }
