@@ -524,6 +524,8 @@ body > #page-wrap {
 
 #tree-panel{
     position: absolute;
+    background: white;
+    padding: 5px;
     z-index: 1;
 }
 
