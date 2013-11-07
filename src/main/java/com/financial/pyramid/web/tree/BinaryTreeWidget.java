@@ -76,7 +76,7 @@ public class BinaryTreeWidget {
         if (tree.isChild() || (!user.isChild() && isActive())) {
             childPlace = "<ul>" + getPointForUser(tree) + "</ul>";
         } else if (user.isChild()) {
-            childPlace = "<ul><li userId='"+tree.getId()+"' class='user-photo' style='width:"+ (iconWidth * 2 + 10) +"px'><img src='/resources/images/users.png'/></li></ul>";
+            childPlace = "<ul><li userId='"+tree.getId()+"' class='user-photo' style='width:100%; padding: 0;'><img src='/resources/images/users.png' style='width:"+ iconWidth +"px'/></li></ul>";
         }
         return "<li style='width:" + calculateNodeWidth(tree.getLevel()) + "px'>" + body + childPlace + "</li>";
     }
