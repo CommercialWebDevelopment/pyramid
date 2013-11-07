@@ -90,6 +90,7 @@ public class TabsController extends AbstractController {
             AccountDetails accountDetails = userService.getAccountDetails(user);
             BinaryTree tree = userService.getBinaryTree(user);
             BinaryTreeWidget widget = new BinaryTreeWidget();
+            widget.setActive(!accountDetails.isLocked());
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
             widget.initTree(tree, null);
@@ -121,13 +122,23 @@ public class TabsController extends AbstractController {
 
     @ResponseBody
     @RequestMapping(value = "/office/{userId}", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-    public String office(@PathVariable("userId") final Long userId, @RequestParam(value = "mode", required = false, defaultValue = "huge") String mode) {
+    public String office(@PathVariable("userId") final Long userId,
+                         @RequestParam(value = "mode", required = false, defaultValue = "huge") String mode,
+                         @RequestParam(value = "direction", required = false, defaultValue = "down") String direction) {
         Authentication authentication = Session.getAuthentication();
         if (authentication.getPrincipal() instanceof UserDetails && userId != null) {
-            BinaryTree tree = userService.getBinaryTree(userService.findById(userId));
+            User user = null;
+            User topUser = (User) authentication.getDetails();
+            AccountDetails accountDetails = userService.getAccountDetails(topUser);
+
+            if (direction.equals("up")) user = userService.findParent(userId);
+            if (user == null) user = userService.findById(userId);
+
+            BinaryTree tree = userService.getBinaryTree(user);
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
+            widget.setActive(!accountDetails.isLocked());
             widget.initTree(tree, mode);
             while (tree != null) {
                 widget.addUserToWidget(tree);

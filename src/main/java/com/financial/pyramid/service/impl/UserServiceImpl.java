@@ -9,6 +9,7 @@ import com.financial.pyramid.service.SettingsService;
 import com.financial.pyramid.service.UserService;
 import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.settings.Setting;
+import com.financial.pyramid.utils.Session;
 import com.financial.pyramid.web.form.AdminRegistrationForm;
 import com.financial.pyramid.web.form.QueryForm;
 import com.financial.pyramid.web.tree.BinaryTree;
@@ -17,6 +18,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -155,9 +157,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BinaryTree getBinaryTree(User u) {
-        User user = findById(u.getId());
         Integer levels = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_IN_USER_TREE));
         Integer details = Integer.parseInt(settingsService.getProperty(Setting.COUNT_LEVEL_FOR_USER_DETAILS));
+        User user = findById(u.getId());
+
+        Authentication authentication = Session.getAuthentication();
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            User topUser = (User) authentication.getDetails();
+            if (!u.getId().equals(topUser.getId())) {
+                Integer differentInLevels = u.getLevel() - topUser.getLevel();
+                details = differentInLevels < 0 ? 0 : details - differentInLevels;
+            }
+        }
+
         return new BinaryTree(user, levels, details);
     }
 

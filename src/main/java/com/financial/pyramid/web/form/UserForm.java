@@ -1,5 +1,7 @@
 package com.financial.pyramid.web.form;
 
+import com.financial.pyramid.domain.User;
+
 import java.util.Date;
 
 /**
@@ -17,24 +19,26 @@ public class UserForm {
     private String bigPhoto;
     private String phoneNumber;
     private boolean showDetails;
+    private boolean isChild;
 
-    public UserForm(String name, String surname, String phoneNumber, String photo, String bigPhoto, String email,
-                    Date birthDate, boolean active) {
-        this.name = name;
-        this.photo = photo;
-        this.email = email;
-        this.active = active;
-        this.surname = surname;
-        this.bigPhoto = bigPhoto;
-        this.birthDate = birthDate;
-        this.phoneNumber = phoneNumber;
-        this.showDetails = true;
+    public UserForm(User user, boolean showDetails) {
+        this.showDetails = showDetails;
+        this.active = !user.getAccount().isLocked();
+        this.photo = user.getPhoto();
+        this.isChild = user.getLeftChild() != null || user.getRightChild() != null;
+
+        if (!this.showDetails) return;
+
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.surname = user.getSurname();
+        this.bigPhoto = "";
+        this.birthDate = user.getDateOfBirth();
+        this.phoneNumber = user.getPhoneNumber();
     }
 
-    public UserForm(String photo, boolean active) {
-        this.photo = photo;
-        this.active = active;
-        this.showDetails = false;
+    public boolean isChild() {
+        return isChild;
     }
 
     public boolean isShowDetails() {

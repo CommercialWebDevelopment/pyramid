@@ -3,19 +3,20 @@ $(document).ready(function () {
     var form = $("#user-email-form");
     var tree = $("#users-tree");
     var sidebar = $("#sidebar");
-    var parentId = $("#tree").attr("parent").replace("user-", "");
+    var parentId = $("#tree").attr("userId");
     var topUser = $("#top-user");
+    var upUsers = $("#up-users");
     var userId = parentId;
     var mode = "huge";
+    var direction = "down";
 
     var initTree = function() {
         $(".popover").remove();
         var users = $(".user-photo");
         var stubNodes = $(".stub-node");
         users.click(function () {
-            userId = $(this).attr("id").replace("user-", "");
+            userId = $(this).attr("userId");
             updateTree();
-            topUser.show();
         });
         users.popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
         stubNodes.popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
@@ -34,10 +35,19 @@ $(document).ready(function () {
     };
 
     var updateTree = function() {
-        $.get( "office/"+userId+"?mode="+mode, function(data) {
+        $.get( "office/"+userId+"?mode="+mode+"&direction="+direction, function(data) {
             treePanel.next().remove();
             treePanel.after(data);
             initTree();
+            direction = "down";
+            userId = $("#tree").attr("userId");
+            if (userId == parentId) {
+                topUser.hide();
+                upUsers.hide();
+            } else {
+                topUser.show();
+                upUsers.show();
+            }
         });
     };
 
@@ -45,7 +55,14 @@ $(document).ready(function () {
     topUser.click(function () {
         userId = parentId;
         updateTree();
-        topUser.hide();
+    });
+
+    upUsers.hide();
+    upUsers.click(function () {
+        if (userId && userId != parentId) {
+            direction = "up";
+            updateTree();
+        }
     });
 
     $("#usersLarge").click(function () {

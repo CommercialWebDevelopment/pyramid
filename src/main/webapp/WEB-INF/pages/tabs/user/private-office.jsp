@@ -10,11 +10,12 @@
     <div class="span8">
         <div id="users-tree" class="text-center">
             <div id="tree-panel">
+                <div id="addUser" class="icon-plus-sign" title='<spring:message code="addUserWithAutomatic"/>'></div>
                 <div id="usersLarge" class="icon-th-large" title='<spring:message code="bigPhotos"/>'></div>
                 <div id="usersSmall" class="icon-th" title='<spring:message code="smallPhotos"/>'></div>
                 <div id="viewSwitcher" class="icon-resize-full" title='<spring:message code="extendedView"/>'></div>
                 <div id="top-user" class="icon-user" title='<spring:message code="displayYourTree"/>'></div>
-                <div id="addUser" class="icon-plus-sign" title='<spring:message code="addUserWithAutomatic"/>'></div>
+                <div id="up-users" class="icon-arrow-up" title='<spring:message code="displayUsersInOver"/>'></div>
             </div>
             <%=request.getAttribute("userBinaryTree")%>
         </div>

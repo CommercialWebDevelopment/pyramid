@@ -17,12 +17,7 @@ public class BinaryTree {
 
     public BinaryTree(User user, int maxLevel, int details) {
         this.id = user.getId();
-        if (details < 0) {
-            this.value = new UserForm(user.getPhoto(), !user.getAccount().isLocked());
-        } else {
-            this.value = new UserForm(user.getName(), user.getSurname(), user.getPhoneNumber(), user.getPhoto(), "",
-                    user.getEmail(), user.getDateOfBirth(), !user.getAccount().isLocked());
-        }
+        this.value = new UserForm(user, details >= 0);
         if (maxLevel == 0) return;
         if (user.getLeftChild() != null) {
             this.left = new BinaryTree(user.getLeftChild(), maxLevel - 1, details - 1);
