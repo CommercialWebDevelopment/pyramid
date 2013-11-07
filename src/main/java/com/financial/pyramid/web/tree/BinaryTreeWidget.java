@@ -36,13 +36,13 @@ public class BinaryTreeWidget {
     private double calculateTotalWidth(BinaryTree tree) {
         this.depth = tree.getDepth();
         double countUsers = Math.pow(2, this.depth);
-        int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
+        int stubWidth = getIconWidth();
         return (stubWidth + 10) + (countUsers - 1) * (stubWidth + 20);
     }
 
     private double calculateNodeWidth(Integer level) {
         double countUsers = Math.pow(2, (this.depth - level));
-        int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
+        int stubWidth = getIconWidth();
         return stubWidth + (countUsers - 1) * (stubWidth + 20);  // padding
     }
     public String getRootElement() {
