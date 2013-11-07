@@ -17,8 +17,11 @@ $(document).ready(function () {
         var users = $(".user-photo");
         var stubNodes = $(".stub-node");
         users.click(function () {
-            userId = $(this).attr("userId");
-            updateTree();
+            var tempId = $(this).attr("userId");
+            if (tempId != userId) {
+                userId = tempId;
+                updateTree();
+            }
         });
         users.popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
         stubNodes.popover({placement: "right", animation: true, html: true, trigger: "hover", container: 'body'});
