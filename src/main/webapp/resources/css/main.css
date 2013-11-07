@@ -222,27 +222,30 @@ body > #page-wrap {
 .loader {
     display: none;
     position: absolute;
-    width: 400px;
+    width: 500px;
     height: 125px;
     padding: 20px;
     z-index: 10000;
-    padding-top: 55px;
     text-align: center;
     background: #ffffff;
-    border: 5px solid #E5E5E5;
+    border: 1px solid #E5E5E5;
 }
 
 .loader-text {
-    font-size: 22px;
     color: #000000;
-    margin-top: 10px;
-    text-wrap: normal;
+    height: 20px;
+    padding: 20px;
+    word-wrap: normal;
 }
 
-.loader-icon {
-    margin: 0 auto;
-    width: 32px;
-    height: 32px;
+.custom-loader {
+    width: auto;
+    border: none;
+    position: relative;
+}
+
+#loader-img {
+    padding-top: 25px;
 }
 
 #profileDetails {
@@ -381,10 +384,12 @@ body > #page-wrap {
     vertical-align: middle;
     position: relative;
 }
+
 .slider.slider-horizontal {
     width: 210px;
     height: 20px;
 }
+
 .slider.slider-horizontal .slider-track {
     height: 10px;
     width: 100%;
@@ -392,15 +397,18 @@ body > #page-wrap {
     top: 50%;
     left: 0;
 }
+
 .slider.slider-horizontal .slider-selection {
     height: 100%;
     top: 0;
     bottom: 0;
 }
+
 .slider.slider-horizontal .slider-handle {
     margin-left: -10px;
     margin-top: -5px;
 }
+
 .slider.slider-horizontal .slider-handle.triangle {
     border-width: 0 10px 10px 10px;
     width: 0;
@@ -408,10 +416,12 @@ body > #page-wrap {
     border-bottom-color: #0480be;
     margin-top: 0;
 }
+
 .slider.slider-vertical {
     height: 210px;
     width: 20px;
 }
+
 .slider.slider-vertical .slider-track {
     width: 10px;
     height: 100%;
@@ -419,16 +429,19 @@ body > #page-wrap {
     left: 50%;
     top: 0;
 }
+
 .slider.slider-vertical .slider-selection {
     width: 100%;
     left: 0;
     top: 0;
     bottom: 0;
 }
+
 .slider.slider-vertical .slider-handle {
     margin-left: -5px;
     margin-top: -10px;
 }
+
 .slider.slider-vertical .slider-handle.triangle {
     border-width: 10px 0 10px 10px;
     width: 1px;
@@ -436,12 +449,15 @@ body > #page-wrap {
     border-left-color: #0480be;
     margin-left: 0;
 }
+
 .slider input {
     display: none;
 }
+
 .slider .tooltip-inner {
     white-space: nowrap;
 }
+
 .slider-track {
     position: absolute;
     cursor: pointer;
@@ -460,6 +476,7 @@ body > #page-wrap {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+
 .slider-selection {
     position: absolute;
     background-color: #f7f7f7;
@@ -480,6 +497,7 @@ body > #page-wrap {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+
 .slider-handle {
     position: absolute;
     width: 20px;
@@ -492,22 +510,24 @@ body > #page-wrap {
     background-image: linear-gradient(to bottom, #149bdf, #0480be);
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
-    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
     opacity: 0.8;
     border: 0px solid transparent;
 }
+
 .slider-handle.round {
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
 }
+
 .slider-handle.triangle {
     background: transparent none;
 }
 
-#treeCanvas{
+#treeCanvas {
     border: 1px solid lightgrey;
 }
 
@@ -522,7 +542,7 @@ body > #page-wrap {
     border: 1px solid lightgrey;
 }
 
-#tree-panel{
+#tree-panel {
     position: absolute;
     background: white;
     padding: 5px;
@@ -533,16 +553,19 @@ body > #page-wrap {
     cursor: pointer;
 }
 
-
 /*Now the CSS*/
-* {margin: 0; padding: 0;}
+* {
+    margin: 0;
+    padding: 0;
+}
 
 .tree {
     display: inline-block;
 }
 
 .tree ul {
-    padding-top: 20px; position: relative;
+    padding-top: 20px;
+    position: relative;
     margin: 0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -550,7 +573,8 @@ body > #page-wrap {
 }
 
 .tree li {
-    float: left; text-align: center;
+    float: left;
+    text-align: center;
     list-style-type: none;
     position: relative;
     padding: 20px 5px 0 5px;
@@ -562,14 +586,19 @@ body > #page-wrap {
 
 /*We will use ::before and ::after to draw the connectors*/
 
-.tree li::before, .tree li::after{
+.tree li::before, .tree li::after {
     content: '';
-    position: absolute; top: 0; right: 50%;
+    position: absolute;
+    top: 0;
+    right: 50%;
     border-top: 1px solid #ccc;
-    width: 50%; height: 20px;
+    width: 50%;
+    height: 20px;
 }
-.tree li::after{
-    right: auto; left: 50%;
+
+.tree li::after {
+    right: auto;
+    left: 50%;
     border-left: 1px solid #ccc;
 }
 
@@ -580,35 +609,42 @@ any siblings*/
 }
 
 /*Remove space from the top of single children*/
-.tree li:only-child{ padding-top: 0;}
+.tree li:only-child {
+    padding-top: 0;
+}
 
 /*Remove left connector from first child and
 right connector from last child*/
-.tree li:first-child::before, .tree li:last-child::after{
+.tree li:first-child::before, .tree li:last-child::after {
     border: 0 none;
 }
+
 /*Adding back the vertical connector to the last nodes*/
-.tree li:last-child::before{
+.tree li:last-child::before {
     border-right: 1px solid #ccc;
     border-radius: 0 5px 0 0;
     -webkit-border-radius: 0 5px 0 0;
     -moz-border-radius: 0 5px 0 0;
 }
-.tree li:first-child::after{
+
+.tree li:first-child::after {
     border-radius: 5px 0 0 0;
     -webkit-border-radius: 5px 0 0 0;
     -moz-border-radius: 5px 0 0 0;
 }
 
 /*Time to add downward connectors from parents*/
-.tree ul ul::before{
+.tree ul ul::before {
     content: '';
-    position: absolute; top: 0; left: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
     border-left: 1px solid #ccc;
-    width: 0; height: 20px;
+    width: 0;
+    height: 20px;
 }
 
-.tree li a{
+.tree li a {
     border: 1px solid #ccc;
     padding: 5px 10px;
     text-decoration: none;
@@ -629,14 +665,17 @@ right connector from last child*/
 /*Time for some hover effects*/
 /*We will apply the hover effect the the lineage of the element also*/
 .tree li a:hover, .tree li a:hover+ul li a {
-    background: #0088cc; color: #fff; border: 1px solid #94a0b4;
+    background: #0088cc;
+    color: #fff;
+    border: 1px solid #94a0b4;
 }
+
 /*Connector styles on hover*/
 .tree li a:hover+ul li::after,
 .tree li a:hover+ul li::before,
 .tree li a:hover+ul::before,
-.tree li a:hover+ul ul::before{
-    border-color:  #94a0b4;
+.tree li a:hover+ul ul::before {
+    border-color: #94a0b4;
 }
 
 /*Thats all. I hope you enjoyed it.

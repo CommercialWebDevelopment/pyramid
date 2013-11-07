@@ -65,13 +65,32 @@ var Alert = {
 };
 var LoadingBar = {
     loader: null,
-    show: function (text) {
-        this.getPosition();
+    custom: null,
+    parent: null,
+    show: function (text, container, clazz) {
+        if (!container) {
+            this.getPosition();
+        } else {
+            this.parent = container;
+            container.append(this.getLoader());
+        }
+        if (clazz) {
+            this.custom = clazz;
+            this.getLoader().addClass(clazz);
+        }
         this.getLoader().find(".loader-text").html(text);
         this.getLoader().show();
     },
     hide: function () {
         this.getLoader().hide();
+        if (this.custom) {
+            this.getLoader().removeClass(this.custom);
+            this.custom = null;
+        }
+        if (this.parent) {
+            $("body").append(this.getLoader());
+            this.parent = null;
+        }
     },
     getLoader: function () {
         if (this.loader == null) {

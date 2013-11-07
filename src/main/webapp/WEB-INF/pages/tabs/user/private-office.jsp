@@ -17,7 +17,7 @@
                 <div id="top-user" class="icon-user" title='<spring:message code="displayYourTree"/>'></div>
                 <div id="up-users" class="icon-arrow-up" title='<spring:message code="displayUsersInOver"/>'></div>
             </div>
-            <%=request.getAttribute("userBinaryTree")%>
+            <div id="tree-widget"><%=request.getAttribute("userBinaryTree")%></div>
         </div>
     </div>
     <div id="sidebar" class="span4">

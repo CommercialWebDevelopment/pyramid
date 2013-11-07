@@ -55,6 +55,7 @@ var I18N = {
     monthMulti:'<spring:message code="monthMulti" javaScriptEscape="true"/>',
     monthMany:'<spring:message code="monthMany" javaScriptEscape="true"/>',
     extendedView:'<spring:message code="extendedView" javaScriptEscape="true"/>',
-    compactView:'<spring:message code="compactView" javaScriptEscape="true"/>'
+    compactView:'<spring:message code="compactView" javaScriptEscape="true"/>',
+    loadingMessage:'<spring:message code="loadingMessage" javaScriptEscape="true"/>'
 };
 

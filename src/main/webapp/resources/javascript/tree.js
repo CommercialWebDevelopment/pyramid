@@ -4,13 +4,15 @@ $(document).ready(function () {
     var tree = $("#users-tree");
     var sidebar = $("#sidebar");
     var parentId = $("#tree").attr("userId");
+    var widget = $("#tree-widget");
     var topUser = $("#top-user");
     var upUsers = $("#up-users");
     var userId = parentId;
     var mode = "huge";
     var direction = "down";
 
-    var initTree = function() {
+    var initTree = function () {
+        treePanel.show();
         $(".popover").remove();
         var users = $(".user-photo");
         var stubNodes = $(".stub-node");
@@ -34,10 +36,18 @@ $(document).ready(function () {
         }
     };
 
-    var updateTree = function() {
+    var removePopovers = function () {
+        $(".popover").remove();
+    };
+
+    var updateTree = function () {
+        treePanel.hide();
+        removePopovers();
+        widget.html("");
+        LoadingBar.show(I18N.loadingMessage, tree, "custom-loader");
         $.get( "office/"+userId+"?mode="+mode+"&direction="+direction, function(data) {
-            treePanel.next().remove();
-            treePanel.after(data);
+            widget.html(data);
+            LoadingBar.hide();
             initTree();
             direction = "down";
             userId = $("#tree").attr("userId");

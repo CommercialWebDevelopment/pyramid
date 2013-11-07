@@ -16,7 +16,7 @@
           href="${pageContext.request.contextPath}/resources/javascript/flexigrid/css/flexigrid.pack.css"
           type="text/css">
     <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/resources/css/main.min.css" type="text/css">
+          href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
     <script type="text/javascript"
             src="${pageContext.request.contextPath}/resources/javascript/jquery-1.10.0/jquery-1.10.1.min.js"></script>
     <script type="text/javascript"
@@ -35,9 +35,7 @@
     <%@ include file="/resources/javascript/i18n.js" %>
 </script>
 <div id="loader" class="loader">
-    <div class="loader-icon">
-        <img id="loader-img" src="${pageContext.request.contextPath}/resources/images/loader.gif" width="32"/>
-    </div>
+    <img id="loader-img" src="${pageContext.request.contextPath}/resources/images/loader.gif" width="32"/>
     <div class="loader-text"></div>
 </div>
 <c:set var="localeCode" value="<%=pageContext.getResponse().getLocale().toString()%>"/>
