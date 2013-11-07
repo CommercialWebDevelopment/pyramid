@@ -36,13 +36,13 @@ public class BinaryTreeWidget {
     private double calculateTotalWidth(BinaryTree tree) {
         this.depth = tree.getDepth();
         double countUsers = Math.pow(2, this.depth);
-        int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
+        int stubWidth = getIconWidth();
         return (stubWidth + 10) + (countUsers - 1) * (stubWidth + 20);
     }
 
     private double calculateNodeWidth(Integer level) {
         double countUsers = Math.pow(2, (this.depth - level));
-        int stubWidth = isStandardView() ? STUB_WIDTH_HUGE : 0;
+        int stubWidth = getIconWidth();
         return stubWidth + (countUsers - 1) * (stubWidth + 20);  // padding
     }
     public String getRootElement() {
@@ -76,7 +76,7 @@ public class BinaryTreeWidget {
         if (tree.isChild() || (!user.isChild() && isActive())) {
             childPlace = "<ul>" + getPointForUser(tree) + "</ul>";
         } else if (user.isChild()) {
-            childPlace = "<ul><li userId='"+tree.getId()+"' class='user-photo' style='width:"+ (iconWidth * 2 + 10) +"px'><img src='/resources/images/users.png'/></li></ul>";
+            childPlace = "<ul><li userId='"+tree.getId()+"' class='user-photo' style='width:100%; padding: 0;'><img src='/resources/images/users.png' style='width:"+ iconWidth +"px'/></li></ul>";
         }
         return "<li style='width:" + calculateNodeWidth(tree.getLevel()) + "px'>" + body + childPlace + "</li>";
     }
