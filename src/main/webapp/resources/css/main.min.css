@@ -41,9 +41,10 @@ body>#page-wrap{height:auto;min-height:100%}
 .title{float:left}
 .page-title{width:100% !important}
 .back{float:right;margin-top:20px}
-.loader{display:none;position:absolute;width:400px;height:125px;padding:20px;z-index:10000;padding-top:55px;text-align:center;background:#ffffff;border:5px solid #E5E5E5}
-.loader-text{font-size:22px;color:#000000;margin-top:10px;text-wrap:normal}
-.loader-icon{margin:0 auto;width:32px;height:32px}
+.loader{display:none;position:absolute;width:500px;height:125px;padding:20px;z-index:10000;text-align:center;background:#ffffff;border:1px solid #E5E5E5}
+.loader-text{color:#000000;height:20px;padding:20px;word-wrap:normal}
+.custom-loader{width:auto;border:none;position:relative}
+#loader-img{padding-top:25px}
 #profileDetails{width:250px}
 #profileLabel{max-width:228px}
 .profileItem{padding:3px 20px}
