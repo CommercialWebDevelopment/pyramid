@@ -29,6 +29,9 @@
         <script type="text/javascript"
                 src="${pageContext.request.contextPath}/resources/javascript/admin/admin.js"></script>
     </sec:authorize>
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/favicon.png" type="image/x-icon">
+    <title><spring:message code="projectName"/></title>
+    <!-- VERSION 1.0.1 -->
 </head>
 <body>
 <script type="text/javascript">
