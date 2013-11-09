@@ -48,7 +48,7 @@ $(document).ready(function () {
         removePopovers();
         widget.html("");
         LoadingBar.show(I18N.loadingMessage, tree, "custom-loader");
-        $.get( "office/"+userId+"?mode="+mode+"&direction="+direction, function(data) {
+        $.get("office/" + userId + "?mode=" + mode + "&direction=" + direction, function (data) {
             widget.html(data);
             LoadingBar.hide();
             initTree();
@@ -88,12 +88,14 @@ $(document).ready(function () {
         updateTree();
     });
 
+    var treeHeight = tree.height();
     var viewHuge = function (element) {
         element.removeClass("icon-resize-full");
         element.addClass("icon-resize-small");
         element.attr("title", I18N.compactView);
         tree.parent().removeClass("span8");
         tree.parent().addClass("span12");
+        tree.css("height", "100%");
         sidebar.hide();
     };
     var viewSmall = function (element) {
@@ -102,6 +104,7 @@ $(document).ready(function () {
         element.attr("title", I18N.extendedView);
         tree.parent().removeClass("span12");
         tree.parent().addClass("span8");
+        tree.css("height", (treeHeight ? treeHeight : 500) + "px");
         sidebar.show();
     };
 
