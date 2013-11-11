@@ -1,3 +1,4 @@
+<%@ page import="java.math.BigDecimal" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -17,7 +18,7 @@
             int countDays = (Integer) request.getAttribute("monthDays");
             int leftDays = (Integer) request.getAttribute("daysLeft");
             if (countDays > 0) {
-                barWidth = leftDays * 220 / countDays;
+                barWidth = new BigDecimal((float) (leftDays * 100) / countDays).setScale(0,BigDecimal.ROUND_UP).intValue();
             }
             Integer[] cases = new Integer[6];
             cases[0] = 2;
@@ -34,7 +35,7 @@
             }
         %>
         <c:set var="p" value="<%=position%>"/>
-        <div class="bar-graph-normal" style="width:<%=(barWidth > 220) ? 220 : barWidth%>px"></div>
+        <div class="bar-graph-normal" style="width:<%=barWidth%>%"></div>
     </div>
     <div class="text-center">
         <small>
@@ -65,7 +66,8 @@
         <c:choose>
             <c:when test="${isAppPaid == true}">
                 <li class="office-menu-item">
-                    <a href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message code="buyPrivateOffice"/></a>
+                    <a href="${pageContext.request.contextPath}/paypal/buyOffice"><spring:message
+                            code="buyPrivateOffice"/></a>
                 </li>
             </c:when>
             <c:otherwise>

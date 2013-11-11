@@ -5,18 +5,25 @@
 
 <%@ include file="/WEB-INF/pages/header.jsp" %>
 <div class="row-fluid">
-    <div class="span8 offset1">
-        <ul class="nav nav-pills" id="tabs">
-            <li><a href="<c:url value="/app/home"/>"><spring:message code="home"/></a></li>
-            <security:authorize access="hasAnyRole('SUPER_ADMIN,ADMIN')">
-                <li><a href="<c:url value="/app/admin/"/>"><spring:message code="settings"/></a></li>
-            </security:authorize>
-            <li><a href="<c:url value="/app/office"/>"><spring:message code="privateOffice"/></a></li>
-            <li><a href="<c:url value="/app/news"/>"><spring:message code="news"/></a></li>
-            <li><a href="<c:url value="/app/training"/>"><spring:message code="training"/></a></li>
-            <li><a href="<c:url value="/app/about"/>"><spring:message code="aboutProject"/></a></li>
-            <li class="active"><a href="<c:url value="/app/contacts"/>"><spring:message code="contacts"/></a></li>
-        </ul>
+    <div class="span10">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li><a href="<c:url value="/app/home"/>"><spring:message code="home"/></a></li>
+                        <security:authorize access="hasAnyRole('SUPER_ADMIN,ADMIN')">
+                            <li><a href="<c:url value="/app/admin/"/>"><spring:message code="settings"/></a></li>
+                        </security:authorize>
+                        <li><a href="<c:url value="/app/office"/>"><spring:message code="privateOffice"/></a></li>
+                        <li><a href="<c:url value="/app/news"/>"><spring:message code="news"/></a></li>
+                        <li><a href="<c:url value="/app/training"/>"><spring:message code="training"/></a></li>
+                        <li><a href="<c:url value="/app/about"/>"><spring:message code="aboutProject"/></a></li>
+                        <li class="active"><a href="<c:url value="/app/contacts"/>"><spring:message
+                                code="contacts"/></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row-fluid">
@@ -58,7 +65,7 @@
             </div>
 
             <div class="row-fluid">
-                <div class="span5">
+                <div class="span6">
                     <pre><spring:message code="feedbackForm"/>:</pre>
                     <form:form id="feedbackForm" action="/contacts/feedback" method="POST"
                                modelAttribute="feedbackForm" onsubmit="return ContactsPage.beforeSubmit()">
@@ -72,7 +79,7 @@
                         <button class="btn" type="submit"><spring:message code="send"/></button>
                     </form:form>
                 </div>
-                <div class="span5">
+                <div class="span6">
                     <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0"
                             marginwidth="0"
                             src="${mapUrl}"></iframe>

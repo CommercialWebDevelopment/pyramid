@@ -92,7 +92,7 @@ $(document).ready(function () {
         element.removeClass("icon-resize-full");
         element.addClass("icon-resize-small");
         element.attr("title", I18N.compactView);
-        tree.parent().removeClass("span8");
+        tree.parent().removeClass("span9");
         tree.parent().addClass("span12");
         sidebar.hide();
     };
@@ -101,7 +101,7 @@ $(document).ready(function () {
         element.addClass("icon-resize-full");
         element.attr("title", I18N.extendedView);
         tree.parent().removeClass("span12");
-        tree.parent().addClass("span8");
+        tree.parent().addClass("span9");
         sidebar.show();
     };
 

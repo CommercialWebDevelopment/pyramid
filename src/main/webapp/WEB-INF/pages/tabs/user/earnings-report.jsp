@@ -1,4 +1,4 @@
-<div class="span11" id="reports-container">
+<div id="reports-container">
     <div id="placeholder" class="reportViewer"></div>
 </div>
 <script language="javascript">

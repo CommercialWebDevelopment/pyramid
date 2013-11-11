@@ -1,4 +1,8 @@
 body{height:100%;width:100%}
+@media (min-device-width:768px) and (max-device-width:1024px) and (orientation:portrait){body{font-size:11px}}
+@media (min-device-width:768px) and (max-device-width:1024px) and (orientation:landscape){body{font-size:11px}}
+@media (max-device-width:480px) and (orientation:portrait){body{font-size:9px}}
+@media (max-device-width:480px) and (orientation:landscape){body{font-size:9px}}
 .flexigrid table{border-collapse:separate}
 .flexigrid select{width:auto;height:auto;padding:0 0}
 .flexigrid input{width:auto;}
@@ -52,18 +56,18 @@ body>#page-wrap{height:auto;min-height:100%}
 .bar-graph{height:14px;text-align:left;background:#f4faff;border:1px solid #aeceef;position:relative;padding:1px}
 .bar-graph-normal{height:14px;overflow:hidden;background:#348dd3}
 .reportViewer{width:100%;height:150px}
-#reports-container{width:220px;margin-top:5px;margin-bottom:5px}
+#reports-container{width:100%;margin-top:5px;margin-bottom:5px}
 .office-menu-item{width:100%;text-align:left}
 .office-menu{margin-top:10px}
-.separator{clear:both;width:225px;margin:15px 0;height:0px;overflow:hidden;border:none;background:transparent;border-bottom:1px solid #ddd}
+.separator{clear:both;width:auto;margin:15px 0;height:0px;overflow:hidden;border:none;background:transparent;border-bottom:1px solid #ddd}
 .sum{width:209px;overflow:hidden;margin-top:5px;font-size:20pt}
 #treeContainer{border:1px solid #ddd;height:589px;overflow:auto;padding:10px}
 #crop-image-body{width:3000px;height:3000px}
 .crop-image-container{border:1px solid #ddd;overflow:auto;height:300px;position:relative}
 #upload-image-icon{margin:4px;cursor:pointer}
 #avatar-container{width:48px;height:48px;overflow:hidden;position:relative}
-#bar{width:220px}
-#sidebar{width:250px;float:left;padding-left:20px}
+#bar{width:auto}
+#sidebar{float:left}
 .profileItemList{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .contacts{width:80px;float:right;margin-right:10px}
 .slider{display:inline-block;vertical-align:middle;position:relative}
@@ -86,7 +90,7 @@ body>#page-wrap{height:auto;min-height:100%}
 .slider-handle.triangle{background:transparent none}
 #treeCanvas{border:1px solid lightgrey}
 #registrationFrame{border:1px solid lightgrey}
-#users-tree{overflow:auto;padding:5px;height:500px;border:1px solid lightgrey}
+#users-tree{overflow:auto;padding:5px;height:100%;border:1px solid lightgrey}
 #tree-panel{position:absolute;background:white;padding:5px;z-index:1}
 #tree-panel div{cursor:pointer}
 *{margin:0;padding:0}
@@ -107,3 +111,11 @@ body>#page-wrap{height:auto;min-height:100%}
 .tree .user-photo{margin-bottom:2px;margin-top:2px;cursor:pointer}
 .tree .user-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tree .stub-node{cursor:pointer;padding-top:2px;padding-bottom:2px}
+.container{margin:0 auto}
+.container>hr{margin:60px 0}
+.navbar .navbar-inner{padding:0}
+.navbar .nav{margin:0;display:table;width:100%}
+.navbar .nav li{display:table-cell;float:none}
+.navbar .nav li a{font-weight:bold;text-align:center;border-left:1px solid rgba(255,255,255,0.75);border-right:1px solid rgba(0,0,0,0.1)}
+.navbar .nav li:first-child a{border-left:0;border-radius:3px 0 0 3px}
+.navbar .nav li:last-child a{border-right:0;border-radius:0 3px 3px 0}

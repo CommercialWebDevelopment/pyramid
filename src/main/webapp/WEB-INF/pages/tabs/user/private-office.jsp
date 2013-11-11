@@ -6,8 +6,8 @@
 <%@ include file="/WEB-INF/pages/tabs/user/alert-panel.jsp" %>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/javascript/tree.js"></script>
 
-<div class="row-fluid">
-    <div class="span8">
+<div class="row-fluid" style="overflow: hidden">
+    <div class="span9">
         <div id="users-tree" class="text-center">
             <div id="tree-panel">
                 <div id="addUser" class="icon-plus-sign" title='<spring:message code="addUserWithAutomatic"/>'></div>
@@ -20,7 +20,7 @@
             <div id="tree-widget"><%=request.getAttribute("userBinaryTree")%></div>
         </div>
     </div>
-    <div id="sidebar" class="span4">
+    <div id="sidebar" class="span3">
         <%@include file="office-sidebar.jsp" %>
     </div>
 </div>
