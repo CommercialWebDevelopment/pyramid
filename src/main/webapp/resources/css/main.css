@@ -182,7 +182,7 @@ body > #page-wrap {
 }
 
 #header {
-    height: 80px;
+    height: 40px;
     position: relative;
 }
 
@@ -770,4 +770,8 @@ Thanks :)*/
 .navbar .nav li:last-child a {
     border-right: 0;
     border-radius: 0 3px 3px 0;
+}
+
+#projectName {
+    margin-top:0px
 }

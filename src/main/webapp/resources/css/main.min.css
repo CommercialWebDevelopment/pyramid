@@ -32,7 +32,7 @@ body>#page-wrap{height:auto;min-height:100%}
 #page-wrap{padding-bottom:75px}
 #footer{height:75px;left:0;bottom:0;clear:both;margin-top:-70px;position:relative;z-index:10001;background:#000000}
 #footer-content{margin-top:15px;color:#ffffff}
-#header{height:80px;position:relative}
+#header{height:40px;position:relative}
 .contact{height:16px;width:16px;float:left;margin-left:2px;margin-right:2px;cursor:pointer}
 .contact.vk{background:url('../images/vk.png') no-repeat}
 .contact.fb{background:url('../images/facebook.png') no-repeat}
@@ -119,3 +119,4 @@ body>#page-wrap{height:auto;min-height:100%}
 .navbar .nav li a{font-weight:bold;text-align:center;border-left:1px solid rgba(255,255,255,0.75);border-right:1px solid rgba(0,0,0,0.1)}
 .navbar .nav li:first-child a{border-left:0;border-radius:3px 0 0 3px}
 .navbar .nav li:last-child a{border-right:0;border-radius:0 3px 3px 0}
+#projectName{margin-top:0px}
