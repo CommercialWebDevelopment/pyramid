@@ -93,6 +93,7 @@ public class TabsController extends AbstractController {
             widget.setActive(!accountDetails.isLocked());
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
+            widget.setChildText(localizationService.translate("children.tree"), localizationService.translate("children.tree.details"));
             widget.initTree(tree, null);
             while (tree != null) {
                 widget.addUserToWidget(tree);
@@ -138,6 +139,7 @@ public class TabsController extends AbstractController {
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
             widget.setStatus(localizationService.translate("activeUser"), localizationService.translate("inactiveUser"));
+            widget.setChildText(localizationService.translate("children.tree"), localizationService.translate("children.tree.details"));
             widget.setActive(!accountDetails.isLocked());
             widget.initTree(tree, mode);
             while (tree != null) {

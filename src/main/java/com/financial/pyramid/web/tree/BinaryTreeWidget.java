@@ -15,6 +15,8 @@ public class BinaryTreeWidget {
     private double rootElementWidth = 0;
     private String stubTextTitle;
     private String stubTextContent;
+    private String childTextTitle;
+    private String childTextContent;
     private String activeStatus;
     private String inactiveStatus;
     private int depth = 1;
@@ -30,7 +32,7 @@ public class BinaryTreeWidget {
         }
         this.mode = mode != null ? mode : "huge";
         this.rootElementWidth = calculateTotalWidth(tree);
-        this.rootElement = "<div id='tree' class='tree' style='width:" + this.rootElementWidth + "px' userId='"+tree.getId()+"'><ul>" + getUserNode(tree) + "</ul></div>";
+        this.rootElement = "<div id='tree' class='tree' style='width:" + this.rootElementWidth + "px' userId='" + tree.getId() + "'><ul>" + getUserNode(tree) + "</ul></div>";
     }
 
     private double calculateTotalWidth(BinaryTree tree) {
@@ -45,6 +47,7 @@ public class BinaryTreeWidget {
         int stubWidth = getIconWidth();
         return stubWidth + (countUsers - 1) * (stubWidth + 20);  // padding
     }
+
     public String getRootElement() {
         return rootElement;
     }
@@ -63,7 +66,7 @@ public class BinaryTreeWidget {
             photo = imgDir + (user.isActive() ? "vcard-active" : "vcard-inactive") + ".png";
         }
         int iconWidth = tree.getLevel() == 0 ? STUB_WIDTH_HUGE : getIconWidth();
-        String body = "<img src=" + photo + " class=user-photo width='" + iconWidth + "px' userId='"+tree.getId()+"'";
+        String body = "<img src=" + photo + " class=user-photo width='" + iconWidth + "px' userId='" + tree.getId() + "'";
         if (!user.isShowDetails()) {
             popupContent = " '<small><div style=color:" + statusColor + ">" + statusText + "</div></small>' ";
             body += "data-content=" + popupContent + "/>";
@@ -76,7 +79,10 @@ public class BinaryTreeWidget {
         if (tree.isChild() || (!user.isChild() && isActive())) {
             childPlace = "<ul>" + getPointForUser(tree) + "</ul>";
         } else if (user.isChild()) {
-            childPlace = "<ul><li userId='"+tree.getId()+"' class='user-photo' style='width:100%; padding: 0;'><img src='/resources/images/users.png' style='width:"+ iconWidth +"px'/></li></ul>";
+            childPlace = "<ul><li style='width:100%; padding: 0;'>";
+            childPlace += "<img  userId='" + tree.getId() + "' class='user-photo' ";
+            childPlace += "title=" + this.childTextTitle + " data-content=" + this.childTextContent +" ";
+            childPlace += "src='/resources/images/users.png' style='width:" + iconWidth + "px'/></li></ul>";
         }
         return "<li style='width:" + calculateNodeWidth(tree.getLevel()) + "px'>" + body + childPlace + "</li>";
     }
@@ -104,6 +110,11 @@ public class BinaryTreeWidget {
     public void setStubText(String stubTextTitle, String stubTextContent) {
         this.stubTextTitle = " '<div>" + stubTextTitle + "</div>'";
         this.stubTextContent = " '<small>" + stubTextContent + "</small>'";
+    }
+
+    public void setChildText(String childTextTitle, String childTextContent) {
+        this.childTextTitle = " '<div>" + childTextTitle + "</div>'";
+        this.childTextContent = " '<small>" + childTextContent + "</small>'";
     }
 
     public void setStatus(String activeStatus, String inactiveStatus) {
