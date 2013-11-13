@@ -40,7 +40,7 @@ body>#page-wrap{height:auto;min-height:100%}
 .contact.yt{background:url('../images/youtube.png') no-repeat}
 #admin-menu{padding:5px 5px}
 .user-grid-column-header{border-left:1px solid #0088cc}
-.page-scroll{font-size:20px;color:#0088CC;width:50px;height:100%;cursor:pointer;padding:10px;margin-left:-20px;margin-top:-20px;text-align:center;position:fixed;background:#ffffff;display:none}
+.page-scroll{font-size:20px;color:#0088CC;width:30px;height:100%;cursor:pointer;padding:10px;margin-left:-20px;margin-top:-20px;text-align:center;position:fixed;background:#ffffff;display:none}
 .page-scroll.over{background:#0088CC;color:#ffffff;z-index:10000}
 .title{float:left}
 .page-title{width:100% !important}

@@ -28,7 +28,7 @@
 </div>
 <div class="row-fluid">
     <div class="span12">
-        <table class="table table-striped" style="font-size: 10px">
+        <table class="table table-striped">
             <tr>
                 <th><spring:message code="type"/></th>
                 <th><spring:message code="date"/></th>
