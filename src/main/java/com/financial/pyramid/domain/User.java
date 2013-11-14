@@ -3,7 +3,6 @@ package com.financial.pyramid.domain;
 import com.financial.pyramid.domain.type.Role;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -23,7 +22,7 @@ import java.util.Date;
         uniqueConstraints= {
                 @UniqueConstraint(
                         name="user_email",
-                        columnNames={"email"} )}
+                        columnNames={"email"})}
        )
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
@@ -84,6 +83,29 @@ public class User extends AbstractEntity implements Serializable {
 
     @Column(name = "count_invited_users", nullable = false)
     private Integer countInvitedUsers = 0;
+
+    @Basic
+    private String uri;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", nullable = true)
+    private User parent;
+
+    public User getParent() {
+        return parent;
+    }
+
+    public void setParent(User parent) {
+        this.parent = parent;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
     public Integer getCountInvitedUsers() {
         return countInvitedUsers;
@@ -219,9 +241,5 @@ public class User extends AbstractEntity implements Serializable {
 
     public String getShortName() {
         return this.name + " " + this.surname;
-    }
-
-    public String getFullName() {
-        return this.surname + " " + this.name + " " + this.patronymic;
     }
 }

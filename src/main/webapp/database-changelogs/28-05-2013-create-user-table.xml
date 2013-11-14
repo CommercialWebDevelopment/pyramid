@@ -79,6 +79,12 @@
             <column name="count_invited_users" type="int" defaultValueNumeric="0">
                 <constraints nullable="false"/>
             </column>
+            <column name="uri" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parent_id" type="int">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -97,30 +103,52 @@
             <column name="created" value="NOW()"/>
             <column name="level" value="0"/>
             <column name="count_invited_users" value="0"/>
+            <column name="uri" value="1"/>
         </insert>
     </changeSet>
 
     <changeSet id="USER_INDEXES-1" author="Danil">
-        <comment>Add index by emil, owner, level</comment>
+        <comment>Add index by email, owner, level, children, uri</comment>
         <createIndex indexName="user_email"
                      tableName="user"
-                     tablespace="user_email"
                      unique="true">
             <column name="email" type="varchar(200)"/>
         </createIndex>
 
         <createIndex indexName="user_owner"
                      tableName="user"
-                     tablespace="user_owner"
                      unique="false">
             <column name="owner_id" type="int"/>
         </createIndex>
 
         <createIndex indexName="user_level"
                      tableName="user"
-                     tablespace="user_level"
                      unique="false">
             <column name="level" type="int"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="parent_id"
+                                 baseTableName="user"
+                                 constraintName="FK_USER_PARENT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+
+        <addForeignKeyConstraint baseColumnNames="left_child_id"
+                                 baseTableName="user"
+                                 constraintName="FK_USER_LEFT_CHILD"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+
+        <addForeignKeyConstraint baseColumnNames="right_child_id"
+                                 baseTableName="user"
+                                 constraintName="FK_USER_RIGHT_CHILD"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+
+        <createIndex indexName="user_uri"
+                     tableName="user"
+                     unique="false">
+            <column name="uri" type="varchar(255)"/>
         </createIndex>
     </changeSet>
 </databaseChangeLog>

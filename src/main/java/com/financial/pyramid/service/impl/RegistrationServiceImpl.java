@@ -87,12 +87,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         user.setPassword(passwordEncoder.encode(password));
 
         User owner = updateOwner(user, invitation);
-        if (owner.getId().equals(invitation.getParent().getId())) {
-            invitation.setParent(owner);
-        }
         User parent = updateParent(user, invitation);
-
-        userService.save(user);
         payment(owner, parent, user);
         userService.save(user);
 
@@ -129,96 +124,70 @@ public class RegistrationServiceImpl implements RegistrationService {
         return null;
     }
 
-    private User findFirstInactiveUser(User user) {
-        if (user == null) return null;
-        User inactiveUser = null;
-        User next = user;
-        while (next.getCountInvitedUsers() == 0) {
-            inactiveUser = next;
-            next = userService.findParent(next.getId());
-        }
-        return inactiveUser;
-    }
-
-    // выставляет участнику user, родителя parent, обновляя связи
-    // возвращает общего родителя
-    private User setParentForUser(User user, User parent) {
-        User userParent = userService.findParent(user.getId());
-        // user уже имеет родителя
-        if (userParent != null) {
-            // parent имеет свох детей, передаем их его родителю
-            if (parent.getId() != null) {
-                User parentParent = userService.findParent(parent.getId());
-                if (parentParent.getLeftChild() != null && parentParent.getLeftChild().getId().equals(parent.getId())) {
-                    parentParent.setLeftChild(parent.getLeftChild());
-                } else {
-                    parentParent.setRightChild(parent.getRightChild());
-                }
-            }
-            // выставляем user детем parent а parent детем userParent
-            if (userParent.getLeftChild() != null && userParent.getLeftChild().getId().equals(user.getId())) {
-                parent.setLeftChild(user);
-                userParent.setLeftChild(parent);
-            } else {
-                parent.setRightChild(user);
-                userParent.setRightChild(parent);
-            }
-            // так как начиная с parent, уровни у низстоящих пользователей поменялись, то инкрементим
-            parent.setLevel(userParent.getLevel());
-            incrementLevel(parent);
-        }
-        return userParent;
-    }
-
-    private void setUserToPosition(User user, User parent, Position position) {
-        // если место уже занято, ищем первое свободное
-        if (position.equals(Position.LEFT)) {
-            while (parent.getLeftChild() != null && parent.getLeftChild().getCountInvitedUsers() != 0) {
-                parent = parent.getLeftChild();
-            }
-            user.setLeftChild(parent.getLeftChild());
-            parent.setLeftChild(user);
-        } else {
-            while (parent.getRightChild() != null && parent.getRightChild().getCountInvitedUsers() != 0) {
-                parent = parent.getRightChild();
-            }
-            user.setRightChild(parent.getRightChild());
-            parent.setRightChild(user);
-        }
-    }
-
     private User updateParent(User user, Invitation invitation) {
         User parent = invitation.getParent();
-        User inactiveUserOverParent = findFirstInactiveUser(parent);
-
-        /* если есть неактивные участники над родителем
-        * поднимаем нового участника до первого активного
-        * иначе ставим в запланирванную позицию
-        * */
-        if (inactiveUserOverParent != null) {
-            parent = setParentForUser(inactiveUserOverParent, user);
+        if (invitation.getPosition().equals(Position.LEFT)) {
+            while (parent.getLeftChild() != null) {
+                parent = parent.getLeftChild();
+            }
+            user.setUri(parent.getUri() + "1");
+            parent.setLeftChild(user);
         } else {
-            setUserToPosition(user, parent, invitation.getPosition());
-            user.setLevel(parent.getLevel() + 1);
+            while (parent.getRightChild() != null) {
+                parent = parent.getRightChild();
+            }
+            user.setUri(parent.getUri() + "2");
+            parent.setRightChild(user);
         }
-
+        user.setLevel(parent.getLevel() + 1);
+        user.setParent(parent);
         return parent;
     }
 
     private User updateOwner(User user, Invitation invitation) {
         User owner = invitation.getSender();
-        User parent = userService.findParent(owner.getId());
-        User inactiveUserOverOwner = findFirstInactiveUser(parent);
-
-        /* если есть неактивные участники над приглашающим
-        * поднимаем приглашаущего до первого активного участника
-        * */
-        if (inactiveUserOverOwner != null) {
-            setParentForUser(inactiveUserOverOwner, owner);
+        // если owner еще ни кого не пригласил, поднимаем до первого активного
+        if (owner.getCountInvitedUsers() == 0) {
+            // если owner не админ
+            if (owner.getParent() != null) {
+                User parent = owner.getParent();
+                while (parent.getCountInvitedUsers() == 0) {
+                    swapParentWithChild(parent, owner);
+                    parent = owner.getParent();
+                }
+            }
         }
         user.setOwnerId(owner.getId());
         owner.setCountInvitedUsers(owner.getCountInvitedUsers() + 1);
         return owner;
+    }
+
+    private void swapParentWithChild(User parent, User child) {
+        User leftChild = child.getLeftChild();
+        User rightChild = child.getRightChild();
+        String uri = child.getUri();
+
+        child.setParent(parent.getParent());
+        child.setLevel(parent.getLevel());
+        parent.setLevel(parent.getLevel() - 1);
+        child.setUri(parent.getUri());
+        parent.setUri(uri);
+
+        if (parent.getLeftChild() != null && parent.getLeftChild().getId().equals(child.getId())) {
+            child.setLeftChild(parent);
+            child.setRightChild(parent.getRightChild());
+        } else {
+            child.setRightChild(parent);
+            child.setLeftChild(parent.getLeftChild());
+        }
+        parent.setLeftChild(leftChild);
+        parent.setRightChild(rightChild);
+
+        if (parent.getLeftChild() != null) parent.getLeftChild().setParent(parent);
+        if (parent.getRightChild() != null) parent.getRightChild().setParent(parent);
+
+        if (child.getLeftChild() != null) child.getLeftChild().setParent(child);
+        if (child.getRightChild() != null) child.getRightChild().setParent(child);
     }
 
     private void payment(User owner, User parent, User user) {
@@ -232,7 +201,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             if (!parentForPay.getId().equals(owner.getId()) && parentForPay.getCountInvitedUsers() >= 2 && !parentForPay.getAccount().isLocked()) {
                 parentForPay.getAccount().writeIN(costByUser, BONUS_FOR_USER, user.getId());
             }
-            parentForPay = userService.findParent(parentForPay.getId());
+            parentForPay = parentForPay.getParent();
         }
     }
 
@@ -264,11 +233,5 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 
         user.setPassport(passport);
-    }
-
-    private void incrementLevel(User user) {
-        user.setLevel(user.getLevel() + 1);
-        if (user.getLeftChild() != null) incrementLevel(user.getLeftChild());
-        if (user.getRightChild() != null) incrementLevel(user.getRightChild());
     }
 }
