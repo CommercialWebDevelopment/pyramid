@@ -230,9 +230,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public void activateUserAccount(User user, int monthsPayed) {
         Account account = getAccount(user);
-        if (account.isLocked()) {
-            accountService.activate(account, monthsPayed);
-        }
+        accountService.activate(account, monthsPayed);
     }
 
     @Override
