@@ -78,12 +78,12 @@ public class UserServiceImpl implements UserService {
             return;
         }
         User parent = user.getParent();
-        if (user.getLeftChild() != null) {
-            parent.setLeftChild(user.getLeftChild());
-            parent.getLeftChild().setParent(parent);
+        User child = user.getLeftChild() != null ? user.getLeftChild() : user.getRightChild();
+        child.setParent(parent);
+        if (user.getLeftChild() != null && user.getLeftChild().getId().equals(id)) {
+            parent.setLeftChild(child);
         } else {
-            parent.setRightChild(user.getRightChild());
-            parent.getRightChild().setParent(parent);
+            parent.setRightChild(child);
         }
         updateUserPosition(parent, parent.getLevel(), parent.getUri());
         save(parent);
