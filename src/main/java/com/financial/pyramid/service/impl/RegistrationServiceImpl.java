@@ -167,7 +167,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         User rightChild = child.getRightChild();
         String uri = child.getUri();
 
-        child.setParent(parent.getParent());
+        User commonParent = parent.getParent();
+        if (commonParent != null) {
+            if (commonParent.getLeftChild() != null && commonParent.getLeftChild().getId().equals(parent.getId())) {
+                commonParent.setLeftChild(child);
+            } else {
+                commonParent.setRightChild(child);
+            }
+            child.setParent(parent.getParent());
+        }
         child.setLevel(parent.getLevel());
         parent.setLevel(parent.getLevel() - 1);
         child.setUri(parent.getUri());

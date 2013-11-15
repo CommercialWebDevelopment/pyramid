@@ -70,15 +70,11 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     public void delete(Long id) {
         User user = userDao.findById(id);
-        User parent = findParent(id);
-        if (parent != null && parent.getLeftChild() != null && parent.getLeftChild().equals(user)) {
-            parent.setLeftChild(null);
-            userDao.saveOrUpdate(parent);
-        }
-        if (parent != null && parent.getRightChild() != null && parent.getRightChild().equals(user)) {
-            parent.setRightChild(null);
-            userDao.saveOrUpdate(parent);
-        }
+        User parent = user.getParent();
+        parent.setLeftChild(user.getLeftChild());
+        parent.setRightChild(user.getRightChild());
+        updateUserPosition(parent, parent.getLevel(), parent.getUri());
+        save(parent);
         userDao.delete(user);
     }
 
@@ -244,5 +240,12 @@ public class UserServiceImpl implements UserService {
         if (u == null) return;
         u.getAccount().writeOFF(count, "withdraw_funds_from_account");
         merge(user);
+    }
+
+    private void updateUserPosition(User user, Integer level, String uri) {
+        user.setLevel(level);
+        user.setUri(uri);
+        if (user.getLeftChild() != null) updateUserPosition(user.getLeftChild(), level + 1, uri+"1");
+        if (user.getRightChild() != null) updateUserPosition(user.getRightChild(), level + 1, uri+"2");
     }
 }
