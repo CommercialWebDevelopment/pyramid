@@ -70,9 +70,21 @@ public class UserServiceImpl implements UserService {
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     public void delete(Long id) {
         User user = userDao.findById(id);
+        if (user.getLeftChild() != null && user.getRightChild() != null) {
+            return;
+        }
+        if (user.getLeftChild() == null && user.getRightChild() == null) {
+            userDao.delete(user);
+            return;
+        }
         User parent = user.getParent();
-        parent.setLeftChild(user.getLeftChild());
-        parent.setRightChild(user.getRightChild());
+        if (user.getLeftChild() != null) {
+            parent.setLeftChild(user.getLeftChild());
+            parent.getLeftChild().setParent(parent);
+        } else {
+            parent.setRightChild(user.getRightChild());
+            parent.getRightChild().setParent(parent);
+        }
         updateUserPosition(parent, parent.getLevel(), parent.getUri());
         save(parent);
         userDao.delete(user);
