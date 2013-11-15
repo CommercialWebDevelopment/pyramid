@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         User parent = user.getParent();
         User child = user.getLeftChild() != null ? user.getLeftChild() : user.getRightChild();
         child.setParent(parent);
-        if (user.getLeftChild() != null && user.getLeftChild().getId().equals(id)) {
+        if (parent.getLeftChild() != null && parent.getLeftChild().getId().equals(id)) {
             parent.setLeftChild(child);
         } else {
             parent.setRightChild(child);
