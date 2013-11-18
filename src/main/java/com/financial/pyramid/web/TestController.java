@@ -152,15 +152,16 @@ public class TestController extends AbstractController {
         }
 
         // сохраняем с выставлением уровней
-        save(admin, 0);
+        save(admin, 0, "1");
         System.out.println("Duration is " + (new Date().getTime() - timePoint) + " milliseconds");
         return "Done";
     }
 
-    private User save(User user, int level) {
-        if (user.getLeftChild() != null) user.setLeftChild(save(user.getLeftChild(), level + 1));
-        if (user.getRightChild() != null) user.setRightChild(save(user.getRightChild(), level + 1));
+    private User save(User user, int level, String uri) {
+        if (user.getLeftChild() != null) user.setLeftChild(save(user.getLeftChild(), level + 1, uri+"1"));
+        if (user.getRightChild() != null) user.setRightChild(save(user.getRightChild(), level + 1,uri+"2"));
         user.setLevel(level);
+        user.setUri(uri);
         return userService.merge(user);
     }
 

@@ -249,6 +249,15 @@ public class UserServiceImpl implements UserService {
         User u = findById(user.getId());
         if (u == null) return;
         u.getAccount().writeOFF(count, "withdraw_funds_from_account");
+        Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
+        User parent = u.getParent();
+        Double perUser = count / levels;
+        for (int i = 0; i < levels; i++) {
+            if (parent == null) break;
+            parent.getAccount().writeIN(perUser, "distribution_of_payments", u.getId());
+            merge(parent);
+            parent = parent.getParent();
+        }
         merge(user);
     }
 

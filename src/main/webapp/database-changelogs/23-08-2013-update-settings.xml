@@ -75,4 +75,13 @@
             ]]>
         </sql>
     </changeSet>
+
+    <changeSet id="additional-settings-3" author="Danil">
+        <comment>Additional settings</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('numberOfLevelsInTheDistributionOfPayments', '10');
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>
