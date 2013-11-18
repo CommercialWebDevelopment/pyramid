@@ -146,6 +146,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     private User updateOwner(User user, Invitation invitation) {
         User owner = invitation.getSender();
+        User ownerPositionBefore = null;
         // если owner еще ни кого не пригласил, поднимаем до первого активного
         if (owner.getCountInvitedUsers() == 0) {
             // если owner не админ
@@ -153,12 +154,16 @@ public class RegistrationServiceImpl implements RegistrationService {
                 User parent = owner.getParent();
                 while (parent.getCountInvitedUsers() == 0) {
                     swapParentWithChild(parent, owner);
+                    if (ownerPositionBefore == null) ownerPositionBefore = parent;
                     parent = owner.getParent();
                 }
             }
         }
         user.setOwnerId(owner.getId());
         owner.setCountInvitedUsers(owner.getCountInvitedUsers() + 1);
+        if (owner.getId().equals(invitation.getParent().getId()) && ownerPositionBefore != null) {
+            invitation.setParent(ownerPositionBefore);
+        }
         return owner;
     }
 
