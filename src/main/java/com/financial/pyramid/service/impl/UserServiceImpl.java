@@ -230,7 +230,20 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = false)
     public void activateUserAccount(User user, int monthsPayed) {
         Account account = getAccount(user);
+        /* активация аккаунта */
         accountService.activate(account, monthsPayed);
+        /* распределение бонуса с оплаты кабинета всем родителям */
+        if (account.isAppPaid()) {
+            Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
+            User parent = user.getParent();
+            for (int i = 0; i < levels; i++) {
+                if (parent == null) break;
+                parent.getAccount().writeIN(1.00, "bonus_for_user_activation", user.getId());
+                merge(parent);
+                parent = parent.getParent();
+            }
+            merge(user);
+        }
     }
 
     @Override
@@ -249,22 +262,13 @@ public class UserServiceImpl implements UserService {
         User u = findById(user.getId());
         if (u == null) return;
         u.getAccount().writeOFF(count, "withdraw_funds_from_account");
-        Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
-        User parent = u.getParent();
-        Double perUser = count / levels;
-        for (int i = 0; i < levels; i++) {
-            if (parent == null) break;
-            parent.getAccount().writeIN(perUser, "distribution_of_payments", u.getId());
-            merge(parent);
-            parent = parent.getParent();
-        }
         merge(user);
     }
 
     private void updateUserPosition(User user, Integer level, String uri) {
         user.setLevel(level);
         user.setUri(uri);
-        if (user.getLeftChild() != null) updateUserPosition(user.getLeftChild(), level + 1, uri+"1");
-        if (user.getRightChild() != null) updateUserPosition(user.getRightChild(), level + 1, uri+"2");
+        if (user.getLeftChild() != null) updateUserPosition(user.getLeftChild(), level + 1, uri + "1");
+        if (user.getRightChild() != null) updateUserPosition(user.getRightChild(), level + 1, uri + "2");
     }
 }

@@ -48,6 +48,7 @@ public class PayPalController extends AbstractController {
     @Autowired
     ApplicationConfigurationService configurationService;
 
+    /* Экран покупки личного кабинета в первый раз */
     @RequestMapping(value = "/buyOfficeAndApp", method = RequestMethod.GET)
     public String buyOfficeAndApp(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
@@ -68,18 +69,20 @@ public class PayPalController extends AbstractController {
         return "tabs/user/buy-office";
     }
 
+    /* Оплата личного кабинета при покупке в первый раз */
     @RequestMapping(value = "/payOfficeAndApp", method = RequestMethod.POST)
     public String payOfficeAndApp(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
-        details.months = details.months > 12 ? 12 : details.months;
-        Double totalPrice = Double.valueOf(officePrice) * details.months + Double.valueOf(applicationPrice);
+        //details.months = details.months > 12 ? 12 : details.months;
+        Double totalPrice = Double.valueOf(officePrice) * 1 + Double.valueOf(applicationPrice);
         details.amount = totalPrice.toString();
         details.memo = localizationService.translate("paymentOfficeAndApp");
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
     }
 
+    /* Экран покупки личного кабинета в последующие месяцы */
     @RequestMapping(value = "/buyOffice", method = RequestMethod.GET)
     public String buyOffice(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
@@ -97,17 +100,19 @@ public class PayPalController extends AbstractController {
         return "tabs/user/pay-office";
     }
 
+    /* Оплата покупки личного кабинета в последующие месяцы */
     @RequestMapping(value = "/payOffice", method = RequestMethod.POST)
     public String payOffice(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
-        details.months = details.months > 12 ? 12 : details.months;
-        Double totalPrice = Double.valueOf(officePrice) * details.months;
+        //details.months = details.months > 12 ? 12 : details.months;
+        Double totalPrice = Double.valueOf(officePrice) * 1;
         details.amount = totalPrice.toString();
         details.memo = localizationService.translate("paymentOffice");
         String redirectURL = payPalService.processPayment(details);
         return "redirect:" + redirectURL;
     }
 
+    /* Экран вывода вредств из системы в PayPal */
     @RequestMapping(value = "/sendMoney", method = RequestMethod.GET)
     public String sendMoney(ModelMap model) {
         PayPalDetails details = new PayPalDetails();
@@ -126,6 +131,7 @@ public class PayPalController extends AbstractController {
         return "tabs/user/send-money";
     }
 
+    /* Перечисление средств в PayPal */
     @RequestMapping(value = "/sendFunds", method = RequestMethod.POST)
     public String sendFunds(RedirectAttributes redirectAttributes,
                             ModelMap model,
@@ -165,12 +171,14 @@ public class PayPalController extends AbstractController {
         return "redirect:" + details.returnUrl;
     }
 
+    /* Слушатель ответа от PayPal при использовании метода Payment Data Transfer (PDT) */
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success(RedirectAttributes redirectAttributes, ModelMap model) {
         redirectAttributes.addFlashAttribute(AlertType.SUCCESS.getName(), localizationService.translate("thanksForPayment"));
         return "redirect:/app/office";
     }
 
+    /* Слушатель ответа от PayPal при использовании метода Instant Payments Notifications (IPN) */
     @RequestMapping(value = "/notify", method = RequestMethod.POST)
     public void notify(HttpServletRequest request) {
         logger.info("Notification messages listener has been invoked...");

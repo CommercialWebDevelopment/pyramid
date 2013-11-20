@@ -26,9 +26,11 @@
             <span id="monthsCount">1 <spring:message code="monthSingle"/></span> = ${payPalDetails.currencySign}<span
                     id="paymentAmount">${payPalDetails.amount}</span></b>
         </div>
+        <%--
         <div class="span11 text-center">
             <div id="amountSlider" style="width:265px"></div>
         </div>
+        --%>
         <div class="span11 text-center">
             <div class="control-group">
                 <input id="officePrice" type="hidden" value="${officePrice}"/>
