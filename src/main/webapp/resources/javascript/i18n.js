@@ -57,6 +57,10 @@ var I18N = {
     extendedView:'<spring:message code="extendedView" javaScriptEscape="true"/>',
     compactView:'<spring:message code="compactView" javaScriptEscape="true"/>',
     loadingMessage:'<spring:message code="loadingMessage" javaScriptEscape="true"/>',
-    numberOfLevelsInTheDistributionOfPayments:'<spring:message code="numberOfLevelsInTheDistributionOfPayments" javaScriptEscape="true"/>'
+    numberOfLevelsInTheDistributionOfPayments:'<spring:message code="numberOfLevelsInTheDistributionOfPayments" javaScriptEscape="true"/>',
+    activateUser:'<spring:message code="activateUser" javaScriptEscape="true"/>',
+    deactivateUser:'<spring:message code="deactivateUser" javaScriptEscape="true"/>',
+    dateActivated:'<spring:message code="dateActivated" javaScriptEscape="true"/>',
+    dateExpired:'<spring:message code="dateExpired" javaScriptEscape="true"/>'
 };
 

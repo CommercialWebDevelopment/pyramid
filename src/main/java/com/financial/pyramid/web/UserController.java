@@ -4,6 +4,7 @@ import com.financial.pyramid.domain.User;
 import com.financial.pyramid.service.EmailService;
 import com.financial.pyramid.service.RegistrationService;
 import com.financial.pyramid.service.SettingsService;
+import com.financial.pyramid.service.beans.AccountDetails;
 import com.financial.pyramid.service.exception.UserAlreadyExistsException;
 import com.financial.pyramid.service.exception.UserRegistrationException;
 import com.financial.pyramid.service.validators.RegistrationFormValidator;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +94,7 @@ public class UserController extends AbstractController {
         List<User> users = userService.findByQuery(queryForm);
         for (User user : users) {
             AdminRegistrationForm form = new AdminRegistrationForm();
+            AccountDetails accountDetails = userService.getAccountDetails(user);
             form.setId(user.getId());
             form.setName(user.getName());
             form.setSurname(user.getSurname());
@@ -109,6 +112,9 @@ public class UserController extends AbstractController {
                 form.setRegisteredAddress(user.getPassport().getRegisteredAddress());
                 form.setResidenceAddress(user.getPassport().getResidenceAddress());
             }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.YYYY HH:mm:ss");
+            form.setDateActivated(dateFormat.format(accountDetails.getDateActivated()));
+            form.setDateExpired(dateFormat.format(accountDetails.getDateExpired()));
             result.add(form);
         }
         return new PageForm<RegistrationForm>(result);
@@ -123,6 +129,20 @@ public class UserController extends AbstractController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") final Long id) {
         userService.delete(id);
+        return "redirect:/app/admin/user_settings";
+    }
+
+    @RequestMapping(value = "/activate/{id}", method = RequestMethod.GET)
+    public String activate(@PathVariable("id") final Long id){
+        User user = userService.findById(id);
+        userService.activateUserAccount(user, 1);
+        return "redirect:/app/admin/user_settings";
+    }
+
+    @RequestMapping(value = "/deactivate/{id}", method = RequestMethod.GET)
+    public String deactivate(@PathVariable("id") final Long id){
+        User user = userService.findById(id);
+        userService.deactivateUserAccount(user);
         return "redirect:/app/admin/user_settings";
     }
 

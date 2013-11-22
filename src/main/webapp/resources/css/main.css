@@ -92,6 +92,14 @@ and (orientation: landscape) {
     opacity: 0.3;
 }
 
+.flexigrid .activate {
+    opacity: 0.3;
+}
+
+.flexigrid .deactivate {
+    opacity: 0.3;
+}
+
 .asterisk_red {
     color: red;
 }

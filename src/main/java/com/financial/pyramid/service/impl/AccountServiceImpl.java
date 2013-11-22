@@ -39,8 +39,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deactivate(Account account) {
-        account.setDateActivated(null);
-        account.setDateExpired(null);
+        account.setDateActivated(new DateTime().minusMonths(2).toDate());
+        account.setDateExpired(new DateTime().minusMonths(1).toDate());
         update(account);
     }
 

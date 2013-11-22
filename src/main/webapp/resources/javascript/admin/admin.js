@@ -42,6 +42,16 @@ var ContactsAdmin = {
 $(document).ready(function () {
     var selectedRow = null;
     var ugrid = $("#user-grid");
+    var callback = function(){
+        selectedRow = null;
+        ugrid.flexReload();
+        var fxgrid = $(".flexigrid");
+        fxgrid.find(".edit").css("opacity", 0.3);
+        fxgrid.find(".delete").css("opacity", 0.3);
+        fxgrid.find(".activate").css("opacity", 0.3);
+        fxgrid.find(".deactivate").css("opacity", 0.3);
+        fxgrid.css("opacity", 1);
+    };
     ugrid.flexigrid({
         url: '/user/list',
         dataType: 'json',
@@ -58,15 +68,8 @@ $(document).ready(function () {
             {
                 display: 'ID',
                 name: 'id',
-                width: 130,
+                width: 30,
                 sortable: false,
-                align: 'center'
-            },
-            {
-                display: I18N.secondName,
-                name: 'name',
-                width: 130,
-                sortable: true,
                 align: 'center'
             },
             {
@@ -76,6 +79,14 @@ $(document).ready(function () {
                 sortable: true,
                 align: 'center'
             },
+            {
+                display: I18N.secondName,
+                name: 'name',
+                width: 130,
+                sortable: true,
+                align: 'center'
+            },
+
             {
                 display: I18N.patronymic,
                 name: 'patronymic',
@@ -87,6 +98,20 @@ $(document).ready(function () {
                 display: I18N.email,
                 name: 'email',
                 width: 130,
+                sortable: true,
+                align: 'center'
+            },
+            {
+                display: I18N.dateActivated,
+                name: 'dateActivated',
+                width: 135,
+                sortable: true,
+                align: 'center'
+            },
+            {
+                display: I18N.dateExpired,
+                name: 'dateExpired',
+                width: 135,
                 sortable: true,
                 align: 'center'
             }
@@ -113,25 +138,41 @@ $(document).ready(function () {
                     });
                 },
                 bimage: '/resources/javascript/flexigrid/css/images/edit.png'
-            }
-            ,
+            },
             {
                 name: I18N.delete,
                 bclass: 'delete',
                 onpress: function (com, grid) {
                     if (!selectedRow) return;
                     Alert.confirm(I18N.userConfirmDelete, function () {
-                        $.get('/user/delete/' + selectedRow.id, {}
-                            , function () {
-                                ugrid.flexReload();
-                            });
+                        $(".flexigrid").css("opacity", 0.3);
+                        $.get('/user/delete/' + selectedRow.id, {}, callback());
                     });
                 },
                 bimage: '/resources/javascript/flexigrid/css/images/close.png'
-            }
-            ,
+            },
             {
                 separator: true
+            },
+            {
+                name: I18N.activateUser,
+                bclass: 'activate',
+                onpress:function(com, grid){
+                    if (!selectedRow) return;
+                    $(".flexigrid").css("opacity", 0.3);
+                    $.get('/user/activate/' + selectedRow.id, {}, callback());
+                },
+                bimage: '/resources/javascript/flexigrid/css/images/active.png'
+            },
+            {
+                name: I18N.deactivateUser,
+                bclass: 'deactivate',
+                onpress:function(com, grid){
+                    if (!selectedRow) return;
+                    $(".flexigrid").css("opacity", 0.3);
+                    $.get('/user/deactivate/' + selectedRow.id, {}, callback());
+                },
+                bimage: '/resources/javascript/flexigrid/css/images/inactive.png'
             }
         ],
         searchitems: [
@@ -141,24 +182,28 @@ $(document).ready(function () {
                 isdefault: true
             }
         ],
-        sortname: "name",
+        sortname: "surname",
         sortorder: "asc",
         usepager: true,
         title: I18N.users,
         useRp: true,
-        rp: 15,
+        rp: 30,
         showTableToggleBtn: true,
-        height: 200,
+        height: 500,
         rowClick: function (row, data) {
             var fxgrid = $(".flexigrid");
             if (selectedRow && selectedRow.id == data.id) {
                 selectedRow = null;
                 fxgrid.find(".edit").css("opacity", 0.3);
                 fxgrid.find(".delete").css("opacity", 0.3);
+                fxgrid.find(".activate").css("opacity", 0.3);
+                fxgrid.find(".deactivate").css("opacity", 0.3);
             } else {
                 selectedRow = data;
                 fxgrid.find(".edit").css("opacity", 1);
                 fxgrid.find(".delete").css("opacity", 1);
+                fxgrid.find(".activate").css("opacity", 1);
+                fxgrid.find(".deactivate").css("opacity", 1);
             }
         }
     });

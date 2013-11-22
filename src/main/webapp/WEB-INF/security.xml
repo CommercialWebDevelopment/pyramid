@@ -18,6 +18,8 @@
         <security:intercept-url pattern="/user/add" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/user/delete/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/user/list" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
+        <security:intercept-url pattern="/user/activate/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
+        <security:intercept-url pattern="/user/deactivate/*" access="hasAnyRole('ADMIN','SUPER_ADMIN')" />
         <security:intercept-url pattern="/user/settings" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/user/change_password" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />
         <security:intercept-url pattern="/user/change_email" access="hasAnyRole('ADMIN','SUPER_ADMIN','USER')" />

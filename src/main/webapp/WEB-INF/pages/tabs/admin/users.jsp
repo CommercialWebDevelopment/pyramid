@@ -88,8 +88,6 @@
                         </div>
                         <div class="span7 controls">
                             <div class="input-prepend form-field">
-                                            <span class="add-on" style="height: 15px"><i
-                                                    class="icon-envelope"></i></span>
                                 <input id="email" name="email" type="text" class="form-field">
                             </div>
                         </div>

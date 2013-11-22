@@ -14,6 +14,8 @@ body{height:100%;width:100%}
 .flexigrid{line-height:normal}
 .flexigrid .edit{opacity:0.3}
 .flexigrid .delete{opacity:0.3}
+.flexigrid .activate{opacity:0.3}
+.flexigrid .deactivate{opacity:0.3}
 .asterisk_red{color:red}
 .required_label{margin:0 5px}
 .form-field{height:25px !important}
