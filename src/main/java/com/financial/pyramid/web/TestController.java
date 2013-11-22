@@ -39,67 +39,6 @@ public class TestController extends AbstractController {
     private PasswordEncoder passwordEncoder;
 
     @ResponseBody
-    @RequestMapping(value = "/generateTreeTest/{levels}", method = RequestMethod.GET)
-    public String generateTreeTest(ModelMap model, @PathVariable int levels) {
-        System.out.println("Started generator...");
-        User parentUser = userService.findById(1L);
-        Map<Integer, User> users = new HashMap<Integer, User>();
-        users.put(0, parentUser);
-        int counter = 0;
-        int previousLevelCount = 1;
-        for (int i = 1; i <= levels; i++) {
-            for (int j = 0; j < previousLevelCount * 2; j++) {
-                long timePoint = new Date().getTime();
-                User currentUser = new User();
-                currentUser.setName("TestUser_" + i + "_" + j);
-                currentUser.setSurname("TestUser_" + i + "_" + j);
-                currentUser.setPatronymic("TestUser_" + i + "_" + j);
-                currentUser.setPhoneNumber(String.valueOf(8917702200L + i));
-                currentUser.setEmail("test_" + i + "_" + j + "@test.com");
-                currentUser.setRole(Role.USER);
-                currentUser.setOwnerId(1L);
-                currentUser.setLevel(i);
-                DateFormat format = DateFormat.getDateInstance(DateFormat.DEFAULT, LocaleContextHolder.getLocale());
-                try {
-                    currentUser.setDateOfBirth(format.parse("01.01.1980"));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                currentUser.setPassword(passwordEncoder.encode("qwerty"));
-
-                Account account = new Account();
-                Calendar calendar = Calendar.getInstance();
-                account.setDateActivated(calendar.getTime());
-                calendar.add(Calendar.MONTH, -1);
-                account.setDateExpired(calendar.getTime());
-                account.writeIN(1D, "test_account_created", null);
-                currentUser.setAccount(account);
-                userService.save(currentUser);
-
-                System.out.println("New user [" + currentUser.getShortName() + "] created");
-                User createdUser = userService.findByEmail(currentUser.getEmail());
-                if (parentUser.getLeftChild() == null) {
-                    parentUser.setLeftChild(createdUser);
-                } else if (parentUser.getRightChild() == null) {
-                    parentUser.setRightChild(createdUser);
-                }
-                parentUser.setCountInvitedUsers(parentUser.getCountInvitedUsers()+1);
-                userService.save(parentUser);
-                counter++;
-
-                System.out.println("Parent user [" + parentUser.getShortName() + "] updated");
-                users.put(counter, createdUser);
-                int previousParent = (int) (counter - 1) / 2;
-                parentUser = userService.findById(users.get(previousParent).getId());
-                System.out.println("Duration is " + (new Date().getTime() - timePoint) + " milliseconds");
-            }
-            previousLevelCount = previousLevelCount * 2;
-            System.out.println("Level " + i + " is completed");
-        }
-        return "Done";
-    }
-
-    @ResponseBody
     @RequestMapping(value = "/countUsersTest/{userId}", method = RequestMethod.GET)
     public String countUsersTest(ModelMap model, @PathVariable long userId) {
         User user = userService.findById(userId);
