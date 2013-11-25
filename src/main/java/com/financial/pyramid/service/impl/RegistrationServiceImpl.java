@@ -182,7 +182,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             child.setParent(parent.getParent());
         }
         child.setLevel(parent.getLevel());
-        parent.setLevel(parent.getLevel() - 1 > 0 ? parent.getLevel() - 1 : 1);
+        parent.setLevel(parent.getLevel() + 1);
         child.setUri(parent.getUri());
         parent.setUri(uri);
 
