@@ -5,6 +5,7 @@ import com.financial.pyramid.domain.type.Role;
 import com.financial.pyramid.domain.User;
 import com.financial.pyramid.web.form.QueryForm;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -64,5 +65,10 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     @Override
     public Long getCountUsersOnLevel(Integer level) {
         return getCount(Restrictions.eq("level", level));
+    }
+
+    @Override
+    public Long getCountUsersWithURI(String uri) {
+        return getCount(Restrictions.ilike("uri", uri, MatchMode.START));
     }
 }

@@ -274,6 +274,11 @@ public class UserServiceImpl implements UserService {
         merge(user);
     }
 
+    @Override
+    public Long getCountUsersBelow(User user) {
+        return userDao.getCountUsersWithURI(user.getUri());
+    }
+
     private void updateUserPosition(User user, Integer level, String uri) {
         user.setLevel(level);
         user.setUri(uri);

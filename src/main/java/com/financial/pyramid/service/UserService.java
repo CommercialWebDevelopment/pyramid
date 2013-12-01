@@ -55,4 +55,6 @@ public interface UserService extends UserDetailsService {
     public User findParent(Long userId);
 
     public void withdrawFromAccount(User user, Double count);
+
+    public Long getCountUsersBelow(User user);
 }

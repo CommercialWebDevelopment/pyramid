@@ -115,6 +115,8 @@ public class TabsController extends AbstractController {
             model.addAttribute("balance", accountDetails.getBalance());
             model.addAttribute("invitation", new InvitationForm());
             model.addAttribute("isAppPaid", accountDetails.isAppPaid());
+            model.addAttribute("countInvitedUsers", user.getCountInvitedUsers());
+            model.addAttribute("countUsersBelow", userService.getCountUsersBelow(user));
             return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());
