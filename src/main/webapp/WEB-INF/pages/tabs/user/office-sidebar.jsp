@@ -3,9 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<div><b><spring:message code="invitedUsers"/>: <%=request.getAttribute("countInvitedUsers")%></b></div>
-<div><b><spring:message code="usersInTree"/>: <%=request.getAttribute("countUsersBelow")%></b></div>
-<br>
 <c:set var="daysLeft"><%=request.getAttribute("daysLeft")%></c:set>
 <div><b><spring:message code="privateOfficeSum"/></b></div>
 <div class="sum"><%=request.getAttribute("currencySign")%><%=request.getAttribute("balance")%>
@@ -88,3 +85,6 @@
     <div><b><spring:message code="privateOfficeEarnings"/></b></div>
     <%@ include file="earnings-report.jsp" %>
 </div>
+<div class="separator"></div>
+<div><b><spring:message code="invitedUsers"/>: <%=request.getAttribute("countInvitedUsers")%></b></div>
+<div><b><spring:message code="usersInTree"/>: <%=request.getAttribute("countUsersBelow")%></b></div>
