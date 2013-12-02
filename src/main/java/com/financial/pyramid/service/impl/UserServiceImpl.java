@@ -233,7 +233,6 @@ public class UserServiceImpl implements UserService {
         /* активация аккаунта */
         accountService.activate(account, monthsPayed);
         /* распределение бонуса с оплаты кабинета всем родителям */
-        /*
         if (account.isAppPaid()) {
             Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
             User parent = user.getParent();
@@ -245,7 +244,7 @@ public class UserServiceImpl implements UserService {
             }
             merge(user);
         }
-        */
+
     }
 
     @Override
