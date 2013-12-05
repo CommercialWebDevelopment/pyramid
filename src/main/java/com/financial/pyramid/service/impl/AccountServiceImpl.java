@@ -3,6 +3,7 @@ package com.financial.pyramid.service.impl;
 import com.financial.pyramid.dao.AccountDao;
 import com.financial.pyramid.domain.Account;
 import com.financial.pyramid.service.AccountService;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Date;
  * Time: 14:31
  */
 @Service("accountService")
-@Transactional(readOnly = false)
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
@@ -25,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void activate(Account account, int months) {
         Date newActivationDate = new Date();
-        if (!(account.isLocked())) {
+        if (!account.isLocked()) {
             newActivationDate = account.getDateExpired();
         }
         account.setDateActivated(new Date());

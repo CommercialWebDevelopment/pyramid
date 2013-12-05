@@ -39,7 +39,7 @@ import java.util.List;
  * Time: 22:17
  */
 @Service("userService")
-@Transactional(readOnly = true)
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final static Logger logger = Logger.getLogger(UserService.class);
@@ -54,19 +54,16 @@ public class UserServiceImpl implements UserService {
     AccountService accountService;
 
     @Override
-    @Transactional(readOnly = false)
     public void save(User user) {
         userDao.saveOrUpdate(user);
     }
 
     @Override
-    @Transactional(readOnly = false)
     public User merge(User user) {
         return userDao.merge(user);
     }
 
     @Override
-    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     public void delete(Long id) {
         User user = userDao.findById(id);
@@ -111,7 +108,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = false)
     @PreAuthorize("hasAnyRole('ADMIN','SUPER_ADMIN')")
     public void update(AdminRegistrationForm form) {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
@@ -227,8 +223,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = false)
     public void activateUserAccount(User user, int monthsPayed) {
+        try {
         Account account = getAccount(user);
         /* активация аккаунта */
         accountService.activate(account, monthsPayed);
@@ -244,11 +240,12 @@ public class UserServiceImpl implements UserService {
             }
             merge(user);
         }
-
+        } catch (Exception e){
+            logger.info("Error during user account activation procedure " + e.getMessage());
+        }
     }
 
     @Override
-    @Transactional(readOnly = false)
     public void deactivateUserAccount(User user) {
         Account account = getAccount(user);
         accountService.deactivate(account);
@@ -265,7 +262,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = false)
     public void withdrawFromAccount(User user, Double count) {
         User u = findById(user.getId());
         if (u == null) return;

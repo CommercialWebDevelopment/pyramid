@@ -197,8 +197,12 @@ public class PayPalController extends AbstractController {
             logger.info("Transaction " + transactionId + " has been verified (" + verified + ")");
             if (verified) {
                 Operation operation = operationsService.findByTransactionId(transactionId);
+                logger.info("Looking for user with email " + payerEmail + "...");
                 User user = userService.findByEmail(payerEmail);
-                userService.activateUserAccount(user, operation.getMonthsPayed());
+                if (user != null) {
+                    logger.info("User with email " + payerEmail + " found...");
+                    userService.activateUserAccount(user, operation.getMonthsPayed());
+                }
             }
         }
     }
