@@ -24,14 +24,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void activate(Account account, int months) {
-        Date currentDate = new Date();
-        Date newActivationDate = null;
-        if (account.getDateExpired().before(currentDate)){
-            newActivationDate = currentDate;
-        } else {
+        Date newActivationDate = new Date();
+        if (!(account.isLocked())) {
             newActivationDate = account.getDateExpired();
         }
-        account.setDateActivated(newActivationDate);
+        account.setDateActivated(new Date());
         account.setDateExpired(new DateTime(newActivationDate).plusMonths(months).plusDays(1).toDate());
         account.setAppPaid(true);
         update(account);
