@@ -233,7 +233,6 @@ public class UserServiceImpl implements UserService {
                 if (parent == null) break;
                 Account parentAccount = getAccount(parent);
                 parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
-                merge(parent);
                 parent = findParent(parent.getId());
             }
         }
