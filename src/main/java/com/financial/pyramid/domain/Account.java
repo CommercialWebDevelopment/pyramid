@@ -3,14 +3,15 @@ package com.financial.pyramid.domain;
 import com.financial.pyramid.domain.type.TransactionType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: Danil
@@ -27,17 +28,17 @@ public class Account extends AbstractEntity implements Serializable {
     @Column(name = "balance")
     private Double balance = 0D;
 
-    @Column(name="date_activated", nullable = true)
+    @Column(name = "date_activated", nullable = true)
     private Date dateActivated;
 
-    @Column(name="date_expired", nullable = true)
+    @Column(name = "date_expired", nullable = true)
     private Date dateExpired;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="account", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", cascade = CascadeType.ALL)
     @OrderBy("created")
     private List<Transaction> transactions = new ArrayList<Transaction>();
 
-    @Column(name="app_paid", nullable = false, columnDefinition = "boolean default false")
+    @Column(name = "app_paid", nullable = false, columnDefinition = "boolean default false")
     private boolean appPaid;
 
     public boolean isAppPaid() {
@@ -54,7 +55,8 @@ public class Account extends AbstractEntity implements Serializable {
         if (!(o instanceof Account)) return false;
         Account account = (Account) o;
         if (dateExpired != null ? !dateExpired.equals(account.dateExpired) : account.dateExpired != null) return false;
-        if (dateActivated != null ? !dateActivated.equals(account.dateActivated) : account.dateActivated != null) return false;
+        if (dateActivated != null ? !dateActivated.equals(account.dateActivated) : account.dateActivated != null)
+            return false;
         return true;
     }
 
@@ -116,6 +118,9 @@ public class Account extends AbstractEntity implements Serializable {
     }
 
     public boolean isLocked() {
+        if (this.dateExpired == null) {
+            return true;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.set(Calendar.HOUR, 0);
