@@ -224,25 +224,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void activateUserAccount(User user, int monthsPayed) {
-        try {
-            Account account = getAccount(user);
-            /* активация аккаунта */
-            accountService.activate(account, monthsPayed);
-            /* распределение бонуса с оплаты кабинета всем родителям */
-            if (account.isAppPaid()) {
-                Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
-                User parent = user.getParent();
-                for (int i = 0; i < levels; i++) {
-                    if (parent == null) break;
-                    parent.getAccount().writeIN(1.00, "bonus_for_user_activation", user.getId());
-                    merge(parent);
-                    parent = parent.getParent();
-                }
-                merge(user);
+        /* распределение бонуса с оплаты кабинета всем родителям */
+        Account account = getAccount(user);
+        if (account.isAppPaid()) {
+            Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
+            User parent = findParent(user.getId());
+            for (int i = 0; i < levels; i++) {
+                if (parent == null) break;
+                Account parentAccount = getAccount(parent);
+                parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
+                merge(parent);
+                parent = findParent(parent.getId());
             }
-        } catch (Exception e) {
-            logger.info("Error during user account activation procedure " + e.getMessage());
         }
+        /* активация аккаунта */
+        accountService.activate(getAccount(user), monthsPayed);
     }
 
     @Override
