@@ -86,5 +86,6 @@
     <%@ include file="earnings-report.jsp" %>
 </div>
 <div class="separator"></div>
+<div><b><spring:message code="usersInLeft"/>: <%=request.getAttribute("usersInLeft")%></b></div>
+<div><b><spring:message code="usersInRight"/>: <%=request.getAttribute("usersInRight")%></b></div>
 <div><b><spring:message code="invitedUsers"/>: <%=request.getAttribute("countInvitedUsers")%></b></div>
-<div><b><spring:message code="usersInTree"/>: <%=request.getAttribute("countUsersBelow")%></b></div>

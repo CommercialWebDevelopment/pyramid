@@ -89,6 +89,8 @@ public class TabsController extends AbstractController {
             User user = (User) authentication.getDetails();
             AccountDetails accountDetails = userService.getAccountDetails(user);
             BinaryTree tree = userService.getBinaryTree(user);
+            BinaryTree leftTree = tree.getLeft();
+            BinaryTree rightTree = tree.getRight();
             BinaryTreeWidget widget = new BinaryTreeWidget();
             widget.setActive(!accountDetails.isLocked());
             widget.setStubText(localizationService.translate("user.add"), localizationService.translate("user.add.details"));
@@ -116,7 +118,8 @@ public class TabsController extends AbstractController {
             model.addAttribute("invitation", new InvitationForm());
             model.addAttribute("isAppPaid", accountDetails.isAppPaid());
             model.addAttribute("countInvitedUsers", user.getCountInvitedUsers());
-            model.addAttribute("countUsersBelow", userService.getCountUsersBelow(user));
+            model.addAttribute("usersInLeft", leftTree != null ? userService.getCountUsersBelow(leftTree.getValue().getUri()) : 0);
+            model.addAttribute("usersInRight", rightTree != null ? userService.getCountUsersBelow(rightTree.getValue().getUri()) : 0);
             return "/tabs/user/private-office";
         }
         model.addAttribute("authentication", new AuthenticationForm());

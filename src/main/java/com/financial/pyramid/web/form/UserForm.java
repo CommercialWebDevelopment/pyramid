@@ -20,11 +20,13 @@ public class UserForm {
     private String phoneNumber;
     private boolean showDetails;
     private boolean isChild;
+    private String uri;
 
     public UserForm(User user, boolean showDetails) {
         this.showDetails = showDetails;
         this.active = !user.getAccount().isLocked();
         this.photo = user.getPhoto();
+        this.uri = user.getUri();
         this.isChild = user.getLeftChild() != null || user.getRightChild() != null;
 
         if (!this.showDetails) return;
@@ -111,5 +113,13 @@ public class UserForm {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

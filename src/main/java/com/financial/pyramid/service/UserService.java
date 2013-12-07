@@ -56,5 +56,5 @@ public interface UserService extends UserDetailsService {
 
     public void withdrawFromAccount(User user, Double count);
 
-    public Long getCountUsersBelow(User user);
+    public Long getCountUsersBelow(String uri);
 }
