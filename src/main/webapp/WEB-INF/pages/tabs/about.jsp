@@ -32,7 +32,12 @@
         <div id="tab-content" class="tab-content">
             <%--Content--%>
 
-            <h3><spring:message code="aboutProject"/></h3>
-            <%@include file="../missing-data.jsp" %>
+                <h3><spring:message code="aboutProject"/></h3>
+                <c:if test="${localeCode == 'ru_RU' || localeCode == 'ru'}">
+                    <%@ include file="about-ru.jsp" %>
+                </c:if>
+                <c:if test="${localeCode == 'en_US' || localeCode == 'en'}">
+                    <%@ include file="about-en.jsp" %>
+                </c:if>
 
 <%@ include file="/WEB-INF/pages/footer.jsp" %>
