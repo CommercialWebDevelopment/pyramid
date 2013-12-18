@@ -231,8 +231,10 @@ public class UserServiceImpl implements UserService {
             User parent = findParent(user.getId());
             for (int i = 0; i < levels; i++) {
                 if (parent == null) break;
-                Account parentAccount = getAccount(parent);
-                parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
+                if (parent.getCountInvitedUsers() >= 2) {
+                    Account parentAccount = getAccount(parent);
+                    parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
+                }
                 parent = findParent(parent.getId());
             }
         }
