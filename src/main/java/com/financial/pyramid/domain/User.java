@@ -28,6 +28,9 @@ import java.util.Date;
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
 public class User extends AbstractEntity implements Serializable {
 
+    public static final String LEFT = "1";
+    public static final String RIGHT = "2";
+
     @Column(name = "created", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date created = new Date();

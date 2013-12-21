@@ -130,13 +130,13 @@ public class RegistrationServiceImpl implements RegistrationService {
             while (parent.getLeftChild() != null) {
                 parent = parent.getLeftChild();
             }
-            user.setUri(parent.getUri() + "1");
+            user.setUri(parent.getUri() + User.LEFT);
             parent.setLeftChild(user);
         } else {
             while (parent.getRightChild() != null) {
                 parent = parent.getRightChild();
             }
-            user.setUri(parent.getUri() + "2");
+            user.setUri(parent.getUri() + User.RIGHT);
             parent.setRightChild(user);
         }
         user.setLevel(parent.getLevel() + 1);

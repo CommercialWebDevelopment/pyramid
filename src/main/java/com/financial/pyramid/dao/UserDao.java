@@ -25,4 +25,6 @@ public interface UserDao extends AbstractDao<User, Long> {
     public Long getCountUsersOnLevel(Integer level);
 
     public Long getCountUsersWithURI(String uri);
+
+    public Long getCountInvitedUsersWithURI(String uri, Long ownerId);
 }

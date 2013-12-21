@@ -232,8 +232,14 @@ public class UserServiceImpl implements UserService {
             for (int i = 0; i < levels; i++) {
                 if (parent == null) break;
                 if (parent.getCountInvitedUsers() >= 2) {
-                    Account parentAccount = getAccount(parent);
-                    parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
+                    Long usersInLeft = userDao.getCountInvitedUsersWithURI(parent.getUri() + User.LEFT, parent.getId());
+                    if (usersInLeft > 0) {
+                        Long usersInRight = userDao.getCountInvitedUsersWithURI(parent.getUri() + User.RIGHT, parent.getId());
+                        if (usersInRight > 0) {
+                            Account parentAccount = getAccount(parent);
+                            parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
+                        }
+                    }
                 }
                 parent = findParent(parent.getId());
             }
@@ -274,7 +280,7 @@ public class UserServiceImpl implements UserService {
     private void updateUserPosition(User user, Integer level, String uri) {
         user.setLevel(level);
         user.setUri(uri);
-        if (user.getLeftChild() != null) updateUserPosition(user.getLeftChild(), level + 1, uri + "1");
-        if (user.getRightChild() != null) updateUserPosition(user.getRightChild(), level + 1, uri + "2");
+        if (user.getLeftChild() != null) updateUserPosition(user.getLeftChild(), level + 1, uri + User.LEFT);
+        if (user.getRightChild() != null) updateUserPosition(user.getRightChild(), level + 1, uri + User.RIGHT);
     }
 }

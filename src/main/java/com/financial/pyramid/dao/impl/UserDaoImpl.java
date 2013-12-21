@@ -71,4 +71,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User, Long> implements UserDao 
     public Long getCountUsersWithURI(String uri) {
         return getCount(Restrictions.ilike("uri", uri, MatchMode.START));
     }
+
+    @Override
+    public Long getCountInvitedUsersWithURI(String uri, Long ownerId) {
+        return getCount(Restrictions.and(Restrictions.eq("ownerId", ownerId), Restrictions.ilike("uri", uri, MatchMode.START)));
+    }
 }
