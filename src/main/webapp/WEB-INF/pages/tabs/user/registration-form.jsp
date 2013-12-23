@@ -87,59 +87,63 @@
                     <fieldset>
                         <legend><spring:message code="passport.info"/></legend>
                         <div class="row-fluid">
-                            <div class="span2">
-                                <label for="serial" class="required_label form-field"><spring:message
-                                        code="serial"/></label>
+                            <div class="row-fluid control-group error span6">
+                                <div class="span2">
+                                    <label for="serial" class="required_label form-field"><spring:message
+                                            code="serial"/><span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span4 controls">
+                                    <input id="serial" name="passportSerial" type="text" class="form-field"  onchange="Form.validateRequiredField(this, value)">
+                                </div>
                             </div>
-                            <div class="span4">
-                                <input id="serial" name="passportSerial" type="text" class="form-field">
-                            </div>
-                            <div class="span2">
-                                <label for="number" class="required_label form-field"><spring:message
-                                        code="number"/></label>
-                            </div>
-                            <div class="span4">
-                                <input id="number" name="passportNumber" type="text" class="form-field">
+                            <div class="row-fluid control-group error span6">
+                                <div class="span2">
+                                    <label for="number" class="required_label form-field"><spring:message
+                                            code="number"/><span class="asterisk_red">*</span></label>
+                                </div>
+                                <div class="span4 controls">
+                                    <input id="number" name="passportNumber" type="text" class="form-field" onchange="Form.validateRequiredField(this, value)">
+                                </div>
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row-fluid control-group error">
                             <div class="span2">
                                 <label for="date_of_issue" class="required_label form-field"><spring:message
-                                        code="dateOfIssue"/></label>
+                                        code="dateOfIssue"/><span class="asterisk_red">*</span></label>
                             </div>
-                            <div class="span4">
+                            <div class="span4 controls">
                                 <input id="date_of_issue" name="passportDate" type="text" class="form-field"
-                                       placeholder="<spring:message code="form.datePattern"/>">
+                                       placeholder="<spring:message code="form.datePattern"/>" onchange="Form.validateDateField(this, value)">
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row-fluid control-group error">
                             <div class="span2">
                                 <label for="issued_by" class="required_label form-field"><spring:message
-                                        code="issuedBy"/></label>
+                                        code="issuedBy"/><span class="asterisk_red">*</span></label>
                             </div>
-                            <div class="span10">
+                            <div class="span10 controls">
                                 <input id="issued_by" name="passportIssuedBy" type="text" class=" form-field"
-                                       style="width: 625px;">
+                                       style="width: 625px;" onchange="Form.validateRequiredField(this, value)">
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row-fluid control-group error">
                             <div class="span3">
                                 <label for="registered_address" class="required_label form-field"><spring:message
-                                        code="registeredAddress"/></label>
+                                        code="registeredAddress"/><span class="asterisk_red">*</span></label>
                             </div>
-                            <div class="span9">
+                            <div class="span9 controls">
                                 <input id="registered_address" name="registeredAddress" type="text" class=" form-field"
-                                       style="width: 555px;">
+                                       style="width: 555px;" onchange="Form.validateRequiredField(this, value)">
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row-fluid control-group error">
                             <div class="span4">
                                 <label for="residence_address" class="required_label form-field"><spring:message
-                                        code="residenceAddress"/></label>
+                                        code="residenceAddress"/><span class="asterisk_red">*</span></label>
                             </div>
-                            <div class="span8">
+                            <div class="span8 controls">
                                 <input id="residence_address" name="residenceAddress" type="text" class=" form-field"
-                                       style="width: 485px;">
+                                       style="width: 485px;" onchange="Form.validateRequiredField(this, value)">
                             </div>
                         </div>
                     </fieldset>

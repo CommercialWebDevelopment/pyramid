@@ -174,6 +174,10 @@ var Form = {
         this.isNumber($.trim(value)) ? this.setValidField(element) : this.setInvalidField(element);
     },
 
+    validateRequiredField: function (element, value) {
+        $.trim(value).length > 1 ? this.setValidField(element) : this.setInvalidField(element);
+    },
+
     validateFloatField: function (element, value) {
         this.isFloat(value) ? this.setValidField(element) : this.setInvalidField(element);
     },
