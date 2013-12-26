@@ -6,10 +6,19 @@ package com.financial.pyramid.paypal;
  * Time: 13:07
  */
 public class PayPalPropeties {
+    /* PayPal Sandbox credentials
     public static String PAY_PAL_SERVICE_ENDPOINT = "https://api.sandbox.paypal.com";
     public static String PAY_PAL_PAYMENT_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr";
     public static String PAY_PAL_ADAPTIVE_PAYMENT_URL = "https://svcs.sandbox.paypal.com/AdaptivePayments/Pay";
     public static String PAY_PAL_PAYMENT_DETAILS_URL = "https://svcs.sandbox.paypal.com/AdaptivePayments/PaymentDetails";
+    */
+
+    /* PayPal Live credentials */
+    public static String PAY_PAL_SERVICE_ENDPOINT = "https://api.paypal.com";
+    public static String PAY_PAL_PAYMENT_URL = "https://www.paypal.com/cgi-bin/webscr";
+    public static String PAY_PAL_ADAPTIVE_PAYMENT_URL = "https://svcs.paypal.com/AdaptivePayments/Pay";
+    public static String PAY_PAL_PAYMENT_DETAILS_URL = "https://svcs.paypal.com/AdaptivePayments/PaymentDetails";
+
     public static String PAY_PAL_CURRENCY = "EUR";
     public static String PAY_PAL_ACTION_TYPE = "PAY";
     public static String PAY_PAL_CANCEL_URL = "http://localhost:8080/app/office";
