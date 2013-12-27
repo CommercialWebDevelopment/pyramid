@@ -38,4 +38,5 @@ public class Setting {
     public static String MAX_LEVEL_FOR_PAYMENT = "maxLevelForPayment";
     public static String COUNT_LEVEL_FOR_USER_DETAILS = "countLevelForUserDetails";
     public static String NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS = "numberOfLevelsInTheDistributionOfPayments";
+    public static String BONUS_FOR_ACCOUNT_ACTIVATION = "bonusForAccountActivation";
 }

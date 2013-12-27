@@ -228,6 +228,7 @@ public class UserServiceImpl implements UserService {
         Account account = getAccount(user);
         if (account.isAppPaid()) {
             Integer levels = Integer.parseInt(settingsService.getProperty(Setting.NUMBER_OF_LEVELS_IN_THE_DISTRIBUTION_OF_PAYMENTS));
+            Double activationBonus = Double.valueOf(settingsService.getProperty(Setting.BONUS_FOR_ACCOUNT_ACTIVATION));
             User parent = findParent(user.getId());
             for (int i = 0; i < levels; i++) {
                 if (parent == null) break;
@@ -237,7 +238,7 @@ public class UserServiceImpl implements UserService {
                         Long usersInRight = userDao.getCountInvitedUsersWithURI(parent.getUri() + User.RIGHT, parent.getId());
                         if (usersInRight > 0) {
                             Account parentAccount = getAccount(parent);
-                            parentAccount.writeIN(1.00, "bonus_for_user_activation", user.getId());
+                            parentAccount.writeIN(monthsPayed * activationBonus, "bonus_for_user_activation", user.getId());
                         }
                     }
                 }

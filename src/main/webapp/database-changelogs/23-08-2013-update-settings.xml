@@ -84,4 +84,13 @@
             ]]>
         </sql>
     </changeSet>
+
+    <changeSet id="additional-settings-4" author="Dmitry">
+        <comment>Additional settings</comment>
+        <sql>
+            <![CDATA[
+            INSERT INTO `settings` (`keyString`, `valueString`) VALUES ('bonusForAccountActivation', '40');
+            ]]>
+        </sql>
+    </changeSet>
 </databaseChangeLog>

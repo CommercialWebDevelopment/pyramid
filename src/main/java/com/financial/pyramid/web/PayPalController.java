@@ -74,8 +74,8 @@ public class PayPalController extends AbstractController {
     public String payOfficeAndApp(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
         String applicationPrice = settingsService.getProperty(Setting.APPLICATION_PRICE);
-        //details.months = details.months > 12 ? 12 : details.months;
-        Double totalPrice = Double.valueOf(officePrice) * 1 + Double.valueOf(applicationPrice);
+        details.months = 1;
+        Double totalPrice = Double.valueOf(officePrice) * details.months + Double.valueOf(applicationPrice);
         details.amount = totalPrice.toString();
         details.memo = localizationService.translate("paymentOfficeAndApp");
         String redirectURL = payPalService.processPayment(details);
@@ -104,8 +104,8 @@ public class PayPalController extends AbstractController {
     @RequestMapping(value = "/payOffice", method = RequestMethod.POST)
     public String payOffice(ModelMap model, @ModelAttribute("payPalDetails") PayPalDetails details) {
         String officePrice = settingsService.getProperty(Setting.OFFICE_PRICE);
-        //details.months = details.months > 12 ? 12 : details.months;
-        Double totalPrice = Double.valueOf(officePrice) * 1;
+        details.months = 1;
+        Double totalPrice = Double.valueOf(officePrice) * details.months;
         details.amount = totalPrice.toString();
         details.memo = localizationService.translate("paymentOffice");
         String redirectURL = payPalService.processPayment(details);

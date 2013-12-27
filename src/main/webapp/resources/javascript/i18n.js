@@ -61,6 +61,7 @@ var I18N = {
     activateUser:'<spring:message code="activateUser" javaScriptEscape="true"/>',
     deactivateUser:'<spring:message code="deactivateUser" javaScriptEscape="true"/>',
     dateActivated:'<spring:message code="dateActivated" javaScriptEscape="true"/>',
-    dateExpired:'<spring:message code="dateExpired" javaScriptEscape="true"/>'
+    dateExpired:'<spring:message code="dateExpired" javaScriptEscape="true"/>',
+    bonusForAccountActivation:'<spring:message code="bonusForAccountActivation" javaScriptEscape="true"/>'
 };
 
