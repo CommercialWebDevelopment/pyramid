@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,17 +92,9 @@ public class TestController extends AbstractController {
         }
 
         // сохраняем с выставлением уровней
-        save(admin, 0, "1");
+        userService.save(admin, 0, "1");
         System.out.println("Duration is " + (new Date().getTime() - timePoint) + " milliseconds");
         return "Done";
-    }
-
-    private User save(User user, int level, String uri) {
-        if (user.getLeftChild() != null) user.setLeftChild(save(user.getLeftChild(), level + 1, uri+"1"));
-        if (user.getRightChild() != null) user.setRightChild(save(user.getRightChild(), level + 1,uri+"2"));
-        user.setLevel(level);
-        user.setUri(uri);
-        return userService.merge(user);
     }
 
     private Queue<User> generateUsers(Integer users) {

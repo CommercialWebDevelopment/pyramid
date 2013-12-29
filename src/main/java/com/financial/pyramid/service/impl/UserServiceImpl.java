@@ -70,11 +70,22 @@ public class UserServiceImpl implements UserService {
         if (user.getLeftChild() != null && user.getRightChild() != null) {
             return;
         }
+        User parent = user.getParent();
+        User owner = userDao.findById(user.getOwnerId());
+
         if (user.getLeftChild() == null && user.getRightChild() == null) {
+            if (parent.getLeftChild() != null && parent.getLeftChild().getId().equals(id)) {
+                parent.setLeftChild(null);
+            } else {
+                parent.setRightChild(null);
+            }
+            owner.setCountInvitedUsers(owner.getCountInvitedUsers() - 1);
+            save(owner);
+            save(parent);
             userDao.delete(user);
             return;
         }
-        User parent = user.getParent();
+
         User child = user.getLeftChild() != null ? user.getLeftChild() : user.getRightChild();
         child.setParent(parent);
         if (parent.getLeftChild() != null && parent.getLeftChild().getId().equals(id)) {
@@ -82,7 +93,9 @@ public class UserServiceImpl implements UserService {
         } else {
             parent.setRightChild(child);
         }
+        owner.setCountInvitedUsers(owner.getCountInvitedUsers() - 1);
         updateUserPosition(parent, parent.getLevel(), parent.getUri());
+        save(owner);
         save(parent);
         userDao.delete(user);
     }
@@ -276,6 +289,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long getCountUsersBelow(String uri) {
         return userDao.getCountUsersWithURI(uri);
+    }
+
+    @Override
+    public User save(User user, int level, String uri) {
+        if (user.getLeftChild() != null) user.setLeftChild(save(user.getLeftChild(), level + 1, uri+"1"));
+        if (user.getRightChild() != null) user.setRightChild(save(user.getRightChild(), level + 1,uri+"2"));
+        user.setLevel(level);
+        user.setUri(uri);
+        user = merge(user);
+        if (user.getLeftChild() != null) {
+            user.getLeftChild().setParent(user);
+            merge(user.getLeftChild());
+        }
+        if (user.getRightChild() != null) {
+            user.getRightChild().setParent(user);
+            merge(user.getRightChild());
+        }
+        return user;
     }
 
     private void updateUserPosition(User user, Integer level, String uri) {

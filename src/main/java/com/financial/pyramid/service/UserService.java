@@ -57,4 +57,6 @@ public interface UserService extends UserDetailsService {
     public void withdrawFromAccount(User user, Double count);
 
     public Long getCountUsersBelow(String uri);
+
+    public User save(User user, int level, String uri);
 }
